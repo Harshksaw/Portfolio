@@ -52,3 +52,34 @@ setInterval(()=>{
     let c = document.getElementById('clock')
     c.innerHTML = d
 })
+
+message =[
+    'Junior Undergraduate',
+    '<span style ="background-color:rgb(10, 209, 136);">Aspiring Data scienctist</span>',
+    'Keen Learner',
+    // 'Web Developer',
+    '<span style ="background-color:rgb(10, 209, 136);">WEB Devloper</span>',
+]
+console.log(message.length)
+console.log(message[2])
+const Sleep = async(time)=>{
+    return new Promise((resolve,reject)=>{
+        setTimeout(()=>{
+            resolve(true)
+        },time*2000)
+    })
+}
+
+
+
+const showMessage = async(message)=>{
+    await Sleep(1.25)
+    const ele =document.getElementById('messages');
+    ele.innerHTML = message;
+}
+
+(async()=>{
+    for(let i = 0; i<message.length;i++ ){
+        await showMessage(message[i]);
+    }
+})()

@@ -10,6 +10,13 @@
     <style>
         .imghos{padding: 10px;margin: 7vh}
         .picimg{height: 50vh;}
+        .message{display: inline;
+            margin-right:10px;
+            text-decoration: underline;
+            background-color: rgb(222, 200, 87);
+            text-decoration-color: rgb(10, 209, 136) ;
+        }
+
         /* #clock{} */
     </style>
 </head>
@@ -34,7 +41,7 @@
         <div class="main-content">
             <div class="switch">
                 <img class ="menu" src="menu.png" alt="" width="30">
-                <img class="cross" src="remove.png" alt="" width="30">
+                <img class="cross" src="remove.png" alt="" width="40">
                
                
 
@@ -48,9 +55,11 @@
                 <div  class="devinfo">
                     <div id ="clock"></div>
                     <div class="intro">  <h1>Hola !</h1></div>
-                      
-                    <div class="name"><h2>This is harsh Kumar</h2></div>
-                    <div class="about"><h2>Web devloper,Ml/ Python </h2></div>
+                    <h2>
+                        <span class="message">I am</span>
+                        <div class="message" id="messages"></div>
+
+                    </h2>
                     <div class="buttons">
                         <a href="./cv.html"><button type="button" class="cv">CV Download</button></a>
                         <a href="./contact.html"><button type="button" class="contact">CONTACT</button></a>
