@@ -53,15 +53,14 @@ setInterval(()=>{
     c.innerHTML = d
 })
 
-message =[
-    'Junior Undergraduate',
-    '<span style ="background-color:rgb(10, 209, 136);">Aspiring Data scienctist</span>',
-    'Keen Learner',
-    // 'Web Developer',
-    '<span style ="background-color:rgb(10, 209, 136);">WEB Devloper</span>',
+messages =[
+    ' Junior Undergraduate ',
+    'Aspiring AI/ML Engineer ',
+    'Keen Learner ',
+    
+    'WEB Devloper ',
 ]
-console.log(message.length)
-console.log(message[2])
+
 const Sleep = async(time)=>{
     return new Promise((resolve,reject)=>{
         setTimeout(()=>{
@@ -73,13 +72,22 @@ const Sleep = async(time)=>{
 
 
 const showMessage = async(message)=>{
-    await Sleep(1.25)
     const ele =document.getElementById('messages');
-    ele.innerHTML = message;
+    ele.innerHTML = '';
+ 
+
+    for(let i = 0; i < message.length; i++){
+        ele.innerHTML = message.slice(0,i);
+        
+
+        await Sleep(0.1)
+    }
+
 }
 
 (async()=>{
-    for(let i = 0; i<message.length;i++ ){
-        await showMessage(message[i]);
+    for(let i = 0; i<messages.length;i++ ){
+        await showMessage(messages[i]);
+        await Sleep(1)
     }
 })()
