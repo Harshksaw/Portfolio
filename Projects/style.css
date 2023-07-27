@@ -1,0 +1,37 @@
+.button{
+    padding: 25px;
+    /* width: 5px; */
+
+    margin: 5px;
+    background-color: aqua;
+    border: 5px solid blue;
+    border-radius: 20px;
+    cursor: pointer;
+}
+.row{
+    margin-top: 10px;
+    font-size: 10px;
+    /* text-size-adjust: 34px; */
+    width: 80vw;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+}
+.inp{
+    height: 40px;
+    width: 400px;
+    /* margin: 0; */
+    font-size: 20px;
+    margin-top: 10px;
+    padding: 5px;
+    border: 2px solid silver;
+    /* box-shadow: 2px 3px 1px solid blue; */
+
+}
+element.style{
+    width: 290px;
+}
+button{
+    font-size: 25px;
+}
