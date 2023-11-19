@@ -1,82 +1,13 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <link href='https://fonts.googleapis.com/css?family=Orbitron' rel='stylesheet' type='text/css'>
-    <title>My WEbpage</title>
-    <style>
-        .imghos{padding: 10px;margin: 7vh}
-        .picimg{height: 50vh;}
-        .message{display: inline;
-            margin-right:10px;
-            text-decoration: underline;
-            background-color: rgb(222, 200, 87);
-            text-decoration-color: rgb(10, 209, 136) ;
-        }
-
-        /* #clock{} */
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="sidebar sidebarGo">
-
-            <!-- <h1 style="font-size: xx-large;text-align: center;">Harsh kumar</h1> -->
-            <img src="hospital.png" alt="" width="100" class="imghos" >
-            <nav>
-                <ul>
-                    <li><a href ="./index.html">Home</a></li>
-                    <li><a href ="./intro.html"> MY Intro</a></li>
-             
-                    <li><a href ="./cv.html">CV</a></li>
-                    <li><a href ="./contact.html">Contact Me</a></li>
-                    
-                </ul>
-            </nav>
-            <img src="coding.png" alt=""  width="145" class="coding">
-        </div>
-
-        <div class="main-content">
-            <div class="switch">
-                <img class ="menu" src="menu.png" alt="" width="30">
-                <img class="cross" src="remove.png" alt="" width="40">
-               
-               
-
-            </div>
-            
-            <div class="info">
-
-
-
-
-                <div  class="devinfo">
-                    <div id ="clock"></div>
-                    <div class="intro">  <h1>Hola !</h1></div>
-                    <h2>
-                        <span class="message">I am</span>
-                        <div class="message" id="messages"></div>
-
-                    </h2>
-                    <div class="buttons">
-                        <a href="./cv.html"><button type="button" class="cv">CV Download</button></a>
-                        <a href="./contact.html"><button type="button" class="contact">CONTACT</button></a>
-
-
-                    </div>
-                    
-                    
-                  
-                </div>
-                <div class="devpic"><img src="harsh.png" alt=""  class="picimg"    ><br>Harsh kumar</div>
-            </div>
-        </div>
-
-    </div>
-    
-<script src="protfolio.js"></script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + React</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>
