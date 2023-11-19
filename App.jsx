@@ -1,17 +1,26 @@
 
 
-import Home from './Components/Navbar/Home';
-import Navbar from './Components/Navbar/NavBar';
+
+
+
+
+// import SocialLinks from './src/Components/SocialLinks';
+import Navbar from './src/Components/NavBar';
+import Home from './src/Components/Home';
+import SocialLinks from './src/Components/SocialLinks';
+
+
 
 function App() {
 
 
   return (
-    <>
-    <Home/>
-    {/* <Navbar/> */}
-    </>
-   
+    <div>
+      <Navbar />
+      <Home />
+      <SocialLinks />
+    </div>
+
   )
 }
 
