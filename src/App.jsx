@@ -23,7 +23,7 @@ function App() {
     <div>
       <Navbar />
       <Home />
-      <About text="Visit My Portfolio Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae elit libero, a pharetra" link="/portfolio"/>
+      <About text="Passionate MERN full-stack developer and avid data science enthusiast, crafting digital solutions" link="/portfolio"/>
       <Portfolio/>
       <Experience/>
 
