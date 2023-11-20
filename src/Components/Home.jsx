@@ -1,5 +1,6 @@
 import harsh from "../assets/harsh.jpeg";
 import { MdOutlineKeyboardDoubleArrowRight } from "react-icons/md";
+import { Link } from 'react-scroll';
 const Home = () => {
     return (
         <div
@@ -25,7 +26,7 @@ const Home = () => {
                         consequatur laboriosam expedita at deserunt? Velit, sequi.
                     </p>
                     <div>
-                        <button
+                        <Link to="portfolio" smooth duration={500} 
                             className="group text-yellow-500 text-2xl shadow-[0_0_5px_red] w-fit px-6 py-3 my-2 flex items-center rounded-md
                         bg-gradient-to-r from-cyan-300 via-blue-600 to-blue-400 cursor-pointer "
                         >
@@ -33,7 +34,7 @@ const Home = () => {
                             <span className="group-hover:rotate-90 duration-300">
                                 <MdOutlineKeyboardDoubleArrowRight size={25} className="ml-1" />
                             </span>
-                        </button>
+                        </Link>
                     </div>
                 </div>
                 <div>
