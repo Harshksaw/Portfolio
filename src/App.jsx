@@ -23,7 +23,7 @@ function App() {
     <div>
       <Navbar />
       <Home />
-      <About text="Passionate MERN full-stack developer and avid data science enthusiast, crafting digital solutions" link="/portfolio"/>
+      <About text="Passionate full-stack MERN developer and avid data science enthusiast, crafting digital solutions" link="/portfolio"/>
       <Portfolio/>
       <Experience/>
 

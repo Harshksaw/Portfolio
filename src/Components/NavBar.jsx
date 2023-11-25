@@ -29,11 +29,12 @@ export default function Navbar() {
   ];
 
   return (
-    <div className="flex justify-between items-center w-full h-20 text-white bg-black fixed">
+
+    <div className="flex justify-between items-center w-full h-20 text-white bg-black fixed z-10">
       <div>
         <h1 className="text-5xl font-extrabold ml-2">Harsh</h1>
       </div>
-      <ul className="hidden md:flex ">
+      <ul className="hidden md:flex z-20 ">
         {links.map(({ id, link }) => (
           <li
             className="px-4 cursor-pointer capitalize font-medium text-blue-400 hover:scale-110 duration-150"
