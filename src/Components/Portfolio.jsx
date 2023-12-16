@@ -49,11 +49,7 @@ const Portfolio = () => {
               </div>
               <div className="flex items-center justify-center mt-5">
                 <button className="w-1/2 px-6 py-3 m-2 duration-150 hover:scale-105 bg-blue-500 text-white rounded-md">
-                  <a
-                    href={DOMImplementation}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
+                  <a href={demo} target="_blank" rel="noopener noreferrer">
                     Demo
                   </a>
                 </button>
