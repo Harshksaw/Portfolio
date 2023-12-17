@@ -1,7 +1,9 @@
 import portfolio1 from "../assets/Movix.png";
-import portfolio5 from "../assets/pokedex.png";
-import portfolio6 from "../assets/hotstar.png";
-import portfolio2 from "../assets/lms.jpg";
+import portfolio2 from "../assets/pokedex.png";
+import portfolio3 from "../assets/hotstar.png";
+import portfolio4 from "../assets/lms.jpg";
+import portfolio5 from "../assets/foodapp.jpeg";
+
 const Portfolio = () => {
   const portfolios = [
     { id: 1, src: portfolio1 },
@@ -11,16 +13,22 @@ const Portfolio = () => {
       code: "https://github.com/Harshksaw/LMS-Frontend",
     },
     {
-      id: 5,
-      src: portfolio5,
+      id: 3,
+      src: portfolio3,
       code: "https://github.com/Harshksaw/Pokedex-React",
       demo: "https://harshksaw.github.io/",
     },
     {
-      id: 6,
-      src: portfolio6,
+      id: 4,
+      src: portfolio4,
       demo: "https://harshksaw.github.io/Hotstart_clone/",
       code: "https://github.com/Harshksaw/Hotstart_clone",
+    },
+    {
+      id: 5,
+      src: portfolio5,
+      demo: "https://github.com/Harshksaw/Native-App_Food_delivery",
+      code: "https://github.com/Harshksaw/Native-App_Food_delivery",
     },
   ];
 
