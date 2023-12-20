@@ -23,12 +23,12 @@ function App() {
     <div>
       <Navbar />
       <Home />
-      <About text="Passionate full-stack MERN developer and avid data science enthusiast, crafting digital solutions" link="/portfolio"/>
       <Portfolio/>
       <Experience/>
-
-
+      <About text="Passionate full-stack MERN developer and avid data science enthusiast, crafting digital solutions" link="/portfolio"/>
       <Contact/>
+
+
       <SocialLinks />
     </div>
 

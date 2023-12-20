@@ -10,9 +10,9 @@ const Home = () => {
   return (
     <div
       name="home"
-      className="h-screen w-full bg-gradient-to-br  from-blue-200 via-black to-purple-200"
+      className="h-screen w-full bg-gradient-to-br  from-blue-500 via-gray-500 to-purple-500"
     >
-      {/* <img src={harsh} alt=""/> */}
+
 
       <div
         className="max-w-screen-lg mx-auto flex flex-col items-center justify-center h-full 
@@ -39,9 +39,8 @@ const Home = () => {
       </div>
 
 
-          <p className="text-gray-500  py-4 max-w-md ">
-            detail Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-            Dolorum debitis porro repudiandae aliquid recusandae, officia
+          <p className="text-cyan-300  py-4 max-w-md ">
+          I thrive on turning imaginative ideas into functional and visually appealing web applications. With a keen eye for design and a love for problem-solving
           
           </p>
           <div>
@@ -49,8 +48,8 @@ const Home = () => {
               to="portfolio"
               smooth
               duration={500}
-              className="group text-yellow-500 text-2xl shadow-[0_0_5px_red] w-fit px-6 py-3 my-2 flex items-center rounded-md
-                        bg-gradient-to-r from-cyan-300 via-blue-600 to-blue-400 cursor-pointer "
+              className="group text-yellow-600 text-3xl shadow-[0_0_5px_yellow] w-fit px-6 py-3 my-2 flex items-center rounded-md
+                        bg-gradient-to-r from-cyan-400 via-blue-500 to-blue-400 cursor-pointer "
             >
               Portfolio
               <span className="group-hover:rotate-90 duration-300">
