@@ -1,8 +1,9 @@
 import portfolio1 from "../assets/Movix.png";
-import portfolio2 from "../assets/pokedex.png";
-import portfolio3 from "../assets/hotstar.png";
+import portfolio2 from "../assets/foodapp.jpeg";
+import portfolio3 from "../assets/ecomthumb.png";
 import portfolio4 from "../assets/lms.jpg";
-import portfolio5 from "../assets/foodapp.jpeg";
+import portfolio5 from "../assets/pokedex.png";
+import portfolio6 from "../assets/hotstar.png";
 
 const Portfolio = () => {
   const portfolios = [
@@ -10,25 +11,31 @@ const Portfolio = () => {
     {
       id: 2,
       src: portfolio2,
-      code: "https://github.com/Harshksaw/LMS-Frontend",
+      demo: "https://github.com/Harshksaw/Native-App_Food_delivery",
+      code: "https://github.com/Harshksaw/Native-App_Food_delivery",
     },
     {
       id: 3,
       src: portfolio3,
-      code: "https://github.com/Harshksaw/Pokedex-React",
-      demo: "https://harshksaw.github.io/",
+      demo: "https://e-commerce-q327vpqid-harshksaw.vercel.app/",
+      code: "https://github.com/Harshksaw/E-Commerce",
     },
     {
       id: 4,
       src: portfolio4,
-      demo: "https://harshksaw.github.io/Hotstart_clone/",
-      code: "https://github.com/Harshksaw/Hotstart_clone",
+      code: "https://github.com/Harshksaw/LMS-Frontend",
     },
     {
       id: 5,
       src: portfolio5,
-      demo: "https://github.com/Harshksaw/Native-App_Food_delivery",
-      code: "https://github.com/Harshksaw/Native-App_Food_delivery",
+      code: "https://github.com/Harshksaw/Pokedex-React",
+      demo: "https://harshksaw.github.io/",
+    },
+    {
+      id: 6,
+      src: portfolio6,
+      demo: "https://harshksaw.github.io/Hotstart_clone/",
+      code: "https://github.com/Harshksaw/Hotstart_clone",
     },
   ];
 
