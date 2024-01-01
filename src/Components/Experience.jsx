@@ -49,7 +49,7 @@ const Experience = () => {
                 <img
                   src={src}
                   alt=""
-                  className="w-20 mx-auto sm:h-10 w-10"
+                  className="w-25 mx-auto sm:h-15 md:w-20 h-25"
                   size={20}
                 />
                 <p className="mt-4">{title}</p>
