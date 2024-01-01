@@ -4,6 +4,7 @@ import portfolio3 from "../assets/ecomthumb.png";
 import portfolio4 from "../assets/lms.jpg";
 import portfolio5 from "../assets/pokedex.png";
 import portfolio6 from "../assets/hotstar.png";
+import portfolio7 from "../assets/finance.jpg";
 
 const Portfolio = () => {
   const portfolios = [
@@ -16,23 +17,29 @@ const Portfolio = () => {
     },
     {
       id: 3,
+      src: portfolio7,
+      demo: "https://finance-tracker-sooty.vercel.app/",
+      code: "https://github.com/Harshksaw/Finance-Trackery",
+    },
+    {
+      id: 4,
       src: portfolio3,
       demo: "https://e-commerce-eight-mu-24.vercel.app/",
       code: "https://github.com/Harshksaw/E-Commerce",
     },
     {
-      id: 4,
+      id: 5,
       src: portfolio4,
       code: "https://github.com/Harshksaw/LMS-Frontend",
     },
     {
-      id: 5,
+      id: 6,
       src: portfolio5,
       code: "https://github.com/Harshksaw/Pokedex-React",
       demo: "https://harshksaw.github.io/",
     },
     {
-      id: 6,
+      id: 7,
       src: portfolio6,
       demo: "https://harshksaw.github.io/Hotstart_clone/",
       code: "https://github.com/Harshksaw/Hotstart_clone",

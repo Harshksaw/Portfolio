@@ -31,7 +31,7 @@ export default function Navbar() {
     <div className="flex justify-between items-center w-full h-20 text-white bg-black fixed z-10">
       <div>
         <img
-          class="max-h-full max-w-full h-auto w-auto object-contain absolute inset-0"
+          className="max-h-full max-w-full h-auto w-auto object-contain absolute inset-0"
           src={logoicons}
           alt="Logo"
         />

@@ -1,6 +1,7 @@
 import logo1 from "../assets/browser.png";
 
 import logo3 from "../assets/python.gif";
+
 import js from "../assets/icons8-javascript.gif";
 import reacticon from "../assets/icons8-react-js.gif";
 import logo5 from "../assets/Redux-logo-vector-01.svg";
@@ -20,7 +21,7 @@ const Experience = () => {
     { id: 6, src: logo3, title: "PYTHON", style: "shadow-yellow-700" },
     { id: 7, src: logo1, title: "Html & CSS", style: "shadow-orange-500" },
     { id: 8, src: logo8, title: "Mongo & Sql", style: "shadow-yellow-700" },
-    { id: 8, src: logo9, title: "TypeScript", style: "shadow-yellow-700" },
+    { id: 9, src: logo9, title: "TypeScript", style: "shadow-yellow-700" },
   ];
 
   return (
