@@ -6,7 +6,7 @@ import About from "./Components/About";
 import Portfolio from "./Components/Portfolio";
 import Experience from "./Components/Experience";
 import Contact from "./Components/Contact";
-
+import { Analytics } from "@vercel/analytics/react";
 function App() {
   return (
     <div>
