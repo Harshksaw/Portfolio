@@ -5,6 +5,7 @@ import portfolio4 from "../assets/lms.jpg";
 import portfolio5 from "../assets/pokedex.png";
 import portfolio6 from "../assets/hotstar.png";
 import portfolio7 from "../assets/finance.jpg";
+import portfolio8 from "../assets/ev.png";
 
 const Portfolio = () => {
   const portfolios = [
@@ -34,16 +35,23 @@ const Portfolio = () => {
     },
     {
       id: 6,
+      src: portfolio8,
+      demo: "https://github.com/Harshksaw/EV-Station-APP",
+      code: "https://github.com/Harshksaw/EV-Station-APP",
+    },
+    {
+      id: 7,
       src: portfolio5,
       code: "https://github.com/Harshksaw/Pokedex-React",
       demo: "https://harshksaw.github.io/",
     },
     {
-      id: 7,
+      id: 8,
       src: portfolio6,
       demo: "https://harshksaw.github.io/Hotstart_clone/",
       code: "https://github.com/Harshksaw/Hotstart_clone",
     },
+   
   ];
 
   return (
