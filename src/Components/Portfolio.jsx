@@ -1,7 +1,7 @@
 import portfolio1 from "../assets/Movix.png";
 import portfolio2 from "../assets/foodapp.jpeg";
 import portfolio3 from "../assets/ecomthumb.png";
-import portfolio4 from "../assets/lms.jpg";
+import portfolio4 from "../assets/home4.png";
 import portfolio5 from "../assets/pokedex.png";
 import portfolio6 from "../assets/hotstar.png";
 import portfolio7 from "../assets/finance.jpg";
@@ -9,30 +9,37 @@ import portfolio8 from "../assets/ev.png";
 
 const Portfolio = () => {
   const portfolios = [
-    { id: 1, src: portfolio1 },
+    {
+      id: 1,
+      src: portfolio4,
+      demo: "https://dynamic-crisp-e4f42b.netlify.app/",
+      code: "https://github.com/Harshksaw/LMS-Frontend",
+    },
     {
       id: 2,
+      src: portfolio1,
+      demo: "https://movix-react-ten.vercel.app/",
+      code: "https://github.com/Harshksaw/Movix-React",
+    },
+    {
+      id: 3,
       src: portfolio2,
       demo: "https://github.com/Harshksaw/Native-App_Food_delivery",
       code: "https://github.com/Harshksaw/Native-App_Food_delivery",
     },
     {
-      id: 3,
+      id: 4,
       src: portfolio7,
       demo: "https://finance-tracker-sooty.vercel.app/",
       code: "https://github.com/Harshksaw/Finance-Trackery",
     },
     {
-      id: 4,
+      id: 5,
       src: portfolio3,
       demo: "https://e-commerce-eight-mu-24.vercel.app/",
       code: "https://github.com/Harshksaw/E-Commerce",
     },
-    {
-      id: 5,
-      src: portfolio4,
-      code: "https://github.com/Harshksaw/LMS-Frontend",
-    },
+
     {
       id: 6,
       src: portfolio8,
@@ -51,7 +58,6 @@ const Portfolio = () => {
       demo: "https://harshksaw.github.io/Hotstart_clone/",
       code: "https://github.com/Harshksaw/Hotstart_clone",
     },
-   
   ];
 
   return (
@@ -78,12 +84,12 @@ const Portfolio = () => {
                 />
               </div>
               <div className="flex items-center justify-center mt-5">
-                <button className="w-1/2 px-6 py-3 m-2 duration-150 hover:scale-105 bg-blue-500 text-white rounded-md">
+                <button className="w-1/2 px-6 py-3 m-2 duration-150 hover:scale-105 z-209 bg-blue-500 text-white rounded-md">
                   <a href={demo} target="_blank" rel="noopener noreferrer">
                     Demo
                   </a>
                 </button>
-                <button className="w-1/2 px-6 py-3 m-2 duration-150 hover:scale-105 bg-green-500 text-white rounded-md">
+                <button className="w-1/2 px-6 py-3 m-2 duration-150 hover:scale-105 z-200 bg-green-500 text-white rounded-md">
                   <a href={code} target="_blank" rel="noopener noreferrer">
                     Code
                   </a>
