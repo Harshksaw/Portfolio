@@ -37,7 +37,7 @@ export default function About({ text, link }) {
         <p className="text-gray-200 text-lg md:text-2xl  mt-4">
             Web Development Journey: My journey in the world of web development has been exhilarating. I've honed my skills in React JS and Node Js. The dynamic nature of web development and the power to create seamless user experiences.
         </p>
-        <p className="text-lg leading-relaxed text-yellow-200 animated-text text-xl mt-5 md:mt-15">
+        <p className="text-lg leading-relaxed text-yellow-200 animated-text  mt-5 md:mt-15">
             But my interests don't stop at web development! I'm also delving into the world of data science for the long run. I've been actively learning and gaining hands-on experience in machine learning (ML), exploratory data analysis (EDA), and data analysis. The ability to extract valuable insights from data and make data-driven decisions is a skill I'm keen on mastering.
         </p>
         <br />

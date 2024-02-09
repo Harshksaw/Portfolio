@@ -13,7 +13,7 @@ const Home = () => {
     >
       <div
         className="max-w-screen-lg mx-auto flex flex-col items-center justify-center h-full 
-            px-4 md:flex-row  transition duration-400"
+        px-4 md:flex-row  transition duration-400"
       >
         <div className="flex flex-col justify-center h-full">
           <h2 className="text-3xl sm:text-7xl font-bold text-blue-600 mb-4 flex flex-row">
@@ -50,7 +50,7 @@ const Home = () => {
               smooth
               duration={500}
               className="group text-yellow-600 text-3xl shadow-[0_0_5px_yellow] w-fit px-6 py-3 my-2 flex items-center rounded-md
-                        bg-gradient-to-r from-cyan-400 via-blue-500 to-blue-400 cursor-pointer "
+              bg-gradient-to-r from-cyan-400 via-blue-500 to-blue-400 cursor-pointer "
             >
               Portfolio
               <span className="group-hover:rotate-90 duration-300">
