@@ -17,20 +17,20 @@ const Experience = () => {
     { id: 2, src: reacticon, title: "REACT", style: "shadow-purple-500" },
     { id: 3, src: logo7, title: "NextJS", style: "shadow-green-400" },
     { id: 4, src: logo5, title: "REDUX", style: "shadow-purple-800" },
-    { id: 5, src: logo6, title: "NODE", style: "shadow-green-400" },
-    { id: 6, src: logo3, title: "PYTHON", style: "shadow-yellow-700" },
+    { id: 5, src: logo6, title: "NODE", style: "shadow-green-600" },
+    { id: 6, src: logo3, title: "PYTHON", style: "shadow-yellow-900" },
     { id: 7, src: logo1, title: "Html & CSS", style: "shadow-orange-500" },
     { id: 8, src: logo8, title: "Mongo & Sql", style: "shadow-yellow-700" },
-    { id: 9, src: logo9, title: "TypeScript", style: "shadow-yellow-700" },
+    { id: 9, src: logo9, title: "TypeScript", style: "shadow-blue-800" },
   ];
 
   return (
     <div
       name="experience"
-      className="bg-gradient-to-b from-gray-400 to-violet-500 w-full h-screen"
+      className="bg-gradient-to-tl from-violet-600 to-blue-200 w-full h-screen p-20"
     >
       <div>
-        <div className="max-w-screen-lg mx-auto p-4 flex flex-col justify-centerw-full h-full text-white ">
+        <div className="max-w-screen-lg mx-auto p-4 flex flex-col justify-center w-full  text-white ">
           <div>
             <h1 className="text-4xl font-bold border-b-4 border-gray-300 p-2 inline">
               Experience
