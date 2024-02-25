@@ -12,8 +12,8 @@ function App() {
     <div>
       <Navbar />
       <Home />
-      <Experience />
       <Portfolio />
+      <Experience />
       <About
         text="Passionate full-stack MERN developer and avid data science enthusiast, crafting digital solutions"
         link="/portfolio"
