@@ -5,10 +5,6 @@ import Typewriter from "typewriter-effect";
 import { FaCodeBranch } from "react-icons/fa6";
 import { FaCode } from "react-icons/fa";
 
-// partiles
-import { useCallback } from "react";
-import Particles from "react-tsparticles";
-import { loadFull } from "tsparticles";
 
 
 const Home = () => {
