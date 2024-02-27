@@ -59,7 +59,7 @@ export const skills = [
       {
         name: "React Native",
         image:
-          "https://cdn-images-1.medium.com/max/1200/1*5-aoK8IBmXve5whBQM90GA.png",
+          "https://th.bing.com/th/id/OIP.JIyxVs8lvTWe9HBftDBnYgHaIl?rs=1&pid=ImgDetMain",
       },
     ],
   },
@@ -174,11 +174,7 @@ export const skills = [
         image:
           "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Jupyter_logo.svg/1767px-Jupyter_logo.svg.png",
       },
-      {
-        name: "Google Colab",
-        image:
-          "https://assets.stickpng.com/images/63c2e4c9c4baad4ce22bf9ef.png",
-      },
+    
       {
         name: "Sk Learn Kit",
         image:
