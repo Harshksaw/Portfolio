@@ -19,13 +19,19 @@ const App = () => {
 
       <Home />
       <Portfolio />
-      <Experience/>
+
+
+
+   
+
+
+    <Experience/>
       <About
         text="Passionate full-stack MERN developer and avid data science enthusiast, crafting digital solutions"
         link="/portfolio"
       />
-      <Contact />
 
+    <Contact />
       <SocialLinks />
     </div>
   );
