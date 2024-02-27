@@ -1,11 +1,11 @@
-import portfolio1 from "../assets/Movix.png";
-import portfolio2 from "../assets/foodapp.jpeg";
-import portfolio3 from "../assets/ecomthumb.png";
-import portfolio4 from "../assets/home4.png";
-import portfolio5 from "../assets/pokedex.png";
-import portfolio6 from "../assets/hotstar.png";
-import portfolio7 from "../assets/finance.jpg";
-import portfolio8 from "../assets/ev.png";
+import portfolio1 from "../assets/pic/Movix.png";
+import portfolio2 from "../assets/pic/foodapp.jpeg";
+import portfolio3 from "../assets/pic/ecomthumb.png";
+import portfolio4 from "../assets/pic/home4.png";
+import portfolio5 from "../assets/pic/pokedex.png";
+import portfolio6 from "../assets/pic/hotstar.png";
+import portfolio7 from "../assets/pic/finance.jpg";
+import portfolio8 from "../assets/pic/ev.png";
 
 const Portfolio = () => {
   const portfolios = [

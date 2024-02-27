@@ -1,9 +1,15 @@
-import harsh from "../assets/harsh.jpeg";
+import harsh from "../assets/pic/harsh.jpeg";
 import { MdOutlineKeyboardDoubleArrowRight } from "react-icons/md";
 import { Link } from "react-scroll";
 import Typewriter from "typewriter-effect";
 import { FaCodeBranch } from "react-icons/fa6";
 import { FaCode } from "react-icons/fa";
+
+// partiles
+import { useCallback } from "react";
+import Particles from "react-tsparticles";
+import { loadFull } from "tsparticles";
+
 
 const Home = () => {
   return (

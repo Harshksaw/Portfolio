@@ -11,7 +11,7 @@ const TiltCard = styled(Tilt)`
 
 const Experience = () => {
   return (
-    <section id="Skills" className="bg-violet-400 py-16">
+    <section id="Skills" className="bg-violet-400 py-16 z-50">
       <div className="container mx-auto px-4">
       <motion.h2
           initial={{ opacity: 0, y: 20 }} // Initial state: hidden and slightly above viewport

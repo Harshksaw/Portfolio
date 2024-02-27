@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { Link } from "react-scroll";
-import logoicons from "../assets/developers.png";
+import logoicons from "../assets/pic/developers.png";
 export default function Navbar() {
   const [nav, setNav] = useState(false);
   const links = [
@@ -28,7 +28,7 @@ export default function Navbar() {
   ];
 
   return (
-    <div className="flex justify-between items-center w-full h-20 text-white bg-black fixed z-10">
+    <div className="flex justify-between items-center w-full h-20 text-white bg-black fixed z-50">
       <div>
         <img
           className="max-h-full max-w-full h-auto w-auto object-contain absolute inset-0"
