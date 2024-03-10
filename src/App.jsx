@@ -7,34 +7,26 @@ import Portfolio from "./Components/Portfolio";
 
 import Contact from "./Components/Contact";
 import Experience from "./Components/Experience";
-
-
-
+import { ThemeProvider } from "styled-components";
+import { theme } from "styles/theme";
 const App = () => {
-
-
   return (
-    <div >
+    <ThemeProvider theme={theme}>
       <Navbar />
 
       <Home />
       <Portfolio />
 
-
-
-   
-
-
-    <Experience/>
+      <Experience />
       <About
         text="Passionate full-stack MERN developer and avid data science enthusiast, crafting digital solutions"
         link="/portfolio"
       />
 
-    <Contact />
+      <Contact />
       <SocialLinks />
-    </div>
+    </ThemeProvider>
   );
-}
+};
 
 export default App;
