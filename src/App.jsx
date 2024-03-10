@@ -1,4 +1,4 @@
-// import SocialLinks from './src/Components/SocialLinks';
+
 import Navbar from "./Components/NavBar";
 import Home from "./Components/Home";
 import SocialLinks from "./Components/SocialLinks";
@@ -7,11 +7,10 @@ import Portfolio from "./Components/Portfolio";
 
 import Contact from "./Components/Contact";
 import Experience from "./Components/Experience";
-import { ThemeProvider } from "styled-components";
-import { theme } from "styles/theme";
+
 const App = () => {
   return (
-    <ThemeProvider theme={theme}>
+<>
       <Navbar />
 
       <Home />
@@ -25,7 +24,7 @@ const App = () => {
 
       <Contact />
       <SocialLinks />
-    </ThemeProvider>
+</>
   );
 };
 
