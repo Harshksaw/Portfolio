@@ -30,45 +30,53 @@ const Hero = () => {
        */}
       <div
         className="h-screen w-full dark:bg-black-100 bg-white dark:bg-grid-white/[0.03] bg-grid-black-100/[0.2]
-       absolute top-0 left-0 flex items-center justify-center"
+  absolute top-0 left-0 flex items-center justify-center"
       >
-        {/* Radial gradient for the container to give a faded look */}
+        {/* Radial gradient for the background blending effect */}
         <div
-          // chnage the bg to bg-black-100, so it matches the bg color and will blend in
           className="absolute pointer-events-none inset-0 flex items-center justify-center dark:bg-black-100
-         bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"
+    bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"
         />
       </div>
 
       <div className="flex justify-center relative my-20 z-10">
-        <div className="max-w-[89vw] md:max-w-2xl lg:max-w-[60vw] flex flex-col items-center justify-center">
+        <div className="max-w-[90vw] md:max-w-2xl lg:max-w-[60vw] flex flex-col items-center justify-center">
           <p className="uppercase tracking-widest text-xs text-center text-blue-100 max-w-80">
-            Dynamic Web Magic with Next.js
+          Building Scalable, Production-Ready Applications – Let’s Create Something Exceptional!
           </p>
 
           {/**
-           *  Link: https://ui.aceternity.com/components/text-generate-effect
-           *
-           *  change md:text-6xl, add more responsive code
-           */}
+     *  Link: https://ui.aceternity.com/components/text-generate-effect
+     *
+     *  Optimized responsive text sizes
+     */}
           <TextGenerateEffect
-            words="Transforming Concepts into Seamless User Experiences"
-            className="text-center text-[40px] md:text-5xl lg:text-6xl"
+            words="Transforming Ideas into Scalable & Seamless Experiences"
+            className="text-center text-[36px] sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold"
           />
 
-          <p className="text-center md:tracking-wider mb-4 text-sm md:text-lg lg:text-2xl">
-            Hi! I&apos;m Harsh, a Next.js Developer based in Canada.
-          </p>
+          <p className="text-center md:tracking-wider mb-4 text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl relative">
+            Hi! I&apos;m <span className="font-bold relative">
 
-          <a href="#about">
-            <MagicButton
-              title="Show my work"
-              icon={<FaLocationArrow />}
-              position="right"
-            />
-          </a>
+              
+              <span className="font-bold  text-2xl  bg-gradient-to-r from-blue-400 to-purple-200 bg-clip-text text-transparent animate-pulse">
+Harsh Kumar
+            </span>
+            </span>, a <span className="font-semibold ">
+              Full-Stack Developer
+            </span> with real-world deployment & production experience.
+          </p>
         </div>
       </div>
+
+
+      <a href="#about">
+        <MagicButton
+          title="Show my work"
+          icon={<FaLocationArrow />}
+          position="right"
+        />
+      </a>
     </div>
   );
 };
