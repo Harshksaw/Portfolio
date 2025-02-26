@@ -31,7 +31,7 @@ export const experienceData = [
       <div>
         {/* Logo */}
         <div className="flex items-center gap-3 mb-4">
-          <img src="/logos/jythu.svg" alt="Jythu Logo" className="w-10 h-10 rounded-lg" />
+          <img src="/jythu.png" alt="Jythu Logo" className="w-10 h-10 rounded-lg" />
           <div>
             <p className="text-neutral-800 dark:text-neutral-200 text-sm font-bold">
               Full-stack Developer - Contract (Part-time)
@@ -53,7 +53,7 @@ export const experienceData = [
       <div>
         {/* Logo */}
         <div className="flex items-center gap-3 mb-4">
-          <img src="/logos/freelancer.svg" alt="Freelancer Logo" className="w-10 h-10 rounded-lg" />
+          <img src="/freelancer.svg" alt="Freelancer Logo" className="w-10 h-10 rounded-lg" />
           <div>
             <p className="text-neutral-800 dark:text-neutral-200 text-sm font-bold">
               Freelance Software Developer
