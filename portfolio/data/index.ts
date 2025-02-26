@@ -57,40 +57,32 @@ export const gridItems = [
     spareImg: "",
   },
 ];
-
 export const projects = [
   {
     id: 1,
-    title: "3D Solar System Planets to Explore",
-    des: "Explore the wonders of our solar system with this captivating 3D simulation of the planets using Three.js.",
+    title: "Ekaant - Library Booking System",
+    des: "A feature-rich library seat booking system with real-time availability, seat layouts, and admin controls.",
     img: "/p1.svg",
-    iconLists: ["/re.svg", "/tail.svg", "/ts.svg", "/three.svg", "/fm.svg"],
-    link: "/ui.earth.com",
+    iconLists: ["/react.svg", "/tail.svg", "/ts.svg", "/node.svg", "/postgres.svg"],
+    link: "https://ekaant.com",
   },
   {
     id: 2,
-    title: "Yoom - Video Conferencing App",
-    des: "Simplify your video conferencing experience with Yoom. Seamlessly connect with colleagues and friends.",
-    img: "/p2.svg",
-    iconLists: ["/next.svg", "/tail.svg", "/ts.svg", "/stream.svg", "/c.svg"],
-    link: "/ui.yoom.com",
+    title: "LMS Platform - E-learning App",
+    des: "A complete learning management system with quizzes, study materials, and video streaming capabilities.",
+    img: "/p4.svg",
+    iconLists: ["/next.svg", "/tail.svg", "/ts.svg", "/razorpay.svg", "/aws.svg"],
+    link: "https://lms-platform.com",
   },
   {
     id: 3,
-    title: "AI Image SaaS - Canva Application",
-    des: "A REAL Software-as-a-Service app with AI features and a payments and credits system using the latest tech stack.",
+    title: "Restaurant QR Ordering System",
+    des: "A modern restaurant solution allowing customers to scan a QR code to view the menu and place orders seamlessly.",
     img: "/p3.svg",
-    iconLists: ["/re.svg", "/tail.svg", "/ts.svg", "/three.svg", "/c.svg"],
-    link: "/ui.aiimg.com",
+    iconLists: ["/react-native.svg", "/tail.svg", "/ts.svg", "/node.svg", "/s3.svg"],
+    link: "https://qrorder.com",
   },
-  {
-    id: 4,
-    title: "Animated Apple Iphone 3D Website",
-    des: "Recreated the Apple iPhone 15 Pro website, combining GSAP animations and Three.js 3D effects..",
-    img: "/p4.svg",
-    iconLists: ["/next.svg", "/tail.svg", "/ts.svg", "/three.svg", "/gsap.svg"],
-    link: "/ui.apple.com",
-  },
+
 ];
 
 export const testimonials = [
