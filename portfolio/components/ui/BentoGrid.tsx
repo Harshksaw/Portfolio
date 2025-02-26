@@ -1,13 +1,16 @@
-
+"use client";
 import { useState } from "react";
 import { IoCopyOutline } from "react-icons/io5";
-import Lottie from "lottie-react";
+
 import { cn } from "@/lib/utils";
 
 import GridGlobe from "./GridGlobe";
 import animationData from "@/data/confetti.json";
 import MagicButton from "../MagicButton";
 import TechStack from "../TechStack";
+import dynamic from "next/dynamic";
+
+const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 export const BentoGrid = ({ className, children }: { className?: string; children?: React.ReactNode }) => {
   return <div className={`grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 auto-rows-auto mx-auto ${className}`}>{children}</div>;
 };
