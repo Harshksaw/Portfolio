@@ -1,54 +1,83 @@
+
 import React from "react";
-
-import { workExperience } from "@/data";
-import { Button } from "./ui/MovingBorders";
-
-const Experience = () => {
-  return (
-    <div className="py-20 w-full">
-      <h1 className="heading">
-        My <span className="text-purple">work experience</span>
-      </h1>
-
-      <div className="w-full mt-12 grid lg:grid-cols-4 grid-cols-1 gap-10">
-        {workExperience.map((card) => (
-          <Button
-            key={card.id}
-            //   random duration will be fun , I think , may be not
-            duration={Math.floor(Math.random() * 10000) + 10000}
-            borderRadius="1.75rem"
-            style={{
-              //   add these two
-              //   you can generate the color from here https://cssgradient.io/
-              background: "rgb(4,7,29)",
-              backgroundColor:
-                "linear-gradient(90deg, rgba(4,7,29,1) 0%, rgba(12,14,35,1) 100%)",
-              // add this border radius to make it more rounded so that the moving border is more realistic
-              borderRadius: `calc(1.75rem* 0.96)`,
-            }}
-            // remove bg-white dark:bg-slate-900
-            className="flex-1 text-black dark:text-white border-neutral-200 dark:border-slate-800"
-          >
-            <div className="flex lg:flex-row flex-col lg:items-center p-3 py-6 md:p-5 lg:p-10 gap-2">
-              <img
-                src={card.thumbnail}
-                alt={card.thumbnail}
-                className="lg:w-32 md:w-20 w-16"
-              />
-              <div className="lg:ms-5">
-                <h1 className="text-start text-xl md:text-2xl font-bold">
-                  {card.title}
-                </h1>
-                <p className="text-start text-white-100 mt-3 font-semibold">
-                  {card.desc}
-                </p>
-              </div>
-            </div>
-          </Button>
-        ))}
+import { Timeline } from "@/components/ui/timeline";
+ const experienceData = [
+  {
+    title: "Airing Private Limited",
+    content: (
+      <div>
+        <p className="text-neutral-800 dark:text-neutral-200 text-xs md:text-sm font-normal mb-4">
+          <strong>Technical Lead (Full Stack) - Internship</strong>
+        </p>
+        <p className="text-neutral-600 dark:text-neutral-300 text-xs md:text-sm mb-2">
+          Jan 2025 - Present · 2 mos · Remote
+        </p>
+        <p className="text-neutral-600 dark:text-neutral-300 text-xs md:text-sm">
+          Leading the development of a high-performance inventory management platform for a thriving e-commerce business.
+          Utilizing <strong>MERN stack & GraphQL</strong> to build a scalable system.
+        </p>
       </div>
-    </div>
-  );
-};
+    ),
+  },
+  {
+    title: "Jythu",
+    content: (
+      <div>
+        <p className="text-neutral-800 dark:text-neutral-200 text-xs md:text-sm font-normal mb-4">
+          <strong>Full-stack Developer - Contract (Part-time)</strong>
+        </p>
+        <p className="text-neutral-600 dark:text-neutral-300 text-xs md:text-sm mb-2">
+          May 2024 - Present · 10 mos · Remote
+        </p>
+        <p className="text-neutral-600 dark:text-neutral-300 text-xs md:text-sm">
+          Developing and maintaining full-stack applications using <strong>Node.js, React Native, and AWS</strong>. 
+          Optimizing API performance and ensuring smooth UI interactions.
+        </p>
+      </div>
+    ),
+  },
+  {
+    title: "Freelancer.com",
+    content: (
+      <div>
+        <p className="text-neutral-800 dark:text-neutral-200 text-xs md:text-sm font-normal mb-4">
+          <strong>Freelance Software Developer</strong>
+        </p>
+        <p className="text-neutral-600 dark:text-neutral-300 text-xs md:text-sm mb-2">
+          Dec 2023 - Present · 1 yr 3 mos · Remote
+        </p>
+        <p className="text-neutral-600 dark:text-neutral-300 text-xs md:text-sm">
+          Recognized among the <strong>top 2% of developers on Freelancer.com</strong>. 
+          Successfully completed <strong>30+ projects</strong> in full-stack development and DevOps.
+        </p>
+      </div>
+    ),
+  },
+  {
+    title: "Tastemate",
+    content: (
+      <div>
+        <p className="text-neutral-800 dark:text-neutral-200 text-xs md:text-sm font-normal mb-4">
+          <strong>React Native Developer - Internship</strong>
+        </p>
+        <p className="text-neutral-600 dark:text-neutral-300 text-xs md:text-sm mb-2">
+          Apr 2024 - Aug 2024 · 5 mos · Remote (United States)
+        </p>
+        <p className="text-neutral-600 dark:text-neutral-300 text-xs md:text-sm">
+          Developed cross-platform mobile applications using <strong>React Native, TypeScript, and Firebase</strong>.
+          Improved app performance and user experience.
+        </p>
+      </div>
+    ),
+  },
+];
 
-export default Experience;
+
+export default function Experience() {
+  return (
+    <section className="w-full py-12 px-6 md:px-12 lg:px-20">
+      <h2 className="text-3xl font-bold text-white mb-8 text-center">💼 Work Experience</h2>
+      <Timeline data={experienceData} />
+    </section>
+  );
+}
