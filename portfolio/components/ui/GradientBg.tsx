@@ -1,7 +1,22 @@
 "use client";
 import { cn } from "@/lib/utils";
-import { useEffect, useRef, useState } from "react";
-
+import { useCallback, useEffect, useRef, useState } from "react";
+const moveFunction = (
+  interactiveRef: React.RefObject<HTMLDivElement>,
+  curX: number,
+  curY: number,
+  tgX: number,
+  tgY: number,
+  setCurX: React.Dispatch<React.SetStateAction<number>>,
+  setCurY: React.Dispatch<React.SetStateAction<number>>
+) => {
+  if (!interactiveRef.current) return;
+  setCurX(curX + (tgX - curX) / 20);
+  setCurY(curY + (tgY - curY) / 20);
+  interactiveRef.current.style.transform = `translate(${Math.round(
+    curX
+  )}px, ${Math.round(curY)}px)`;
+};
 export const BackgroundGradientAnimation = ({
   gradientBackgroundStart = "rgb(108, 0, 162)",
   gradientBackgroundEnd = "rgb(0, 17, 82)",
@@ -39,6 +54,7 @@ export const BackgroundGradientAnimation = ({
   const [curY, setCurY] = useState(0);
   const [tgX, setTgX] = useState(0);
   const [tgY, setTgY] = useState(0);
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       document.body.style.setProperty(
@@ -49,31 +65,26 @@ export const BackgroundGradientAnimation = ({
         "--gradient-background-end",
         gradientBackgroundEnd
       );
+      document.body.style.setProperty("--first-color", firstColor);
+      document.body.style.setProperty("--second-color", secondColor);
+      document.body.style.setProperty("--third-color", thirdColor);
+      document.body.style.setProperty("--fourth-color", fourthColor);
+      document.body.style.setProperty("--fifth-color", fifthColor);
+      document.body.style.setProperty("--pointer-color", pointerColor);
+      document.body.style.setProperty("--size", size);
+      document.body.style.setProperty("--blending-value", blendingValue);
+    }
+  }, []);
 
-    document.body.style.setProperty("--first-color", firstColor);
-    document.body.style.setProperty("--second-color", secondColor);
-    document.body.style.setProperty("--third-color", thirdColor);
-    document.body.style.setProperty("--fourth-color", fourthColor);
-    document.body.style.setProperty("--fifth-color", fifthColor);
-    document.body.style.setProperty("--pointer-color", pointerColor);
-    document.body.style.setProperty("--size", size);
-    document.body.style.setProperty("--blending-value", blendingValue);
-}}, []);
+
+  const move = useCallback(() => {
+    moveFunction(interactiveRef, curX, curY, tgX, tgY, setCurX, setCurY);
+  }, [curX, curY, tgX, tgY]);
 
   useEffect(() => {
-    function move() {
-      if (!interactiveRef.current) {
-        return;
-      }
-      setCurX(curX + (tgX - curX) / 20);
-      setCurY(curY + (tgY - curY) / 20);
-      interactiveRef.current.style.transform = `translate(${Math.round(
-        curX
-      )}px, ${Math.round(curY)}px)`;
-    }
-
     move();
-  }, [tgX, tgY]);
+  }, [move]);
+
 
   const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
     if (interactiveRef.current) {
