@@ -1,54 +1,110 @@
+
 import React from "react";
+import { Timeline } from "@/components/ui/timeline";
+import { TextGenerateEffect } from "./ui/TextGenerateEffect";
+export const experienceData = [
+  {
+    title: "Airing Private Limited",
+    content: (
+      <div>
+        {/* Logo */}
+        <div className="flex items-center gap-3 mb-4">
+          <img src="/airing.png" alt="Airing Logo" className="w-10 h-10 rounded-lg" />
+          <div>
+            <p className="text-neutral-800 dark:text-neutral-200 text-sm font-bold">
+              Technical Lead (Full Stack) - Internship
+            </p>
+            <p className="text-gray-400 text-xs">Airing Private Limited · Jan 2025 - Present · Remote</p>
+          </div>
+        </div>
 
-import { workExperience } from "@/data";
-import { Button } from "./ui/MovingBorders";
-
-const Experience = () => {
-  return (
-    <div className="py-20 w-full">
-      <h1 className="heading">
-        My <span className="text-purple">work experience</span>
-      </h1>
-
-      <div className="w-full mt-12 grid lg:grid-cols-4 grid-cols-1 gap-10">
-        {workExperience.map((card) => (
-          <Button
-            key={card.id}
-            //   random duration will be fun , I think , may be not
-            duration={Math.floor(Math.random() * 10000) + 10000}
-            borderRadius="1.75rem"
-            style={{
-              //   add these two
-              //   you can generate the color from here https://cssgradient.io/
-              background: "rgb(4,7,29)",
-              backgroundColor:
-                "linear-gradient(90deg, rgba(4,7,29,1) 0%, rgba(12,14,35,1) 100%)",
-              // add this border radius to make it more rounded so that the moving border is more realistic
-              borderRadius: `calc(1.75rem* 0.96)`,
-            }}
-            // remove bg-white dark:bg-slate-900
-            className="flex-1 text-black dark:text-white border-neutral-200 dark:border-slate-800"
-          >
-            <div className="flex lg:flex-row flex-col lg:items-center p-3 py-6 md:p-5 lg:p-10 gap-2">
-              <img
-                src={card.thumbnail}
-                alt={card.thumbnail}
-                className="lg:w-32 md:w-20 w-16"
-              />
-              <div className="lg:ms-5">
-                <h1 className="text-start text-xl md:text-2xl font-bold">
-                  {card.title}
-                </h1>
-                <p className="text-start text-white-100 mt-3 font-semibold">
-                  {card.desc}
-                </p>
-              </div>
-            </div>
-          </Button>
-        ))}
+        {/* Description */}
+        <p className="text-gray-300 text-xs md:text-sm">
+          Leading the development of a high-performance inventory management platform using <strong>MERN & GraphQL</strong>.
+        </p>
       </div>
-    </div>
-  );
-};
+    ),
+  },
+  {
+    title: "Jythu",
+    content: (
+      <div>
+        {/* Logo */}
+        <div className="flex items-center gap-3 mb-4">
+          <img src="/jythu.png" alt="Jythu Logo" className="w-10 h-10 rounded-lg" />
+          <div>
+            <p className="text-neutral-800 dark:text-neutral-200 text-sm font-bold">
+              Full-stack Developer - Contract (Part-time)
+            </p>
+            <p className="text-gray-400 text-xs">Jythu · May 2024 - Present · Remote</p>
+          </div>
+        </div>
 
-export default Experience;
+        {/* Description */}
+        <p className="text-gray-300 text-xs md:text-sm">
+          Developing full-stack applications with <strong>Node.js, React Native, and AWS</strong>. Optimizing API performance and UI interactions.
+        </p>
+      </div>
+    ),
+  },
+  {
+    title: "Freelancer.com",
+    content: (
+      <div>
+        {/* Logo */}
+        <div className="flex items-center gap-3 mb-4">
+          <img src="/freelancer.svg" alt="Freelancer Logo" className="w-10 h-10 rounded-lg" />
+          <div>
+            <p className="text-neutral-800 dark:text-neutral-200 text-sm font-bold">
+              Freelance Software Developer
+            </p>
+            <p className="text-gray-400 text-xs">Freelancer.com · Dec 2023 - Present · Remote</p>
+          </div>
+        </div>
+
+        {/* Description */}
+        <p className="text-gray-300 text-xs md:text-sm">
+          Recognized in the <strong>top 2% of developers on Freelancer.com</strong>. Delivered <strong>30+ projects</strong> in full-stack development & DevOps.
+        </p>
+      </div>
+    ),
+  },
+  {
+    title: "Tastemate",
+    content: (
+      <div>
+        {/* Logo */}
+        <div className="flex items-center gap-3 mb-4">
+          <img src="/logos/tastemate.svg" alt="Tastemate Logo" className="w-10 h-10 rounded-lg" />
+          <div>
+            <p className="text-neutral-800 dark:text-neutral-200 text-sm font-bold">
+              React Native Developer - Internship
+            </p>
+            <p className="text-gray-400 text-xs">Tastemate · Apr 2024 - Aug 2024 · Remote (US)</p>
+          </div>
+        </div>
+
+        {/* Description */}
+        <p className="text-gray-300 text-xs md:text-sm">
+          Developed and optimized mobile applications using <strong>React Native, TypeScript, and Firebase</strong>.
+        </p>
+      </div>
+    ),
+  },
+];
+
+
+
+export default function Experience() {
+  return (
+    <section className="w-full py-12 px-6 md:px-12 lg:px-20">
+      <h2 className="text-4xl font-bold text-slate-200 mb-8 text-center ">💼 <TextGenerateEffect words={"My Experience"} 
+
+
+
+
+      /></h2>
+      <Timeline data={experienceData} />
+    </section>
+  );
+}

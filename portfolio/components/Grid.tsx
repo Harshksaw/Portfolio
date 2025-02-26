@@ -1,6 +1,6 @@
 import { gridItems } from "@/data";
 import { BentoGrid, BentoGridItem } from "./ui/BentoGrid";
-import TechStack from "./TechStack";
+
 
 const Grid = () => {
   return (

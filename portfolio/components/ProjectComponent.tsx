@@ -3,6 +3,8 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { useGLTF, Html, OrbitControls } from "@react-three/drei";
 import { useRef } from "react";
 
+
+
 // Load the 3D mobile model
 const MobileModel = ({ children }: { children?: React.ReactNode }) => {
   const { scene } = useGLTF("/models/phone.glb"); // Make sure your phone model is placed here
