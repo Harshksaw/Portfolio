@@ -1,4 +1,4 @@
-
+"use client"
 import React from "react";
 import { Timeline } from "@/components/ui/timeline";
 import { TextGenerateEffect } from "./ui/TextGenerateEffect";
