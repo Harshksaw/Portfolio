@@ -1,34 +1,70 @@
-import { motion } from "framer-motion";
+"use client";
+import { Canvas } from "@react-three/fiber";
+import { OrbitControls, Sphere, Billboard, Text, Image } from "@react-three/drei";
+import { useRef } from "react";
+import { useFrame } from "@react-three/fiber";
 
-// Define tech stack with logos
+// Define the tech stack logos
 const techStack = [
-  { name: "Next.js", logo: "/react-icon.svg" },
+  { name: "Next.js", logo: "/nextjs.svg" },
   { name: "React", logo: "/react-icon.svg" },
-  { name: "Node.js", logo: "/react-icon.svg" },
-  { name: "AWS", logo: "/react-icon.svg" },
-  { name: "PostgreSQL", logo: "/react-icon.svg" },
-  { name: "TailwindCSS", logo: "/react-icon.svg" },
+  { name: "Node.js", logo: "/nodejs.svg" },
+  { name: "AWS", logo: "/aws.png" },
+  { name: "PostgreSQL", logo: "/postgres.svg" },
+  { name: "TailwindCSS", logo: "/tailwindcss.svg" },
+  { name: "GraphQL", logo: "/graphql.png" },
+  { name: "Docker", logo: "/docker.svg" },
+  { name: "TypeScript", logo: "/typescript-48.png" },
+  { name: "Python", logo: "/python-188.png" },
+  { name: "MongoDB", logo: "/mongodb.svg" },
+  { name: "NestJs", logo: "/nestjs.svg" },
+  { name: "Kubernetes", logo: "/kubernetes-144.png" },
+  { name: "Grafan", logo: "/grafana.svg" },
 ];
+
+// Function to position logos in 3D space
+const getSpherePosition = (index: number, total: number) => {
+  const phi = Math.acos(-1 + (2 * index) / total);
+  const theta = Math.sqrt(total * Math.PI) * phi;
+  return [Math.cos(theta) * Math.sin(phi) * 2, Math.sin(theta) * Math.sin(phi) * 2, Math.cos(phi) * 2];
+};
+
+const RotatingGlobe = () => {
+  const globeRef = useRef<any>();
+
+  // Rotate the globe continuously
+  useFrame(() => {
+    if (globeRef.current) {
+      globeRef.current.rotation.y += 0.003;
+    }
+  });
+
+  return (
+    <group ref={globeRef}>
+      {techStack.map((tech, index) => {
+        const [x, y, z] = getSpherePosition(index, techStack.length);
+        return (
+          <Billboard key={tech.name} position={[x, y, z]}>
+            <Image url={tech.logo} scale={[0.4, 0.4]}  transparent />
+            <Text position={[0, -0.5, 0]} fontSize={0.2} color="white" anchorX="center" anchorY="middle">
+              {tech.name}
+            </Text>
+          </Billboard>
+        );
+      })}
+    </group>
+  );
+};
 
 const TechStack = () => {
   return (
-    <div className="p-6 rounded-lg shadow-lg dark:bg-black-800 bg-white text-center">
-      <h3 className="text-xl font-semibold text-blue-400 mb-4">🛠 My Tech Stack</h3>
-
-      <div className="grid grid-cols-3 gap-4">
-        {techStack.map((tech, index) => (
-          <motion.div
-            key={tech.name}
-            className="flex flex-col items-center"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: index * 0.2, duration: 0.5 }}
-          >
-            <img src={tech.logo} alt={tech.name} className="h-12 w-12" />
-            <p className="text-gray-300 text-sm mt-2">{tech.name}</p>
-          </motion.div>
-        ))}
-      </div>
+    <div className="h-96 w-full flex justify-center items-center bg-black">
+      <Canvas camera={{ position: [0, 0, 5], fov: 45 }}>
+        <ambientLight intensity={0.5} />
+        <directionalLight position={[5, 5, 5]} intensity={1} />
+        <RotatingGlobe />
+        <OrbitControls enableZoom={false} />
+      </Canvas>
     </div>
   );
 };

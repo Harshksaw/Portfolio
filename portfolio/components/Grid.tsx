@@ -19,9 +19,10 @@ const Grid = () => {
             imgClassName={item.imgClassName}
             titleClassName={item.titleClassName}
             spareImg={item.spareImg}
-          >
-          {item.customComponent && <TechStack />}
-          </BentoGridItem>
+            customComponent={item.customComponent}
+          />
+
+
         ))}
       </BentoGrid>
     </section>
