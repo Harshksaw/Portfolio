@@ -75,7 +75,7 @@ export const experienceData = [
       <div>
         {/* Logo */}
         <div className="flex items-center gap-3 mb-4">
-          <img src="/logos/tastemate.svg" alt="Tastemate Logo" className="w-10 h-10 rounded-lg" />
+          <img src="/tastemate.png" alt="Tastemate Logo" className="w-10 h-10 rounded-lg" />
           <div>
             <p className="text-neutral-800 dark:text-neutral-200 text-sm font-bold">
               React Native Developer - Internship
