@@ -12,25 +12,42 @@ import RecentProjects from "@/components/RecentProjects";
 import { FloatingNav } from "@/components/ui/FloatingNavbar";
 
 import MobileShowcase from "@/components/ProjectComponent";
+import { useEffect, useState } from "react";
+import Loader from './loader';
+
+
+
 
 const Home = () => {
+  const [Loading, setLoading] = useState(true);
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 5000); // Simulating loading time
+  }, []);
+
   return (
-    <main className="relative bg-black-100 flex justify-center items-center flex-col overflow-hidden mx-auto sm:px-10 px-5">
-      <div className="max-w-7xl w-full">
-        <FloatingNav navItems={navItems} />
-        <Hero />
-        <Grid />
+    <>
+      {Loading ? (
+      <Loader setLoading={setLoading} />
+      ) : (
+        <main className="relative bg-black-100 flex justify-center items-center flex-col overflow-hidden mx-auto sm:px-10 px-5">
+          <div className="max-w-7xl w-full">
+            <FloatingNav navItems={navItems} />
+            <Hero />
+            <Grid />
 
-
-
-        <RecentProjects />
-
-        <Experience />
-        <Approach />
-        <Footer />
-      </div>
-    </main>
+            <Experience />
+            <Approach />
+            <Footer />
+          </div>
+        </main>
+      )}
+    </>
   );
-};
+}
+   
+
+
 
 export default Home;

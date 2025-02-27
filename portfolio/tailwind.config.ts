@@ -26,6 +26,9 @@ const config = {
       },
     },
     extend: {
+      fontFamily: {
+        pacifico: ["Pacifico", "cursive"],
+      },
       colors: {
         black: {
           DEFAULT: "#000",
