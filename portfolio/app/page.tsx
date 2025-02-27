@@ -15,7 +15,7 @@ import MobileShowcase from "@/components/ProjectComponent";
 import { useEffect, useState } from "react";
 import Loader from './loader';
 
-
+import { Analytics } from "@vercel/analytics/react"
 
 
 const Home = () => {
@@ -28,6 +28,24 @@ const Home = () => {
 
   return (
     <>
+    <Script
+        strategy="afterInteractive"
+        src={`https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX`}
+      />
+      <Script
+        id="google-analytics"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-XXXXXXXXXX', {
+              page_path: window.location.pathname,
+            });
+          `,
+        }}
+      />
       {Loading ? (
       <Loader setLoading={setLoading} />
       ) : (
