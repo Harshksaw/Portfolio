@@ -11,9 +11,10 @@ const Loader = ({ setLoading }: { setLoading: (value: boolean) => void }) => {
     if (textRefs.current.some((el) => el === null)) return;
 
     const tl = gsap.timeline({
-      onComplete: () => setTimeout(() => setLoading(false), 500), // Delay before transition
+      onComplete: () => {
+        setTimeout(() => setLoading(false), 500); // ✅ Fixed: No return value
+      },
     });
-
     // Delay text animation to ensure background stars are visible first
     tl.to(textRefs.current[0], { opacity: 1, y: 0, duration: 1, ease: "power3.out" }, "+=0.8") // Delay added
       .to(textRefs.current[1], { opacity: 1, y: 0, duration: 1, ease: "power3.out" }, "+=0.5")

@@ -11,7 +11,7 @@ import Approach from "@/components/Approach";
 import Experience from "@/components/Experience";
 
 import Loader from "./loader";
-import FourStepClosingTransition from "@/components/Transition";
+
 
 const Home = () => {
   const pathname = usePathname();
