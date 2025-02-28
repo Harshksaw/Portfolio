@@ -7,12 +7,13 @@ import { AnimatePresence, motion } from "framer-motion";
 import Hero from "@/components/Hero";
 import Grid from "@/components/Grid";
 import Footer from "@/components/Footer";
-import Approach from "@/components/Approach";
+
 import Experience from "@/components/Experience";
 
 import Loader from "./loader";
 
-import Showcase from "@/components/Projects/ShowCase";
+
+import ProjectShowcase from "@/components/Projects/ShowCase";
 
 
 
@@ -53,13 +54,13 @@ const Home = () => {
                 ease: "easeInOut", // Smoother motion
               }}
             >
-              <main className="relative bg-black flex justify-center items-center flex-col overflow-hidden mx-auto sm:px-10 px-5">
+              <main className="relative bg-black flex justify-center items-center flex-col overflow-hidden mx-auto sm:px-5 px-2">
                 <div className="max-w-7xl w-full">
                   <Hero />
                   <Grid />
                   <Experience />
 
-                  <Showcase  />
+                  <ProjectShowcase/>
 
                   {/* <Approach /> */}
                   <Footer />
