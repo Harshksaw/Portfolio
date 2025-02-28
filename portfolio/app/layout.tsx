@@ -49,12 +49,10 @@ export default function RootLayout({
         />
       </head>
       <body className={inter.className}>
-        {
-          process.env.NODE_ENV === "production" && (
+
             <Analytics/>
 
-          )
-        }
+
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
