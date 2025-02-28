@@ -2,6 +2,7 @@
 import React from "react";
 import { Timeline } from "@/components/ui/timeline";
 import { TextGenerateEffect } from "./ui/TextGenerateEffect";
+import { useEffect, useState } from "react";
 export const experienceData = [
   {
     title: "Airing Private Limited",
@@ -96,14 +97,18 @@ export const experienceData = [
 
 
 export default function Experience() {
+
   return (
-    <section className="w-full py-12 px-6 md:px-12 lg:px-20">
-      <h2 className="text-4xl font-bold text-slate-200 mb-8 text-center ">💼 <TextGenerateEffect words={"My Experience"} 
+    <section className="w-full py-12 px-6 md:px-12 lg:px-20 mt-8">
+    
+      <h2 className="text-4xl font-bold text-slate-200 mt-12 text-center ">💼 
+      
+My Experience 
 
 
 
 
-      /></h2>
+</h2>
       <Timeline data={experienceData} />
     </section>
   );
