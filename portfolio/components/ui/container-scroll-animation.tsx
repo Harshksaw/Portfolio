@@ -43,7 +43,7 @@ export const ContainerScroll = ({
 
   return (
     <div
-      className="h-[50rem] md:h-[80rem] flex items-center justify-center relative p-0 md:p-20  w-full overflow-hidden"
+      className="h-[60rem] md:h-[80rem] flex items-center justify-center relative p-2 md:p-20  w-full overflow-hidden"
       ref={containerRef}
     >
       <div
@@ -56,9 +56,11 @@ export const ContainerScroll = ({
         <Card rotate={rotate} translate={translate} scale={scale}>
           {children}
         </Card>
-        <div className="w-full   border-1  px-10 flex flex-col gap-5 py-2  sm:w-100px ">
+        <div className="w-full   border-1  px-10 flex flex-col gap-5 py-8  sm:w-100px md:text-2xl ">
 
-        <TextGenerateEffect words={description} />
+        <TextGenerateEffect words={description}
+
+        />
         {/* <TechStackCarousel selectedTech={["react", "nextjs", "nodejs", "postgresql", "docker", "aws", "typescript", "graphql"]} /> */}
         </div>
         

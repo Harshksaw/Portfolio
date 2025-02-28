@@ -11,19 +11,19 @@ import TechStackCarousel from "./TechStackCarousel";
 
   const projects = {
     ekaant: {
-      name: "Ekaant Library Booking",
+      name: "Room & Library Booking",
       description:
         "A full-stack library booking application that enables users to check real-time availability and book seats in multiple locations. It supports custom time slots, admin management, and detailed analytics.",
-      icon: "/ekaant-icon.svg",
-      mobileScreenshots: ["/projects/File3.png", "/projects/File4.png", "/projects/File5.png", "/projects/File6.png", "/projects/File7.png"],
-      webScreenshots: "/projects/File2.png",
+      icon: "/projects/File2.png",
+      mobileScreenshots: ["/projects/File3.png", "/projects/p15.png", "/projects/p16.png" ,"/projects/p17.png", "/projects/File5.png", "/projects/File6.png", "/projects/File7.png"],
+      webScreenshots: "/projects/l1.png",
       techStack: ["react", "nodejs", "aws", "postgresql", "tailwind","grafana", "docker", "typescript"],
     },
     krishnaAcademy: {
-      name: "Krishna Academy LMS",
+      name: "Learning Management System",
       description:
         "A full-fledged Learning Management System (LMS) designed for Krishna Academy. Includes interactive quizzes, video lectures, real-time student progress tracking, and a dedicated admin panel.",
-      icon: "/krishna-academy-icon.svg",
+      icon: "/projects/File1.png",
       mobileScreenshots: ["/projects/File12.png", "/projects/File10.png", "/projects/File11.png", "/projects/File9.png"],
       webScreenshots: "/projects/File1.png",
       techStack: ["react", "nodejs", "aws", "postgresql", "tailwind", "grafana", "docker", "typescript"],

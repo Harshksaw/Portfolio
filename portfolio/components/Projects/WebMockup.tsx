@@ -11,7 +11,7 @@ interface WebMockupProps {
 
 const WebMockup = ({ screenshot, name, description }: WebMockupProps) => {
   return (
-    <div className="relative  -top-50  md:-top-40 inset-0 overflow-hidden h-full w-full">
+    <div className="relative    md:-top-20 inset-0 overflow-hidden h-full w-full">
       <ContainerScroll
         titleComponent={
           <>
