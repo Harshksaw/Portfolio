@@ -34,18 +34,21 @@ const WebMockup = ({ screenshots, name, description }: WebMockupProps) => {
           loop={true}
           autoplay={{ delay: 3000, disableOnInteraction: false }}
           speed={1200}
-          className="rounded-2xl"
+          className="rounded-2xl w-full h-full"
         >
           {screenshots.map((screenshot, index) => (
-            <SwiperSlide key={index}>
-              <Image
-                src={screenshot}
-                alt={`Web Screenshot ${index + 1}`}
-                height={720}
-                width={1400}
-                className="mx-auto rounded-2xl object-cover h-full object-left-top"
-                draggable={false}
-              />
+            <SwiperSlide key={index} className="w-full h-full">
+              <div className="relative w-full h-full aspect-video">
+                <Image
+                  src={screenshot}
+                  alt={`Web Screenshot ${index + 1}`}
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
+                  className="rounded-2xl object-cover object-left-top"
+                  draggable={false}
+                  priority={index === 0}
+                />
+              </div>
             </SwiperSlide>
           ))}
         </Swiper>

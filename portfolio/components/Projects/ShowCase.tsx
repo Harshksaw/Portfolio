@@ -32,10 +32,10 @@ import TechStackCarousel from "./TechStackCarousel";
       name: "Restaurant Ordering System",
       description:
         "A QR-based digital menu and order management system that enhances restaurant efficiency by allowing customers to order and pay seamlessly from their phones.",
-      icon: "/projects/File1.png",
-      mobileScreenshots: ["/projects/File9.png", "/projects/File10.png", "/projects/File11.png", "/projects/File12.png"],
-      webScreenshots: ["/projects/l1.png", "/projects/l2.png", "/projects/l3.png", "/projects/l4.png" ], 
-      techStack: ["nextjs" ,"react", "nodejs", "postgresql", "tailwind", ],
+      icon: "/projects/food.webp",
+      mobileScreenshots: ["/projects/F204.png", "/projects/F205.png", "/projects/F206.png", "/projects/f207.png"],
+      webScreenshots: ["/projects/F201.png", "/projects/F202.png", "/projects/F203.png"], 
+      techStack: ["nextjs" ,"react", "nodejs", "mongodb", "tailwind", ],
     },
   };
   
@@ -92,7 +92,11 @@ const ProjectShowcase = () => {
           ))}
 
           <div>
+
+          <div className="md:hidden ">
+
             <ArrowIndicator />
+          </div>
           </div>
         </Swiper>
       </div>
