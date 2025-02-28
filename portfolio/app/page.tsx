@@ -54,12 +54,12 @@ const Home = () => {
                 ease: "easeInOut", // Smoother motion
               }}
             >
-              <main className="relative bg-black flex justify-center items-center flex-col overflow-hidden mx-auto sm:px-5 px-2">
+              <main className="relative bg-black flex justify-center items-center flex-col overflow-hidden mx-auto sm:px-5 px-5">
                 <div className="max-w-7xl w-full">
                   <Hero />
-                  <Grid />
                   <Experience />
 
+                  <Grid />
                   <ProjectShowcase/>
 
                   {/* <Approach /> */}

@@ -3,14 +3,18 @@ import React, { useRef } from "react";
 import { useScroll, useTransform, motion, MotionValue } from "framer-motion";
 import { TextGenerateEffect } from "./TextGenerateEffect";
 
+
+
 export const ContainerScroll = ({
   titleComponent,
   children,
-  description
+  description,
+
 }: {
   titleComponent: string | React.ReactNode;
   children: React.ReactNode;
   description: string;
+
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -39,7 +43,7 @@ export const ContainerScroll = ({
 
   return (
     <div
-      className="h-[50rem] md:h-[80rem] flex items-center justify-center relative p-0 md:p-20 w-full overflow-hidden"
+      className="h-[50rem] md:h-[80rem] flex items-center justify-center relative p-0 md:p-20  w-full overflow-hidden"
       ref={containerRef}
     >
       <div
@@ -52,10 +56,13 @@ export const ContainerScroll = ({
         <Card rotate={rotate} translate={translate} scale={scale}>
           {children}
         </Card>
-        <div className="w-full  border-1  px-10 ">
+        <div className="w-full   border-1  px-10 flex flex-col gap-5 py-2  sm:w-100px ">
 
         <TextGenerateEffect words={description} />
+        {/* <TechStackCarousel selectedTech={["react", "nextjs", "nodejs", "postgresql", "docker", "aws", "typescript", "graphql"]} /> */}
         </div>
+        
+
 
       </div>
     </div>

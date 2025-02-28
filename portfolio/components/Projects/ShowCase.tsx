@@ -5,6 +5,7 @@ import ProjectDetails from "./ProjectDetails";
 import PhoneMockup from "./PhoneMockup";
 import WebMockup from "./WebMockup";
 import { motion } from "framer-motion";
+import TechStackCarousel from "./TechStackCarousel";
 
 // Sample Data: Each Project has a Mobile & Web Showcase
 const projects = {
@@ -14,6 +15,8 @@ const projects = {
     icon: "/exp1.svg",
     mobileScreenshots: ["/ss.png", "/ss.png", "/ss.png"],
     webScreenshots: "/web1.png",
+    techStack: [ "react", "nodejs", "aws", "postgresql", "tailwind", "nextjs", "graphql"],
+
   },
   restaurant: {
     name: "Restaurant Ordering System",
@@ -21,6 +24,7 @@ const projects = {
     icon: "/exp2.svg",
     mobileScreenshots: ["/ss.png", "/ss.png"],
     webScreenshots: "/web1.png",
+    techStack: [ "react", "nodejs", "aws", "postgresql", "tailwind", "nextjs", "graphql"],
   },
 };
 
@@ -28,7 +32,7 @@ const ProjectShowcase = () => {
   const [selectedProject, setSelectedProject] = useState<keyof typeof projects>("ekaant");
 
   return (
-    <div className="flex flex-col items-center gap-6 py-10 bg-gradient-to-b from-black to-gray-900 text-white">
+    <div className="flex flex-col justify-center items-center gap-6 py-10 bg-gradient-to-b from-black to-gray-900 text-white  ">
       <h2 className="text-4xl font-bold mb-6"> MY Projects</h2>
 
       {/* Project Selection Carousel */}
@@ -49,7 +53,7 @@ const ProjectShowcase = () => {
       </div>
 
       {/* Screenshots Showcase */}
-      <div className="flex flex-col lg:flex-row items-center gap-0">
+      <div className="flex flex-col justify-center  items-center gap-0">
         {/* Mobile Showcase */}
         <PhoneMockup screenshots={projects[selectedProject].mobileScreenshots} />
 
@@ -58,9 +62,15 @@ const ProjectShowcase = () => {
             screenshot={projects[selectedProject].webScreenshots}
             name={projects[selectedProject].name}
             description={projects[selectedProject].description}
+
           />
+      
 
       </div>
+      <div className="relative w-full flex justify-center">
+
+<TechStackCarousel selectedTech={projects[selectedProject].techStack} />
+  </div>
     </div>
   );
 };

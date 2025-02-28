@@ -6,6 +6,7 @@ interface WebMockupProps {
   screenshot: string;
   name: string;
   description: string;
+
 }
 
 const WebMockup = ({ screenshot, name, description }: WebMockupProps) => {
@@ -22,6 +23,7 @@ const WebMockup = ({ screenshot, name, description }: WebMockupProps) => {
           </>
         }
         description={description}
+
       >
         <Image
           src={screenshot}

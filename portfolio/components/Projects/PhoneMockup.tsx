@@ -10,7 +10,7 @@ interface PhoneMockupProps {
 const PhoneMockup = ({ screenshots }: PhoneMockupProps) => {
   return (
     <motion.div
-      className="relative w-[250px] h-[500px] bg-black rounded-[40px] border-[8px] border-gray-800 shadow-2xl overflow-hidden"
+      className=" relative w-[250px] h-[500px]    bg-black rounded-[40px] border-[8px] border-gray-800 shadow-2xl overflow-hidden"
       initial={{ scale: 0.9, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
       transition={{ duration: 0.8 }}
