@@ -5,7 +5,7 @@ import { Inter } from "next/font/google";
 
 import "./globals.css";
 import { ThemeProvider } from "./provider";
-import { Analytics } from "@vercel/analytics/react"
+// import { Analytics } from "@vercel/analytics/react"
 import Script from "next/script";
 
 
@@ -49,12 +49,12 @@ export default function RootLayout({
         />
       </head>
       <body className={inter.className}>
-        {
+        {/* {
           process.env.NODE_ENV === "production" && (
             <Analytics/>
 
           )
-        }
+        } */}
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"

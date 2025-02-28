@@ -1,58 +1,55 @@
 "use client";
 
-import { usePathname } from "next/navigation"; // ✅ Correct method in App Router
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-
 
 import Hero from "@/components/Hero";
 import Grid from "@/components/Grid";
 import Footer from "@/components/Footer";
 import Approach from "@/components/Approach";
 import Experience from "@/components/Experience";
-// import { FloatingNav } from "@/components/ui/FloatingNavbar";
-import Loader from "./loader";
-import WaterTransition from "@/components/WaterTransistion";
 
+import Loader from "./loader";
+import FourStepClosingTransition from "@/components/Transition";
 
 
 const Home = () => {
-  const pathname = usePathname(); // ✅ Get the current path
+  const pathname = usePathname();
   const [loading, setLoading] = useState(true);
-  const [showWater, setShowWater] = useState(false);
+  const [Transition, setTransition] = useState(false);
 
   useEffect(() => {
-    setTimeout(() => setLoading(false), 3000); // 3s for intro text animation
+    setTimeout(() => setLoading(false), 4000); // Loader runs for 4s
   }, []);
 
   useEffect(() => {
     if (!loading) {
-      setShowWater(true);
-      setTimeout(() => setShowWater(false), 1200); // Water effect lasts 1.2s
+      setTransition(true);
+      setTimeout(() => setTransition(false), 1200); // Water effect lasts 1.2s for smooth transition
     }
   }, [loading]);
 
   return (
     <>
-      {loading ? (
-        <Loader setLoading={setLoading} />
-      ) : (
-        <>
-          {/* {showWater && <WaterTransition isActive={showWater} />} */}
+      <AnimatePresence mode="wait">
+        {loading ? (
+          <Loader setLoading={setLoading} />
+        ) : (
+          <>
+            <AnimatePresence>
+              {Transition && <FourStepClosingTransition isActive={Transition} />}
+            </AnimatePresence>
 
-          <AnimatePresence mode="wait">
             <motion.div
-              key={pathname} // ✅ Now pathname is used instead of router.route
+              key={pathname}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.5, ease: "easeInOut" }}
+              transition={{ duration: 0.6, ease: "easeInOut" }}
             >
-
-              {showWater && <WaterTransition isActive={showWater} />} {/* ✅ Move WaterTransition inside AnimatePresence */}
-              <main className="relative bg-black-100 flex justify-center items-center flex-col overflow-hidden mx-auto sm:px-10 px-5">
+              <main className="relative bg-black flex justify-center items-center flex-col overflow-hidden mx-auto sm:px-10 px-5">
                 <div className="max-w-7xl w-full">
-                  {/* <FloatingNav /> */}
                   <Hero />
                   <Grid />
                   <Experience />
@@ -61,9 +58,9 @@ const Home = () => {
                 </div>
               </main>
             </motion.div>
-          </AnimatePresence>
-        </>
-      )}
+          </>
+        )}
+      </AnimatePresence>
     </>
   );
 };
