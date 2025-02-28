@@ -13,22 +13,21 @@ import Experience from "@/components/Experience";
 import Loader from "./loader";
 import FourStepClosingTransition from "@/components/Transition";
 
-
 const Home = () => {
   const pathname = usePathname();
   const [loading, setLoading] = useState(true);
-  const [Transition, setTransition] = useState(false);
+  const [transition, setTransition] = useState(false);
 
   useEffect(() => {
     setTimeout(() => setLoading(false), 4000); // Loader runs for 4s
   }, []);
 
-  useEffect(() => {
-    if (!loading) {
-      setTransition(true);
-      setTimeout(() => setTransition(false), 1200); // Water effect lasts 1.2s for smooth transition
-    }
-  }, [loading]);
+  // useEffect(() => {
+  //   if (!loading) {
+  //     setTransition(true);
+  //     setTimeout(() => setTransition(false), 1200); // Background transition lasts 1.2s
+  //   }
+  // }, [loading]);
 
   return (
     <>
@@ -37,16 +36,19 @@ const Home = () => {
           <Loader setLoading={setLoading} />
         ) : (
           <>
-            <AnimatePresence>
-              {Transition && <FourStepClosingTransition isActive={Transition} />}
-            </AnimatePresence>
+            {/* <AnimatePresence>
+              {transition && <FourStepClosingTransition isActive={transition} />}
+            </AnimatePresence> */}
 
-            <motion.div
+<motion.div
               key={pathname}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.6, ease: "easeInOut" }}
+              transition={{
+                duration: 1, // Longer fade-in
+                ease: "easeInOut", // Smoother motion
+              }}
             >
               <main className="relative bg-black flex justify-center items-center flex-col overflow-hidden mx-auto sm:px-10 px-5">
                 <div className="max-w-7xl w-full">
