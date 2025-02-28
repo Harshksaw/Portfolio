@@ -1,7 +1,9 @@
+"use client"
 import { motion } from "framer-motion";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import Image from "next/image";
+import { Autoplay } from "swiper/modules";
 
 interface PhoneMockupProps {
   screenshots: string[];
@@ -20,16 +22,27 @@ const PhoneMockup = ({ screenshots }: PhoneMockupProps) => {
 
       {/* Mobile Screenshots */}
       <div className="absolute top-1 left-1 right-1 bottom-1 overflow-hidden rounded-md">
-        <Swiper loop autoplay={{ delay: 2000 }}>
+        <Swiper
+          modules={[Autoplay]}
+          spaceBetween={10}
+          slidesPerView={1}
+          loop={true}
+          autoplay={{ delay: 1500, disableOnInteraction: false }}
+          speed={800}
+          className="w-full h-full"
+        >
           {screenshots.map((src, index) => (
-            <SwiperSlide key={index}>
-              <Image
-                src={src}
-                alt={`Mobile Screenshot ${index + 1}`}
-                width={280}
-                height={550}
-                className="w-full h-full object-cover rounded-[30px]"
-              />
+            <SwiperSlide key={index} className="w-full h-full">
+              <div className="relative w-full h-full">
+                <Image
+                  src={src}
+                  alt={`Mobile Screenshot ${index + 1}`}
+                  fill
+                  sizes="250px"
+                  className="object-cover object-top rounded-[30px]"
+                  priority={index === 0}
+                />
+              </div>
             </SwiperSlide>
           ))}
         </Swiper>

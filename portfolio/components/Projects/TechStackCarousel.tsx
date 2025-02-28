@@ -9,8 +9,11 @@ interface TechStackCarouselProps {
   selectedTech: string[];
 }
 
+// Define type for tech keys
+type TechKey = keyof typeof allTechStackData;
+
 // Predefined Tech Stack Icons
-const allTechStacks = {
+const allTechStackData = {
   nextjs: { name: "Next.js", icon: "/nextjs.svg" },
   react: { name: "React", icon: "/react-icon.svg" },
   nodejs: { name: "Node.js", icon: "/nodejs.svg" },
@@ -27,6 +30,8 @@ const allTechStacks = {
   grafana: { name: "Grafana", icon: "/grafana.svg" },
   vite: { name: "Vite", icon: "/Vite.js.svg" },
 };
+
+const allTechStacks = allTechStackData as Record<string, { name: string; icon: string }>;
 
 const TechStackCarousel: React.FC<TechStackCarouselProps> = ({ selectedTech }) => {
   const techStacks = selectedTech.map((tech) => allTechStacks[tech]).filter(Boolean);

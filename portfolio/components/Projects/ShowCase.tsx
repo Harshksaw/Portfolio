@@ -33,7 +33,7 @@ import TechStackCarousel from "./TechStackCarousel";
       description:
         "A QR-based digital menu and order management system that enhances restaurant efficiency by allowing customers to order and pay seamlessly from their phones.",
       icon: "/projects/food.webp",
-      mobileScreenshots: ["/projects/F204.png", "/projects/F205.png", "/projects/F206.png", "/projects/f207.png"],
+      mobileScreenshots: ["/projects/F204.png", "/projects/F205.png","/projects/F206.png", "/projects/F207.png"],
       webScreenshots: ["/projects/F201.png", "/projects/F202.png", "/projects/F203.png"], 
       techStack: ["nextjs" ,"react", "nodejs", "mongodb", "tailwind", ],
     },
