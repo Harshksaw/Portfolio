@@ -8,25 +8,39 @@ import { motion } from "framer-motion";
 import TechStackCarousel from "./TechStackCarousel";
 
 // Sample Data: Each Project has a Mobile & Web Showcase
-const projects = {
-  ekaant: {
-    name: "Ekaant Library Booking",
-    description: "A library seat booking system with real-time availability.A library seat booking system with real-time availability A library seat booking system with real-time availability A library seat booking system with real-time availability",
-    icon: "/exp1.svg",
-    mobileScreenshots: ["/ss.png", "/ss.png", "/ss.png"],
-    webScreenshots: "/web1.png",
-    techStack: [ "react", "nodejs", "aws", "postgresql", "tailwind", "nextjs", "graphql"],
 
-  },
-  restaurant: {
-    name: "Restaurant Ordering System",
-    description: "A QR-based menu and order management system.",
-    icon: "/exp2.svg",
-    mobileScreenshots: ["/ss.png", "/ss.png"],
-    webScreenshots: "/web1.png",
-    techStack: [ "react", "nodejs", "aws", "postgresql", "tailwind", "nextjs", "graphql"],
-  },
-};
+  const projects = {
+    ekaant: {
+      name: "Ekaant Library Booking",
+      description:
+        "A full-stack library booking application that enables users to check real-time availability and book seats in multiple locations. It supports custom time slots, admin management, and detailed analytics.",
+      icon: "/ekaant-icon.svg",
+      mobileScreenshots: ["/projects/File3.png", "/projects/File4.png", "/projects/File5.png", "/projects/File6.png", "/projects/File7.png"],
+      webScreenshots: "/projects/File2.png",
+      techStack: ["react", "nodejs", "aws", "postgresql", "tailwind","grafana", "docker", "typescript"],
+    },
+    krishnaAcademy: {
+      name: "Krishna Academy LMS",
+      description:
+        "A full-fledged Learning Management System (LMS) designed for Krishna Academy. Includes interactive quizzes, video lectures, real-time student progress tracking, and a dedicated admin panel.",
+      icon: "/krishna-academy-icon.svg",
+      mobileScreenshots: ["/projects/File12.png", "/projects/File10.png", "/projects/File11.png", "/projects/File9.png"],
+      webScreenshots: "/projects/File1.png",
+      techStack: ["react", "nodejs", "aws", "postgresql", "tailwind", "grafana", "docker", "typescript"],
+    },
+    restaurant: {
+      name: "Restaurant Ordering System",
+      description:
+        "A QR-based digital menu and order management system that enhances restaurant efficiency by allowing customers to order and pay seamlessly from their phones.",
+      icon: "/restaurant-icon.svg",
+      mobileScreenshots: ["/projects/File9.png", "/projects/File10.png", "/projects/File11.png", "/projects/File12.png"],
+      webScreenshots: "/projects/File1.png",
+      techStack: ["nextjs" ,"react", "nodejs", "postgresql", "tailwind", ],
+    },
+  };
+  
+
+  
 
 const ProjectShowcase = () => {
   const [selectedProject, setSelectedProject] = useState<keyof typeof projects>("ekaant");
