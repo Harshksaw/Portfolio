@@ -23,7 +23,7 @@ const Home = () => {
   const [transition, setTransition] = useState(false);
 
   useEffect(() => {
-    setTimeout(() => setLoading(false), 4000); // Loader runs for 4s
+    setTimeout(() => setLoading(false), 4500); // Loader runs for 4s
   }, []);
 
   // useEffect(() => {
