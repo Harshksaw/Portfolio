@@ -43,7 +43,8 @@ export const ContainerScroll = ({
 
   return (
     <div
-      className="h-[60rem] md:h-[80rem] flex items-center justify-center relative p-2 md:p-20  w-full overflow-hidden"
+      className="h-[70rem] md:h-[80rem] flex items-center justify-center relative p-2 md:p-20  
+      w-full overflow-hidden"
       ref={containerRef}
     >
       <div
@@ -56,7 +57,7 @@ export const ContainerScroll = ({
         <Card rotate={rotate} translate={translate} scale={scale}>
           {children}
         </Card>
-        <div className="w-full   border-1  px-10 flex flex-col gap-5 py-8  sm:w-100px md:text-2xl ">
+        <div className="w-full   border-1  px-10 flex flex-col gap-5 py-8   md:text-2xl ">
 
         <TextGenerateEffect words={description}
 
@@ -87,6 +88,7 @@ export const Header = ({ translate, titleComponent }: any) => {
 export const Card = ({
   rotate,
   scale,
+  translate,
   children,
 }: {
   rotate: MotionValue<number>;
@@ -95,17 +97,19 @@ export const Card = ({
   children: React.ReactNode;
 }) => {
   return (
+    
     <motion.div
       style={{
       rotateX: rotate,
       scale,
+      translateY: translate,
       boxShadow:
-          "0 0 #0000004d, 0 9px 20px #0000004a, 0 37px 37px #00000042, 0 84px 50px #00000026, 0 149px 60px #0000000a, 0 233px 65px #00000003",
+        "0 0 #0000004d, 0 9px 20px #0000004a, 0 37px 37px #00000042, 0 84px 50px #00000026, 0 149px 60px #0000000a, 0 233px 65px #00000003",
       }}
-      className="max-w-5xl -mt-12 mx-auto h-[24rem] md:h-[36rem] w-[26rem]  md:w-full border-4 border-[#6C6C6C] p-2 md:p-6 bg-[#222222] rounded-[30px] shadow-2xl"
+      className="max-w-5xl  mt-32  mx-auto h-[24rem] md:h-[40rem] w-[24rem] md:w-[90%] border-4 border-[#6C6C6C] p-2 md:p-6 bg-[#222222] rounded-[30px] shadow-2xl"
     >
-      <div className=" h-full w-full  overflow-hidden rounded-2xl bg-gray-100 dark:bg-zinc-900 md:rounded-2xl md:p-4 ">
-        {children}
+      <div className="h-full w-full overflow-hidden rounded-2xl bg-gray-100 dark:bg-zinc-900 md:rounded-2xl md:p-4">
+      {children}
       </div>
     </motion.div>
   );
