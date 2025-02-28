@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { ContainerScroll } from "../ui/container-scroll-animation";
+import { TextGenerateEffect } from "../ui/TextGenerateEffect";
 
 interface WebMockupProps {
   screenshot: string;
@@ -20,6 +21,7 @@ const WebMockup = ({ screenshot, name, description }: WebMockupProps) => {
             </h1>
           </>
         }
+        description={description}
       >
         <Image
           src={screenshot}
@@ -29,6 +31,8 @@ const WebMockup = ({ screenshot, name, description }: WebMockupProps) => {
           className="mx-auto rounded-2xl object-cover h-full object-left-top"
           draggable={false}
         />
+           
+
       </ContainerScroll>
     </div>
   );

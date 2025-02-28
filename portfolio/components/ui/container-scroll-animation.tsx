@@ -1,13 +1,16 @@
 "use client";
 import React, { useRef } from "react";
 import { useScroll, useTransform, motion, MotionValue } from "framer-motion";
+import { TextGenerateEffect } from "./TextGenerateEffect";
 
 export const ContainerScroll = ({
   titleComponent,
   children,
+  description
 }: {
   titleComponent: string | React.ReactNode;
   children: React.ReactNode;
+  description: string;
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -49,6 +52,11 @@ export const ContainerScroll = ({
         <Card rotate={rotate} translate={translate} scale={scale}>
           {children}
         </Card>
+        <div className="w-full  border-1  px-10 ">
+
+        <TextGenerateEffect words={description} />
+        </div>
+
       </div>
     </div>
   );

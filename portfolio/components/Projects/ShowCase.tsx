@@ -10,7 +10,7 @@ import { motion } from "framer-motion";
 const projects = {
   ekaant: {
     name: "Ekaant Library Booking",
-    description: "A library seat booking system with real-time availability.",
+    description: "A library seat booking system with real-time availability.A library seat booking system with real-time availability A library seat booking system with real-time availability A library seat booking system with real-time availability",
     icon: "/exp1.svg",
     mobileScreenshots: ["/ss.png", "/ss.png", "/ss.png"],
     webScreenshots: "/web1.png",
