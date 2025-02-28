@@ -12,6 +12,9 @@ import Experience from "@/components/Experience";
 
 import Loader from "./loader";
 
+import Showcase from "@/components/Projects/ShowCase";
+
+
 
 const Home = () => {
   const pathname = usePathname();
@@ -55,7 +58,10 @@ const Home = () => {
                   <Hero />
                   <Grid />
                   <Experience />
-                  <Approach />
+
+                  <Showcase  />
+
+                  {/* <Approach /> */}
                   <Footer />
                 </div>
               </main>
