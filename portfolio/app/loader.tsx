@@ -15,11 +15,12 @@ const Loader = ({ setLoading }: { setLoading: (value: boolean) => void }) => {
         setTimeout(() => setLoading(false), 500); // ✅ Fixed: No return value
       },
     });
+
     // Delay text animation to ensure background stars are visible first
-    tl.to(textRefs.current[0], { opacity: 1, y: 0, duration: 1, ease: "power3.out" }, "+=0.8") // Delay added
+    tl.to(textRefs.current[0], { opacity: 1, y: 0, duration: 1, ease: "power3.out" }, "+=0.8")
       .to(textRefs.current[1], { opacity: 1, y: 0, duration: 1, ease: "power3.out" }, "+=0.5")
       .to(textRefs.current[2], { opacity: 1, y: 0, duration: 1, ease: "power3.out" }, "+=0.5")
-      .to(textRefs.current.filter(Boolean), { opacity: 0, duration: 0.6, ease: "power3.inOut" }, "+=1.5"); // Extended delay before fade-out
+      .to(textRefs.current.filter(Boolean), { opacity: 0, duration: 0.6, ease: "power3.inOut" }, "+=1.5");
 
   }, [setLoading]);
 
@@ -34,10 +35,20 @@ const Loader = ({ setLoading }: { setLoading: (value: boolean) => void }) => {
 
       {/* Text Loader */}
       <div className="flex flex-col items-center gap-5 relative z-10">
-        <span ref={(el) => (textRefs.current[0] = el)} className="opacity-0 translate-y-10">
+        <span
+          ref={(el) => {
+            textRefs.current[0] = el; // ✅ Fixed: No return value
+          }}
+          className="opacity-0 translate-y-10"
+        >
           Hi,
         </span>
-        <span ref={(el) => (textRefs.current[1] = el)} className="flex opacity-0 translate-y-10 gap-4">
+        <span
+          ref={(el) => {
+            textRefs.current[1] = el; // ✅ Fixed: No return value
+          }}
+          className="flex opacity-0 translate-y-10 gap-4"
+        >
           <span
             className="text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500"
             style={{ fontFamily: "Pacifico, cursive" }}
@@ -46,7 +57,12 @@ const Loader = ({ setLoading }: { setLoading: (value: boolean) => void }) => {
           </span>
           here
         </span>
-        <span ref={(el) => (textRefs.current[2] = el)} className="opacity-0 translate-y-10 text-gray-400 text-lg">
+        <span
+          ref={(el) => {
+            textRefs.current[2] = el; // ✅ Fixed: No return value
+          }}
+          className="opacity-0 translate-y-10 text-gray-400 text-lg"
+        >
           {"</>"} Crafting Code, Building Dreams.
         </span>
       </div>
