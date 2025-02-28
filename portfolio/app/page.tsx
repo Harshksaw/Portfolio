@@ -1,35 +1,69 @@
 "use client";
 
-import { navItems } from "@/data";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 
 import Hero from "@/components/Hero";
 import Grid from "@/components/Grid";
 import Footer from "@/components/Footer";
-
 import Approach from "@/components/Approach";
 import Experience from "@/components/Experience";
-import RecentProjects from "@/components/RecentProjects";
-import { FloatingNav } from "@/components/ui/FloatingNavbar";
 
-import MobileShowcase from "@/components/ProjectComponent";
+import Loader from "./loader";
+
 
 const Home = () => {
+  const pathname = usePathname();
+  const [loading, setLoading] = useState(true);
+  const [transition, setTransition] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => setLoading(false), 4000); // Loader runs for 4s
+  }, []);
+
+  // useEffect(() => {
+  //   if (!loading) {
+  //     setTransition(true);
+  //     setTimeout(() => setTransition(false), 1200); // Background transition lasts 1.2s
+  //   }
+  // }, [loading]);
+
   return (
-    <main className="relative bg-black-100 flex justify-center items-center flex-col overflow-hidden mx-auto sm:px-10 px-5">
-      <div className="max-w-7xl w-full">
-        <FloatingNav navItems={navItems} />
-        <Hero />
-        <Grid />
+    <>
+      <AnimatePresence mode="wait">
+        {loading ? (
+          <Loader setLoading={setLoading} />
+        ) : (
+          <>
+            {/* <AnimatePresence>
+              {transition && <FourStepClosingTransition isActive={transition} />}
+            </AnimatePresence> */}
 
-
-
-        <RecentProjects />
-
-        <Experience />
-        <Approach />
-        <Footer />
-      </div>
-    </main>
+<motion.div
+              key={pathname}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{
+                duration: 1, // Longer fade-in
+                ease: "easeInOut", // Smoother motion
+              }}
+            >
+              <main className="relative bg-black flex justify-center items-center flex-col overflow-hidden mx-auto sm:px-10 px-5">
+                <div className="max-w-7xl w-full">
+                  <Hero />
+                  <Grid />
+                  <Experience />
+                  <Approach />
+                  <Footer />
+                </div>
+              </main>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+    </>
   );
 };
 
