@@ -19,7 +19,7 @@ const techStack = [
   { name: "MongoDB", logo: "/mongodb.svg" },
   { name: "NestJs", logo: "/nestjs.svg" },
   { name: "Kubernetes", logo: "/kubernetes-144.png" },
-  { name: "Grafan", logo: "/grafana.svg" },
+  { name: "Grafana", logo: "/grafana.svg" },
 ];
 
 // Function to position logos in 3D space

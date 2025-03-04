@@ -8,7 +8,7 @@ import { ThemeProvider } from "./provider";
 import { Analytics } from "@vercel/analytics/react"
 import Script from "next/script";
 
-
+import { SpeedInsights } from "@vercel/speed-insights/next"
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -51,6 +51,7 @@ export default function RootLayout({
       <body className={inter.className}>
 
             <Analytics/>
+            <SpeedInsights/>
 
 
         <ThemeProvider
