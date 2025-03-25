@@ -1,76 +1,76 @@
 "use client";
-
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, lazy, Suspense } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-
+import dynamic from "next/dynamic";
 import Hero from "@/components/Hero";
-import Grid from "@/components/Grid";
-import Footer from "@/components/Footer";
+// Lazy load components that aren't needed immediately
+const Grid = lazy(() => import("@/components/Grid"));
+const Footer = lazy(() => import("@/components/Footer"));
+const Experience = lazy(() => import("@/components/Experience"));
+const ProjectShowcase = lazy(() => import("@/components/Projects/ShowCase"));
 
-import Experience from "@/components/Experience";
-
-import Loader from "./loader";
-
-
-import ProjectShowcase from "@/components/Projects/ShowCase";
-
-
+// Dynamic import with SSR disabled for the loader
+const Loader = dynamic(() => import("./loader"), { ssr: false });
 
 const Home = () => {
   const pathname = usePathname();
   const [loading, setLoading] = useState(true);
-  const [transition, setTransition] = useState(false);
-
+  
   useEffect(() => {
-    setTimeout(() => setLoading(false), 4500); // Loader runs for 4s
+    // Reduce loader time to improve performance
+    const timer = setTimeout(() => setLoading(false), 3500); // Reduced from 4500ms to 2000ms
+    
+    // Preload components after loader starts
+    const preload = async () => {
+      const promises = [
+        import("@/components/Grid"),
+        import("@/components/Experience"),
+        import("@/components/Projects/ShowCase")
+      ];
+      await Promise.all(promises);
+    };
+    
+    preload();
+    
+    return () => clearTimeout(timer); // Clean up timer on unmount
   }, []);
 
-  // useEffect(() => {
-  //   if (!loading) {
-  //     setTransition(true);
-  //     setTimeout(() => setTransition(false), 1200); // Background transition lasts 1.2s
-  //   }
-  // }, [loading]);
-
   return (
-    <>
-      <AnimatePresence mode="wait">
-        {loading ? (
-          <Loader setLoading={setLoading} />
-        ) : (
-          <>
-            {/* <AnimatePresence>
-              {transition && <FourStepClosingTransition isActive={transition} />}
-            </AnimatePresence> */}
-
-<motion.div
-              key={pathname}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{
-                duration: 1, // Longer fade-in
-                ease: "easeInOut", // Smoother motion
-              }}
-            >
-              <main className="relative bg-black flex justify-center items-center flex-col overflow-hidden mx-auto sm:px-5 px-5">
-                <div className="max-w-7xl w-full">
-                  <Hero />
-                  <Experience />
-
-                  <Grid />
-                  <ProjectShowcase/>
-
-                  {/* <Approach /> */}
-                  <Footer />
-                </div>
-              </main>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
-    </>
+    <AnimatePresence mode="wait">
+      {loading ? (
+        <Loader setLoading={setLoading} />
+      ) : (
+        <motion.div
+          key={pathname}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{
+            duration: 0.3, // Reduced animation time
+            ease: "easeOut",
+          }}
+        >
+          <main className="relative bg-black flex justify-center items-center flex-col overflow-hidden mx-auto sm:px-5 px-5">
+            <div className="max-w-7xl w-full">
+              <Hero />
+              <Suspense fallback={<div className="h-96 w-full flex items-center justify-center">Loading experience...</div>}>
+                <Experience />
+              </Suspense>
+              <Suspense fallback={<div className="h-96 w-full flex items-center justify-center">Loading grid...</div>}>
+                <Grid />
+              </Suspense>
+              <Suspense fallback={<div className="h-96 w-full flex items-center justify-center">Loading projects...</div>}>
+                <ProjectShowcase />
+              </Suspense>
+              <Suspense fallback={<div className="h-24 w-full"></div>}>
+                <Footer />
+              </Suspense>
+            </div>
+          </main>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };
 
