@@ -1,56 +1,141 @@
-"use client"
+
+// components/Projects/PhoneMockup.tsx
 import { motion } from "framer-motion";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, EffectFade } from "swiper/modules";
 import "swiper/css";
+import "swiper/css/effect-fade";
 import Image from "next/image";
-import { Autoplay } from "swiper/modules";
+import { useState } from "react";
 
 interface PhoneMockupProps {
   screenshots: string[];
+  animate?: boolean;
 }
 
-const PhoneMockup = ({ screenshots }: PhoneMockupProps) => {
+const PhoneMockup = ({ screenshots, animate = true }: PhoneMockupProps) => {
+  const [imagesLoaded, setImagesLoaded] = useState(0);
+  const totalImages = screenshots.length;
+  
+  const handleImageLoad = () => {
+    setImagesLoaded(prev => prev + 1);
+  };
+
+  const isFullyLoaded = imagesLoaded > 0;
+
   return (
-    <motion.div
-      className=" relative w-[250px] h-[500px]    bg-black rounded-[40px] border-[8px] border-gray-800 shadow-2xl overflow-hidden"
-      initial={{ scale: 0.9, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      transition={{ duration: 0.8 }}
-    >
-      {/* Speaker */}
-      <div className="absolute top-3 left-1/2 -translate-x-1/2 w-24 h-3 bg-gray-700 rounded-full"></div>
+    <div className="relative">
+      {/* Phone frame */}
+      <motion.div
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={animate ? { scale: 1, opacity: 1, rotateY: [0, 5, 0, -5, 0] } : { scale: 0.9, opacity: 0 }}
+        transition={{ 
+          duration: 1.2,
+          ease: "easeOut",
+          rotateY: {
+            times: [0, 0.2, 0.5, 0.8, 1],
+            duration: 2.5,
+            ease: "easeInOut",
+            loop: Infinity,
+            repeatDelay: 1
+          }
+        }}
+        className="relative w-[280px] h-[580px] bg-black rounded-[40px] border-[8px] border-gray-800 shadow-2xl overflow-hidden"
+      >
+        {/* Phone top notch */}
+        <div className="absolute top-0 left-0 right-0 h-6 flex justify-center items-start z-10">
+          <div className="bg-black h-6 w-40 rounded-b-2xl flex items-center justify-center">
+            <div className="bg-gray-800 h-2 w-20 rounded-full"></div>
+          </div>
+        </div>
+        
+        {/* Speaker */}
+        <div className="absolute top-2 left-1/2 -translate-x-1/2 w-16 h-2 bg-gray-800 rounded-full z-20"></div>
+        
+        {/* Status bar */}
+        <div className="absolute top-1 left-0 right-0 px-6 h-6 flex justify-between items-center z-20">
+          <div className="text-white text-xs">9:41</div>
+          <div className="flex items-center gap-1">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
+              <path d="M18 10a6 6 0 0 0-12 0v8h12v-8z"></path>
+              <path d="M20 14v-3a8 8 0 0 0-16 0v3"></path>
+            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
+              <path d="M2 2a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2z"></path>
+              <path d="M6 12h12"></path>
+              <path d="M12 18V6"></path>
+            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
+              <path d="M3 2h1a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z"></path>
+              <path d="M8 4h1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z"></path>
+              <path d="M13 6h1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1h-1a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1z"></path>
+              <path d="M18 8h1a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1h-1a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"></path>
+            </svg>
+          </div>
+        </div>
 
-      {/* Mobile Screenshots */}
-      <div className="absolute top-1 left-1 right-1 bottom-1 overflow-hidden rounded-md">
-        <Swiper
-          modules={[Autoplay]}
-          spaceBetween={10}
-          slidesPerView={1}
-          loop={true}
-          autoplay={{ delay: 1500, disableOnInteraction: false }}
-          speed={800}
-          className="w-full h-full"
-        >
-          {screenshots.map((src, index) => (
-            <SwiperSlide key={index} className="w-full h-full">
-              <div className="relative w-full h-full">
-                <Image
-                  src={src}
-                  alt={`Mobile Screenshot ${index + 1}`}
-                  fill
-                  sizes="250px"
-                  className="object-cover object-top rounded-[30px]"
-                  priority={index === 0}
-                />
-              </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </div>
+        {/* Loading indicator */}
+        {!isFullyLoaded && (
+          <div className="absolute inset-0 flex items-center justify-center bg-gray-900 z-30">
+            <div className="w-12 h-12 border-t-2 border-l-2 border-blue-500 rounded-full animate-spin"></div>
+          </div>
+        )}
 
-      {/* Home Button */}
-      {/* <div className="absolute bottom-3 left-1/2 -translate-x-1/2 w-10 h-10 bg-gray-900 rounded-full"></div> */}
-    </motion.div>
+        {/* Mobile Screenshots */}
+        <div className="absolute top-0 left-0 right-0 bottom-0 overflow-hidden">
+          <Swiper
+            modules={[Autoplay, EffectFade]}
+            effect="fade"
+            spaceBetween={0}
+            slidesPerView={1}
+            loop={true}
+            autoplay={{ 
+              delay: 2000, 
+              disableOnInteraction: false,
+              pauseOnMouseEnter: true
+            }}
+            speed={1000}
+            className="w-full h-full"
+          >
+            {screenshots.map((src, index) => (
+              <SwiperSlide key={index} className="w-full h-full">
+                <div className="relative w-full h-full">
+                  <Image
+                    src={src}
+                    alt={`Mobile Screenshot ${index + 1}`}
+                    fill
+                    sizes="280px"
+                    className="object-cover"
+                    priority={index === 0}
+                    onLoad={handleImageLoad}
+                    loading={index === 0 ? "eager" : "lazy"}
+                  />
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
+        
+        {/* Home Indicator */}
+        <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-32 h-1 bg-white rounded-full z-20"></div>
+      </motion.div>
+      
+      {/* Reflection effect */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={animate ? { opacity: 0.5 } : { opacity: 0 }}
+        transition={{ delay: 0.5, duration: 0.8 }}
+        className="absolute top-1/4 left-1/2 -translate-x-1/2 w-3/4 h-1/2 bg-gradient-to-b from-blue-400/10 to-transparent blur-xl -z-10 rounded-full"
+      />
+      
+      {/* Phone shadow */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={animate ? { opacity: 0.2, scale: 1 } : { opacity: 0, scale: 0.8 }}
+        transition={{ delay: 0.3, duration: 1 }}
+        className="absolute -bottom-10 left-1/2 -translate-x-1/2 w-[200px] h-[20px] bg-black blur-xl -z-10 rounded-full"
+      />
+    </div>
   );
 };
 

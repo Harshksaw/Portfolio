@@ -54,15 +54,17 @@ const Home = () => {
           <main className="relative bg-black flex justify-center items-center flex-col overflow-hidden mx-auto sm:px-5 px-5">
             <div className="max-w-7xl w-full">
               <Hero />
-              <Suspense fallback={<div className="h-96 w-full flex items-center justify-center">Loading experience...</div>}>
-                <Experience />
-              </Suspense>
-              <Suspense fallback={<div className="h-96 w-full flex items-center justify-center">Loading grid...</div>}>
-                <Grid />
-              </Suspense>
               <Suspense fallback={<div className="h-96 w-full flex items-center justify-center">Loading projects...</div>}>
                 <ProjectShowcase />
               </Suspense>
+         
+              <Suspense fallback={<div className="h-96 w-full flex items-center justify-center">Loading grid...</div>}>
+                <Grid />
+              </Suspense>
+              <Suspense fallback={<div className="h-96 w-full flex items-center justify-center">Loading experience...</div>}>
+                <Experience />
+              </Suspense>
+              
               <Suspense fallback={<div className="h-24 w-full"></div>}>
                 <Footer />
               </Suspense>
