@@ -48,7 +48,7 @@ const Footer = () => {
             viewport={{ once: true, amount: 0.5 }}
             transition={{ duration: 0.6, delay: 0.4 }}
           >
-            <a href="mailto:contact@jsmastery.pro">
+            <a href="mailto:mister.harshkumar@gmail.com">
               <MagicButton
                 title="Let's get in touch"
                 icon={<FaLocationArrow />}
@@ -69,8 +69,8 @@ const Footer = () => {
             </div>
             <div>
               <h3 className="text-white font-medium">Email</h3>
-              <a href="mailto:contact@jsmastery.pro" className="text-gray-400 text-sm hover:text-purple-400 transition-colors">
-                contact@jsmastery.pro
+              <a href="mailto:mister.harshkumar@gmail.com" className="text-gray-400 text-sm hover:text-purple-400 transition-colors">
+              mister.harshkumar@gmail.com
               </a>
             </div>
           </div>

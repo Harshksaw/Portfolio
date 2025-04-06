@@ -61,7 +61,7 @@ const NavBar = () => {
 
         {/* Contact Button (Desktop) */}
         <a 
-          href="mailto:contact@jsmastery.pro" 
+          href="mailto:mister.harshkumar@gmail.com" 
           className="hidden lg:block py-2 px-5 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:opacity-90 transition-opacity text-sm font-medium"
         >
           Contact Me

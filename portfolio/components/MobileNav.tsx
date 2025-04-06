@@ -90,7 +90,7 @@ const MobileNav = () => {
 
               <div className="mt-auto pt-6 border-t border-gray-800">
                 <a
-                  href="mailto:contact@jsmastery.pro"
+                  href="mailto:mister.harshkumar@gmail.com"
                   className="block w-full py-3 px-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white text-center font-medium rounded-lg hover:opacity-90 transition-opacity"
                 >
                   Contact Me
