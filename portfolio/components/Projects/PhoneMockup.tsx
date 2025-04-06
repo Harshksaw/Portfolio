@@ -1,13 +1,11 @@
+"use client";
 
-// components/Projects/PhoneMockup.tsx
-import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, EffectFade } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/effect-fade";
 import Image from "next/image";
-import { useState } from "react";
-
 interface PhoneMockupProps {
   screenshots: string[];
   animate?: boolean;
@@ -23,24 +21,25 @@ const PhoneMockup = ({ screenshots, animate = true }: PhoneMockupProps) => {
 
   const isFullyLoaded = imagesLoaded > 0;
 
+  // Display at least one image even if not all are loaded
+  useEffect(() => {
+    // Force display after 2 seconds even if not all images loaded
+    const timer = setTimeout(() => {
+      if (imagesLoaded > 0) {
+        // At least one image is loaded
+      }
+    }, 2000);
+    
+    return () => clearTimeout(timer);
+  }, [imagesLoaded]);
+
   return (
     <div className="relative">
       {/* Phone frame */}
-      <motion.div
-        initial={{ scale: 0.9, opacity: 0 }}
-        animate={animate ? { scale: 1, opacity: 1, rotateY: [0, 5, 0, -5, 0] } : { scale: 0.9, opacity: 0 }}
-        transition={{ 
-          duration: 1.2,
-          ease: "easeOut",
-          rotateY: {
-            times: [0, 0.2, 0.5, 0.8, 1],
-            duration: 2.5,
-            ease: "easeInOut",
-            loop: Infinity,
-            repeatDelay: 1
-          }
-        }}
-        className="relative w-[280px] h-[580px] bg-black rounded-[40px] border-[8px] border-gray-800 shadow-2xl overflow-hidden"
+      <div 
+        className={`relative w-[280px] h-[580px] bg-black rounded-[40px] border-[8px] border-gray-800 shadow-2xl overflow-hidden transition-all duration-700 ${
+          animate ? 'opacity-100 scale-100' : 'opacity-0 scale-90'
+        }`}
       >
         {/* Phone top notch */}
         <div className="absolute top-0 left-0 right-0 h-6 flex justify-center items-start z-10">
@@ -75,7 +74,7 @@ const PhoneMockup = ({ screenshots, animate = true }: PhoneMockupProps) => {
         </div>
 
         {/* Loading indicator */}
-        {!isFullyLoaded && (
+        {imagesLoaded < 1 && (
           <div className="absolute inset-0 flex items-center justify-center bg-gray-900 z-30">
             <div className="w-12 h-12 border-t-2 border-l-2 border-blue-500 rounded-full animate-spin"></div>
           </div>
@@ -103,10 +102,7 @@ const PhoneMockup = ({ screenshots, animate = true }: PhoneMockupProps) => {
                   <Image
                     src={src}
                     alt={`Mobile Screenshot ${index + 1}`}
-                    fill
-                    sizes="280px"
-                    className="object-cover"
-                    priority={index === 0}
+                    className="w-full h-full object-cover"
                     onLoad={handleImageLoad}
                     loading={index === 0 ? "eager" : "lazy"}
                   />
@@ -118,23 +114,26 @@ const PhoneMockup = ({ screenshots, animate = true }: PhoneMockupProps) => {
         
         {/* Home Indicator */}
         <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-32 h-1 bg-white rounded-full z-20"></div>
-      </motion.div>
+      </div>
       
       {/* Reflection effect */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={animate ? { opacity: 0.5 } : { opacity: 0 }}
-        transition={{ delay: 0.5, duration: 0.8 }}
-        className="absolute top-1/4 left-1/2 -translate-x-1/2 w-3/4 h-1/2 bg-gradient-to-b from-blue-400/10 to-transparent blur-xl -z-10 rounded-full"
+      <div
+        className={`absolute top-1/4 left-1/2 -translate-x-1/2 w-3/4 h-1/2 bg-gradient-to-b from-blue-400/10 to-transparent blur-xl -z-10 rounded-full transition-opacity duration-700 ${
+          animate ? 'opacity-50' : 'opacity-0'
+        }`}
       />
       
       {/* Phone shadow */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={animate ? { opacity: 0.2, scale: 1 } : { opacity: 0, scale: 0.8 }}
-        transition={{ delay: 0.3, duration: 1 }}
-        className="absolute -bottom-10 left-1/2 -translate-x-1/2 w-[200px] h-[20px] bg-black blur-xl -z-10 rounded-full"
+      <div
+        className={`absolute -bottom-10 left-1/2 -translate-x-1/2 w-[200px] h-[20px] bg-black blur-xl -z-10 rounded-full transition-all duration-700 ${
+          animate ? 'opacity-20 scale-100' : 'opacity-0 scale-80'
+        }`}
       />
+      
+      {/* Phone animation effect */}
+      {animate && (
+        <div className="absolute -inset-1 rounded-[50px] bg-gradient-to-r from-blue-500 to-purple-600 opacity-30 blur-lg animate-pulse"></div>
+      )}
     </div>
   );
 };

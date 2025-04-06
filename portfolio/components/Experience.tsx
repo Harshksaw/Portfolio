@@ -3,6 +3,7 @@ import React from "react";
 import { Timeline } from "@/components/ui/timeline";
 import { TextGenerateEffect } from "./ui/TextGenerateEffect";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 export const experienceData = [
   {
     title: "Airing Private Limited",
@@ -10,7 +11,7 @@ export const experienceData = [
       <div>
         {/* Logo */}
         <div className="flex items-center gap-3 mb-4">
-          <img src="/airing.png" alt="Airing Logo" className="w-10 h-10 rounded-lg" />
+          <Image src="/airing.png" alt="Airing Logo" className="w-10 h-10 rounded-lg" />
           <div>
             <p className="text-neutral-800 dark:text-neutral-200 text-sm font-bold">
               Technical Lead (Full Stack) - Internship
@@ -32,7 +33,7 @@ export const experienceData = [
       <div>
         {/* Logo */}
         <div className="flex items-center gap-3 mb-4">
-          <img src="/jythu.png" alt="Jythu Logo" className="w-10 h-10 rounded-lg" />
+          <Image src="/jythu.png" alt="Jythu Logo" className="w-10 h-10 rounded-lg" />
           <div>
             <p className="text-neutral-800 dark:text-neutral-200 text-sm font-bold">
               Full-stack Developer - Contract (Part-time)
@@ -54,7 +55,7 @@ export const experienceData = [
       <div>
         {/* Logo */}
         <div className="flex items-center gap-3 mb-4">
-          <img src="/freelancer.svg" alt="Freelancer Logo" className="w-10 h-10 rounded-lg" />
+          <Image src="/freelancer.svg" alt="Freelancer Logo" className="w-10 h-10 rounded-lg" />
           <div>
             <p className="text-neutral-800 dark:text-neutral-200 text-sm font-bold">
               Freelance Software Developer
@@ -76,7 +77,7 @@ export const experienceData = [
       <div>
         {/* Logo */}
         <div className="flex items-center gap-3 mb-4">
-          <img src="/tastemate.png" alt="Tastemate Logo" className="w-10 h-10 rounded-lg" />
+          <Image src="/tastemate.png" alt="Tastemate Logo" className="w-10 h-10 rounded-lg" />
           <div>
             <p className="text-neutral-800 dark:text-neutral-200 text-sm font-bold">
               React Native Developer - Internship

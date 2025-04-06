@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import dynamic from "next/dynamic";
 import Hero from "@/components/Hero";
 // Lazy load components that aren't needed immediately
-const Grid = lazy(() => import("@/components/Grid"));
+
 const Footer = lazy(() => import("@/components/Footer"));
 const Experience = lazy(() => import("@/components/Experience"));
 const ProjectShowcase = lazy(() => import("@/components/Projects/ShowCase"));
@@ -24,7 +24,7 @@ const Home = () => {
     // Preload components after loader starts
     const preload = async () => {
       const promises = [
-        import("@/components/Grid"),
+
         import("@/components/Experience"),
         import("@/components/Projects/ShowCase")
       ];
@@ -57,13 +57,13 @@ const Home = () => {
               <Suspense fallback={<div className="h-96 w-full flex items-center justify-center">Loading projects...</div>}>
                 <ProjectShowcase />
               </Suspense>
-         
-              <Suspense fallback={<div className="h-96 w-full flex items-center justify-center">Loading grid...</div>}>
-                <Grid />
-              </Suspense>
+
+        
               <Suspense fallback={<div className="h-96 w-full flex items-center justify-center">Loading experience...</div>}>
                 <Experience />
               </Suspense>
+
+            
               
               <Suspense fallback={<div className="h-24 w-full"></div>}>
                 <Footer />

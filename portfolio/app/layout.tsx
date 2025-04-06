@@ -6,6 +6,7 @@ import { ThemeProvider } from "./provider";
 import { Analytics } from "@vercel/analytics/react"
 import Script from "next/script";
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import NavBar from "@/components/Navbar";
 
 // Optimize font loading
 const inter = Inter({ 
@@ -15,9 +16,13 @@ const inter = Inter({
   variable: '--font-inter',
 });
 
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+};
 
-export const metadata: Metadata = {
-  title: "Harsh's Portfolio | Full-Stack Developer",
+const metadata: Metadata = {
+  title: "Harsh  Portfolio | Full-Stack Developer",
   description: "Harsh Kumar - A Full-Stack Developer with experience in React, Next.js, Node.js and AWS. Creating scalable, production-ready applications.",
   keywords: ["portfolio", "developer", "full stack", "react", "next.js", "web development"],
   authors: [{ name: "Harsh Kumar" }],
@@ -29,23 +34,30 @@ export const metadata: Metadata = {
     title: "Harsh Kumar - Full-Stack Developer Portfolio",
     description: "Full-Stack Developer with experience in React, Next.js, Node.js and AWS.",
     siteName: "Harsh Kumar's Portfolio",
-    images: [
-      {
-        url: '/harsh/harshdp.png',
-        width: 1200,
-        height: 630,
-        alt: 'Harsh Kumar - Portfolio',
-      }
-    ],
+    // images: [
+    //   {
+    //     width: 1200,
+    //     height: 630,
+    //     alt: 'Harsh Kumar - Portfolio',
+    //   }
+    // ],
   },
   twitter: {
     card: 'summary_large_image',
     title: "Harsh Kumar - Full-Stack Developer Portfolio",
     description: "Full-Stack Developer with experience in React, Next.js, Node.js and AWS.",
   },
-  viewport: 'width=device-width, initial-scale=1',
-  themeColor: '#000000',
+
+
 };
+
+
+export function generateMetadata(): Metadata {
+  return {
+    ...metadata,
+
+  };
+}
 
 export default function RootLayout({
   children,
@@ -95,6 +107,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          {/* <NavBar /> */}
           {children}
         </ThemeProvider>
       </body>
