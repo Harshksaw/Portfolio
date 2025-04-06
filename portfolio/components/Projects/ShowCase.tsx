@@ -122,7 +122,7 @@ const ProjectShowcase = () => {
             >
               <div className="flex items-center gap-3">
                 <div className="relative w-8 h-8 md:w-10 md:h-10 flex-shrink-0">
-                  <Image 
+                  <img 
                     src={project.icon} 
                     alt={project.name}
                     className="w-full h-full object-contain rounded-full"
@@ -175,12 +175,56 @@ const ProjectShowcase = () => {
           
           {/* Project Info & Web Preview Column */}
           <motion.div
-            className="flex flex-col"
+            className="flex flex-col gap-2"
             initial="visible"
             animate="visible"
             variants={fadeIn}
           >
-            {/* Project Details */}
+
+       
+
+            {/* Web View Label */}
+            <div className="text-center mb-2">
+              <span className="inline-block bg-blue-900 text-white px-6 py-2 rounded-full font-medium shadow-lg shadow-blue-900/20 border border-blue-700">
+                Web View
+              </span>
+            </div>
+            
+            {/* Web Preview with AnimatePresence for smooth transitions */}
+            <div className="min-h-[300px]">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={selectedProject + "-web"}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.5 }}
+                  className="bg-gray-900/50 backdrop-blur-sm p-2 sm:p-4 rounded-2xl border border-gray-800 overflow-hidden"
+                >
+                  <Swiper
+                    modules={[Pagination, Navigation, Autoplay]}
+                    pagination={{ clickable: true }}
+                    navigation={!isMobile}
+                    autoplay={{ delay: 3000, disableOnInteraction: false }}
+                    loop={true}
+                    className="rounded-lg overflow-hidden"
+                  >
+                    {projects[selectedProject].webScreenshots.map((screenshot, index) => (
+                      <SwiperSlide key={index}>
+                        <div className="relative w-full aspect-video">
+                          <img
+                            src={screenshot}
+                            alt={`${projects[selectedProject].name} screenshot`}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                      </SwiperSlide>
+                    ))}
+                  </Swiper>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+
             <AnimatePresence mode="wait">
               <motion.div
                 key={selectedProject + "-details"}
@@ -227,48 +271,6 @@ const ProjectShowcase = () => {
                 </div>
               </motion.div>
             </AnimatePresence>
-
-            {/* Web View Label */}
-            <div className="text-center mb-6">
-              <span className="inline-block bg-blue-900 text-white px-6 py-2 rounded-full font-medium shadow-lg shadow-blue-900/20 border border-blue-700">
-                Web View
-              </span>
-            </div>
-            
-            {/* Web Preview with AnimatePresence for smooth transitions */}
-            <div className="min-h-[300px]">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={selectedProject + "-web"}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.5 }}
-                  className="bg-gray-900/50 backdrop-blur-sm p-2 sm:p-4 rounded-2xl border border-gray-800 overflow-hidden"
-                >
-                  <Swiper
-                    modules={[Pagination, Navigation, Autoplay]}
-                    pagination={{ clickable: true }}
-                    navigation={!isMobile}
-                    autoplay={{ delay: 3000, disableOnInteraction: false }}
-                    loop={true}
-                    className="rounded-lg overflow-hidden"
-                  >
-                    {projects[selectedProject].webScreenshots.map((screenshot, index) => (
-                      <SwiperSlide key={index}>
-                        <div className="relative w-full aspect-video">
-                          <Image
-                            src={screenshot}
-                            alt={`${projects[selectedProject].name} screenshot`}
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-                      </SwiperSlide>
-                    ))}
-                  </Swiper>
-                </motion.div>
-              </AnimatePresence>
-            </div>
           </motion.div>
         </div>
         
