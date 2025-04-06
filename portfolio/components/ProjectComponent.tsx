@@ -3,7 +3,7 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { useGLTF, Html, OrbitControls } from "@react-three/drei";
 import { useRef } from "react";
 
-
+import Image from "next/image";
 
 // Load the 3D mobile model
 const MobileModel = ({ children }: { children?: React.ReactNode }) => {
@@ -30,7 +30,7 @@ const ScreenContent = () => {
   return (
     <Html position={[0, 0.8, 0.05]} transform occlude>
       <div className="w-[200px] h-[400px] bg-black rounded-xl flex items-center justify-center">
-        <img src="/ss.png" className="w-full h-full object-cover rounded-xl" alt="App Screen" />
+        <Image src="/ss.png" className="w-full h-full object-cover rounded-xl" alt="App Screen" />
       </div>
     </Html>
   );
