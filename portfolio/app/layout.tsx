@@ -32,20 +32,22 @@ const metadata: Metadata = {
     locale: 'en_US',
     url: '/',
     title: "Harsh Kumar - Full-Stack Developer Portfolio",
-    description: "Full-Stack Developer with experience in React, Next.js, Node.js and AWS.",
+    description: "Full-Stack Developer with experience in Production Apps.",
     siteName: "Harsh Kumar's Portfolio",
-    // images: [
-    //   {
-    //     width: 1200,
-    //     height: 630,
-    //     alt: 'Harsh Kumar - Portfolio',
-    //   }
-    // ],
+    images: [
+      {
+        url: 'https://portfolio-harsh-delta.vercel.app/og-image.jpg', // Make sure this exists
+        width: 1200,
+        height: 630,
+        alt: 'Harsh Kumar - Portfolio',
+      }
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: "Harsh Kumar - Full-Stack Developer Portfolio",
-    description: "Full-Stack Developer with experience in React, Next.js, Node.js and AWS.",
+    description: "Full-Stack Developer with experience Production Apps.",
+    images: ['https://portfolio-harsh-delta.vercel.app/og-image.jpg'],
   },
 
 
