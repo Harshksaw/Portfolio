@@ -5,28 +5,28 @@ import { TextGenerateEffect } from "./ui/TextGenerateEffect";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 export const experienceData = [
-  {
-    title: "Airing Private Limited",
-    content: (
-      <div>
-        {/* Logo */}
-        <div className="flex items-center gap-3 mb-4">
-          <Image src="/airing.png" alt="Airing Logo" className="w-10 h-10 rounded-lg" />
-          <div>
-            <p className="text-neutral-800 dark:text-neutral-200 text-sm font-bold">
-              Technical Lead (Full Stack) - Internship
-            </p>
-            <p className="text-gray-400 text-xs">Airing Private Limited · Jan 2025 - Present · Remote</p>
-          </div>
-        </div>
+  // {
+  //   title: "Airing Private Limited",
+  //   content: (
+  //     <div>
+  //       {/* Logo */}
+  //       <div className="flex items-center gap-3 mb-4">
+  //         <Image src="/airing.png" alt="Airing Logo" className="w-10 h-10 rounded-lg" />
+  //         <div>
+  //           <p className="text-neutral-800 dark:text-neutral-200 text-sm font-bold">
+  //             Technical Lead (Full Stack) - Internship
+  //           </p>
+  //           <p className="text-gray-400 text-xs">Airing Private Limited · Jan 2025 - Present · Remote</p>
+  //         </div>
+  //       </div>
 
-        {/* Description */}
-        <p className="text-gray-300 text-xs md:text-sm">
-          Leading the development of a high-performance inventory management platform using <strong>MERN & GraphQL</strong>.
-        </p>
-      </div>
-    ),
-  },
+  //       {/* Description */}
+  //       <p className="text-gray-300 text-xs md:text-sm">
+  //         Leading the development of a high-performance inventory management platform using <strong>MERN & GraphQL</strong>.
+  //       </p>
+  //     </div>
+  //   ),
+  // },
   {
     title: "Jythu",
     content: (
@@ -38,7 +38,7 @@ export const experienceData = [
             <p className="text-neutral-800 dark:text-neutral-200 text-sm font-bold">
               Full-stack Developer - Contract (Part-time)
             </p>
-            <p className="text-gray-400 text-xs">Jythu · May 2024 - Present · Remote</p>
+            <p className="text-gray-400 text-xs">Jythu · May 2024 - Jan 2025· Remote</p>
           </div>
         </div>
 
