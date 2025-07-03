@@ -23,8 +23,8 @@ const projects = {
     mobileScreenshots: ["/projects/File3.png", "/projects/p15.png", "/projects/p16.png", "/projects/p17.png", "/projects/File5.png", "/projects/File6.png", "/projects/File7.png"],
     webScreenshots: ["/projects/l1.png", "/projects/l2.png", "/projects/l3.png", "/projects/l4.png"],
     techStack: ["react", "nodejs", "aws", "postgresql", "tailwind", "grafana", "docker", "typescript"],
-    live: "https://ekaant.example.com",
-    github: "https://github.com/username/ekaant",
+    live: "https://www.studyekaant.com/",
+    github: "https://github.com/Harshksaw/Ekaant-StudyRoom-APP",
     featured: true
   },
   krishnaAcademy: {
@@ -35,8 +35,8 @@ const projects = {
     mobileScreenshots: ["/projects/File12.png", "/projects/File10.png", "/projects/File11.png", "/projects/File9.png"],
     webScreenshots: ["/projects/l1.png", "/projects/l2.png", "/projects/l3.png", "/projects/l4.png"],
     techStack: ["react", "nodejs", "aws", "postgresql", "tailwind", "grafana", "docker", "typescript"],
-    live: "https://krishna-academy.example.com",
-    github: "https://github.com/username/krishna-academy",
+    live: "https://krishnaacademy.in/",
+    github: "https://github.com/Harshksaw/LMS-App",
     featured: true
   },
   restaurant: {
