@@ -44,12 +44,12 @@ export default function Modal() {
       camera={{ position: [0, 1.2, 3], fov: 35 }} // Updated camera for avatar
     >
       {/* <color attach="background" args={["#222222"]} /> */}
-      <ambientLight intensity={2} />
+      <ambientLight intensity={3} />
       {/* Replace Scene with AvatarScene */}
       <AvatarScene
-        position={[0, -2.5, 0]} // Avatar positioning for upper body
+        position={[0, -3.5, 0]} // Avatar positioning for upper body
         scale={3.5}             // Good size for avatar
-        rotation={[0, 1.6 + mouseX * Math.PI, 0]}
+        rotation={[0, 0.6 + mouseX * Math.PI, 0]}
       />
       
       <Postpro />

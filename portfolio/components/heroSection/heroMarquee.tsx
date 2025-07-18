@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { gsap } from "gsap";
+import { TextHoverEffect } from "../ui/text-hover-effect";
 
 export function HeroMarquee({}) {
   useEffect(() => {
@@ -52,9 +53,10 @@ export function HeroMarquee({}) {
   }, []);
   return (
     <div className="wrapperRollingText anime pointer-events-none z-20  select-none  rounded-3xl tracking-[-0.1em] ">
-      <div className="rollingText  md:!text-[200px]">
+      <div className="rollingText  md:!text-[150px]">
         - Harsh  - Kumar - Harsh - Kumar&nbsp;
       </div>
+
     </div>
   );
 }
