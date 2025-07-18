@@ -1,118 +1,59 @@
-
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
-import { ThemeProvider } from "./provider";
-import { Analytics } from "@vercel/analytics/react"
+import { DM_Sans } from "next/font/google";
+import localFont from "next/font/local";
+import GoogleAnalytics from "@/app/GoogleAnalytics";
 import Script from "next/script";
-import { SpeedInsights } from "@vercel/speed-insights/next"
-import NavBar from "@/components/Navbar";
 
-// Optimize font loading
-const inter = Inter({ 
-  subsets: ["latin"],
-  display: 'swap',
-  preload: true,
-  variable: '--font-inter',
+import "./globals.css";
+import StoreProvider from "@/redux/storeProvider";
+import { gsap } from "gsap";
+import { CustomEase } from "gsap/CustomEase";
+gsap.registerPlugin(CustomEase);
+
+const dM_Sans = DM_Sans({ subsets: ["latin-ext"] });
+const satoshi = localFont({
+  src: "../font/satoshi/Satoshi-Variable.woff2",
+  style: "normal",
 });
 
-export const viewport = {
-  width: "device-width",
-  initialScale: 1,
+const helvetica = localFont({
+  src: "../font/helvetica/HelveticaNowDisplay-Medium.woff2",
+  style: "normal",
+});
+
+export const metadata: Metadata = {
+  title: "Harsh Kumar • Designer & Developer",
 };
-
-const metadata: Metadata = {
-  title: "Harsh  Portfolio | Full-Stack Developer",
-  description: "Harsh Kumar - A Full-Stack Developer with experience in React, Next.js, Node.js and AWS. Creating scalable, production-ready applications.",
-  keywords: ["portfolio", "developer", "full stack", "react", "next.js", "web development"],
-  authors: [{ name: "Harsh Kumar" }],
-  creator: "Harsh Kumar",
-  openGraph: {
-    type: 'website',
-    locale: 'en_US',
-    url: '/',
-    title: "Harsh Kumar - Full-Stack Developer Portfolio",
-    description: "Full-Stack Developer with experience in Production Apps.",
-    siteName: "Harsh Kumar's Portfolio",
-    images: [
-      {
-        url: 'https://portfolio-harsh-delta.vercel.app/og-image.jpg', // Make sure this exists
-        width: 1200,
-        height: 630,
-        alt: 'Harsh Kumar - Portfolio',
-      }
-    ],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: "Harsh Kumar - Full-Stack Developer Portfolio",
-    description: "Full-Stack Developer with experience Production Apps.",
-    images: ['https://portfolio-harsh-delta.vercel.app/og-image.jpg'],
-  },
-
-
-};
-
-
-export function generateMetadata(): Metadata {
-  return {
-    ...metadata,
-
-  };
-}
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html lang="en" suppressHydrationWarning className={inter.variable}>
+    <html lang="en">
       <head>
-        <link rel="icon" href="/harsh.png" sizes="any" />
-        
-        {/* Preload critical assets */}
-        <link rel="preload" href="/b1.svg" as="image" type="image/svg+xml" />
-        <link rel="preload" href="/profile.svg" as="image" type="image/svg+xml" />
-        
-        {/* Preconnect to external domains */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        
-        {/* Google Analytics */}
-        <Script
-          strategy="afterInteractive"
-          src={`https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX`}
-        />
-        <Script
-          id="google-analytics"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', 'G-XXXXXXXXXX', {
-                page_path: window.location.pathname,
-              });
-            `,
-          }}
-        />
+        <link rel="preconnect" href="https://fonts.googleapis.com"></link>
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin=""
+        ></link>
+        <link
+          href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap"
+          rel="stylesheet"
+        ></link>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no"
+        ></meta>
+        <GoogleAnalytics />
       </head>
-      <body className={inter.className}>
-        <Analytics/>
-        <SpeedInsights/>
 
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {/* <NavBar /> */}
-          {children}
-        </ThemeProvider>
+      <body className={helvetica.className}>
+        <StoreProvider>{children}</StoreProvider>
       </body>
+      <Script src="https://cdn.jsdelivr.net/gh/Harshkumar-dev/gsap@2024/ScrambleTextPlugin.min.js" />
     </html>
   );
 }
