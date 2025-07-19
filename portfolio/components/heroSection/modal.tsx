@@ -25,6 +25,7 @@ import { useState, useEffect, useRef } from "react";
 
 export default function Modal() {
   const [mouseX, setMouseX] = useState(0);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     const handleMouseMove = (e) => {
@@ -37,34 +38,72 @@ export default function Modal() {
   }, []);
 
   return (
-    <Canvas
-      gl={{ antialias: false }}
-      flat
-      shadows
-      camera={{ position: [0, 1.2, 3], fov: 35 }} // Updated camera for avatar
-    >
-      {/* <color attach="background" args={["#222222"]} /> */}
-      <ambientLight intensity={3} />
-      {/* Replace Scene with AvatarScene */}
-      <AvatarScene
-        position={[0, -3.5, 0]} // Avatar positioning for upper body
-        scale={3.5}             // Good size for avatar
-        rotation={[0, 0.6 + mouseX * Math.PI, 0]}
-      />
+    <div style={{ width: '100%', height: '100vh', position: 'relative' }}>
+      {!isLoaded && (
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          backgroundColor: '#ffff',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          zIndex: 10,
+          color: 'white',
+          fontSize: '18px'
+        }}>
+          <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '20px'
+          }}>
+            <div style={{
+              width: '50px',
+              height: '50px',
+              border: '3px solid #444',
+              borderTop: '3px solid #fff',
+              borderRadius: '50%',
+              animation: 'spin 1s linear infinite'
+            }}></div>
+            Loading 3D Model...
+          </div>
+          <style>
+            {`
+              @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+              }
+            `}
+          </style>
+        </div>
+      )}
       
-      <Postpro />
-    </Canvas>
+      <Canvas
+        gl={{ antialias: false }}
+        flat
+        shadows
+        camera={{ position: [0, 1.2, 3], fov: 35 }}
+      >
+        <ambientLight intensity={3} />
+        <AvatarScene
+          position={[0, -3.5, 0]}
+          scale={5.5}
+          rotation={[0, 0.6 + mouseX * Math.PI, 0]}
+          onLoaded={() => setIsLoaded(true)}
+        />
+        
+        <Postpro />
+      </Canvas>
+    </div>
   );
 }
 
 function Postpro() {
   return (
     <EffectComposer disableNormalPass>
-      {/* <HueSaturation saturation={-1} />
-      <BrightnessContrast brightness={0} contrast={0.25} />
-      <WaterEffect factor={0.75} />
-      <TiltShift2 samples={6} blur={1} />
-      <ToneMapping /> */}
       <Bloom mipmapBlur luminanceThreshold={0.1} intensity={2} />
     </EffectComposer>
   );
@@ -75,9 +114,8 @@ function Cookie(props: any) {
   return <spotLight decay={0} map={texture} castShadow {...props} />;
 }
 
-// REPLACE: Old Suzi function with this Avatar function
 function Avatar(props: any) {
-  const { scene, animations } = useGLTF("/avatar.glb"); // Your avatar file
+  const { scene, animations } = useGLTF("/avatar.glb");
   const meshRef = useRef();
   const { actions } = useAnimations(animations, meshRef);
   
@@ -98,9 +136,8 @@ function Avatar(props: any) {
   );
 }
 
-// REPLACE: Old Scene function with this AvatarScene function
-function AvatarScene(props: any) {
-  const { scene, animations } = useGLTF("/avatar.glb"); // Your avatar file
+function AvatarScene({ onLoaded, ...props }: any) {
+  const { scene, animations } = useGLTF("/avatar.glb");
   const meshRef = useRef();
   const { actions } = useAnimations(animations, meshRef);
   
@@ -110,6 +147,15 @@ function AvatarScene(props: any) {
       firstAction?.play();
     }
   }, [actions]);
+
+  useEffect(() => {
+    if (scene && onLoaded) {
+      // Small delay to ensure rendering is complete
+      setTimeout(() => {
+        onLoaded();
+      }, 100);
+    }
+  }, [scene, onLoaded]);
 
   return (
     <primitive ref={meshRef} object={scene} {...props} />

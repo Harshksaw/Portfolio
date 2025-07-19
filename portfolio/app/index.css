@@ -1,5 +1,5 @@
 :root {
-  --primary-color: hsl(54, 100%, 50%);
+  --primary-color: hsl(213, 100%, 50%);
   --padding: clamp(20px, 7.8vw + 10px, 150px);
   --padding2: 0vw;
   /* --colorDark: #0e0d0c;
@@ -229,25 +229,44 @@ textPath {
   white-space: nowrap;
   position: absolute;
   bottom: 5%;
-  /* width: 100vw; */
-
+  /* Enhanced mask for better flow effect */
   --mask: linear-gradient(
     90deg,
-    hsla(0, 0%, 0%, 0) 15%,
-    hsl(0, 0%, 100%) 25%,
-    hsl(0, 0%, 100%) 75%,
-    hsla(0, 0%, 0%, 0) 85%
+    hsla(0, 0%, 0%, 0) 10%,
+    hsl(0, 0%, 100%) 20%,
+    hsl(0, 0%, 100%) 80%,
+    hsla(0, 0%, 0%, 0) 90%
   );
 
   -webkit-mask-image: var(--mask);
   mask-image: var(--mask);
+  
+  /* Add creative backdrop effects */
+  backdrop-filter: blur(0.5px);
+  
+  /* Subtle border glow for enhanced creativity */
+  border: 1px solid transparent;
+  background: linear-gradient(90deg, transparent, transparent);
+  background-clip: padding-box;
 }
+
 .rollingText {
   white-space: nowrap;
   font-weight: bold;
   font-size: var(--fontExtraBig);
   display: inline-block;
-  /* padding-left: 10px; */
+  
+  /* Enhanced text styling for creative flow */
+  letter-spacing: -0.02em;
+  line-height: 0.9;
+  
+  /* Text stroke for better visibility */
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.1);
+  
+  /* Improved text rendering */
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* ad/ */
@@ -325,6 +344,21 @@ textPath {
 
   .wrapperRollingText {
     bottom: 160px;
+    /* Enhanced mobile creative flow */
+    --mask: linear-gradient(
+      90deg,
+      hsla(0, 0%, 0%, 0) 5%,
+      hsl(0, 0%, 100%) 15%,
+      hsl(0, 0%, 100%) 85%,
+      hsla(0, 0%, 0%, 0) 95%
+    );
+    
+    /* Stronger glow effect on mobile for better visibility */
+    filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.4));
+    
+    /* Better positioning for mobile creative flow */
+    transform: translateZ(0);
+    will-change: transform;
   }
 
   .email_section1 .sqaure {
