@@ -157,7 +157,7 @@ export function MacBookExperienceTimeline() {
                       <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
                       <div className="w-3 h-3 bg-green-500 rounded-full"></div>
                     </div>
-                    <div className="text-gray-400 text-sm">vipul-portfolio.dev</div>
+                    <div className="text-gray-400 text-sm">Harsh-portfolio.dev</div>
                   </div>
 
                   {/* Experience Content */}
