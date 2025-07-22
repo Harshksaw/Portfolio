@@ -828,3 +828,20 @@ a {
 
 @media only screen and (max-width: 425px) {
 }
+/* Ensure normal scroll after fullpage sections */
+.normal-scroll-content {
+  position: relative;
+  z-index: 1;
+  background: #000;
+}
+
+/* Fix scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Ensure sections are properly sized */
+.normal-scroll-content section {
+  position: relative;
+  width: 100%;
+}

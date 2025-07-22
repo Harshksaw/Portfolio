@@ -100,7 +100,7 @@ export function HeaderNavigation() {
         <Header
           mode="cross"
           className="headerAnimate"
-          color={color == "Light" ? "Dark" : "Light"}
+          color={color == "Dark" ? "Dark" : "Light"}
         />
         <nav>
           <ul className="mask flex flex-col items-center justify-center px-8 py-[10vh]">

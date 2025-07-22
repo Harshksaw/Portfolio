@@ -5,7 +5,8 @@ import FullpageProvider from "@/components/fullpageProvider";
 import { HeaderNavigation } from "@/components/headerNavigation";
 
 import "./index.css";
-
+import { ExperienceTimelineSection,  } from "./experience/page";
+import { AboutSection } from "@/components/aboutSection/aboutSection";
 export default function HomePage({}) {
   return (
     <>
@@ -16,6 +17,13 @@ export default function HomePage({}) {
       <FullpageProvider>
         <Main />
       </FullpageProvider>
+      <div className="normal-scroll-content">
+        <AboutSection/>
+
+        <ExperienceTimelineSection />
+        {/* <WorkSection /> */}
+        {/* <SimpleContactSection /> */}
+      </div>
     </>
   );
 }

@@ -29,7 +29,7 @@ export default function WorkPage() {
 
   return (
     <>
-      <Header color="Light" />
+      <Header color="Dark" />
       <div className="darkGradient flex h-screen w-screen flex-col items-center justify-center px-paddingX py-paddingY text-center text-lg text-colorSecondaryLight md:text-3xl">
         About page is not ready yet so you'll be redirected to my LinkedIn
         instead.

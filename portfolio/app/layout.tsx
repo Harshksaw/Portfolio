@@ -53,7 +53,7 @@ export default function RootLayout({
       <body className={helvetica.className}>
         <StoreProvider>{children}</StoreProvider>
       </body>
-      <Script src="https://cdn.jsdelivr.net/gh/Harshkumar-dev/gsap@2024/ScrambleTextPlugin.min.js" />
+      {/* <Script src="https://cdn.jsdelivr.net/gh/Harshkumar-dev/gsap@2024/ScrambleTextPlugin.min.js" /> */}
     </html>
   );
 }

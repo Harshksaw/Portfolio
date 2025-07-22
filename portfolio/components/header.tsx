@@ -66,7 +66,7 @@ export function Header({ color, className, mode = "hamburger" }: HeaderProps) {
               logoAnimationTl.current?.reverse();
             }}
           >
-            <p className="mask logo__anim flex items-center justify-center font-semibold   ">
+            {/* <p className="mask logo__anim flex items-center justify-center font-semibold   ">
               <svg
                 className="w-[72px]"
                 viewBox="0 0 210 88"
@@ -84,7 +84,7 @@ export function Header({ color, className, mode = "hamburger" }: HeaderProps) {
                   fill="currentColor"
                 />
               </svg>
-            </p>
+            </p> */}
           </Magentic>
           <Magentic
             strength={50}
