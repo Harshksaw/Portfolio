@@ -1,8 +1,6 @@
 "use client";
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import { MotionValue, motion, useScroll, useTransform } from "motion/react";
-import { cn } from "../../lib/utils";
-
+import React, { useEffect, useRef, useState } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import {
   IconBrightnessDown,
   IconBrightnessUp,
@@ -18,24 +16,21 @@ import {
   IconVolume,
   IconVolume2,
   IconVolume3,
+  IconSearch,
+  IconWorld,
+  IconCommand,
+  IconCaretLeftFilled,
+  IconCaretDownFilled,
 } from "@tabler/icons-react";
-import { IconSearch } from "@tabler/icons-react";
-import { IconWorld } from "@tabler/icons-react";
-import { IconCommand } from "@tabler/icons-react";
-import { IconCaretLeftFilled } from "@tabler/icons-react";
-import { IconCaretDownFilled } from "@tabler/icons-react";
 
+const cn = (...classes) => classes.filter(Boolean).join(' ');
 
 export const MacbookScroll = ({
   src,
   showGradient,
   title,
   badge,
-}: {
-  src?: string;
-  showGradient?: boolean;
-  title?: string | React.ReactNode;
-  badge?: React.ReactNode;
+  isVideo = false,
 }) => {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -50,6 +45,9 @@ export const MacbookScroll = ({
       setIsMobile(true);
     }
   }, []);
+
+  // Auto-detect if src is video
+  const isVideoFile = src && (src.endsWith('.mp4') || src.endsWith('.webm') || src.endsWith('.mov') || isVideo);
 
   const scaleX = useTransform(
     scrollYProgress,
@@ -91,6 +89,7 @@ export const MacbookScroll = ({
         scaleY={scaleY}
         rotate={rotate}
         translate={translate}
+        isVideo={isVideoFile}
       />
       {/* Base area */}
       <div className="relative -z-10 h-[22rem] w-[32rem] overflow-hidden rounded-2xl bg-gray-200 dark:bg-[#272729]">
@@ -126,13 +125,17 @@ export const Lid = ({
   rotate,
   translate,
   src,
-}: {
-  scaleX: MotionValue<number>;
-  scaleY: MotionValue<number>;
-  rotate: MotionValue<number>;
-  translate: MotionValue<number>;
-  src?: string;
+  isVideo = false,
 }) => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (isVideo && videoRef.current) {
+      // Auto-play video when component mounts
+      videoRef.current.play().catch(console.log);
+    }
+  }, [isVideo]);
+
   return (
     <div className="relative [perspective:800px]">
       <div
@@ -166,11 +169,28 @@ export const Lid = ({
         className="absolute inset-0 h-96 w-[32rem] rounded-2xl bg-[#010101] p-2"
       >
         <div className="absolute inset-0 rounded-lg bg-[#272729]" />
-        <img
-          src={src as string}
-          alt="aceternity logo"
-          className="absolute inset-0 h-full w-full rounded-lg object-cover object-left-top"
-        />
+        
+        {/* Video or Image Content */}
+        {isVideo && src ? (
+          <video
+            ref={videoRef}
+            src={src}
+            className="absolute inset-0 h-full w-full rounded-lg object-cover object-left-top"
+            autoPlay
+            muted
+            loop
+            playsInline
+            onError={(e) => {
+              console.log('Video failed to load:', e);
+            }}
+          />
+        ) : src ? (
+          <img
+            src={src}
+            alt="aceternity logo"
+            className="absolute inset-0 h-full w-full rounded-lg object-cover object-left-top"
+          />
+        ) : null}
       </motion.div>
     </div>
   );
@@ -550,11 +570,6 @@ export const KBtn = ({
   children,
   childrenClassName,
   backlit = true,
-}: {
-  className?: string;
-  children?: React.ReactNode;
-  childrenClassName?: string;
-  backlit?: boolean;
 }) => {
   return (
     <div
@@ -600,7 +615,7 @@ export const SpeakerGrid = () => {
   );
 };
 
-export const OptionKey = ({ className }: { className: string }) => {
+export const OptionKey = ({ className }) => {
   return (
     <svg
       fill="none"
@@ -654,3 +669,4 @@ const AceternityLogo = () => {
     </svg>
   );
 };
+

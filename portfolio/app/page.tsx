@@ -3,6 +3,7 @@ import { Main } from "@/components/main";
 import { Cursor } from "@/components/cursor";
 import FullpageProvider from "@/components/fullpageProvider";
 import { HeaderNavigation } from "@/components/headerNavigation";
+import {WorkSection} from "@/components/workSection/workSection"
 
 import "./index.css";
 import { ExperienceTimelineSection } from "./experience/page";
@@ -18,12 +19,26 @@ export default function HomePage({}) {
         <Main />
       </FullpageProvider>
       
-      {/* Normal scroll content - Everything after About section */}
+      {/* Normal scroll content - Properly spaced sections */}
       <div className="normal-scroll-content">
-        <ExperienceTimelineSection />
-        {/* Add more sections here that you want to scroll normally */}
-        {/* <ProjectsSection /> */}
-        {/* <ContactSection /> */}
+        {/* Work Section - Full height with proper spacing */}
+        <WorkSection />
+        
+        {/* Experience Timeline Section - Separated with margin */}
+        <div className="relative z-20" style={{ marginTop: "5vh" }}>
+          <ExperienceTimelineSection />
+        </div>
+        
+        {/* Add more sections here with proper spacing */}
+        {/* 
+        <div className="relative z-20" style={{ marginTop: "5vh" }}>
+          <ProjectsSection />
+        </div>
+        
+        <div className="relative z-20" style={{ marginTop: "5vh" }}>
+          <ContactSection />
+        </div>
+        */}
       </div>
     </>
   );

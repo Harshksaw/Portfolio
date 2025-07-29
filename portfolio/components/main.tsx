@@ -1,6 +1,9 @@
 import React from "react";
 import { HeroSection } from "@/components/heroSection/heroSection";
-import { AboutSection } from "@/components/aboutSection/aboutSection";
+import { WorkSection } from "./workSection/workSection";
+
+
+
 
 export function Main() {
   return (
@@ -9,7 +12,8 @@ export function Main() {
       <HeroSection />
       
       {/* About Section - Second and LAST fullpage section */}
-      <AboutSection />
+      {/* <AboutSection /> */}
+         <WorkSection/>
     </>
   );
 }
