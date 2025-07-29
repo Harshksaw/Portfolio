@@ -5,24 +5,25 @@ import FullpageProvider from "@/components/fullpageProvider";
 import { HeaderNavigation } from "@/components/headerNavigation";
 
 import "./index.css";
-import { ExperienceTimelineSection,  } from "./experience/page";
-import { AboutSection } from "@/components/aboutSection/aboutSection";
+import { ExperienceTimelineSection } from "./experience/page";
+
 export default function HomePage({}) {
   return (
     <>
       <Cursor />
-      {/* <Intro /> */}
-
       <HeaderNavigation />
+      
+      {/* Fullpage.js sections - ONLY Hero and About with GSAP transitions */}
       <FullpageProvider>
         <Main />
       </FullpageProvider>
+      
+      {/* Normal scroll content - Everything after About section */}
       <div className="normal-scroll-content">
-        <AboutSection/>
-
         <ExperienceTimelineSection />
-        {/* <WorkSection /> */}
-        {/* <SimpleContactSection /> */}
+        {/* Add more sections here that you want to scroll normally */}
+        {/* <ProjectsSection /> */}
+        {/* <ContactSection /> */}
       </div>
     </>
   );

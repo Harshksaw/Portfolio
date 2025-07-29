@@ -1,18 +1,15 @@
 import React from "react";
-import { WorkSection } from "@/components/workSection/workSection";
 import { HeroSection } from "@/components/heroSection/heroSection";
-
-import { ContactSection } from "@/components/contactSection/contactSection";
-
+import { AboutSection } from "@/components/aboutSection/aboutSection";
 
 export function Main() {
   return (
     <>
+      {/* Hero Section - First fullpage section */}
       <HeroSection />
-
-
-      {/* <WorkSection /> */}
-      {/* <ContactSection /> */}
+      
+      {/* About Section - Second and LAST fullpage section */}
+      <AboutSection />
     </>
   );
 }

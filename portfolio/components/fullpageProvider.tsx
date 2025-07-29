@@ -21,8 +21,9 @@ const opts = {
   anchors: ["first", "second"], // ONLY Hero and About
   licenseKey: "gplv3-license",
   credits: { enabled: false },
-  // Add this to allow scrolling after the last section
+  // Disable continuous vertical to prevent loop
   continuousVertical: false,
+  // Allow normal scrolling elements
   normalScrollElements: '.normal-scroll-content',
 };
 
@@ -31,6 +32,7 @@ const FullpageProvider = ({ children }: { children: React.ReactNode }) => {
   const textAnim__section2__down = useRef<gsap.core.Tween | null>(null);
   const work_heading = useRef<gsap.core.Tween | null>(null);
   const videoElement = useRef<HTMLVideoElement | null>(null);
+  const hasTransitioned = useRef(false);
 
   const dispatch = useAppDispatch();
 
@@ -78,7 +80,7 @@ const FullpageProvider = ({ children }: { children: React.ReactNode }) => {
       }
     }
 
-    // Animation logic - only for existing sections
+    // Keep your original GSAP animation logic - only for existing sections
     const flex = screen.width > 540 ? 17 : 5;
     
     if (direction === "down") {
@@ -154,44 +156,58 @@ const FullpageProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  // Add afterLoad callback to handle transition to normal scroll
+  // Handle transition from About section to normal scroll
   const afterLoad = (origin: any, destination: any, direction: any) => {
-    // If we're on the last section (About - "second"), enable normal scrolling
+    // If we're on the About section (second)
     if (destination.anchor === "second") {
-      // Add a small delay to ensure fullpage animations are complete
-      setTimeout(() => {
-        // Check if user tries to scroll down from the last section
-        const handleWheel = (e: WheelEvent) => {
-          if (e.deltaY > 0) { // Scrolling down
-            // Disable fullpage.js temporarily
+      
+      // Add scroll listener to detect downward scroll
+      const handleScrollDown = (e: WheelEvent) => {
+        if (hasTransitioned.current) return;
+        
+        // Only on downward scroll
+        if (e.deltaY > 0) {
+          e.preventDefault();
+          hasTransitioned.current = true;
+          
+          console.log("Transitioning to normal scroll...");
+          
+          // Destroy fullpage.js and enable normal scrolling
+          setTimeout(() => {
             if (window.fullpage_api) {
-              window.fullpage_api.setAutoScrolling(false);
-              window.fullpage_api.setFitToSection(false);
+              window.fullpage_api.destroy('all');
             }
             
             // Enable normal scrolling
             document.body.style.overflow = 'auto';
+            document.documentElement.style.overflow = 'auto';
             
-            // Scroll to the normal content
-            const normalContent = document.querySelector('.normal-scroll-content');
+            // Scroll to normal content
+            const normalContent = document.querySelector('.normal-scroll-content') as HTMLElement;
             if (normalContent) {
-              normalContent.scrollIntoView({ behavior: 'smooth' });
+              window.scrollTo({
+                top: normalContent.offsetTop,
+                behavior: 'smooth'
+              });
             }
-            
-            // Remove the wheel listener
-            document.removeEventListener('wheel', handleWheel);
-          }
-        };
-        
-        document.addEventListener('wheel', handleWheel, { passive: false });
-      }, 1000);
+          }, 100);
+          
+          // Remove listener
+          document.removeEventListener('wheel', handleScrollDown);
+        }
+      };
+      
+      // Add listener after a delay to ensure fullpage animation is complete
+      setTimeout(() => {
+        document.addEventListener('wheel', handleScrollDown, { passive: false });
+      }, 1500);
     }
   };
 
   useEffect(() => {
     const ease = CustomEase.create("custom", "M0,0 C0.52,0.01 0.16,1 1,1 ");
     
-    // Hero section animation
+    // Keep your original hero section animation
     about.current = gsap
       .timeline({ defaults: { ease: "none" }, repeat: -1 })
       .fromTo(
@@ -251,7 +267,7 @@ const FullpageProvider = ({ children }: { children: React.ReactNode }) => {
         "-=0.9",
       );
 
-    // About section text animation
+    // Keep your original about section text animation
     try {
       const myText = new SplitType("#my-text", { types: "lines" });
       const myText2 = new SplitType("#my-text .line", {
@@ -276,7 +292,7 @@ const FullpageProvider = ({ children }: { children: React.ReactNode }) => {
       console.log("SplitType not available or element not found");
     }
 
-    // Work heading animation (if exists)
+    // Keep your original work heading animation
     const workHeadingElement = document.querySelector(".work_heading");
     if (workHeadingElement) {
       work_heading.current = gsap.fromTo(
