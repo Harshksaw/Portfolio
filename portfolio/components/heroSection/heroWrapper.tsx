@@ -25,7 +25,7 @@ export function HeroWrapper({}) {
       <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 via-purple-600/5 to-yellow-500/5 animate-pulse"></div>
       
       {/* Floating achievement badges */}
-      <div className="absolute top-16 left-1/2 transform -translate-x-1/2 z-30">
+      <div className="absolute top-16 left-1/2 transform -translate-x-1/2 z-30 hidden md:block">
         <div 
           ref={badgeRef}
           className="bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-6 py-3 rounded-full font-bold text-lg shadow-lg"
@@ -38,18 +38,7 @@ export function HeroWrapper({}) {
         </div>
       </div>
 
-      {/* Floating skill icons */}
-      {/* <div className="absolute inset-0 overflow-hidden pointer-events-none z-10">
-        <div className="skill-orbit skill-orbit-1">⚛️</div>
-        <div className="skill-orbit skill-orbit-2">🤖</div>
-
-        <div className="skill-orbit skill-orbit-4">🚀 </div>
-        <div className="skill-orbit skill-orbit-4">☁️ </div>
-        <div className="skill-orbit skill-orbit-4">📱</div>
-
-
-      </div> */}
-
+   
 
 
    
@@ -57,15 +46,15 @@ export function HeroWrapper({}) {
 
       {/* <HeroButton /> */}
       
-      <h2 className="left mask pointer-events-none z-20 pt-20">
-        <div className="free anime relative">
+      <h2 className="left mask pointer-events-none z-20 md:pt-20 pt-10">
+        <div className="free anime relative hidden md:block">
           <span className="bg-gradient-to-r from-white via-yellow-200 to-white bg-clip-text text-transparent">
             Software Developer
           </span>
      
 
         </div>
-        <div className="animation__wrapper anime">
+        <div className="animation__wrapper anime hidden md:block">
         <span className="animate__this animate__this1 left-0 animated-line">
       Full Stack Developer<span className="yellow__it animate-dot">.</span>
       <br />
@@ -152,6 +141,10 @@ export function HeroWrapper({}) {
             bottom: auto;
             right: auto;
             margin-top: 20px;
+          }
+
+          .section1__wrapper {
+            padding-top: 2rem;
           }
         }
       `}</style>
