@@ -11,14 +11,15 @@ export const BackgroundParticles: React.FC<BackgroundParticlesProps> = ({ count 
       {[...Array(count)].map((_, i) => (
         <motion.div
           key={i}
-          className="absolute w-1 h-1 bg-blue-400 rounded-full opacity-30"
+          className="absolute w-1 h-1 bg-blue-300 rounded-full opacity-40"
           style={{
             left: `${Math.random() * 100}%`,
             top: `${Math.random() * 100}%`,
           }}
           animate={{
             y: [0, -20, 0],
-            opacity: [0.3, 0.8, 0.3],
+            opacity: [0.2, 0.8, 0.2],
+            scale: [1, 1.5, 1],
           }}
           transition={{
             duration: 3 + Math.random() * 2,

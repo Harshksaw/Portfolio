@@ -21,6 +21,8 @@ import {
 export function EnhancedWorkSection() {
   const [activeProject, setActiveProject] = useState(0);
   const [activeFilter, setActiveFilter] = useState<ProjectType>("All");
+  const [autoAdvance, setAutoAdvance] = useState(true);
+  const [filteredProjects, setFilteredProjects] = useState(projects);
   const containerRef = useRef<HTMLDivElement>(null);
   
   const { scrollYProgress } = useScroll({
@@ -33,31 +35,47 @@ export function EnhancedWorkSection() {
   const opacity = useTransform(scrollYProgress, [0, 0.5, 1], [1, 0.8, 0]);
   const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.9]);
 
-  const currentProject = projects[activeProject];
+  const currentProject = filteredProjects[activeProject] || projects[0];
 
-  // Auto-advance projects every 7 seconds
+  // Auto-advance projects only when enabled and on "All" filter
   useEffect(() => {
+    if (!autoAdvance || activeFilter !== "All") return;
+    
     const interval = setInterval(() => {
-      setActiveProject((prev) => (prev + 1) % projects.length);
-    }, 7000); // Change project every 7 seconds
+      setActiveProject((prev) => (prev + 1) % filteredProjects.length);
+    }, 7000);
     return () => clearInterval(interval);
-  }, []);
+  }, [autoAdvance, activeFilter, filteredProjects.length]);
+
+  // Update filtered projects when filter changes
+  useEffect(() => {
+    if (activeFilter === "All") {
+      setFilteredProjects(projects);
+    } else {
+      const typeMap = { 
+        "Web": "web", 
+        "Mobile": "mobile", 
+      };
+      const filtered = projects.filter(p => p.type === typeMap[activeFilter as keyof typeof typeMap]);
+      setFilteredProjects(filtered);
+    }
+    setActiveProject(0); // Reset to first project when filter changes
+  }, [activeFilter]);
 
   // Handle filter change
   const handleFilterChange = (filter: ProjectType) => {
     setActiveFilter(filter);
     if (filter === "All") {
-      setActiveProject(0);
+      setAutoAdvance(true); // Re-enable auto-advance when going back to "All"
     } else {
-      const typeMap = { 
-        "Web": "web", 
-        "Mobile": "mobile", 
-        // "Tools": "tool", 
-        // "Innovative": "innovative" 
-      };
-      const found = projects.findIndex(p => p.type === typeMap[filter as keyof typeof typeMap]);
-      if (found !== -1) setActiveProject(found);
+      setAutoAdvance(false); // Stop auto-advance when user interacts with specific filter
     }
+  };
+
+  // Handle project change (when clicking on project navigation)
+  const handleProjectChange = (index: number) => {
+    setActiveProject(index);
+    setAutoAdvance(false); // Stop auto-advance when user manually selects project
   };
 
   // Render appropriate mockup based on project type
@@ -154,10 +172,11 @@ export function EnhancedWorkSection() {
 
         {/* Project Navigation */}
         <ProjectNavigation
-          totalProjects={projects.length}
+          totalProjects={filteredProjects.length}
           activeIndex={activeProject}
-          onProjectChange={setActiveProject}
+          onProjectChange={handleProjectChange}
           activeColor={currentProject.color}
+          projects={filteredProjects}
         />
       </motion.div>
     </div>

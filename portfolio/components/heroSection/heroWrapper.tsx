@@ -21,16 +21,16 @@ export function HeroWrapper({}) {
 
   return (
     <main className="section1__wrapper relative max-w-maxWidth grow">
-      {/* Premium background overlay */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 via-purple-600/5 to-yellow-500/5 animate-pulse"></div>
+      {/* Premium dark blue background overlay */}
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-800/10 via-indigo-800/10 to-purple-800/10 animate-pulse"></div>
       
       {/* Floating achievement badges */}
       <div className="absolute top-16 left-1/2 transform -translate-x-1/2 z-30 hidden md:block">
         <div 
           ref={badgeRef}
-          className="bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-6 py-3 rounded-full font-bold text-lg shadow-lg"
+          className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-6 py-3 rounded-full font-bold text-lg shadow-lg border border-blue-400/30"
           style={{
-            filter: "drop-shadow(0 0 20px rgba(255, 215, 0, 0.6))",
+            filter: "drop-shadow(0 0 20px rgba(59, 130, 246, 0.6))",
             animation: "glow 2s ease-in-out infinite alternate"
           }}
         >
@@ -48,7 +48,7 @@ export function HeroWrapper({}) {
       
       <h2 className="left mask pointer-events-none z-20 md:pt-20 pt-10">
         <div className="free anime relative hidden md:block">
-          <span className="bg-gradient-to-r from-white via-yellow-200 to-white bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-blue-400 via-indigo-300 to-blue-200 bg-clip-text text-transparent">
             Software Developer
           </span>
      
@@ -56,21 +56,21 @@ export function HeroWrapper({}) {
         </div>
         <div className="animation__wrapper anime hidden md:block">
         <span className="animate__this animate__this1 left-0 animated-line">
-      Full Stack Developer<span className="yellow__it animate-dot">.</span>
+      Full Stack Developer<span className="violet__it animate-dot">.</span>
       <br />
     </span>
     <span className="animate__this animate__this2 left-0 animated-line">
-      Gen AI Developer<span className="yellow__it animate-dot">.</span>
+      Gen AI Developer<span className="violet__it animate-dot">.</span>
       <br />
     </span>
 
     <span className="animate__this animate__this5 left-0 animated-line">
-      Cloud Architect<span className="yellow__it animate-dot">.</span>
+      Cloud Architect<span className="violet__it animate-dot">.</span>
       <br />
     </span>
 
     <span className="animate__this animate__this8 left-0 animated-line">
-      DevOps Engineer<span className="yellow__it animate-dot">.</span>
+      DevOps Engineer<span className="violet__it animate-dot">.</span>
       <br />
     </span>
           <span>&nbsp;</span>
@@ -81,8 +81,8 @@ export function HeroWrapper({}) {
 
       <style jsx>{`
         @keyframes glow {
-          0% { filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.4)); }
-          100% { filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.8)); }
+          0% { filter: drop-shadow(0 0 10px rgba(59, 130, 246, 0.4)); }
+          100% { filter: drop-shadow(0 0 30px rgba(59, 130, 246, 0.8)); }
         }
 
         @keyframes orbit {

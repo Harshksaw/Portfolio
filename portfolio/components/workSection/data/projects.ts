@@ -39,10 +39,10 @@ export const projects: Project[] = [
     description: "Designed and deployed a production-grade NestJS microservices backend and SEO-optimized Next.js storefront for a high-traffic e-commerce brand. Engineered real-time order pipelines, automated CI/CD releases, and advanced caching—resulting in faster transactions, higher availability, and boosted revenue.",
     tech: ["NestJS", "Next.js", "Docker", "Kubernetes", "Redis", "RabbitMQ", "Prometheus", "Grafana", "TypeScript"],
     link: "https://www.bwisher.com/",
-    github: "https://github.com/Harshksaw/Bwisher-ECommerce",
+    github: "https://github.com/Harshksaw",
     image: "/projects/bwisher.png",
     mobileScreenshots: [],
-    webScreenshots: ["/projects/bwisher1.png", "/projects/bwisher2.png", "/projects/bwisher3.png"],
+    webScreenshots: ["/projects/bwisher.png", "/projects/bwisher2.png", "/projects/bwisher3.png"],
     color: "from-red-500 to-yellow-600",
     featured: true
   }

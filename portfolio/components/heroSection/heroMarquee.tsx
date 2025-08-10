@@ -152,14 +152,14 @@ export function HeroMarquee({}) {
       className="wrapperRollingText anime pointer-events-none z-20 select-none rounded-3xl tracking-[-0.1em] overflow-hidden relative"
     >
       {/* Background gradient for creative flow effect */}
-      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-yellow-500/10 to-transparent animate-pulse opacity-30"></div>
+      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-violet-500/10 to-transparent animate-pulse opacity-30"></div>
       
       {/* Floating particles for extra creativity */}
       <div className="absolute inset-0 overflow-hidden">
         {[...Array(5)].map((_, i) => (
           <div
             key={i}
-            className="absolute w-1 h-1 bg-yellow-400 rounded-full opacity-60"
+            className="absolute w-1 h-1 bg-violet-400 rounded-full opacity-60"
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
@@ -171,7 +171,7 @@ export function HeroMarquee({}) {
       
       <div 
         ref={textRef}
-        className="rollingText md:!text-[150px] text-[80px] font-bold bg-gradient-to-r from-white via-yellow-200 to-white bg-clip-text text-transparent relative z-10"
+        className="rollingText md:!text-[150px] text-[80px] font-bold bg-gradient-to-r from-white via-violet-300 to-white bg-clip-text text-transparent relative z-10"
         style={{
           backgroundSize: "200% 100%",
           animation: "shimmer 3s ease-in-out infinite"

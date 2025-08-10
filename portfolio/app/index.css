@@ -1,5 +1,5 @@
 :root {
-  --primary-color: hsl(213, 100%, 50%);
+  --primary-color: hsl(270, 100%, 65%);
   --padding: clamp(20px, 7.8vw + 10px, 150px);
   --padding2: 0vw;
   /* --colorDark: #0e0d0c;
@@ -143,6 +143,10 @@ ul {
 }
 
 .yellow__it {
+  color: var(--primary-color);
+}
+
+.violet__it {
   color: var(--primary-color);
 }
 
