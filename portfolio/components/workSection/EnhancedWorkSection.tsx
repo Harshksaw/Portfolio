@@ -34,11 +34,11 @@ export function EnhancedWorkSection() {
 
   const currentProject = projects[activeProject];
 
-  // Auto-advance projects
+  // Auto-advance projects every 7 seconds
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveProject((prev) => (prev + 1) % projects.length);
-    }, 5000);
+    }, 7000); // Change project every 7 seconds
     return () => clearInterval(interval);
   }, []);
 
@@ -51,8 +51,8 @@ export function EnhancedWorkSection() {
       const typeMap = { 
         "Web": "web", 
         "Mobile": "mobile", 
-        "Tools": "tool", 
-        "Innovative": "innovative" 
+        // "Tools": "tool", 
+        // "Innovative": "innovative" 
       };
       const found = projects.findIndex(p => p.type === typeMap[filter as keyof typeof typeMap]);
       if (found !== -1) setActiveProject(found);
@@ -96,7 +96,7 @@ export function EnhancedWorkSection() {
             animate={{ opacity: 1, y: 0 }}
             className="text-4xl sm:text-5xl md:text-7xl font-bold mb-4 sm:mb-6"
           >
-            Featured
+
             <span className={`block bg-gradient-to-r ${currentProject.color} bg-clip-text text-transparent mt-2`}>
               Projects
             </span>

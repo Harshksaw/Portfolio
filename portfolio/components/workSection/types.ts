@@ -6,9 +6,13 @@ export interface Project {
   description: string;
   tech: string[];
   link: string;
+  github?: string;
   image: string;
+  mobileScreenshots?: string[];
+  webScreenshots?: string[];
   video?: string;
   color: string;
+  featured?: boolean;
 }
 
 export interface DeviceMockupProps {

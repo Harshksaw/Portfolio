@@ -1,8 +1,25 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { DeviceMockupProps } from '../types';
 
 export const MobileMockup: React.FC<DeviceMockupProps> = ({ project }) => {
+  const [currentScreenshot, setCurrentScreenshot] = useState(0);
+  const screenshots = project.mobileScreenshots || [project.image];
+
+  // Auto-cycle through screenshots every 1.5 seconds (to show multiple within 7-second project interval)
+  useEffect(() => {
+    if (screenshots.length > 1) {
+      const interval = setInterval(() => {
+        setCurrentScreenshot((prev) => (prev + 1) % screenshots.length);
+      }, 1500); // Change screenshot every 1.5 seconds
+      return () => clearInterval(interval);
+    }
+  }, [screenshots.length]);
+
+  // Reset to first screenshot when project changes
+  useEffect(() => {
+    setCurrentScreenshot(0);
+  }, [project.id]);
   return (
     <div className="relative mx-auto">
       {/* Phone Frame */}
@@ -13,21 +30,45 @@ export const MobileMockup: React.FC<DeviceMockupProps> = ({ project }) => {
           
           {/* Screen Content */}
           <div className="w-full h-full bg-gradient-to-br from-blue-500 to-purple-600 relative overflow-hidden">
-            <img 
-              src={project.image} 
-              alt={project.title}
+            <motion.img 
+              key={currentScreenshot}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3 }}
+              src={screenshots[currentScreenshot]} 
+              alt={`${project.title} - Screenshot ${currentScreenshot + 1}`}
               className="w-full h-full object-cover"
             />
             
+            {/* Navigation dots for multiple screenshots */}
+            {screenshots.length > 1 && (
+              <div className="absolute bottom-16 left-1/2 transform -translate-x-1/2 flex gap-2">
+                {screenshots.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentScreenshot(index)}
+                    className={`w-2 h-2 rounded-full transition-colors ${
+                      index === currentScreenshot ? 'bg-white' : 'bg-white/50'
+                    }`}
+                  />
+                ))}
+              </div>
+            )}
+            
             {/* Overlay gradient */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent pointer-events-none"></div>
             
             {/* Status bar */}
-            <div className="absolute top-2 sm:top-4 left-4 right-4 flex justify-between items-center text-white text-xs">
+            <div className="absolute top-2 sm:top-4 left-4 right-4 flex justify-between items-center text-white text-xs z-10">
               <span>9:41</span>
-              <div className="flex gap-1">
-                <div className="w-4 h-2 border border-white rounded-sm">
-                  <div className="w-3 h-1 bg-white rounded-sm"></div>
+              <div className="flex gap-1 items-center">
+                <div className="flex gap-1">
+                  <div className="w-1 h-1 bg-white rounded-full"></div>
+                  <div className="w-1 h-1 bg-white rounded-full"></div>
+                  <div className="w-1 h-1 bg-white/60 rounded-full"></div>
+                </div>
+                <div className="w-6 h-3 border border-white rounded-sm ml-2">
+                  <div className="w-4 h-1 bg-white rounded-sm m-0.5"></div>
                 </div>
               </div>
             </div>
