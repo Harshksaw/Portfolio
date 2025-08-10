@@ -191,7 +191,7 @@ export function ContactSection() {
                 </a>
 
                 <a
-                  href="https://t.me/Harshkumar_dev"
+                  href="https://t.me/harshkdev"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group flex items-center gap-4 p-4 bg-gray-700/30 rounded-lg hover:bg-gray-700/50 transition-all duration-300"
@@ -206,7 +206,7 @@ export function ContactSection() {
                 </a>
 
                 <a
-                  href="https://linkedin.com/in/harshkumardev"
+                  href="https://www.linkedin.com/in/harsh-kumar-saw-32727b247/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group flex items-center gap-4 p-4 bg-gray-700/30 rounded-lg hover:bg-gray-700/50 transition-all duration-300"
@@ -217,6 +217,21 @@ export function ContactSection() {
                       LinkedIn
                     </h4>
                     <p className="text-gray-400 text-sm">Connect professionally</p>
+                  </div>
+                </a>
+
+                <a
+                  href="https://github.com/Harshksaw"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-center gap-4 p-4 bg-gray-700/30 rounded-lg hover:bg-gray-700/50 transition-all duration-300"
+                >
+                  <div className="text-3xl">🐙</div>
+                  <div>
+                    <h4 className="text-white font-semibold group-hover:text-gray-300 transition-colors">
+                      GitHub
+                    </h4>
+                    <p className="text-gray-400 text-sm">View my code & projects</p>
                   </div>
                 </a>
               </div>
