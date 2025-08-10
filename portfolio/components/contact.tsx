@@ -1,6 +1,18 @@
 'use client'
 
 import { useState } from 'react';
+import { z } from 'zod';
+
+// Zod schema for form validation
+export const FormSchema = z.object({
+  name: z.string().min(1, "Name is required").max(100, "Name too long"),
+  email: z.string().email("Invalid email address"),
+  subject: z.string().min(1, "Subject is required").max(200, "Subject too long"),
+  message: z.string().min(10, "Message must be at least 10 characters").max(1000, "Message too long")
+});
+
+// Type definition for form schema
+export type TFormSchema = z.infer<typeof FormSchema>;
 
 export function ContactSection() {
   const [formData, setFormData] = useState({
@@ -59,13 +71,13 @@ export function ContactSection() {
       <div className="max-w-6xl mx-auto px-8">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-6xl font-bold mb-6">
-            Let's Build
+            Let&apos;s Build
             <span className="block bg-gradient-to-r from-green-400 via-blue-500 to-purple-500 bg-clip-text text-transparent mt-2">
               Something Amazing
             </span>
           </h2>
           <p className="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto">
-            Ready to bring your ideas to life? Let's discuss your next project.
+            Ready to bring your ideas to life? Let&apos;s discuss your next project.
           </p>
         </div>
 
@@ -159,7 +171,7 @@ export function ContactSection() {
               {/* Status Messages */}
               {submitStatus === 'success' && (
                 <div className="p-4 bg-green-500/20 border border-green-500/30 rounded-lg text-green-300 text-center">
-                  ✓ Message sent successfully! I'll get back to you soon.
+                  ✓ Message sent successfully! I&apos;ll get back to you soon.
                 </div>
               )}
 

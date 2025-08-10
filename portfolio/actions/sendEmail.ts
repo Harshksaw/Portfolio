@@ -1,20 +1,35 @@
 "use server";
 
-import { TFormSchema } from "@/components/contact";
+import { TFormSchema, FormSchema } from "@/components/contact";
 import { Resend } from "resend";
-import { z } from "zod";
 
 export async function sendEmail(values: TFormSchema) {
-  const resend = new Resend("re_L8AunFxe_AW5vS1eBxxpu3E22H1NrPouQ");
-  const { data, error } = await resend.emails.send({
-    from: `${values.name} <onboarding@resend.dev>`,
-    to: ["hello@Harshkumar.dev"],
-    subject: "Customer Email",
-    text: `Email = ${values.email} \n\nName = ${values.name} \n\nMessage = ${values.message}`,
-  });
-  if (error) {
-    return false;
+  // Validate the input data
+  const validatedFields = FormSchema.safeParse(values);
+  
+  if (!validatedFields.success) {
+    return { success: false, error: "Invalid form data" };
   }
 
-  return data !== null;
+  const { name, email, subject, message } = validatedFields.data;
+
+  try {
+    const resend = new Resend("re_L8AunFxe_AW5vS1eBxxpu3E22H1NrPouQ");
+    const { data, error } = await resend.emails.send({
+      from: `${name} <onboarding@resend.dev>`,
+      to: ["hello@Harshkumar.dev"],
+      subject: `Portfolio Contact: ${subject}`,
+      text: `Email: ${email}\nName: ${name}\nSubject: ${subject}\n\nMessage:\n${message}`,
+    });
+    
+    if (error) {
+      console.error("Resend error:", error);
+      return { success: false, error: "Failed to send email" };
+    }
+
+    return { success: true, data };
+  } catch (error) {
+    console.error("Send email error:", error);
+    return { success: false, error: "Server error" };
+  }
 }

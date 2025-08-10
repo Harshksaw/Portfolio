@@ -10,6 +10,23 @@ import { useAppDispatch } from "@/hooks/reduxHooks";
 import { setActiveSlide } from "@/redux/states/fullpageSlice";
 import { splineSceneVisibility } from "@/redux/states/splineSlice";
 
+// Extend Window interface to include fullpage_api
+declare global {
+  interface Window {
+    fullpage_api?: {
+      destroy: (type?: string) => void;
+      moveTo: (section: number, slide?: number) => void;
+      moveSlideLeft: () => void;
+      moveSlideRight: () => void;
+      setAutoScrolling: (active: boolean) => void;
+      setFitToSection: (active: boolean) => void;
+      setScrollingSpeed: (speed: number) => void;
+      fitToSection: () => void;
+      reBuild: () => void;
+    };
+  }
+}
+
 const opts = {
   autoScrolling: true,
   scrollOverflow: false,

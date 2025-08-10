@@ -8,7 +8,8 @@ import { WorkSection } from "@/components/workSection/workSection"
 import "./index.css";
 
 import { ContactSection } from "@/components/contact";
-import { ExperienceTimelineSection } from "./experience/page";
+import ExperienceTimelineSection from "@/components/ExperienceTimelineSection";
+
 
 export default function HomePage({ }) {
   return (
@@ -30,7 +31,7 @@ export default function HomePage({ }) {
         <div className="relative z-20" style={{ marginTop: "5vh" }}>
 
 
-          <ExperienceTimelineSection />
+          <ExperienceTimelineSection/>
 
           <ContactSection />
         </div>
