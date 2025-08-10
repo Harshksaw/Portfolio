@@ -1,6 +1,5 @@
 import React from "react";
 import Magentic from "@/components/ui/magentic";
-import { Header } from "@/components/header";
 import { Bulge } from "../bulge";
 import { cn } from "@/lib/utils";
 export function WorkSection({
@@ -36,7 +35,6 @@ export function WorkSection({
       text-color${color} `}
       key={item.link}
     >
-      <Header color={color}></Header>
       <Bulge type={color} />
 
       <div className="flex h-[100dvh] w-full items-center px-paddingX">

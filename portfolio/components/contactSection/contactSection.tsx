@@ -3,7 +3,6 @@ import React, { useRef } from "react";
 import Magentic from "@/components/ui/magentic";
 import { BgImagesContainer } from "@/components/contactSection/bgImagesContainer";
 import { useAppSelector } from "@/hooks/reduxHooks";
-import { Header } from "../header";
 import { Bulge } from "../bulge";
 import { links } from "@/data/data";
 export function ContactSection({}) {
@@ -13,7 +12,6 @@ export function ContactSection({}) {
   return (
     <section className="section section__5 third darkGradient ">
       <Bulge type="Light" />
-      <Header color="Light"></Header>
 
       <Magentic // href="mailto:email.coex@gmail.com"
         href={links.contact}

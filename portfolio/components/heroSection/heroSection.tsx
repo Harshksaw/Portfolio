@@ -1,7 +1,6 @@
 import React, { useRef } from "react";
 
 import { HeroWrapper } from "@/components/heroSection/heroWrapper";
-import { Header } from "@/components/header";
 import { Bulge } from "@/components/bulge";
 import { BackgroundParticles } from "@/components/workSection/components/BackgroundParticles";
 
@@ -19,7 +18,6 @@ export function HeroSection({}) {
       <BackgroundParticles count={40} />
       
       <Bulge type="Light" />
-      <Header color="Light" />
       <HeroWrapper />
 
       <Avatar3D/>

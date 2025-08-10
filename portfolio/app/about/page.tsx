@@ -5,7 +5,6 @@ import Link from "next/link";
 import "../work.css";
 import "../header.css";
 import FullpageProviderWork from "@/components/fullpageProviderWork";
-import { Header } from "@/components/header";
 import { HeaderNavigation } from "@/components/headerNavigation";
 import Magentic from "@/components/ui/magentic";
 import { redirect } from "next/navigation";
@@ -29,7 +28,6 @@ export default function WorkPage() {
 
   return (
     <>
-      <Header color="Dark" />
       <div className="darkGradient flex h-screen w-screen flex-col items-center justify-center px-paddingX py-paddingY text-center text-lg text-colorSecondaryLight md:text-3xl">
         About page is not ready yet so you&apos;ll be redirected to my LinkedIn
         instead.

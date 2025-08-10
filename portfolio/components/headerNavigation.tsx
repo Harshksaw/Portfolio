@@ -1,7 +1,6 @@
 import React, { use, useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { CustomEase } from "gsap/CustomEase";
-import { Header } from "./header";
 import { useAppSelector } from "@/hooks/reduxHooks";
 import { Footer } from "./contactSection/footer";
 import Magentic from "./ui/magentic";
@@ -97,11 +96,6 @@ export function HeaderNavigation() {
         id="headerNavigation"
         className="fixed left-0 top-0 z-[6000] hidden h-full w-full -translate-y-full flex-col items-center justify-center p-paddingX"
       >
-        <Header
-          mode="cross"
-          className="headerAnimate"
-          color={color == "Dark" ? "Dark" : "Light"}
-        />
         <nav>
           <ul className="mask flex flex-col items-center justify-center px-8 py-[10vh]">
             {headerData.map((data) => (
