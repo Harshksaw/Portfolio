@@ -39,8 +39,7 @@ export const getProjectsByType = (type: string): Project[] => {
   const typeMap = {
     "Web": "web",
     "Mobile": "mobile", 
-    // "Tools": "tool",
-    // "Innovative": "innovative"
+
   };
   
   return projects.filter(project => project.type === typeMap[type as keyof typeof typeMap]);

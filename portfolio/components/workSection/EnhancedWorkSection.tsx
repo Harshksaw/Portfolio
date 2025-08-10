@@ -8,7 +8,8 @@ import {
   ProjectFilter, 
   ProjectInfo, 
   ProjectNavigation, 
-  BackgroundParticles 
+  BackgroundParticles,
+  ProjectStats 
 } from './components';
 import { 
   MobileMockup, 
@@ -90,20 +91,18 @@ export function EnhancedWorkSection() {
       >
         
         {/* Header */}
-        <div className="text-center mb-12 sm:mb-16">
+        <div className="text-center mb-6 sm:mb-6">
           <motion.h2 
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             className="text-4xl sm:text-5xl md:text-7xl font-bold mb-4 sm:mb-6"
           >
 
-            <span className={`block bg-gradient-to-r ${currentProject.color} bg-clip-text text-transparent mt-2`}>
+            <span className={`block bg-gradient-to-r ${currentProject.color} bg-clip-text text-transparent mt-2 mb-6`}>
               Projects
             </span>
           </motion.h2>
-          <p className="text-lg sm:text-xl text-gray-400 max-w-3xl mx-auto px-4">
-            From web applications to mobile apps, plugins to innovative 3D experiences
-          </p>
+        
         </div>
 
         {/* Project Type Filter */}
@@ -113,7 +112,7 @@ export function EnhancedWorkSection() {
         />
 
         {/* Main Content Grid */}
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+        <div className="grid lg:grid-cols-2 gap-2 lg:gap-16 items-center">
           
           {/* Project Info */}
           <div className="order-2 lg:order-1">
@@ -138,6 +137,20 @@ export function EnhancedWorkSection() {
             </AnimatePresence>
           </div>
         </div>
+
+        {/* Flying Project Stats - Positioned absolutely to not affect layout */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={`stats-${activeProject}`}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+            className="absolute inset-0 pointer-events-none"
+          >
+            <ProjectStats project={currentProject} />
+          </motion.div>
+        </AnimatePresence>
 
         {/* Project Navigation */}
         <ProjectNavigation

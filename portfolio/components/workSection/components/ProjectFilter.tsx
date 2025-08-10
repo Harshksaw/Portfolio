@@ -26,7 +26,7 @@ export const ProjectFilter: React.FC<ProjectFilterProps> = ({
   activeFilter, 
   onFilterChange 
 }) => {
-  const filters: ProjectType[] = ["All", "Web", "Mobile", "Tools", "Innovative"];
+  const filters: ProjectType[] = ["All", "Web", "Mobile"];
 
   return (
     <div className="flex justify-center mb-8 sm:mb-12">

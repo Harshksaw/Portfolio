@@ -46,10 +46,12 @@ export const MobileMockup: React.FC<DeviceMockupProps> = ({ project }) => {
                 {screenshots.map((_, index) => (
                   <button
                     key={index}
+                    type="button"
                     onClick={() => setCurrentScreenshot(index)}
                     className={`w-2 h-2 rounded-full transition-colors ${
                       index === currentScreenshot ? 'bg-white' : 'bg-white/50'
                     }`}
+                    aria-label={`View screenshot ${index + 1} of ${screenshots.length}`}
                   />
                 ))}
               </div>

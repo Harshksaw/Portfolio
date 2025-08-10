@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Project } from '../types';
+import { getTechIcon } from '../utils/techIcons';
 
 interface ProjectInfoProps {
   project: Project;
@@ -38,15 +39,19 @@ export const ProjectInfo: React.FC<ProjectInfoProps> = ({ project }) => {
         <h4 className="text-sm font-semibold text-gray-400 mb-3">Built with:</h4>
         <div className="flex flex-wrap gap-2">
           {project.tech.map((tech, idx) => (
-            <motion.span 
+            <motion.div 
               key={idx}
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: idx * 0.1 }}
-              className="px-3 py-1 bg-gray-800 border border-gray-700 rounded-lg text-sm hover:border-gray-600 transition-colors"
+              className="flex items-center gap-2 px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-sm hover:border-gray-600 transition-colors group"
+              title={tech}
             >
-              {tech}
-            </motion.span>
+              <div className="text-blue-400 group-hover:text-blue-300 transition-colors">
+                {getTechIcon(tech)}
+              </div>
+              <span className="hidden sm:inline">{tech}</span>
+            </motion.div>
           ))}
         </div>
       </div>
@@ -78,13 +83,7 @@ export const ProjectInfo: React.FC<ProjectInfoProps> = ({ project }) => {
             GitHub
           </motion.a>
         )}
-        <motion.button 
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-          className="px-6 sm:px-8 py-3 border border-gray-600 text-gray-300 font-medium rounded-lg hover:border-gray-500 transition-colors"
-        >
-          Case Study
-        </motion.button>
+  
       </div>
     </motion.div>
   );
