@@ -1,6 +1,6 @@
 "use server";
 
-import { TFormSchema } from "@/app/contact/page";
+import { TFormSchema } from "@/components/contact";
 import { Resend } from "resend";
 import { z } from "zod";
 

@@ -56,11 +56,11 @@ export function HeroWrapper({}) {
         </div>
         <div className="animation__wrapper anime hidden md:block">
         <span className="animate__this animate__this1 left-0 animated-line">
-      Full Stack Developer<span className="violet__it animate-dot">.</span>
+      Full Stack Dev<span className="violet__it animate-dot">.</span>
       <br />
     </span>
     <span className="animate__this animate__this2 left-0 animated-line">
-      Gen AI Developer<span className="violet__it animate-dot">.</span>
+      Gen AI Dev<span className="violet__it animate-dot">.</span>
       <br />
     </span>
 

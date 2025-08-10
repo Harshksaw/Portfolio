@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -8,6 +10,7 @@ import {
   motion,
 } from "motion/react";
 import { useState } from "react";
+import { ContactSection } from "../../components/contact";
 
 // Register GSAP plugin
 if (typeof window !== 'undefined') {
@@ -256,33 +259,7 @@ export function ExperienceTimelineSection() {
   );
 }
 
-// Simple transition component for About to Experience
-export function AboutToExperienceTransition() {
-  const triggerRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Create a smooth transition trigger
-      ScrollTrigger.create({
-        trigger: triggerRef.current,
-        start: "top center",
-        onEnter: () => {
-          // Optional: Add any transition effects here
-          console.log("Transitioning to Experience Timeline");
-        },
-      });
-    }, triggerRef);
-
-    return () => ctx.revert();
-  }, []);
-
-  return (
-    <div 
-      ref={triggerRef}
-      className="h-20 bg-gradient-to-b from-gray-100 to-gray-900"
-    />
-  );
-}
 
 // Projects Section (simplified)
 export function ProjectsSection() {
@@ -378,55 +355,4 @@ export function ProjectsSection() {
   );
 }
 
-// Contact Section
-export function ContactSection() {
-  return (
-    <section className="min-h-screen py-20 bg-gradient-to-b from-gray-900 to-black text-white">
-      <div className="max-w-5xl mx-auto px-8 text-center">
-        <div className="mb-20">
-          <h2 className="text-4xl md:text-6xl font-bold mb-6">
-            Let's Build
-            <span className="block bg-gradient-to-r from-green-400 via-blue-500 to-purple-500 bg-clip-text text-transparent mt-2">
-              Something Amazing
-            </span>
-          </h2>
-          <p className="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto">
-            Ready to bring your ideas to life? Let's discuss your next project.
-          </p>
-        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
-          <a
-            href="mailto:hello@harshkumar.dev"
-            className="group p-8 bg-gray-800/60 rounded-2xl border border-gray-700/50 hover:border-green-500/50 transition-all duration-300 hover:scale-105"
-          >
-            <div className="text-5xl mb-6">📧</div>
-            <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-green-400 transition-colors">
-              Send an Email
-            </h3>
-            <p className="text-green-400 font-medium">hello@harshkumar.dev</p>
-          </a>
-
-          <a
-            href="https://t.me/Harshkumar_dev"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group p-8 bg-gray-800/60 rounded-2xl border border-gray-700/50 hover:border-blue-500/50 transition-all duration-300 hover:scale-105"
-          >
-            <div className="text-5xl mb-6">💬</div>
-            <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-blue-400 transition-colors">
-              Chat on Telegram
-            </h3>
-            <p className="text-blue-400 font-medium">@Harshkumar_dev</p>
-          </a>
-        </div>
-
-        <div className="text-center pt-12 border-t border-gray-700/50">
-          <p className="text-gray-400">
-            © 2024 Harsh Kumar. Built with Next.js & ❤️
-          </p>
-        </div>
-      </div>
-    </section>
-  );
-}

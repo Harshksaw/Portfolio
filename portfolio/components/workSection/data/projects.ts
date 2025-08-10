@@ -42,7 +42,7 @@ export const projects: Project[] = [
     github: "https://github.com/Harshksaw",
     image: "/projects/bwisher.png",
     mobileScreenshots: [],
-    webScreenshots: ["/projects/bwisher.png", "/projects/bwisher2.png", "/projects/bwisher3.png"],
+    webScreenshots: ["/projects/bwisher.png", "/projects/bwisher2.png"],
     color: "from-red-500 to-yellow-600",
     featured: true
   }
