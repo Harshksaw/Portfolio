@@ -5,7 +5,7 @@ interface BackgroundParticlesProps {
   count?: number;
 }
 
-export const BackgroundParticles: React.FC<BackgroundParticlesProps> = ({ count = 30 }) => {
+export const BackgroundParticles: React.FC<BackgroundParticlesProps> = ({ count = 10 }) => {
   return (
     <div className="absolute inset-0 overflow-hidden">
       {[...Array(count)].map((_, i) => (
@@ -13,7 +13,7 @@ export const BackgroundParticles: React.FC<BackgroundParticlesProps> = ({ count 
           key={i}
           className="absolute w-1 h-1 bg-blue-300 rounded-full opacity-40"
           style={{
-            left: `${Math.random() * 100}%`,
+            left: `${Math.random() * 150}%`,
             top: `${Math.random() * 100}%`,
           }}
           animate={{

@@ -2,20 +2,41 @@ import React, { useEffect, useRef } from "react";
 import { HeroButton } from "./heroButton";
 import { HeroMarquee } from "./heroMarquee";
 
-export function HeroWrapper({}) {
+export function HeroWrapper({ }) {
   const badgeRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Floating badge animation
+    // Floating badge animation - Mobile optimized
     if (badgeRef.current) {
       const badge = badgeRef.current;
+      const isMobile = window.innerWidth < 768;
       let angle = 0;
+      let animationId: number;
+
       const animate = () => {
-        angle += 0.02;
-        badge.style.transform = `translate(-50%, 0) translateY(${Math.sin(angle) * 3}px) rotate(${Math.sin(angle * 0.5) * 2}deg)`;
-        requestAnimationFrame(animate);
+        angle += isMobile ? 0.015 : 0.02; // Slower on mobile for battery
+        const translateY = Math.sin(angle) * (isMobile ? 2 : 3); // Smaller movement on mobile
+        const rotate = Math.sin(angle * 0.5) * (isMobile ? 1 : 2); // Less rotation on mobile
+
+        badge.style.transform = `translate(-50%, 0) translateY(${translateY}px) rotate(${rotate}deg)`;
+
+        // Use throttled animation on mobile
+        if (isMobile) {
+          setTimeout(() => {
+            animationId = requestAnimationFrame(animate);
+          }, 16); // ~60fps instead of native refresh rate
+        } else {
+          animationId = requestAnimationFrame(animate);
+        }
       };
+
       animate();
+
+      return () => {
+        if (animationId) {
+          cancelAnimationFrame(animationId);
+        }
+      };
     }
   }, []);
 
@@ -23,60 +44,66 @@ export function HeroWrapper({}) {
     <main className="section1__wrapper relative max-w-maxWidth grow">
       {/* Premium dark blue background overlay */}
       <div className="absolute inset-0 bg-gradient-to-br from-blue-800/10 via-indigo-800/10 to-purple-800/10 animate-pulse"></div>
-      
-      {/* Floating achievement badges */}
-      <div className="absolute top-16 left-1/2 transform -translate-x-1/2 z-30 hidden md:block">
-        <div 
+
+      {/* Floating achievement badges - Mobile Optimized */}
+      <div className="absolute top-12  left-60 md:left-1/2 transform -translate-x-1/2 z-30 px-2 sm:px-0">
+        <div
           ref={badgeRef}
-          className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-6 py-3 rounded-full font-bold text-lg shadow-lg border border-blue-400/30"
+          className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white 
+               px-3 py-2 sm:px-6 sm:py-3 
+               rounded-full font-bold 
+               text-sm sm:text-lg 
+               shadow-lg border border-blue-400/30
+               max-w-[calc(100vw-2rem)] sm:max-w-none
+               text-center whitespace-nowrap"
           style={{
-            filter: "drop-shadow(0 0 20px rgba(59, 130, 246, 0.6))",
-            animation: "glow 2s ease-in-out infinite alternate"
+            filter: "drop-shadow(0 0 15px rgba(59, 130, 246, 0.4)) drop-shadow(0 0 30px rgba(59, 130, 246, 0.2))",
+            animation: "glow 2s ease-in-out infinite alternate",
+            fontSize: window?.innerWidth < 768 ? '0.875rem' : '1.125rem' // 14px mobile, 18px desktop
           }}
         >
-          🏆 In Top 2% on  Freelancer.com
+          🏆 In Top 2% on Freelancer.com
         </div>
       </div>
 
-   
 
 
-   
+
 
 
       {/* <HeroButton /> */}
-      
+
       <h2 className="left mask pointer-events-none z-20 md:pt-20 pt-10">
         <div className="free anime relative hidden md:block">
           <span className="bg-gradient-to-r from-blue-400 via-indigo-300 to-blue-200 bg-clip-text text-transparent">
             Software Developer
           </span>
-     
+
 
         </div>
         <div className="animation__wrapper anime hidden md:block">
-        <span className="animate__this animate__this1 left-0 animated-line">
-      Full Stack Dev<span className="violet__it animate-dot">.</span>
-      <br />
-    </span>
-    <span className="animate__this animate__this2 left-0 animated-line">
-      Gen AI Dev<span className="violet__it animate-dot">.</span>
-      <br />
-    </span>
+          <span className="animate__this animate__this1 left-0 animated-line">
+            Full Stack Dev<span className="violet__it animate-dot">.</span>
+            <br />
+          </span>
+          <span className="animate__this animate__this2 left-0 animated-line">
+            Gen AI Dev<span className="violet__it animate-dot">.</span>
+            <br />
+          </span>
 
-    <span className="animate__this animate__this5 left-0 animated-line">
-      Cloud Architect<span className="violet__it animate-dot">.</span>
-      <br />
-    </span>
+          <span className="animate__this animate__this5 left-0 animated-line">
+            Cloud Architect<span className="violet__it animate-dot">.</span>
+            <br />
+          </span>
 
-    <span className="animate__this animate__this8 left-0 animated-line">
-      DevOps Engineer<span className="violet__it animate-dot">.</span>
-      <br />
-    </span>
+          <span className="animate__this animate__this8 left-0 animated-line">
+            DevOps Engineer<span className="violet__it animate-dot">.</span>
+            <br />
+          </span>
           <span>&nbsp;</span>
         </div>
       </h2>
-      
+
       <HeroMarquee />
 
       <style jsx>{`
