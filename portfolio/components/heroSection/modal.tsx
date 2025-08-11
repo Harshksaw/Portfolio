@@ -1,44 +1,36 @@
 // @ts-nocheck
-import { Canvas } from "@react-three/fiber";
-import {
-  AccumulativeShadows,
-  RandomizedLight,
-  OrbitControls,
-  Environment,
-  useGLTF,
-  useVideoTexture,
-  useAnimations,
-} from "@react-three/drei";
-import {
-  EffectComposer,
-  Bloom,
-  HueSaturation,
-  BrightnessContrast,
-  TiltShift2,
-  WaterEffect,
-  ToneMapping,
-} from "@react-three/postprocessing";
-
-import { useLoader, useFrame } from "@react-three/fiber";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
+import Image from "next/image";
 
 export default function Modal() {
   const [mouseX, setMouseX] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    const handleMouseMove = (e) => {
-      // Normalize mouse position to range -0.5 to 0.5
-      setMouseX(e.clientX / window.innerWidth - 0.5);
+    const handleMouseMove = (e: MouseEvent) => {
+      setMouseX((e.clientX / window.innerWidth - 0.5) * 0.3);
     };
-
+    
     window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
+    
+    // Simulate loading
+    const timer = setTimeout(() => setIsLoaded(true), 500);
+    
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      clearTimeout(timer);
+    };
   }, []);
 
   return (
-    <div style={{ width: '100%', height: '100vh', position: 'relative' }}>
+    <div 
+      style={{ 
+        width: "100%", 
+        height: "100vh", 
+        position: "relative",
+        background: "linear-gradient(135deg, #1e3a8a, #1f2937, #000000)"
+      }}
+    >
       {!isLoaded && (
         <div style={{
           position: 'absolute',
@@ -46,7 +38,7 @@ export default function Modal() {
           left: 0,
           width: '100%',
           height: '100%',
-          backgroundColor: '#ffff',
+          backgroundColor: 'rgba(0,0,0,0.8)',
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
@@ -68,7 +60,7 @@ export default function Modal() {
               borderRadius: '50%',
               animation: 'spin 1s linear infinite'
             }}></div>
-            Loading 3D Model...
+            Loading Avatar...
           </div>
           <style>
             {`
@@ -81,83 +73,27 @@ export default function Modal() {
         </div>
       )}
       
-      <Canvas
-        gl={{ antialias: false }}
-        flat
-        shadows
-        camera={{ position: [0, 1.2, 3], fov: 35 }}
+      <div 
+        style={{
+          width: "100%",
+          height: "100%",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          transform: `rotateY(${mouseX * 10}deg)`,
+          transition: "transform 0.1s ease-out"
+        }}
       >
-        <ambientLight intensity={3} />
-        <AvatarScene
-          position={[0, -3.5, 0]}
-          scale={5.5}
-          rotation={[0, 0.6 + mouseX * Math.PI, 0]}
-          onLoaded={() => setIsLoaded(true)}
-        />
-        
-        <Postpro />
-      </Canvas>
+        <div className="relative w-[600px] h-[600px]">
+          <Image
+            src="/img/me.png"
+            alt="Avatar"
+            fill
+            className="object-contain drop-shadow-2xl filter brightness-110"
+            priority
+          />
+        </div>
+      </div>
     </div>
-  );
-}
-
-function Postpro() {
-  return (
-    <EffectComposer disableNormalPass>
-      <Bloom mipmapBlur luminanceThreshold={0.1} intensity={2} />
-    </EffectComposer>
-  );
-}
-
-function Cookie(props: any) {
-  const texture = useVideoTexture("/video/caustics.mp4");
-  return <spotLight decay={0} map={texture} castShadow {...props} />;
-}
-
-function Avatar(props: any) {
-  const { scene, animations } = useGLTF("/avatar.glb");
-  const meshRef = useRef();
-  const { actions } = useAnimations(animations, meshRef);
-  
-  useEffect(() => {
-    if (actions && Object.keys(actions).length > 0) {
-      const firstAction = Object.values(actions)[0];
-      firstAction?.play();
-    }
-  }, [actions]);
-
-  return (
-    <primitive
-      ref={meshRef}
-      object={scene}
-      {...props}
-      dispose={null}
-    />
-  );
-}
-
-function AvatarScene({ onLoaded, ...props }: any) {
-  const { scene, animations } = useGLTF("/avatar.glb");
-  const meshRef = useRef();
-  const { actions } = useAnimations(animations, meshRef);
-  
-  useEffect(() => {
-    if (actions && Object.keys(actions).length > 0) {
-      const firstAction = Object.values(actions)[0];
-      firstAction?.play();
-    }
-  }, [actions]);
-
-  useEffect(() => {
-    if (scene && onLoaded) {
-      // Small delay to ensure rendering is complete
-      setTimeout(() => {
-        onLoaded();
-      }, 100);
-    }
-  }, [scene, onLoaded]);
-
-  return (
-    <primitive ref={meshRef} object={scene} {...props} />
   );
 }

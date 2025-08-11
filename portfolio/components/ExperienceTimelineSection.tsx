@@ -162,7 +162,7 @@ export default  function ExperienceTimelineSection() {
   return (
     <section 
       ref={sectionRef}
-      className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white relative"
+      className="min-h-screen bg-black text-white relative"
     >
       <div className="timeline-content">
         <Timeline data={timelineData} />

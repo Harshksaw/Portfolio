@@ -46,26 +46,23 @@ export default function HomePage({ }) {
 
       {/* Normal scroll content - Optimized with intersection observer lazy loading */}
       <div className="normal-scroll-content">
+        {/* Experience Timeline Section - Lazy loaded */}
+        <LazySection 
+          name="Experience Timeline" 
+          rootMargin="150px"
+          fallback={<ComponentLoader name="Experience Timeline" />}
+        >
+          <ExperienceTimelineSection />
+        </LazySection>
 
-        {/* Experience Timeline Section - Lazy loaded with smaller margin */}
-        <div className="relative z-20" style={{ marginTop: "5vh" }}>
-          <LazySection 
-            name="Experience Timeline" 
-            rootMargin="150px"
-            fallback={<ComponentLoader name="Experience Timeline" />}
-          >
-            <ExperienceTimelineSection />
-          </LazySection>
-
-          {/* Contact Section - Lazy loaded when almost in view */}
-          <LazySection 
-            name="Contact Form" 
-            rootMargin="100px"
-            fallback={<ComponentLoader name="Contact Form" />}
-          >
-            <ContactSection />
-          </LazySection>
-        </div>
+        {/* Contact Section - Lazy loaded when almost in view */}
+        <LazySection 
+          name="Contact Form" 
+          rootMargin="100px"
+          fallback={<ComponentLoader name="Contact Form" />}
+        >
+          <ContactSection />
+        </LazySection>
       </div>
     </>
   );

@@ -1,21 +1,11 @@
-import React, { useRef, Suspense, lazy } from "react";
+import React, { useRef } from "react";
 
 import { HeroWrapper } from "@/components/heroSection/heroWrapper";
 import { Bulge } from "@/components/bulge";
 import { BackgroundParticles } from "@/components/workSection/components/BackgroundParticles";
-import MatrixLoader from "@/components/MatrixLoader";
+import AvatarImage from "@/components/AvatarImage";
 
 import { ModalWrapper } from "./modalWrapper";
-
-// Lazy load heavy 3D component for better initial performance
-const Avatar3D = lazy(() => import("../Avatar3d"));
-
-// Matrix loader for 3D avatar - positioned in bottom right corner
-const Avatar3DLoader = () => (
-  <div className="fixed bottom-8 right-8 w-64 h-64 rounded-lg overflow-hidden">
-    <MatrixLoader compact={true} />
-  </div>
-);
 
 export function HeroSection({}) {
   const sectionRef = useRef(null);
@@ -30,10 +20,8 @@ export function HeroSection({}) {
       <Bulge type="Light" />
       <HeroWrapper />
 
-      {/* Lazy load 3D Avatar for better performance */}
-      <Suspense fallback={<Avatar3DLoader />}>
-        <Avatar3D />
-      </Suspense>
+      {/* Static Avatar Image */}
+      <AvatarImage />
     </section>
   );
 }

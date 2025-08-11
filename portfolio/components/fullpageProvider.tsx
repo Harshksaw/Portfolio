@@ -139,80 +139,8 @@ const FullpageProvider = ({ children }: { children: React.ReactNode }) => {
       }
     }
 
-    // Keep your original GSAP animation logic - only for existing sections
-    const flex = screen.width > 540 ? 17 : 5;
-    
-    if (direction === "down") {
-      gsap
-        .timeline()
-        .from(`.${destination.anchor} .rounded__div__down`, {
-          duration: 0.1,
-        })
-        .fromTo(
-          `.${destination.anchor} .rounded__div__down`,
-          {
-            height: `${flex}vh`,
-          },
-          {
-            height: "0vh",
-            duration: 1.2,
-            ease: CustomEase.create("custom", "M0,0 C0.52,0.01 0.16,1 1,1 "),
-          },
-        );
-
-      gsap
-        .timeline()
-        .from(`.${destination.anchor} .anime`, {
-          duration: 0.3,
-        })
-        .fromTo(
-          `.${destination.anchor} .anime`,
-          {
-            y: "30vh",
-          },
-          {
-            y: "0vh",
-            duration: 1.1,
-            stagger: 0.1,
-            ease: CustomEase.create("custom", "M0,0 C0.52,0.01 0.16,1 1,1 "),
-          },
-        );
-    } else if (direction === "up") {
-      gsap
-        .timeline()
-        .from(`.${destination.anchor} .rounded__div__up`, {
-          duration: 0.1,
-        })
-        .fromTo(
-          `.${destination.anchor} .rounded__div__up`,
-          {
-            height: `${flex}vh`,
-          },
-          {
-            height: "0vh",
-            duration: 1.2,
-            ease: CustomEase.create("custom", "M0,0 C0.52,0.01 0.16,1 1,1 "),
-          },
-        );
-
-      gsap
-        .timeline()
-        .from(`.${destination.anchor} .anime`, {
-          duration: 0.3,
-        })
-        .fromTo(
-          `.${destination.anchor} .anime`,
-          {
-            y: "-30vh",
-          },
-          {
-            y: "0vh",
-            duration: 1.1,
-            stagger: -0.08,
-            ease: CustomEase.create("custom", "M0,0 C0.52,0.01 0.16,1 1,1 "),
-          },
-        );
-    }
+    // Removed problematic GSAP animations that interfere with scrolling
+    // Keep only essential transition logic without visual animations
   };
 
   // Enhanced transition function that handles both desktop and mobile
@@ -226,7 +154,7 @@ const FullpageProvider = ({ children }: { children: React.ReactNode }) => {
     
     // Add a visual indicator for mobile users
     const indicator = document.createElement('div');
-    indicator.innerHTML = '⬇️ Scrolling enabled';
+
     indicator.style.cssText = `
       position: fixed;
       top: 50%;
@@ -273,7 +201,7 @@ const FullpageProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   // Handle transition from Work section to normal scroll
-  const afterLoad = (origin: any, destination: any, direction: any) => {
+  const afterLoad = (_origin: any, destination: any, _direction: any) => {
     // If we're on the Work section (second) - transition to normal scroll
     if (destination.anchor === "second") {
       
