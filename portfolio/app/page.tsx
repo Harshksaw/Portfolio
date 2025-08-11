@@ -5,6 +5,7 @@ import { Cursor } from "@/components/cursor";
 import FullpageProvider from "@/components/fullpageProvider";
 import { HeaderNavigation } from "@/components/headerNavigation";
 import LazySection from "@/components/LazySection";
+import { useVisitTracker } from "@/hooks/useVisitTracker";
 
 import "./index.css";
 
@@ -34,6 +35,9 @@ const ComponentLoader = ({ name }: { name: string }) => (
 
 
 export default function HomePage({ }) {
+  // Track page visits
+  useVisitTracker();
+
   return (
     <>
       <Cursor />
