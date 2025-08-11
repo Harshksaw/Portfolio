@@ -58,8 +58,7 @@ export function HeroWrapper({ }) {
                text-center whitespace-nowrap"
           style={{
             filter: "drop-shadow(0 0 15px rgba(59, 130, 246, 0.4)) drop-shadow(0 0 30px rgba(59, 130, 246, 0.2))",
-            animation: "glow 2s ease-in-out infinite alternate",
-            fontSize: window?.innerWidth < 768 ? '0.875rem' : '1.125rem' // 14px mobile, 18px desktop
+            animation: "glow 2s ease-in-out infinite alternate"
           }}
         >
           🏆 In Top 2% on Freelancer.com

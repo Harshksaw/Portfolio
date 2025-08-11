@@ -3,19 +3,17 @@ import React, { useRef, Suspense, lazy } from "react";
 import { HeroWrapper } from "@/components/heroSection/heroWrapper";
 import { Bulge } from "@/components/bulge";
 import { BackgroundParticles } from "@/components/workSection/components/BackgroundParticles";
+import MatrixLoader from "@/components/MatrixLoader";
 
 import { ModalWrapper } from "./modalWrapper";
 
 // Lazy load heavy 3D component for better initial performance
 const Avatar3D = lazy(() => import("../Avatar3d"));
 
-// Loading placeholder for 3D avatar
+// Matrix loader for 3D avatar - positioned in bottom right corner
 const Avatar3DLoader = () => (
-  <div className="fixed bottom-8 right-8 w-64 h-64 flex items-center justify-center">
-    <div className="text-center text-white/70">
-      <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-green-400 mx-auto mb-4"></div>
-      <p className="text-sm font-mono">Loading 3D Avatar...</p>
-    </div>
+  <div className="fixed bottom-8 right-8 w-64 h-64 rounded-lg overflow-hidden">
+    <MatrixLoader compact={true} />
   </div>
 );
 
