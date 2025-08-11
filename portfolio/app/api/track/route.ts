@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { ipinfoLookup } from "@/utils/ipinfo";
 import { kv } from "@vercel/kv";
 
-const TRACK_SECRET = process.env.TRACK_SECRET;
+const TRACK_SECRET = process.env.NEXT_PUBLIC_TRACK_SECRET;
 
 function getClientIp(req: NextRequest): string | null {
 	// Try Vercel/standard headers first
