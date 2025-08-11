@@ -49,13 +49,7 @@ export function HeroWrapper({ }) {
       <div className="absolute top-12  left-60 md:left-1/2 transform -translate-x-1/2 z-30 px-2 sm:px-0">
         <div
           ref={badgeRef}
-          className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white 
-               px-3 py-2 sm:px-6 sm:py-3 
-               rounded-full font-bold 
-               text-sm sm:text-lg 
-               shadow-lg border border-blue-400/30
-               max-w-[calc(100vw-2rem)] sm:max-w-none
-               text-center whitespace-nowrap"
+       className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-3 py-2 sm:px-6 sm:py-3 rounded-full font-bold text-sm sm:text-lg shadow-lg border border-blue-400/30 max-w-[calc(100vw-2rem)] sm:max-w-none text-center whitespace-nowrap"
           style={{
             filter: "drop-shadow(0 0 15px rgba(59, 130, 246, 0.4)) drop-shadow(0 0 30px rgba(59, 130, 246, 0.2))",
             animation: "glow 2s ease-in-out infinite alternate"
