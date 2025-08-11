@@ -54,6 +54,7 @@ export function ContactSection() {
         to_email: process.env.NEXT_PUBLIC_TO_EMAIL || 'hello@harshkumar.dev'
       };
 
+      //@ts-ignore
       await emailjs.send(serviceId, templateId, templateParams, publicKey);
       
       setSubmitStatus('success');
