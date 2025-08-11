@@ -37,6 +37,8 @@ export async function POST(req: NextRequest) {
 
 
 	const ip = getClientIp(req);
+	console.log('🌐 Client IP:', ip || 'NOT FOUND');
+	
 	let geo: {
 		city: string | null;
 		region: string | null;
@@ -46,8 +48,13 @@ export async function POST(req: NextRequest) {
 		org: string | null;
 		timezone: string | null;
 	} = { city: null, region: null, country: null, latitude: null, longitude: null, org: null, timezone: null };
+	
 	if (ip) {
+		console.log('🔍 Looking up geolocation for IP...');
 		geo = await ipinfoLookup(ip);
+		console.log('📍 Geolocation result:', geo);
+	} else {
+		console.log('⚠️ No IP found, skipping geolocation');
 	}
 
 	// Device info (optional, can be extended)
@@ -57,15 +64,29 @@ export async function POST(req: NextRequest) {
 	const is_bot = payload.is_bot ?? null;
 	const locale = payload.locale ?? null;
 
-	// Store in KV: one list per day
-	await kv.lpush(`visits:${new Date().toISOString().slice(0, 10)}`, JSON.stringify({
+	const visitData = {
 		ts: payload.ts,
 		path: payload.path,
 		referer: payload.referer ?? null,
 		...geo,
 		session_id: payload.session_id ?? null,
 		device_type, browser, os, is_bot, locale,
-	}));
+	};
 
+	console.log('💾 Storing visit data:', visitData);
+
+	// Store in KV: one list per day
+	const todayKey = `visits:${new Date().toISOString().slice(0, 10)}`;
+	console.log('🗄️ Using Redis key:', todayKey);
+	
+	try {
+		await kv.lpush(todayKey, JSON.stringify(visitData));
+		console.log('✅ Visit data stored successfully in Redis');
+	} catch (error) {
+		console.error('❌ Failed to store in Redis:', error);
+		return new NextResponse("Internal Server Error", { status: 500 });
+	}
+
+	console.log('🎉 Visit tracking completed successfully');
 	return new NextResponse(null, { status: 204 });
 }
