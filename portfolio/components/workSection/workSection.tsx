@@ -3,8 +3,8 @@ import { EnhancedWorkSection } from "./EnhancedWorkSection";
 
 export function WorkSection() {
   return (
-    <div className="overflow-hidden bg-[#0B0B0F] w-full">
+    <section className="section section__2 second  overflow-hidden bg-[#0B0B0F] w-full h-screen">
       <EnhancedWorkSection />
-    </div>
+    </section>
   );
 }

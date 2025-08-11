@@ -18,7 +18,7 @@ export const ProjectNavigation: React.FC<ProjectNavigationProps> = ({
   projects
 }) => {
   return (
-    <div className="flex justify-center mt-12 sm:mt-16">
+    <div className="flex justify-center mt-2 sm:mt-4 mb-6">
       <div className="flex flex-wrap gap-2 sm:gap-3 max-w-4xl justify-center">
         {projects.map((project, idx) => (
           <motion.button

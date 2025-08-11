@@ -8,13 +8,6 @@ import LazySection from "@/components/LazySection";
 
 import "./index.css";
 
-// Lazy load non-critical components with priority loading
-const WorkSection = lazy(() => 
-  import("@/components/workSection/workSection").then(module => ({ 
-    default: module.WorkSection 
-  }))
-);
-
 const ContactSection = lazy(() => 
   import("@/components/contact").then(module => ({ 
     default: module.ContactSection 
@@ -53,14 +46,6 @@ export default function HomePage({ }) {
 
       {/* Normal scroll content - Optimized with intersection observer lazy loading */}
       <div className="normal-scroll-content">
-        {/* Work Section - Lazy loaded with intersection observer */}
-        <LazySection 
-          name="Work Portfolio" 
-          rootMargin="200px" 
-          fallback={<ComponentLoader name="Work Portfolio" />}
-        >
-          <WorkSection />
-        </LazySection>
 
         {/* Experience Timeline Section - Lazy loaded with smaller margin */}
         <div className="relative z-20" style={{ marginTop: "5vh" }}>

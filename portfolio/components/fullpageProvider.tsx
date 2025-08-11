@@ -35,7 +35,7 @@ const opts = {
   navigationPosition: "left",
   scrollingSpeed: 1300,
   easingcss3: "cubic-bezier(.70,0,.30,1)",
-  anchors: ["first", "second"], // ONLY Hero and About
+  anchors: ["first", "second"], // Hero and Work sections only
   licenseKey: "gplv3-license",
   credits: { enabled: false },
   // Disable continuous vertical to prevent loop
@@ -47,7 +47,6 @@ const opts = {
 const FullpageProvider = ({ children }: { children: React.ReactNode }) => {
   const [isMobile, setIsMobile] = useState(false);
   const about = useRef<gsap.core.Timeline | null>(null);
-  const textAnim__section2__down = useRef<gsap.core.Tween | null>(null);
   const work_heading = useRef<gsap.core.Tween | null>(null);
   const videoElement = useRef<HTMLVideoElement | null>(null);
   const hasTransitioned = useRef(false);
@@ -59,20 +58,32 @@ const FullpageProvider = ({ children }: { children: React.ReactNode }) => {
 
   const dispatch = useAppDispatch();
 
-  // Check if device is mobile
+  // Proper mobile detection
   useEffect(() => {
     const checkMobile = () => {
-      const userAgent = navigator.userAgent.toLowerCase();
-      const isMobileDevice = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
-      const isSmallScreen = window.innerWidth <= 768;
-      const hasTouchScreen = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+      const mobile = window.innerWidth <= 768 || 'ontouchstart' in window;
+      setIsMobile(mobile);
       
-      setIsMobile(isMobileDevice || isSmallScreen || hasTouchScreen);
+      if (mobile) {
+        // Destroy fullpage on mobile
+        if (window.fullpage_api) {
+          window.fullpage_api.destroy('all');
+        }
+        document.body.style.overflow = 'auto';
+        document.documentElement.style.overflow = 'auto';
+      }
     };
 
     checkMobile();
     window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+      // Cleanup on unmount
+      if (window.fullpage_api) {
+        window.fullpage_api.destroy('all');
+      }
+    };
   }, []);
 
   // Enable normal scrolling on mobile
@@ -91,7 +102,7 @@ const FullpageProvider = ({ children }: { children: React.ReactNode }) => {
 
     dispatch(setActiveSlide([destination.anchor, direction]));
 
-    // Only handle body class changes for existing sections
+    // Handle body class changes for existing sections
     if (destination.anchor === "second") {
       document.body.classList.add("darkGradient");
     } else if (destination.anchor === "first") {
@@ -113,16 +124,15 @@ const FullpageProvider = ({ children }: { children: React.ReactNode }) => {
       }
     }
 
-    // About section logic
+    // Work section logic (now second section)
     if (destination.anchor === "second") {
       if (direction === "down") {
-        textAnim__section2__down.current?.restart(true);
         work_heading.current?.restart(true);
       } else {
-        textAnim__section2__down.current?.restart();
+        work_heading.current?.restart();
       }
       
-      // Video logic
+      // Video logic for work section
       if (videoElement.current) {
         videoElement.current.currentTime = 1.6;
         videoElement.current.play();
@@ -262,9 +272,9 @@ const FullpageProvider = ({ children }: { children: React.ReactNode }) => {
     }, 100);
   };
 
-  // Handle transition from About section to normal scroll
+  // Handle transition from Work section to normal scroll
   const afterLoad = (origin: any, destination: any, direction: any) => {
-    // If we're on the About section (second)
+    // If we're on the Work section (second) - transition to normal scroll
     if (destination.anchor === "second") {
       
       // Handle desktop wheel events
@@ -392,30 +402,7 @@ const FullpageProvider = ({ children }: { children: React.ReactNode }) => {
         "-=0.9",
       );
 
-    // Keep your original about section text animation
-    try {
-      const myText = new SplitType("#my-text", { types: "lines" });
-      const myText2 = new SplitType("#my-text .line", {
-        types: "lines",
-        lineClass: "innnerLine",
-      });
-
-      textAnim__section2__down.current = gsap.from(
-        "#my-text .line .innnerLine",
-        {
-          y: "200%",
-          opacity: 0,
-          skewX: -10,
-          paused: true,
-          delay: 0.25,
-          stagger: 0.12,
-          duration: 1.5,
-          ease: CustomEase.create("custom", "M0,0,C0.5,0,0,1,1,1"),
-        },
-      );
-    } catch (error) {
-      console.log("SplitType not available or element not found");
-    }
+    // Note: About section text animation removed since AboutSection is no longer used
 
     // Keep your original work heading animation
     const workHeadingElement = document.querySelector(".work_heading");
@@ -443,7 +430,6 @@ const FullpageProvider = ({ children }: { children: React.ReactNode }) => {
     // Cleanup function
     return () => {
       about.current?.kill();
-      textAnim__section2__down.current?.kill();
       work_heading.current?.kill();
       
       // Clean up scroll listeners
@@ -453,25 +439,29 @@ const FullpageProvider = ({ children }: { children: React.ReactNode }) => {
     };
   }, []);
 
+  // Mobile: Render children directly without fullpage
+  if (isMobile) {
+    return (
+      <div className="mobile-container">
+        {React.Children.map(children, (child, index) => (
+          <div key={index} className="mobile-section">
+            {child}
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  // Desktop: Use fullpage.js
   return (
-    <>
-      {isMobile ? (
-        // Mobile: Normal scrolling
-        <div className="mobile-scroll-container">
-          {children}
-        </div>
-      ) : (
-        // Desktop: Fullpage.js
-        <ReactFullpage
-          {...opts}
-          onLeave={onLeave}
-          afterLoad={afterLoad}
-          render={() => {
-            return <ReactFullpage.Wrapper>{children}</ReactFullpage.Wrapper>;
-          }}
-        />
-      )}
-    </>
+    <ReactFullpage
+      {...opts}
+      onLeave={onLeave}
+      afterLoad={afterLoad}
+      render={() => {
+        return <ReactFullpage.Wrapper>{children}</ReactFullpage.Wrapper>;
+      }}
+    />
   );
 };
 

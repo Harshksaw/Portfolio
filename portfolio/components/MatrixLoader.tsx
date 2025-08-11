@@ -1,12 +1,22 @@
 "use client";
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const MatrixLoader = ({ onComplete, compact = false }: { onComplete?: () => void; compact?: boolean }) => {
+const MatrixLoader = ({ 
+  onComplete, 
+  compact = false,
+  instanceId = 'default'
+}: { 
+  onComplete?: () => void; 
+  compact?: boolean;
+  instanceId?: string;
+}) => {
   const [isVisible, setIsVisible] = useState(true);
   const [loadingStep, setLoadingStep] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+  const isMounted = useRef(true);
+  const animationFrameId = useRef<number>();
   
   // Optimized character set for better performance
   const chars = useMemo(() => '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン'.split(''), []);
@@ -29,6 +39,22 @@ const MatrixLoader = ({ onComplete, compact = false }: { onComplete?: () => void
     { text: "3D Model Ready!", delay: 2.0, isComplete: true }
   ], []);
   
+  // Prevent multiple instances
+  useEffect(() => {
+    const existingLoaders = document.querySelectorAll(`[data-loader-id="${instanceId}"]`);
+    if (existingLoaders.length > 1) {
+      setIsVisible(false);
+      return;
+    }
+    
+    return () => {
+      isMounted.current = false;
+      if (animationFrameId.current) {
+        cancelAnimationFrame(animationFrameId.current);
+      }
+    };
+  }, [instanceId]);
+
   useEffect(() => {
     // Detect mobile and prevent body scroll
     const checkMobile = () => {
@@ -50,28 +76,34 @@ const MatrixLoader = ({ onComplete, compact = false }: { onComplete?: () => void
     document.body.style.top = '0';
     document.body.style.left = '0';
     
-    // Update loading steps with faster timing
+    // Update loading steps with cleanup check
     loadingSteps.forEach((step, index) => {
-      setTimeout(() => {
-        setLoadingStep(index);
+      const timeoutId = setTimeout(() => {
+        if (isMounted.current) {
+          setLoadingStep(index);
+        }
       }, step.delay * 1000);
+      
+      return () => clearTimeout(timeoutId);
     });
 
-    // Complete loading after 4 seconds (2s for 3D model + 2s matrix display)
+    // Complete after 2 seconds (reduced from 4)
     const timer = setTimeout(() => {
-      setIsVisible(false);
-      setTimeout(() => {
-        // Restore original body styles
-        document.body.style.overflow = originalOverflow;
-        document.body.style.position = originalPosition;
-        document.body.style.width = '';
-        document.body.style.height = '';
-        document.body.style.top = '';
-        document.body.style.left = '';
-        
-        onComplete?.();
-      }, 500);
-    }, 4000);
+      if (isMounted.current) {
+        setIsVisible(false);
+        setTimeout(() => {
+          // Restore original body styles
+          document.body.style.overflow = originalOverflow;
+          document.body.style.position = originalPosition;
+          document.body.style.width = '';
+          document.body.style.height = '';
+          document.body.style.top = '';
+          document.body.style.left = '';
+          
+          onComplete?.();
+        }, 300);
+      }
+    }, 2000);
 
     return () => {
       clearTimeout(timer);
@@ -91,9 +123,10 @@ const MatrixLoader = ({ onComplete, compact = false }: { onComplete?: () => void
     <AnimatePresence>
       {isVisible && (
         <motion.div
+          data-loader-id={instanceId}
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.3 }}
           className={compact ? "absolute inset-0 bg-black z-50 flex items-center justify-center" : "fixed inset-0 bg-black z-[9999] flex items-center justify-center"}
         >
           {/* Optimized Matrix Rain Background - Reduced for mobile */}

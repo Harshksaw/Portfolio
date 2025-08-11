@@ -97,7 +97,7 @@ export function EnhancedWorkSection() {
   return (
     <div 
       ref={containerRef} 
-      className="min-h-screen bg-gradient-to-b from-gray-900 via-black to-gray-900 text-white relative overflow-hidden"
+      className="min-h-screen bg-gradient-to-b text-white relative overflow-hidden"
     >
       
       {/* Animated background particles */}
@@ -127,6 +127,13 @@ export function EnhancedWorkSection() {
         <ProjectFilter 
           activeFilter={activeFilter}
           onFilterChange={handleFilterChange}
+        />
+           <ProjectNavigation
+          totalProjects={filteredProjects.length}
+          activeIndex={activeProject}
+          onProjectChange={handleProjectChange}
+          activeColor={currentProject.color}
+          projects={filteredProjects}
         />
 
         {/* Main Content Grid */}
@@ -171,13 +178,7 @@ export function EnhancedWorkSection() {
         </AnimatePresence>
 
         {/* Project Navigation */}
-        <ProjectNavigation
-          totalProjects={filteredProjects.length}
-          activeIndex={activeProject}
-          onProjectChange={handleProjectChange}
-          activeColor={currentProject.color}
-          projects={filteredProjects}
-        />
+     
       </motion.div>
     </div>
   );
