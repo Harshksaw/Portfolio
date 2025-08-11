@@ -1,71 +1,45 @@
-# Visit Tracking Setup Instructions
+# Visit Tracking Setup Instructions (Vercel Postgres)
 
 ## Overview
-Your portfolio now automatically tracks visits to your main page, collecting geolocation data and user analytics.
+Your portfolio now automatically tracks visits to your main page, collecting geolocation data and user analytics using Vercel Postgres.
 
-## Environment Variables Setup
+## Setup Steps
 
-### Required Variables:
+### 1. Link Vercel Postgres
+1. Go to Vercel Dashboard → your project → **Storage** tab
+2. Click **Add** → **Postgres** → **Link** to Production (and Preview if you use it)
+3. Vercel automatically injects environment variables (`POSTGRES_URL`, etc.)
+
+### 2. Create Database Tables
+Run the SQL in `postgres-setup.sql` in your Vercel Postgres dashboard:
+1. Go to Vercel Dashboard → Storage → Postgres → **Data** tab
+2. Click **New Query**
+3. Copy and paste the contents of `postgres-setup.sql`
+4. Click **Run**
+
+### 3. Environment Variables Setup
+
 Add these to your `.env` file or hosting platform environment variables:
 
 ```bash
 # Tracking Configuration
-TRACK_SECRET=generate_a_secure_random_string_here
-NEXT_PUBLIC_TRACK_SECRET=same_as_above
+TRACK_SECRET=dIirf2CMuP/kV/mXFS/HWmvr6yTcEnSGIIbLy2gnAj0=
+NEXT_PUBLIC_TRACK_SECRET=dIirf2CMuP/kV/mXFS/HWmvr6yTcEnSGIIbLy2gnAj0=
 
 # IPInfo Configuration (for geolocation)
 IPINFO_TOKEN=get_from_ipinfo.io
 
 # Hash Salt for IP privacy
-HASH_SALT=another_secure_random_string
-
-# Redis Configuration
-REDIS_URL=your_redis_connection_url_here
+HASH_SALT=Addu8KIWKLlFWIyDbNSVnu/7O5v2/JY8jNTJ2PM6Glo=
 ```
+
+**Note:** Postgres environment variables are automatically injected by Vercel when you link storage.
 
 ### How to Get IPInfo Token:
 1. Go to [ipinfo.io](https://ipinfo.io/)
 2. Sign up for a free account
 3. Get your API token from the dashboard
 4. Add it to your environment variables
-
-### Generate Secure Strings:
-Use this command to generate secure random strings:
-```bash
-openssl rand -base64 32
-```
-
-### Redis Setup:
-You'll need a Redis database for storing visit data. You can use:
-1. **Redis Cloud** (free tier available): https://redis.com/try-free/
-2. **Upstash Redis** (serverless): https://upstash.com/
-3. **Local Redis** for development: `redis://localhost:6379`
-
-The `REDIS_URL` should be in the format:
-```
-redis://username:password@host:port
-```
-
-## What Data is Collected:
-
-### Geolocation Data (from IP):
-- City
-- Region/State
-- Country
-- Latitude/Longitude
-- ISP/Organization
-- Timezone
-
-### User Data:
-- Timestamp of visit
-- Page path visited
-- Referrer URL
-- Session ID (generated client-side)
-- Device type (mobile/tablet/desktop)
-- Browser information
-- Operating system
-- Bot detection
-- User locale/language
 
 ## API Endpoints:
 
@@ -74,16 +48,25 @@ redis://username:password@host:port
 - Automatically called when users visit your main page
 
 ### View Visit Stats:
-- **GET** `/api/admin/visits`
-- Returns all visits for the current day
-- Example: `http://localhost:3000/api/admin/visits`
+- **GET** `/api/admin/pg/recent` - Today's visits (last 200)
+- **GET** `/api/admin/pg/cities` - Visits by city (today)
+- **GET** `/api/admin/pg/pages` - Top pages (today)
+- **GET** `/admin` - Visual dashboard (HTML interface)
+
+### Legacy Redis endpoint (deprecated):
+- ~~`/api/admin/visits`~~ - Use the new Postgres endpoints above
 
 ## Testing:
 
-1. Set up environment variables
-2. Run your development server: `npm run dev`
-3. Visit your main page
-4. Check the `/api/admin/visits` endpoint to see tracked data
+1. Link Vercel Postgres storage to your project
+2. Run the database setup SQL
+3. Deploy your application
+4. Visit your main page
+5. Check the `/admin` page to see tracked data
+6. Or hit the API endpoints directly:
+   - `/api/admin/pg/recent`
+   - `/api/admin/pg/cities`
+   - `/api/admin/pg/pages`
 
 ## Privacy Features:
 - IP addresses are hashed with salt for privacy

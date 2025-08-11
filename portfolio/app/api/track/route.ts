@@ -1,16 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ipinfoLookup } from "@/utils/ipinfo";
-import Redis from "ioredis";
+import { sql } from "@vercel/postgres";
+
+export const runtime = "nodejs";
 
 const TRACK_SECRET = process.env.NEXT_PUBLIC_TRACK_SECRET;
-
-const redisUrl = process.env.REDIS_URL;
-
-if (!redisUrl) {
-  throw new Error("REDIS_URL environment variable is not set");
-}
-
-const redis = new Redis(redisUrl);
 
 function getClientIp(req: NextRequest): string | null {
 	// Try Vercel/standard headers first
@@ -72,26 +66,22 @@ export async function POST(req: NextRequest) {
 	const is_bot = payload.is_bot ?? null;
 	const locale = payload.locale ?? null;
 
-	const visitData = {
-		ts: payload.ts,
-		path: payload.path,
-		referer: payload.referer ?? null,
-		...geo,
-		session_id: payload.session_id ?? null,
-		device_type, browser, os, is_bot, locale,
-	};
+	console.log('💾 Storing visit data in Postgres...');
 
-	console.log('💾 Storing visit data:', visitData);
-
-	// Store in KV: one list per day
-	const todayKey = `visits:${new Date().toISOString().slice(0, 10)}`;
-	console.log('🗄️ Using Redis key:', todayKey);
-	
+	// Store in Postgres
 	try {
-		await redis.lpush(todayKey, JSON.stringify(visitData));
-		console.log('✅ Visit data stored successfully in Redis');
+		await sql`
+			INSERT INTO visit_events
+				(ts, path, referer, city, region, country, latitude, longitude,
+				 session_id, device_type, browser, os, is_bot, preferred_locale)
+			VALUES
+				(to_timestamp(${Date.parse(payload.ts)} / 1000.0), ${payload.path}, ${payload.referer ?? null},
+				 ${geo.city}, ${geo.region}, ${geo.country}, ${geo.latitude}, ${geo.longitude},
+				 ${payload.session_id ?? null}, ${device_type}, ${browser}, ${os}, ${is_bot}, ${locale})
+		`;
+		console.log('✅ Visit data stored successfully in Postgres');
 	} catch (error) {
-		console.error('❌ Failed to store in Redis:', error);
+		console.error('❌ Failed to store in Postgres:', error);
 		return new NextResponse("Internal Server Error", { status: 500 });
 	}
 

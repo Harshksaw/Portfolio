@@ -1,24 +1,17 @@
-import Redis from "ioredis";
+import { sql } from "@vercel/postgres";
 import crypto from "crypto";
 
 const HASH_SALT = process.env.HASH_SALT!;
 const IPINFO_TOKEN = process.env.IPINFO_TOKEN!;
-
-const redisUrl = process.env.REDIS_URL;
-
-if (!redisUrl) {
-  throw new Error("REDIS_URL environment variable is not set");
-}
-
-const redis = new Redis(redisUrl);;
 
 function hashIp(ip: string) {
 	return crypto.createHash("sha256").update(ip + ":" + HASH_SALT).digest("hex");
 }
 
 export async function ipinfoLookup(ip: string) {
-	const key = `ipinfo:${hashIp(ip)}`;
-	const cachedString = await redis.get(key);
+	const key = hashIp(ip);
+	
+	// Try to get cached data from Postgres
 	let cached: {
 		city: string | null;
 		region: string | null;
@@ -29,12 +22,21 @@ export async function ipinfoLookup(ip: string) {
 		timezone: string | null;
 	} | null = null;
 	
-	if (cachedString) {
-		try {
-			cached = JSON.parse(cachedString);
-		} catch (error) {
-			console.error('Error parsing cached data:', error);
+	try {
+		const { rows } = await sql`
+			SELECT city, region, country, latitude, longitude, org, timezone
+			FROM ip_cache 
+			WHERE ip_hash = ${key} 
+			AND expires_at > NOW()
+			LIMIT 1
+		`;
+		
+		if (rows.length > 0) {
+			cached = rows[0] as any;
 		}
+	} catch (error) {
+		// If table doesn't exist yet, that's ok - we'll just skip caching
+		console.log('Cache table not found, proceeding without cache');
 	}
 
 	if (cached) return cached;
@@ -45,7 +47,27 @@ export async function ipinfoLookup(ip: string) {
 
 	if (!resp.ok) {
 		const empty = { city: null, region: null, country: null, latitude: null, longitude: null, org: null, timezone: null };
-		await redis.setex(key, 60 * 10, JSON.stringify(empty)); // 10 min fail cache
+		
+		// Cache failed lookup for 10 minutes
+		try {
+			await sql`
+				INSERT INTO ip_cache (ip_hash, city, region, country, latitude, longitude, org, timezone, expires_at)
+				VALUES (${key}, ${empty.city}, ${empty.region}, ${empty.country}, ${empty.latitude}, ${empty.longitude}, ${empty.org}, ${empty.timezone}, NOW() + INTERVAL '10 minutes')
+				ON CONFLICT (ip_hash) DO UPDATE SET
+					city = EXCLUDED.city,
+					region = EXCLUDED.region,
+					country = EXCLUDED.country,
+					latitude = EXCLUDED.latitude,
+					longitude = EXCLUDED.longitude,
+					org = EXCLUDED.org,
+					timezone = EXCLUDED.timezone,
+					expires_at = EXCLUDED.expires_at
+			`;
+		} catch (error) {
+			// If cache table doesn't exist, that's ok
+			console.log('Could not cache failed lookup');
+		}
+		
 		return empty;
 	}
 
@@ -67,6 +89,25 @@ export async function ipinfoLookup(ip: string) {
 		timezone: data?.timezone ?? null,
 	};
 
-	await redis.setex(key, 60 * 60 * 24, JSON.stringify(enriched)); // 24h cache
+	// Cache successful lookup for 24 hours
+	try {
+		await sql`
+			INSERT INTO ip_cache (ip_hash, city, region, country, latitude, longitude, org, timezone, expires_at)
+			VALUES (${key}, ${enriched.city}, ${enriched.region}, ${enriched.country}, ${enriched.latitude}, ${enriched.longitude}, ${enriched.org}, ${enriched.timezone}, NOW() + INTERVAL '24 hours')
+			ON CONFLICT (ip_hash) DO UPDATE SET
+				city = EXCLUDED.city,
+				region = EXCLUDED.region,
+				country = EXCLUDED.country,
+				latitude = EXCLUDED.latitude,
+				longitude = EXCLUDED.longitude,
+				org = EXCLUDED.org,
+				timezone = EXCLUDED.timezone,
+				expires_at = EXCLUDED.expires_at
+		`;
+	} catch (error) {
+		// If cache table doesn't exist, that's ok
+		console.log('Could not cache lookup result');
+	}
+	
 	return enriched;
 }
