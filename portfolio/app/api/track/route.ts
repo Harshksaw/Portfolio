@@ -14,15 +14,24 @@ function getClientIp(req: NextRequest): string | null {
 }
 
 export async function POST(req: NextRequest) {
+	console.log('🔍 Track API called at:', new Date().toISOString());
+	
 	const auth = req.headers.get("authorization");
+	console.log('🔑 Auth header received:', auth ? 'YES' : 'NO');
+	console.log('🔑 Expected secret:', TRACK_SECRET ? 'SET' : 'NOT SET');
+	
 	if (!auth || auth !== `Bearer ${TRACK_SECRET}`) {
+		console.log('❌ Authorization failed');
 		return new NextResponse("Unauthorized", { status: 401 });
 	}
+	console.log('✅ Authorization successful');
 
 	let payload: any = {};
 	try {
 		payload = await req.json();
+		console.log('📊 Received payload:', payload);
 	} catch {
+		console.log('❌ Bad request - invalid JSON');
 		return new NextResponse("Bad Request", { status: 400 });
 	}
 

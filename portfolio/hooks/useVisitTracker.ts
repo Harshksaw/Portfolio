@@ -16,12 +16,16 @@ interface TrackingData {
 export const useVisitTracker = () => {
   useEffect(() => {
     const trackVisit = async () => {
+      console.log('🔍 Starting visit tracking...');
       try {
         // Generate or get session ID
         let sessionId = localStorage.getItem('session_id');
         if (!sessionId) {
           sessionId = crypto.randomUUID();
           localStorage.setItem('session_id', sessionId);
+          console.log('✅ Generated new session ID:', sessionId);
+        } else {
+          console.log('✅ Using existing session ID:', sessionId);
         }
 
         // Detect device type
@@ -69,6 +73,9 @@ export const useVisitTracker = () => {
           locale: navigator.language,
         };
 
+        console.log('📊 Tracking data prepared:', trackingData);
+        console.log('🔑 Using track secret:', process.env.NEXT_PUBLIC_TRACK_SECRET ? 'SET' : 'NOT SET');
+
         const response = await fetch('/api/track', {
           method: 'POST',
           headers: {
@@ -79,10 +86,28 @@ export const useVisitTracker = () => {
         });
 
         if (!response.ok) {
-          console.warn('Failed to track visit:', response.status);
+          console.error('❌ Failed to track visit:', {
+            status: response.status,
+            statusText: response.statusText,
+            url: response.url
+          });
+          const errorText = await response.text();
+          console.error('❌ Error response:', errorText);
+        } else {
+          console.log('✅ Visit tracked successfully!', {
+            status: response.status,
+            timestamp: new Date().toISOString()
+          });
         }
       } catch (error) {
-        console.error('Error tracking visit:', error);
+        console.error('💥 Error tracking visit:', error);
+        if (error instanceof Error) {
+          console.error('💥 Error details:', {
+            name: error.name,
+            message: error.message,
+            stack: error.stack
+          });
+        }
       }
     };
 
