@@ -18,15 +18,15 @@ const MatrixLoader = ({ onComplete, compact = false }: { onComplete?: () => void
   // Optimized loading steps for faster 3D model loading
   const loadingSteps = useMemo(() => [
     { text: "Initializing WebGL context...", delay: 0.2 },
-    { text: "Loading model geometry...", delay: 0.5 },
-    { text: "Parsing mesh data...", delay: 0.8 },
-    { text: "Loading compressed textures...", delay: 1.1 },
-    { text: "Compiling optimized shaders...", delay: 1.4 },
-    { text: "Setting up PBR materials...", delay: 1.7 },
-    { text: "Initializing skeletal rig...", delay: 2.0 },
-    { text: "Loading animation clips...", delay: 2.3 },
-    { text: "Optimizing render batches...", delay: 2.6 },
-    { text: "3D Model Ready!", delay: 2.8, isComplete: true }
+    { text: "Loading model geometry...", delay: 0.4 },
+    { text: "Parsing mesh data...", delay: 0.6 },
+    { text: "Loading compressed textures...", delay: 0.8 },
+    { text: "Compiling optimized shaders...", delay: 1.0 },
+    { text: "Setting up PBR materials...", delay: 1.2 },
+    { text: "Initializing skeletal rig...", delay: 1.4 },
+    { text: "Loading animation clips...", delay: 1.6 },
+    { text: "Optimizing render batches...", delay: 1.8 },
+    { text: "3D Model Ready!", delay: 2.0, isComplete: true }
   ], []);
   
   useEffect(() => {
@@ -57,7 +57,7 @@ const MatrixLoader = ({ onComplete, compact = false }: { onComplete?: () => void
       }, step.delay * 1000);
     });
 
-    // Complete loading after 3 seconds (faster for 3D models)
+    // Complete loading after 4 seconds (2s for 3D model + 2s matrix display)
     const timer = setTimeout(() => {
       setIsVisible(false);
       setTimeout(() => {
@@ -71,7 +71,7 @@ const MatrixLoader = ({ onComplete, compact = false }: { onComplete?: () => void
         
         onComplete?.();
       }, 500);
-    }, 3000);
+    }, 4000);
 
     return () => {
       clearTimeout(timer);
@@ -205,7 +205,7 @@ const MatrixLoader = ({ onComplete, compact = false }: { onComplete?: () => void
                       x: index <= loadingStep ? 0 : -10,
                       color: step.isComplete ? '#10b981' : index <= loadingStep ? '#4ade80' : '#6b7280'
                     }}
-                    transition={{ duration: 0.2, delay: step.delay * 0.8 }}
+                    transition={{ duration: 0.15, delay: step.delay * 0.8 }}
                     className={`flex items-center ${step.isComplete ? 'font-bold text-green-400' : ''}`}
                   >
                     <span className="text-green-300 mr-2">&gt;</span>
