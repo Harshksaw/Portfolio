@@ -1,8 +1,16 @@
-import { kv } from "@vercel/kv";
+import Redis from "ioredis";
 import crypto from "crypto";
 
 const HASH_SALT = process.env.HASH_SALT!;
 const IPINFO_TOKEN = process.env.IPINFO_TOKEN!;
+
+const redisUrl = process.env.REDIS_URL;
+
+if (!redisUrl) {
+  throw new Error("REDIS_URL environment variable is not set");
+}
+
+const redis = new Redis(redisUrl);;
 
 function hashIp(ip: string) {
 	return crypto.createHash("sha256").update(ip + ":" + HASH_SALT).digest("hex");
@@ -10,7 +18,8 @@ function hashIp(ip: string) {
 
 export async function ipinfoLookup(ip: string) {
 	const key = `ipinfo:${hashIp(ip)}`;
-	const cached = await kv.get<{
+	const cachedString = await redis.get(key);
+	let cached: {
 		city: string | null;
 		region: string | null;
 		country: string | null;
@@ -18,7 +27,15 @@ export async function ipinfoLookup(ip: string) {
 		longitude: number | null;
 		org: string | null;
 		timezone: string | null;
-	}>(key);
+	} | null = null;
+	
+	if (cachedString) {
+		try {
+			cached = JSON.parse(cachedString);
+		} catch (error) {
+			console.error('Error parsing cached data:', error);
+		}
+	}
 
 	if (cached) return cached;
 
@@ -28,7 +45,7 @@ export async function ipinfoLookup(ip: string) {
 
 	if (!resp.ok) {
 		const empty = { city: null, region: null, country: null, latitude: null, longitude: null, org: null, timezone: null };
-		await kv.set(key, empty, { ex: 60 * 10 }); // 10 min fail cache
+		await redis.setex(key, 60 * 10, JSON.stringify(empty)); // 10 min fail cache
 		return empty;
 	}
 
@@ -50,6 +67,6 @@ export async function ipinfoLookup(ip: string) {
 		timezone: data?.timezone ?? null,
 	};
 
-	await kv.set(key, enriched, { ex: 60 * 60 * 24 }); // 24h cache
+	await redis.setex(key, 60 * 60 * 24, JSON.stringify(enriched)); // 24h cache
 	return enriched;
 }

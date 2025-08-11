@@ -1,8 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ipinfoLookup } from "@/utils/ipinfo";
-import { kv } from "@vercel/kv";
+import Redis from "ioredis";
 
 const TRACK_SECRET = process.env.NEXT_PUBLIC_TRACK_SECRET;
+
+const redisUrl = process.env.REDIS_URL;
+
+if (!redisUrl) {
+  throw new Error("REDIS_URL environment variable is not set");
+}
+
+const redis = new Redis(redisUrl);
 
 function getClientIp(req: NextRequest): string | null {
 	// Try Vercel/standard headers first
@@ -80,7 +88,7 @@ export async function POST(req: NextRequest) {
 	console.log('🗄️ Using Redis key:', todayKey);
 	
 	try {
-		await kv.lpush(todayKey, JSON.stringify(visitData));
+		await redis.lpush(todayKey, JSON.stringify(visitData));
 		console.log('✅ Visit data stored successfully in Redis');
 	} catch (error) {
 		console.error('❌ Failed to store in Redis:', error);

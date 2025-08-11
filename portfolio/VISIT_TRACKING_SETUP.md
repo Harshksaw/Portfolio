@@ -18,6 +18,9 @@ IPINFO_TOKEN=get_from_ipinfo.io
 
 # Hash Salt for IP privacy
 HASH_SALT=another_secure_random_string
+
+# Redis Configuration
+REDIS_URL=your_redis_connection_url_here
 ```
 
 ### How to Get IPInfo Token:
@@ -30,6 +33,17 @@ HASH_SALT=another_secure_random_string
 Use this command to generate secure random strings:
 ```bash
 openssl rand -base64 32
+```
+
+### Redis Setup:
+You'll need a Redis database for storing visit data. You can use:
+1. **Redis Cloud** (free tier available): https://redis.com/try-free/
+2. **Upstash Redis** (serverless): https://upstash.com/
+3. **Local Redis** for development: `redis://localhost:6379`
+
+The `REDIS_URL` should be in the format:
+```
+redis://username:password@host:port
 ```
 
 ## What Data is Collected:
