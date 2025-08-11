@@ -41,17 +41,17 @@ export function ContactSection() {
       // Import EmailJS dynamically to avoid SSR issues
       const emailjs = await import('@emailjs/browser');
       
-      // Replace these with your EmailJS configuration
-      const serviceId = 'YOUR_SERVICE_ID';
-      const templateId = 'YOUR_TEMPLATE_ID';
-      const publicKey = 'YOUR_PUBLIC_KEY';
+      // Get EmailJS configuration from environment variables
+      const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
+      const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
+      const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
 
       const templateParams = {
         from_name: formData.name,
         from_email: formData.email,
         subject: formData.subject,
         message: formData.message,
-        to_email: 'hello@harshkumar.dev'
+        to_email: process.env.NEXT_PUBLIC_TO_EMAIL || 'hello@harshkumar.dev'
       };
 
       await emailjs.send(serviceId, templateId, templateParams, publicKey);
