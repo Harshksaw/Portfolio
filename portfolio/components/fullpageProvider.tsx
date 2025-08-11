@@ -51,6 +51,11 @@ const FullpageProvider = ({ children }: { children: React.ReactNode }) => {
   const videoElement = useRef<HTMLVideoElement | null>(null);
   const hasTransitioned = useRef(false);
 
+  // Mobile touch handling
+  const touchStartY = useRef<number>(0);
+  const touchEndY = useRef<number>(0);
+  const isTransitioning = useRef(false);
+
   const dispatch = useAppDispatch();
 
   const onLeave = (origin: any, destination?: any, direction?: any) => {
@@ -173,50 +178,126 @@ const FullpageProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  // Enhanced transition function that handles both desktop and mobile
+  const transitionToNormalScroll = () => {
+    if (hasTransitioned.current || isTransitioning.current) return;
+    
+    isTransitioning.current = true;
+    hasTransitioned.current = true;
+    
+    console.log("Transitioning to normal scroll...");
+    
+    // Add a visual indicator for mobile users
+    const indicator = document.createElement('div');
+    indicator.innerHTML = '⬇️ Scrolling enabled';
+    indicator.style.cssText = `
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0,0,0,0.8);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 20px;
+      z-index: 10000;
+      font-size: 14px;
+      pointer-events: none;
+    `;
+    document.body.appendChild(indicator);
+    
+    // Remove indicator after 1.5 seconds
+    setTimeout(() => {
+      if (document.body.contains(indicator)) {
+        document.body.removeChild(indicator);
+      }
+    }, 1500);
+    
+    // Destroy fullpage.js and enable normal scrolling
+    setTimeout(() => {
+      if (window.fullpage_api) {
+        window.fullpage_api.destroy('all');
+      }
+      
+      // Enable normal scrolling
+      document.body.style.overflow = 'auto';
+      document.documentElement.style.overflow = 'auto';
+      
+      // Scroll to normal content
+      const normalContent = document.querySelector('.normal-scroll-content') as HTMLElement;
+      if (normalContent) {
+        window.scrollTo({
+          top: normalContent.offsetTop,
+          behavior: 'smooth'
+        });
+      }
+      
+      isTransitioning.current = false;
+    }, 100);
+  };
+
   // Handle transition from About section to normal scroll
   const afterLoad = (origin: any, destination: any, direction: any) => {
     // If we're on the About section (second)
     if (destination.anchor === "second") {
       
-      // Add scroll listener to detect downward scroll
+      // Handle desktop wheel events
       const handleScrollDown = (e: WheelEvent) => {
-        if (hasTransitioned.current) return;
+        if (hasTransitioned.current || isTransitioning.current) return;
         
         // Only on downward scroll
         if (e.deltaY > 0) {
           e.preventDefault();
-          hasTransitioned.current = true;
-          
-          console.log("Transitioning to normal scroll...");
-          
-          // Destroy fullpage.js and enable normal scrolling
-          setTimeout(() => {
-            if (window.fullpage_api) {
-              window.fullpage_api.destroy('all');
-            }
-            
-            // Enable normal scrolling
-            document.body.style.overflow = 'auto';
-            document.documentElement.style.overflow = 'auto';
-            
-            // Scroll to normal content
-            const normalContent = document.querySelector('.normal-scroll-content') as HTMLElement;
-            if (normalContent) {
-              window.scrollTo({
-                top: normalContent.offsetTop,
-                behavior: 'smooth'
-              });
-            }
-          }, 100);
-          
-          // Remove listener
+          transitionToNormalScroll();
           document.removeEventListener('wheel', handleScrollDown);
         }
       };
+
+      // Handle mobile touch events
+      const handleTouchStart = (e: TouchEvent) => {
+        if (hasTransitioned.current || isTransitioning.current) return;
+        touchStartY.current = e.touches[0].clientY;
+      };
+
+      const handleTouchMove = (e: TouchEvent) => {
+        if (hasTransitioned.current || isTransitioning.current) return;
+        e.preventDefault(); // Prevent default scrolling during touch
+      };
+
+      const handleTouchEnd = (e: TouchEvent) => {
+        if (hasTransitioned.current || isTransitioning.current) return;
+        
+        touchEndY.current = e.changedTouches[0].clientY;
+        const touchDiff = touchStartY.current - touchEndY.current;
+        
+        // If swipe down is greater than 50px, transition to normal scroll
+        if (touchDiff > 50) {
+          transitionToNormalScroll();
+          document.removeEventListener('touchstart', handleTouchStart);
+          document.removeEventListener('touchmove', handleTouchMove);
+          document.removeEventListener('touchend', handleTouchEnd);
+        }
+      };
       
-      // Add listener after a delay to ensure fullpage animation is complete
+      // Add listeners after a delay to ensure fullpage animation is complete
       setTimeout(() => {
+        // Desktop listeners
         document.addEventListener('wheel', handleScrollDown, { passive: false });
+        
+        // Mobile listeners
+        document.addEventListener('touchstart', handleTouchStart, { passive: true });
+        document.addEventListener('touchmove', handleTouchMove, { passive: false });
+        document.addEventListener('touchend', handleTouchEnd, { passive: true });
+        
+        // Cleanup function for mobile
+        const cleanup = () => {
+          document.removeEventListener('wheel', handleScrollDown);
+          document.removeEventListener('touchstart', handleTouchStart);
+          document.removeEventListener('touchmove', handleTouchMove);
+          document.removeEventListener('touchend', handleTouchEnd);
+        };
+        
+        // Store cleanup function for later use
+        (window as any).cleanupScrollListeners = cleanup;
       }, 1500);
     }
   };
@@ -332,11 +413,16 @@ const FullpageProvider = ({ children }: { children: React.ReactNode }) => {
     // Video element
     videoElement.current = document.querySelector("#video") as HTMLVideoElement;
 
-    // Cleanup
+    // Cleanup function
     return () => {
       about.current?.kill();
       textAnim__section2__down.current?.kill();
       work_heading.current?.kill();
+      
+      // Clean up scroll listeners
+      if ((window as any).cleanupScrollListeners) {
+        (window as any).cleanupScrollListeners();
+      }
     };
   }, []);
 
