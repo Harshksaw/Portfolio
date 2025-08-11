@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ReactFullpage from "@fullpage/react-fullpage";
 import { gsap } from "gsap";
 import { CustomEase } from "gsap/CustomEase";
@@ -45,6 +45,7 @@ const opts = {
 };
 
 const FullpageProvider = ({ children }: { children: React.ReactNode }) => {
+  const [isMobile, setIsMobile] = useState(false);
   const about = useRef<gsap.core.Timeline | null>(null);
   const textAnim__section2__down = useRef<gsap.core.Tween | null>(null);
   const work_heading = useRef<gsap.core.Tween | null>(null);
@@ -57,6 +58,32 @@ const FullpageProvider = ({ children }: { children: React.ReactNode }) => {
   const isTransitioning = useRef(false);
 
   const dispatch = useAppDispatch();
+
+  // Check if device is mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      const userAgent = navigator.userAgent.toLowerCase();
+      const isMobileDevice = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
+      const isSmallScreen = window.innerWidth <= 768;
+      const hasTouchScreen = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+      
+      setIsMobile(isMobileDevice || isSmallScreen || hasTouchScreen);
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Enable normal scrolling on mobile
+  useEffect(() => {
+    if (isMobile) {
+      document.body.style.overflow = 'auto';
+      document.documentElement.style.overflow = 'auto';
+      document.body.style.height = 'auto';
+      document.documentElement.style.height = 'auto';
+    }
+  }, [isMobile]);
 
   const onLeave = (origin: any, destination?: any, direction?: any) => {
     // Only handle logic for sections that actually exist
@@ -427,14 +454,24 @@ const FullpageProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   return (
-    <ReactFullpage
-      {...opts}
-      onLeave={onLeave}
-      afterLoad={afterLoad}
-      render={() => {
-        return <ReactFullpage.Wrapper>{children}</ReactFullpage.Wrapper>;
-      }}
-    />
+    <>
+      {isMobile ? (
+        // Mobile: Normal scrolling
+        <div className="mobile-scroll-container">
+          {children}
+        </div>
+      ) : (
+        // Desktop: Fullpage.js
+        <ReactFullpage
+          {...opts}
+          onLeave={onLeave}
+          afterLoad={afterLoad}
+          render={() => {
+            return <ReactFullpage.Wrapper>{children}</ReactFullpage.Wrapper>;
+          }}
+        />
+      )}
+    </>
   );
 };
 
