@@ -51,7 +51,7 @@ export function ContactSection() {
         from_email: formData.email,
         subject: formData.subject,
         message: formData.message,
-        to_email: process.env.NEXT_PUBLIC_TO_EMAIL || 'hello@harshkumar.dev'
+        to_email: process.env.NEXT_PUBLIC_TO_EMAIL || 'canadaharsh2002@gmail.com'
       };
 
       //@ts-ignore
