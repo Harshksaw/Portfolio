@@ -1,12 +1,14 @@
 "use client";
 import { useState, useEffect } from 'react';
-import { StatsCards } from './admin/StatsCards';
+
 import { InteractiveMap } from './admin/InteractiveMap';
 import { DetailedTable } from './admin/DetailedTable';
-import { Charts } from './admin/Charts';
-import { RealTimeStats } from './admin/RealTimeStats';
-import { LocationInsights } from './admin/LocationInsights';
+
 import { VisitData, CityData, PageData, AreaData } from '@/types';
+import { Charts } from './admin/Charts';
+import { LocationInsights } from './admin/LocationInsights';
+import { RealTimeStats } from './admin/RealTimeStats';
+import { StatsCards } from './admin/StatsCards';
 
 export default function AdminDashboard() {
   const [visits, setVisits] = useState<VisitData[]>([]);
