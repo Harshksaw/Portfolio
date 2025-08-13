@@ -7,7 +7,7 @@ export async function GET() {
   try {
     const { rows } = await sql`
       select ts, path, 
-             -- Prioritize GPS location over IP location
+             -- Prioritize GPS location over IP location for main display
              CASE 
                WHEN location_source = 'gps' THEN precise_city 
                ELSE ip_city 
@@ -20,16 +20,29 @@ export async function GET() {
                WHEN location_source = 'gps' THEN precise_postal_code 
                ELSE ip_postal_code 
              END as postal_code,
-             precise_district as district,
-             precise_address as address,
+             -- GPS-specific data
+             precise_city,
+             precise_country,
+             precise_district,
+             precise_address,
+             precise_postal_code,
+             -- IP-specific data  
+             ip_city,
+             ip_country,
+             ip_region,
+             ip_postal_code,
+             -- Location metadata
              location_source,
              user_accuracy,
-             -- Include coordinates for mapping
+             -- Coordinates for mapping
              user_latitude,
              user_longitude,
              ip_latitude,
              ip_longitude,
-             browser, os, device_type, preferred_locale
+             -- Device and browser info
+             browser, os, device_type, preferred_locale,
+             -- Additional metadata
+             org, timezone, session_id, is_bot
       from visit_events
       where expires_at > NOW()  -- Only non-expired records
       order by ts desc

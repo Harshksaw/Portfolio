@@ -172,8 +172,12 @@ const FullpageProvider = ({ children }: { children: React.ReactNode }) => {
     
     // Remove indicator after 1.5 seconds
     setTimeout(() => {
-      if (document.body.contains(indicator)) {
-        document.body.removeChild(indicator);
+      try {
+        if (indicator.parentNode) {
+          indicator.parentNode.removeChild(indicator);
+        }
+      } catch (error) {
+        console.warn('Failed to remove indicator element:', error);
       }
     }, 1500);
     

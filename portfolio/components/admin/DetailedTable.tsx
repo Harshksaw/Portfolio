@@ -7,8 +7,18 @@ interface VisitData {
   city: string | null;
   country: string | null;
   postal_code: string | null;
-  district: string | null;
-  address: string | null;
+  // GPS-specific data
+  precise_city: string | null;
+  precise_country: string | null;
+  precise_district: string | null;
+  precise_address: string | null;
+  precise_postal_code: string | null;
+  // IP-specific data
+  ip_city: string | null;
+  ip_country: string | null;
+  ip_region: string | null;
+  ip_postal_code: string | null;
+  // Location metadata
   location_source: 'gps' | 'ip' | 'denied';
   user_accuracy: number | null;
   browser: string;
@@ -19,6 +29,11 @@ interface VisitData {
   user_longitude?: number | null;
   ip_latitude?: number | null;
   ip_longitude?: number | null;
+  // Additional metadata
+  org?: string | null;
+  timezone?: string | null;
+  session_id?: string | null;
+  is_bot?: boolean;
 }
 
 interface DetailedTableProps {
@@ -52,8 +67,10 @@ export function DetailedTable({ visits }: DetailedTableProps) {
       visit.path.toLowerCase().includes(searchQuery.toLowerCase()) ||
       visit.browser.toLowerCase().includes(searchQuery.toLowerCase()) ||
       visit.os.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      visit.address?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      visit.district?.toLowerCase().includes(searchQuery.toLowerCase());
+      visit.precise_address?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      visit.precise_district?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      visit.ip_city?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      visit.ip_region?.toLowerCase().includes(searchQuery.toLowerCase());
     
     return matchesLocation && matchesDevice && matchesSearch;
   });
@@ -110,20 +127,25 @@ export function DetailedTable({ visits }: DetailedTableProps) {
             <button 
               onClick={() => {
                 const csv = [
-                  ['Timestamp', 'Path', 'Location', 'Location Type', 'Device', 'Browser', 'OS', 'Locale', 'Coordinates', 'Accuracy'],
+                  ['Timestamp', 'Path', 'Location Source', 'Primary Location', 'GPS Address', 'GPS District', 'IP Region', 'Coordinates', 'Accuracy', 'Device', 'Browser', 'OS', 'Locale', 'Session ID', 'Bot'],
                   ...sortedVisits.map(visit => [
                     visit.ts,
                     visit.path,
-                    `${visit.city || 'Unknown'}, ${visit.country || 'Unknown'}`,
                     visit.location_source,
+                    `${visit.city || 'Unknown'}, ${visit.country || 'Unknown'}`,
+                    visit.precise_address || 'N/A',
+                    visit.precise_district || 'N/A',
+                    visit.ip_region || 'N/A',
+                    visit.location_source === 'gps' 
+                      ? `${visit.user_latitude || 'N/A'}, ${visit.user_longitude || 'N/A'}`
+                      : `${visit.ip_latitude || 'N/A'}, ${visit.ip_longitude || 'N/A'}`,
+                    visit.user_accuracy ? `±${visit.user_accuracy}m` : 'N/A',
                     visit.device_type,
                     visit.browser,
                     visit.os,
                     visit.preferred_locale,
-                    visit.location_source === 'gps' 
-                      ? `${visit.user_latitude || 'N/A'}, ${visit.user_longitude || 'N/A'}`
-                      : `${visit.ip_latitude || 'N/A'}, ${visit.ip_longitude || 'N/A'}`,
-                    visit.user_accuracy ? `±${visit.user_accuracy}m` : 'N/A'
+                    visit.session_id || 'N/A',
+                    visit.is_bot ? 'Yes' : 'No'
                   ])
                 ].map(row => row.join(',')).join('\n');
                 
@@ -240,6 +262,9 @@ export function DetailedTable({ visits }: DetailedTableProps) {
               >
                 Locale {getSortIcon('preferred_locale')}
               </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Session & Metadata
+              </th>
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
@@ -271,19 +296,50 @@ export function DetailedTable({ visits }: DetailedTableProps) {
                           ? 'bg-blue-100 text-blue-800'
                           : 'bg-red-100 text-red-800'
                       }`}>
-                        {visit.location_source === 'gps' ? '🎯' : visit.location_source === 'ip' ? '🌐' : '❌'}
+                        {visit.location_source === 'gps' ? '🎯 GPS' : visit.location_source === 'ip' ? '🌐 IP' : '❌ Denied'}
                       </span>
                     </div>
-                    {(visit.address && visit.address !== 'Unknown Address') && (
-                      <div className="text-xs text-blue-600">📍 {visit.address}</div>
+                    
+                    {/* GPS Location Data */}
+                    {visit.location_source === 'gps' && (
+                      <div className="text-xs space-y-1">
+                        {(visit.precise_address && visit.precise_address !== 'Unknown Address') && (
+                          <div className="text-blue-600">📍 {visit.precise_address}</div>
+                        )}
+                        {(visit.precise_district && visit.precise_district !== 'Unknown District') && (
+                          <div className="text-green-600">🏘️ {visit.precise_district}</div>
+                        )}
+                        {(visit.precise_postal_code && visit.precise_postal_code !== 'Unknown GPS Postal') && (
+                          <div className="text-purple-600">📮 {visit.precise_postal_code}</div>
+                        )}
+                        {visit.user_accuracy && (
+                          <div className="text-gray-500">Accuracy: ±{visit.user_accuracy}m</div>
+                        )}
+                      </div>
                     )}
-                    {(visit.district && visit.district !== 'Unknown District') && (
-                      <div className="text-xs text-green-600">🏘️ {visit.district}</div>
+                    
+                    {/* IP Location Data */}
+                    {visit.location_source === 'ip' && (
+                      <div className="text-xs space-y-1">
+                        {visit.ip_region && (
+                          <div className="text-orange-600">🗺️ {visit.ip_region}</div>
+                        )}
+                        {(visit.ip_postal_code && visit.ip_postal_code !== 'Unknown IP Postal') && (
+                          <div className="text-purple-600">📮 {visit.ip_postal_code}</div>
+                        )}
+                        {visit.org && (
+                          <div className="text-gray-500">🏢 {visit.org}</div>
+                        )}
+                      </div>
                     )}
-                    {(visit.postal_code && 
-                      visit.postal_code !== 'Unknown GPS Postal' && 
-                      visit.postal_code !== 'Unknown IP Postal') && (
-                      <div className="text-xs text-purple-600">📮 {visit.postal_code}</div>
+                    
+                    {/* Show both GPS and IP data if GPS is available */}
+                    {visit.location_source === 'gps' && visit.ip_city && (
+                      <div className="text-xs text-gray-400 border-t pt-1 mt-1">
+                        <div className="font-medium">IP Fallback:</div>
+                        <div>🌐 {visit.ip_city}, {visit.ip_country}</div>
+                        {visit.ip_region && <div>🗺️ {visit.ip_region}</div>}
+                      </div>
                     )}
                   </div>
                 </td>
@@ -318,6 +374,26 @@ export function DetailedTable({ visits }: DetailedTableProps) {
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                   {visit.preferred_locale}
+                </td>
+                <td className="px-6 py-4 text-sm text-gray-500">
+                  <div className="space-y-1">
+                    {visit.session_id && (
+                      <div className="text-xs font-mono bg-gray-100 px-2 py-1 rounded">
+                        Session: {visit.session_id.slice(0, 8)}...
+                      </div>
+                    )}
+                    {visit.timezone && (
+                      <div className="text-xs">🌐 {visit.timezone}</div>
+                    )}
+                    {visit.org && (
+                      <div className="text-xs">🏢 {visit.org}</div>
+                    )}
+                    {visit.is_bot && (
+                      <div className="text-xs bg-red-100 text-red-800 px-2 py-1 rounded">
+                        🤖 Bot
+                      </div>
+                    )}
+                  </div>
                 </td>
               </tr>
             ))}

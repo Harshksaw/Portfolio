@@ -18,8 +18,8 @@ interface VisitData {
   ip_latitude?: number | null;
   ip_longitude?: number | null;
   user_accuracy?: number | null;
-  address?: string | null;
-  district?: string | null;
+  precise_address?: string | null;
+  precise_district?: string | null;
 }
 
 interface InteractiveMapProps {
@@ -51,8 +51,8 @@ export function InteractiveMap({ visits }: InteractiveMapProps) {
         city: visit.city,
         country: visit.country,
         accuracy: visit.user_accuracy,
-        address: visit.address,
-        district: visit.district,
+        address: visit.precise_address,
+        district: visit.precise_district,
         visits: []
       };
     }

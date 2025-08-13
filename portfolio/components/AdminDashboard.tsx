@@ -13,8 +13,18 @@ interface VisitData {
   city: string | null;
   country: string | null;
   postal_code: string | null;
-  district: string | null;
-  address: string | null;
+  // GPS-specific data
+  precise_city: string | null;
+  precise_country: string | null;
+  precise_district: string | null;
+  precise_address: string | null;
+  precise_postal_code: string | null;
+  // IP-specific data
+  ip_city: string | null;
+  ip_country: string | null;
+  ip_region: string | null;
+  ip_postal_code: string | null;
+  // Location metadata
   location_source: 'gps' | 'ip' | 'denied';
   user_accuracy: number | null;
   browser: string;
@@ -25,6 +35,11 @@ interface VisitData {
   ip_longitude?: number | null;
   user_latitude?: number | null;
   user_longitude?: number | null;
+  // Additional metadata
+  org?: string | null;
+  timezone?: string | null;
+  session_id?: string | null;
+  is_bot?: boolean;
 }
 
 interface CityData {
