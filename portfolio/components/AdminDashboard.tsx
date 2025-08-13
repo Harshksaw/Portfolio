@@ -1,7 +1,6 @@
 "use client";
 import { useState, useEffect } from 'react';
 
-import { InteractiveMap } from './admin/InteractiveMap';
 import { DetailedTable } from './admin/DetailedTable';
 
 import { VisitData, CityData, PageData, AreaData } from '@/types';
@@ -153,7 +152,6 @@ export default function AdminDashboard() {
 
         {activeTab === 'locations' && (
           <div className="space-y-8">
-            <InteractiveMap visits={visits} />
             <LocationInsights visits={visits} cities={cities} areas={areas} />
           </div>
         )}
