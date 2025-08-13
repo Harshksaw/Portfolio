@@ -5,7 +5,10 @@
 /.pnp
 .pnp.js
 .yarn/install-state.gz
-
+.env/
+# IDE and Editor directories
+/.idea/
+/.vscode/
 # testing
 /coverage
 

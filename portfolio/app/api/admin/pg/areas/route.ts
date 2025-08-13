@@ -22,10 +22,7 @@ export async function GET() {
         count(*)::int as visits
       from visit_events
       where expires_at > NOW()
-      group by precise_address, precise_district, 
-               CASE WHEN location_source = 'gps' THEN precise_postal_code ELSE ip_postal_code END,
-               CASE WHEN location_source = 'gps' THEN precise_city ELSE ip_city END,
-               location_source
+      group by precise_address, precise_district, precise_postal_code, ip_postal_code, precise_city, ip_city, location_source
       order by visits desc, address asc
       limit 50;
     `;

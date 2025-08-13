@@ -24,6 +24,11 @@ export async function GET() {
              precise_address as address,
              location_source,
              user_accuracy,
+             -- Include coordinates for mapping
+             user_latitude,
+             user_longitude,
+             ip_latitude,
+             ip_longitude,
              browser, os, device_type, preferred_locale
       from visit_events
       where expires_at > NOW()  -- Only non-expired records
