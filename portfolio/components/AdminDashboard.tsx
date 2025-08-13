@@ -6,62 +6,7 @@ import { DetailedTable } from './admin/DetailedTable';
 import { Charts } from './admin/Charts';
 import { RealTimeStats } from './admin/RealTimeStats';
 import { LocationInsights } from './admin/LocationInsights';
-
-interface VisitData {
-  ts: string;
-  path: string;
-  city: string | null;
-  country: string | null;
-  postal_code: string | null;
-  // GPS-specific data
-  precise_city: string | null;
-  precise_country: string | null;
-  precise_district: string | null;
-  precise_address: string | null;
-  precise_postal_code: string | null;
-  // IP-specific data
-  ip_city: string | null;
-  ip_country: string | null;
-  ip_region: string | null;
-  ip_postal_code: string | null;
-  // Location metadata
-  location_source: 'gps' | 'ip' | 'denied';
-  user_accuracy: number | null;
-  browser: string;
-  os: string;
-  device_type: string;
-  preferred_locale: string;
-  ip_latitude?: number | null;
-  ip_longitude?: number | null;
-  user_latitude?: number | null;
-  user_longitude?: number | null;
-  // Additional metadata
-  org?: string | null;
-  timezone?: string | null;
-  session_id?: string | null;
-  is_bot?: boolean;
-}
-
-interface CityData {
-  city: string;
-  location_source: string;
-  visits: number;
-}
-
-interface PageData {
-  path: string;
-  visits: number;
-}
-
-interface AreaData {
-  address: string;
-  district: string;
-  postal_code: string;
-  city: string;
-  location_source: string;
-  avg_accuracy: number | null;
-  visits: number;
-}
+import { VisitData, CityData, PageData, AreaData } from '@/types';
 
 export default function AdminDashboard() {
   const [visits, setVisits] = useState<VisitData[]>([]);

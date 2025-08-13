@@ -1,39 +1,4 @@
-interface VisitData {
-  ts: string;
-  path: string;
-  city: string | null;
-  country: string | null;
-  postal_code: string | null;
-  district: string | null;
-  address: string | null;
-  location_source: 'gps' | 'ip' | 'denied';
-  user_accuracy: number | null;
-  browser: string;
-  os: string;
-  device_type: string;
-  preferred_locale: string;
-}
-
-interface CityData {
-  city: string;
-  location_source: string;
-  visits: number;
-}
-
-interface PageData {
-  path: string;
-  visits: number;
-}
-
-interface AreaData {
-  address: string;
-  district: string;
-  postal_code: string;
-  city: string;
-  location_source: string;
-  avg_accuracy: number | null;
-  visits: number;
-}
+import { VisitData, CityData, PageData, AreaData } from '@/types';
 
 interface StatsCardsProps {
   visits: VisitData[];

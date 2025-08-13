@@ -1,40 +1,6 @@
 "use client";
 import { useState } from 'react';
-
-interface VisitData {
-  ts: string;
-  path: string;
-  city: string | null;
-  country: string | null;
-  postal_code: string | null;
-  // GPS-specific data
-  precise_city: string | null;
-  precise_country: string | null;
-  precise_district: string | null;
-  precise_address: string | null;
-  precise_postal_code: string | null;
-  // IP-specific data
-  ip_city: string | null;
-  ip_country: string | null;
-  ip_region: string | null;
-  ip_postal_code: string | null;
-  // Location metadata
-  location_source: 'gps' | 'ip' | 'denied';
-  user_accuracy: number | null;
-  browser: string;
-  os: string;
-  device_type: string;
-  preferred_locale: string;
-  user_latitude?: number | null;
-  user_longitude?: number | null;
-  ip_latitude?: number | null;
-  ip_longitude?: number | null;
-  // Additional metadata
-  org?: string | null;
-  timezone?: string | null;
-  session_id?: string | null;
-  is_bot?: boolean;
-}
+import { VisitData } from '@/types';
 
 interface DetailedTableProps {
   visits: VisitData[];

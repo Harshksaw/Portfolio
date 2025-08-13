@@ -1,16 +1,6 @@
 "use client";
 import { useState, useEffect } from 'react';
-
-interface VisitData {
-  ts: string;
-  path: string;
-  city: string | null;
-  country: string | null;
-  location_source: 'gps' | 'ip' | 'denied';
-  device_type: string;
-  browser: string;
-  os: string;
-}
+import { VisitData } from '@/types';
 
 interface RealTimeStatsProps {
   visits: VisitData[];

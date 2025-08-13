@@ -1,30 +1,4 @@
-interface VisitData {
-  ts: string;
-  city: string | null;
-  country: string | null;
-  postal_code: string | null;
-  district: string | null;
-  address: string | null;
-  location_source: 'gps' | 'ip' | 'denied';
-  user_accuracy: number | null;
-  device_type: string;
-}
-
-interface CityData {
-  city: string;
-  location_source: string;
-  visits: number;
-}
-
-interface AreaData {
-  address: string;
-  district: string;
-  postal_code: string;
-  city: string;
-  location_source: string;
-  avg_accuracy: number | null;
-  visits: number;
-}
+import { VisitData, CityData, AreaData } from '@/types';
 
 interface LocationInsightsProps {
   visits: VisitData[];

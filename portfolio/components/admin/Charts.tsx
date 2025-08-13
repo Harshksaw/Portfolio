@@ -1,28 +1,6 @@
 "use client";
 import { useMemo } from 'react';
-
-interface VisitData {
-  ts: string;
-  path: string;
-  city: string | null;
-  country: string | null;
-  location_source: 'gps' | 'ip' | 'denied';
-  device_type: string;
-  browser: string;
-  os: string;
-  preferred_locale: string;
-}
-
-interface CityData {
-  city: string;
-  location_source: string;
-  visits: number;
-}
-
-interface PageData {
-  path: string;
-  visits: number;
-}
+import { VisitData, CityData, PageData } from '@/types';
 
 interface ChartsProps {
   visits: VisitData[];

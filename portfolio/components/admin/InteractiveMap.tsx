@@ -1,25 +1,12 @@
 "use client";
 import { useEffect, useRef, useState } from 'react';
+import { VisitData } from '@/types';
 
 // Declare Google Maps types
 declare global {
   interface Window {
     google: any;
   }
-}
-
-interface VisitData {
-  ts: string;
-  city: string | null;
-  country: string | null;
-  location_source: 'gps' | 'ip' | 'denied';
-  user_latitude?: number | null;
-  user_longitude?: number | null;
-  ip_latitude?: number | null;
-  ip_longitude?: number | null;
-  user_accuracy?: number | null;
-  precise_address?: string | null;
-  precise_district?: string | null;
 }
 
 interface InteractiveMapProps {

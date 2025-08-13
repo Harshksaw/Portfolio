@@ -1,19 +1,6 @@
 "use client";
 import { useEffect, useRef } from 'react';
-
-interface VisitData {
-  ts: string;
-  city: string | null;
-  country: string | null;
-  location_source: 'gps' | 'ip' | 'denied';
-  user_latitude?: number | null;
-  user_longitude?: number | null;
-  ip_latitude?: number | null;
-  ip_longitude?: number | null;
-  user_accuracy?: number | null;
-  address?: string | null;
-  district?: string | null;
-}
+import { VisitData } from '@/types';
 
 interface LocationMapProps {
   visits: VisitData[];
