@@ -14,10 +14,10 @@ export async function sendEmail(values: TFormSchema) {
   const { name, email, subject, message } = validatedFields.data;
 
   try {
-    const resend = new Resend("re_L8AunFxe_AW5vS1eBxxpu3E22H1NrPouQ");
+    const resend = new Resend(process.env.RESEND_API_KEY!);
     const { data, error } = await resend.emails.send({
       from: `${name} <onboarding@resend.dev>`,
-      to: [canadaharsh2002@gmail.com"],
+      to: ["canadaharsh2002@gmail.com"],
       subject: `Portfolio Contact: ${subject}`,
       text: `Email: ${email}\nName: ${name}\nSubject: ${subject}\n\nMessage:\n${message}`,
     });
