@@ -6,9 +6,27 @@ import { sql } from '@vercel/postgres';
 export async function GET() {
   try {
     const { rows } = await sql`
-      select ts, path, city, region, country, browser, os, device_type, preferred_locale
+      select ts, path, 
+             -- Prioritize GPS location over IP location
+             CASE 
+               WHEN location_source = 'gps' THEN precise_city 
+               ELSE ip_city 
+             END as city,
+             CASE 
+               WHEN location_source = 'gps' THEN precise_country 
+               ELSE ip_country 
+             END as country,
+             CASE 
+               WHEN location_source = 'gps' THEN precise_postal_code 
+               ELSE ip_postal_code 
+             END as postal_code,
+             precise_district as district,
+             precise_address as address,
+             location_source,
+             user_accuracy,
+             browser, os, device_type, preferred_locale
       from visit_events
-      where ts::date = current_date
+      where expires_at > NOW()  -- Only non-expired records
       order by ts desc
       limit 200;
     `;

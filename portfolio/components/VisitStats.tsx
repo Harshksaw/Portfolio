@@ -5,8 +5,12 @@ interface VisitData {
   ts: string;
   path: string;
   city: string | null;
-  region: string | null;
   country: string | null;
+  postal_code: string | null;
+  district: string | null;
+  address: string | null;
+  location_source: 'gps' | 'ip' | 'denied';
+  user_accuracy: number | null;
   browser: string;
   os: string;
   device_type: string;
@@ -15,6 +19,7 @@ interface VisitData {
 
 interface CityData {
   city: string;
+  location_source: string;
   visits: number;
 }
 
@@ -23,35 +28,49 @@ interface PageData {
   visits: number;
 }
 
+interface AreaData {
+  address: string;
+  district: string;
+  postal_code: string;
+  city: string;
+  location_source: string;
+  avg_accuracy: number | null;
+  visits: number;
+}
+
 export default function VisitStats() {
   const [visits, setVisits] = useState<VisitData[]>([]);
   const [cities, setCities] = useState<CityData[]>([]);
   const [pages, setPages] = useState<PageData[]>([]);
+  const [areas, setAreas] = useState<AreaData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [visitsRes, citiesRes, pagesRes] = await Promise.all([
+        const [visitsRes, citiesRes, pagesRes, areasRes] = await Promise.all([
           fetch('/api/admin/pg/recent'),
           fetch('/api/admin/pg/cities'),
-          fetch('/api/admin/pg/pages')
+          fetch('/api/admin/pg/pages'),
+          fetch('/api/admin/pg/areas')
         ]);
 
-        if (!visitsRes.ok || !citiesRes.ok || !pagesRes.ok) {
+        if (!visitsRes.ok || !citiesRes.ok || !pagesRes.ok || !areasRes.ok) {
           throw new Error('Failed to fetch data');
         }
 
-        const [visitsData, citiesData, pagesData] = await Promise.all([
+        const [visitsData, citiesData, pagesData, areasData] = await Promise.all([
           visitsRes.json(),
           citiesRes.json(),
-          pagesRes.json()
+          pagesRes.json(),
+          areasRes.json()
         ]);
 
         setVisits(visitsData);
         setCities(citiesData);
         setPages(pagesData);
+        setAreas(areasData);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'An error occurred');
       } finally {
@@ -106,17 +125,52 @@ export default function VisitStats() {
         </div>
       </div>
 
-      {/* Cities Stats */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+      {/* Location Stats */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
         <div className="bg-white rounded-lg shadow overflow-hidden">
           <div className="px-6 py-4 bg-gray-50 border-b">
             <h2 className="text-xl font-semibold">Top Cities</h2>
           </div>
           <div className="p-4">
-            {cities.slice(0, 10).map((city, index) => (
+            {cities.slice(0, 8).map((city, index) => (
               <div key={index} className="flex justify-between items-center py-2 border-b last:border-b-0">
-                <span className="font-medium">{city.city}</span>
+                <div className="flex-1">
+                  <span className="font-medium">{city.city}</span>
+                  <div className="text-xs text-gray-500">
+                    {city.location_source === 'gps' ? '🎯 GPS' : '🌐 IP'} location
+                  </div>
+                </div>
                 <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded text-sm">{city.visits}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="bg-white rounded-lg shadow overflow-hidden">
+          <div className="px-6 py-4 bg-gray-50 border-b">
+            <h2 className="text-xl font-semibold">Precise Locations</h2>
+          </div>
+          <div className="p-4">
+            {areas.slice(0, 8).map((area, index) => (
+              <div key={index} className="py-2 border-b last:border-b-0">
+                <div className="flex justify-between items-center">
+                  <div className="flex-1">
+                    <div className="font-medium text-sm">
+                      {area.address !== 'Unknown Address' ? area.address : area.district}
+                    </div>
+                    <div className="text-xs text-gray-500">
+                      {area.postal_code !== 'Unknown GPS Postal' && area.postal_code !== 'Unknown IP Postal' && `${area.postal_code} • `}
+                      {area.city}
+                      {area.location_source === 'gps' && area.avg_accuracy && (
+                        <span className="ml-2 text-green-600">±{area.avg_accuracy}m</span>
+                      )}
+                    </div>
+                    <div className="text-xs">
+                      {area.location_source === 'gps' ? '🎯 GPS' : '🌐 IP'} location
+                    </div>
+                  </div>
+                  <span className="bg-purple-100 text-purple-800 px-2 py-1 rounded text-sm ml-2">{area.visits}</span>
+                </div>
               </div>
             ))}
           </div>
@@ -127,7 +181,7 @@ export default function VisitStats() {
             <h2 className="text-xl font-semibold">Top Pages</h2>
           </div>
           <div className="p-4">
-            {pages.slice(0, 10).map((page, index) => (
+            {pages.slice(0, 8).map((page, index) => (
               <div key={index} className="flex justify-between items-center py-2 border-b last:border-b-0">
                 <span className="font-medium font-mono text-sm">{page.path}</span>
                 <span className="bg-green-100 text-green-800 px-2 py-1 rounded text-sm">{page.visits}</span>
@@ -164,7 +218,30 @@ export default function VisitStats() {
                     {visit.path}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {[visit.city, visit.region, visit.country].filter(Boolean).join(', ') || 'Unknown'}
+                    <div className="space-y-1">
+                      <div className="font-medium flex items-center gap-2">
+                        {[visit.city, visit.country].filter(Boolean).join(', ') || 'Unknown'}
+                        {visit.location_source === 'gps' ? (
+                          <span className="text-xs bg-green-100 text-green-800 px-1 rounded">🎯 GPS</span>
+                        ) : (
+                          <span className="text-xs bg-blue-100 text-blue-800 px-1 rounded">🌐 IP</span>
+                        )}
+                      </div>
+                      {(visit.address && visit.address !== 'Unknown Address') && (
+                        <div className="text-xs text-blue-600">📍 {visit.address}</div>
+                      )}
+                      {(visit.district && visit.district !== 'Unknown District') && (
+                        <div className="text-xs text-green-600">🏘️ {visit.district}</div>
+                      )}
+                      {(visit.postal_code && 
+                        visit.postal_code !== 'Unknown GPS Postal' && 
+                        visit.postal_code !== 'Unknown IP Postal') && (
+                        <div className="text-xs text-purple-600">📮 {visit.postal_code}</div>
+                      )}
+                      {visit.user_accuracy && (
+                        <div className="text-xs text-gray-500">Accuracy: ±{visit.user_accuracy}m</div>
+                      )}
+                    </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                     <span className="capitalize">{visit.device_type}</span>

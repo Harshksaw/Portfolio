@@ -11,56 +11,109 @@ interface TrackingData {
   os: string;
   is_bot: boolean;
   locale: string;
+  // Enhanced location data
+  user_latitude?: number;
+  user_longitude?: number;
+  user_accuracy?: number;
+  location_source: 'gps' | 'ip' | 'denied';
 }
 
 export const useVisitTracker = () => {
   useEffect(() => {
     const trackVisit = async () => {
       console.log('🔍 Starting visit tracking...');
+      
+      // Generate or get session ID
+      let sessionId = localStorage.getItem('session_id');
+      if (!sessionId) {
+        sessionId = crypto.randomUUID();
+        localStorage.setItem('session_id', sessionId);
+        console.log('✅ Generated new session ID:', sessionId);
+      } else {
+        console.log('✅ Using existing session ID:', sessionId);
+      }
+
+      // Detect device type
+      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      const isTablet = /iPad|Android(?=.*\bMobile\b)(?=.*\bSafari\b)/i.test(navigator.userAgent);
+      
+      let deviceType = 'desktop';
+      if (isMobile) deviceType = 'mobile';
+      else if (isTablet) deviceType = 'tablet';
+
+      // Detect browser
+      const getBrowser = () => {
+        const ua = navigator.userAgent;
+        if (ua.includes('Chrome')) return 'Chrome';
+        if (ua.includes('Firefox')) return 'Firefox';
+        if (ua.includes('Safari')) return 'Safari';
+        if (ua.includes('Edge')) return 'Edge';
+        if (ua.includes('Opera')) return 'Opera';
+        return 'Unknown';
+      };
+
+      // Detect OS
+      const getOS = () => {
+        const ua = navigator.userAgent;
+        if (ua.includes('Windows')) return 'Windows';
+        if (ua.includes('Mac')) return 'macOS';
+        if (ua.includes('Linux')) return 'Linux';
+        if (ua.includes('Android')) return 'Android';
+        if (ua.includes('iOS')) return 'iOS';
+        return 'Unknown';
+      };
+
+      // Check if bot
+      const isBot = /bot|crawl|spider|scraper/i.test(navigator.userAgent);
+
+      // Get user's actual location
+      const getUserLocation = (): Promise<{
+        latitude?: number;
+        longitude?: number;
+        accuracy?: number;
+        source: 'gps' | 'denied';
+      }> => {
+        return new Promise((resolve) => {
+          if (!navigator.geolocation) {
+            console.log('🚫 Geolocation not supported');
+            resolve({ source: 'denied' });
+            return;
+          }
+
+          console.log('📍 Requesting user location...');
+          
+          navigator.geolocation.getCurrentPosition(
+            (position) => {
+              console.log('✅ Location obtained:', {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude,
+                accuracy: position.coords.accuracy
+              });
+              
+              resolve({
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude,
+                accuracy: position.coords.accuracy,
+                source: 'gps'
+              });
+            },
+            (error) => {
+              console.log('❌ Location denied or failed:', error.message);
+              resolve({ source: 'denied' });
+            },
+            {
+              enableHighAccuracy: true,
+              timeout: 10000,
+              maximumAge: 300000 // 5 minutes
+            }
+          );
+        });
+      };
+
       try {
-        // Generate or get session ID
-        let sessionId = localStorage.getItem('session_id');
-        if (!sessionId) {
-          sessionId = crypto.randomUUID();
-          localStorage.setItem('session_id', sessionId);
-          console.log('✅ Generated new session ID:', sessionId);
-        } else {
-          console.log('✅ Using existing session ID:', sessionId);
-        }
-
-        // Detect device type
-        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-        const isTablet = /iPad|Android(?=.*\bMobile\b)(?=.*\bSafari\b)/i.test(navigator.userAgent);
+        // Get location (either GPS or fallback to IP)
+        const locationData = await getUserLocation();
         
-        let deviceType = 'desktop';
-        if (isMobile) deviceType = 'mobile';
-        else if (isTablet) deviceType = 'tablet';
-
-        // Detect browser
-        const getBrowser = () => {
-          const ua = navigator.userAgent;
-          if (ua.includes('Chrome')) return 'Chrome';
-          if (ua.includes('Firefox')) return 'Firefox';
-          if (ua.includes('Safari')) return 'Safari';
-          if (ua.includes('Edge')) return 'Edge';
-          if (ua.includes('Opera')) return 'Opera';
-          return 'Unknown';
-        };
-
-        // Detect OS
-        const getOS = () => {
-          const ua = navigator.userAgent;
-          if (ua.includes('Windows')) return 'Windows';
-          if (ua.includes('Mac')) return 'macOS';
-          if (ua.includes('Linux')) return 'Linux';
-          if (ua.includes('Android')) return 'Android';
-          if (ua.includes('iOS')) return 'iOS';
-          return 'Unknown';
-        };
-
-        // Check if bot
-        const isBot = /bot|crawl|spider|scraper/i.test(navigator.userAgent);
-
         const trackingData: TrackingData = {
           ts: new Date().toISOString(),
           path: window.location.pathname,
@@ -71,6 +124,10 @@ export const useVisitTracker = () => {
           os: getOS(),
           is_bot: isBot,
           locale: navigator.language,
+          user_latitude: locationData.latitude,
+          user_longitude: locationData.longitude,
+          user_accuracy: locationData.accuracy,
+          location_source: locationData.source,
         };
 
         console.log('📊 Tracking data prepared:', trackingData);

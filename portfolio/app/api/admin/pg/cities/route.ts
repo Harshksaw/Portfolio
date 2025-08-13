@@ -6,10 +6,16 @@ import { sql } from '@vercel/postgres';
 export async function GET() {
   try {
     const { rows } = await sql`
-      select coalesce(city, 'Unknown') as city, count(*)::int as visits
+      select 
+        CASE 
+          WHEN location_source = 'gps' THEN coalesce(precise_city, 'Unknown GPS City')
+          ELSE coalesce(ip_city, 'Unknown IP City') 
+        END as city,
+        location_source,
+        count(*)::int as visits
       from visit_events
-      where ts::date = current_date
-      group by 1
+      where expires_at > NOW()
+      group by 1, 2
       order by visits desc, city asc;
     `;
     return Response.json(rows);

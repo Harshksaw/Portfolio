@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ipinfoLookup } from "@/utils/ipinfo";
+import { reverseGeocode } from "@/utils/geocoding";
 import { sql } from "@vercel/postgres";
 
 export const runtime = "nodejs";
@@ -41,22 +42,61 @@ export async function POST(req: NextRequest) {
 	const ip = getClientIp(req);
 	console.log('🌐 Client IP:', ip || 'NOT FOUND');
 	
-	let geo: {
+	// IP-based location (fallback)
+	let ipGeo: {
 		city: string | null;
 		region: string | null;
 		country: string | null;
+		postal_code: string | null;
+		area: string | null;
+		district: string | null;
 		latitude: number | null;
 		longitude: number | null;
 		org: string | null;
 		timezone: string | null;
-	} = { city: null, region: null, country: null, latitude: null, longitude: null, org: null, timezone: null };
+	} = { 
+		city: null, 
+		region: null, 
+		country: null, 
+		postal_code: null,
+		area: null,
+		district: null,
+		latitude: null, 
+		longitude: null, 
+		org: null, 
+		timezone: null 
+	};
 	
+	// Get IP-based location as fallback
 	if (ip) {
-		console.log('🔍 Looking up geolocation for IP...');
-		geo = await ipinfoLookup(ip);
-		console.log('📍 Geolocation result:', geo);
+		console.log('🔍 Looking up IP geolocation...');
+		ipGeo = await ipinfoLookup(ip);
+		console.log('📍 IP Geolocation result:', ipGeo);
 	} else {
-		console.log('⚠️ No IP found, skipping geolocation');
+		console.log('⚠️ No IP found, skipping IP geolocation');
+	}
+
+	// GPS-based precise location
+	let preciseLocation = {
+		address: null as string | null,
+		city: null as string | null,
+		district: null as string | null,
+		postal_code: null as string | null,
+		country: null as string | null,
+	};
+
+	// If user provided GPS coordinates, get precise location
+	if (payload.user_latitude && payload.user_longitude) {
+		console.log('🎯 Getting precise location from GPS coordinates...');
+		const geocoded = await reverseGeocode(payload.user_latitude, payload.user_longitude);
+		preciseLocation = {
+			address: geocoded.address,
+			city: geocoded.city,
+			district: geocoded.district,
+			postal_code: geocoded.postal_code,
+			country: geocoded.country,
+		};
+		console.log('📍 Precise location result:', preciseLocation);
 	}
 
 	// Device info (optional, can be extended)
@@ -68,15 +108,20 @@ export async function POST(req: NextRequest) {
 
 	console.log('💾 Storing visit data in Postgres...');
 
-	// Store in Postgres
+	// Store in Postgres with enhanced location data
 	try {
 		await sql`
 			INSERT INTO visit_events
-				(ts, path, referer, city, region, country, latitude, longitude,
+				(ts, path, referer, 
+				 ip_city, ip_region, ip_country, ip_postal_code, ip_latitude, ip_longitude, org, timezone,
+				 user_latitude, user_longitude, user_accuracy, location_source,
+				 precise_address, precise_city, precise_district, precise_postal_code, precise_country,
 				 session_id, device_type, browser, os, is_bot, preferred_locale)
 			VALUES
 				(to_timestamp(${Date.parse(payload.ts)} / 1000.0), ${payload.path}, ${payload.referer ?? null},
-				 ${geo.city}, ${geo.region}, ${geo.country}, ${geo.latitude}, ${geo.longitude},
+				 ${ipGeo.city}, ${ipGeo.region}, ${ipGeo.country}, ${ipGeo.postal_code}, ${ipGeo.latitude}, ${ipGeo.longitude}, ${ipGeo.org}, ${ipGeo.timezone},
+				 ${payload.user_latitude ?? null}, ${payload.user_longitude ?? null}, ${payload.user_accuracy ?? null}, ${payload.location_source},
+				 ${preciseLocation.address}, ${preciseLocation.city}, ${preciseLocation.district}, ${preciseLocation.postal_code}, ${preciseLocation.country},
 				 ${payload.session_id ?? null}, ${device_type}, ${browser}, ${os}, ${is_bot}, ${locale})
 		`;
 		console.log('✅ Visit data stored successfully in Postgres');

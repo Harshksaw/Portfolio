@@ -16,6 +16,9 @@ export async function ipinfoLookup(ip: string) {
 		city: string | null;
 		region: string | null;
 		country: string | null;
+		postal_code: string | null;
+		area: string | null;
+		district: string | null;
 		latitude: number | null;
 		longitude: number | null;
 		org: string | null;
@@ -24,7 +27,7 @@ export async function ipinfoLookup(ip: string) {
 	
 	try {
 		const { rows } = await sql`
-			SELECT city, region, country, latitude, longitude, org, timezone
+			SELECT city, region, country, postal_code, area, district, latitude, longitude, org, timezone
 			FROM ip_cache 
 			WHERE ip_hash = ${key} 
 			AND expires_at > NOW()
@@ -42,21 +45,35 @@ export async function ipinfoLookup(ip: string) {
 	if (cached) return cached;
 
 	const resp = await fetch(`https://ipinfo.io/${encodeURIComponent(ip)}?token=${IPINFO_TOKEN}`, {
-		signal: AbortSignal.timeout(1500),
+		signal: AbortSignal.timeout(2000),
 	});
 
 	if (!resp.ok) {
-		const empty = { city: null, region: null, country: null, latitude: null, longitude: null, org: null, timezone: null };
+		const empty = { 
+			city: null, 
+			region: null, 
+			country: null, 
+			postal_code: null,
+			area: null,
+			district: null,
+			latitude: null, 
+			longitude: null, 
+			org: null, 
+			timezone: null 
+		};
 		
 		// Cache failed lookup for 10 minutes
 		try {
 			await sql`
-				INSERT INTO ip_cache (ip_hash, city, region, country, latitude, longitude, org, timezone, expires_at)
-				VALUES (${key}, ${empty.city}, ${empty.region}, ${empty.country}, ${empty.latitude}, ${empty.longitude}, ${empty.org}, ${empty.timezone}, NOW() + INTERVAL '10 minutes')
+				INSERT INTO ip_cache (ip_hash, city, region, country, postal_code, area, district, latitude, longitude, org, timezone, expires_at)
+				VALUES (${key}, ${empty.city}, ${empty.region}, ${empty.country}, ${empty.postal_code}, ${empty.area}, ${empty.district}, ${empty.latitude}, ${empty.longitude}, ${empty.org}, ${empty.timezone}, NOW() + INTERVAL '10 minutes')
 				ON CONFLICT (ip_hash) DO UPDATE SET
 					city = EXCLUDED.city,
 					region = EXCLUDED.region,
 					country = EXCLUDED.country,
+					postal_code = EXCLUDED.postal_code,
+					area = EXCLUDED.area,
+					district = EXCLUDED.district,
 					latitude = EXCLUDED.latitude,
 					longitude = EXCLUDED.longitude,
 					org = EXCLUDED.org,
@@ -71,7 +88,7 @@ export async function ipinfoLookup(ip: string) {
 		return empty;
 	}
 
-	const data = await resp.json(); // { city, region, country, loc, org, timezone }
+	const data = await resp.json(); // { city, region, country, postal, loc, org, timezone }
 	let latitude: number | null = null, longitude: number | null = null;
 	if (typeof data?.loc === "string" && data.loc.includes(",")) {
 		const [lat, lng] = data.loc.split(",").map(Number);
@@ -79,10 +96,14 @@ export async function ipinfoLookup(ip: string) {
 		longitude = isFinite(lng) ? lng : null;
 	}
 
-	const enriched = {
+	// Enhanced location data from IPInfo
+	let enriched = {
 		city: data?.city ?? null,
 		region: data?.region ?? null,
 		country: data?.country ?? null,
+		postal_code: data?.postal ?? null,
+		area: data?.district ?? data?.region ?? null, // Use district as area fallback
+		district: data?.region ?? null, // Use region as district
 		latitude,
 		longitude,
 		org: data?.org ?? null,
@@ -92,12 +113,15 @@ export async function ipinfoLookup(ip: string) {
 	// Cache successful lookup for 24 hours
 	try {
 		await sql`
-			INSERT INTO ip_cache (ip_hash, city, region, country, latitude, longitude, org, timezone, expires_at)
-			VALUES (${key}, ${enriched.city}, ${enriched.region}, ${enriched.country}, ${enriched.latitude}, ${enriched.longitude}, ${enriched.org}, ${enriched.timezone}, NOW() + INTERVAL '24 hours')
+			INSERT INTO ip_cache (ip_hash, city, region, country, postal_code, area, district, latitude, longitude, org, timezone, expires_at)
+			VALUES (${key}, ${enriched.city}, ${enriched.region}, ${enriched.country}, ${enriched.postal_code}, ${enriched.area}, ${enriched.district}, ${enriched.latitude}, ${enriched.longitude}, ${enriched.org}, ${enriched.timezone}, NOW() + INTERVAL '24 hours')
 			ON CONFLICT (ip_hash) DO UPDATE SET
 				city = EXCLUDED.city,
 				region = EXCLUDED.region,
 				country = EXCLUDED.country,
+				postal_code = EXCLUDED.postal_code,
+				area = EXCLUDED.area,
+				district = EXCLUDED.district,
 				latitude = EXCLUDED.latitude,
 				longitude = EXCLUDED.longitude,
 				org = EXCLUDED.org,

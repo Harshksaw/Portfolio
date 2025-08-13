@@ -8,7 +8,7 @@ export async function GET() {
     const { rows } = await sql`
       select path, count(*)::int as visits
       from visit_events
-      where ts::date = current_date
+      where expires_at > NOW()
       group by 1
       order by visits desc, path asc
       limit 50;
