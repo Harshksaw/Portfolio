@@ -14,18 +14,34 @@ export async function sendEmail(values: TFormSchema) {
   const { name, email, subject, message } = validatedFields.data;
 
   try {
-    // Create transporter with Gmail SMTP
+    // Validate required environment variables
+    if (!process.env.SMTP_HOST || !process.env.SMTP_USER || !process.env.SMTP_PASS) {
+      console.error('Missing required SMTP environment variables');
+      return { success: false, error: "Email service not configured" };
+    }
+
+    // Create transporter with flexible SMTP configuration
     const transporter = nodemailer.createTransport({
-      service: 'gmail',
+      host: process.env.SMTP_HOST,
+      port: parseInt(process.env.SMTP_PORT || '587'),
+      secure: process.env.SMTP_SECURE === 'true', // true for 465, false for other ports
       auth: {
-        user: process.env.GMAIL_USER,
-        pass: process.env.GMAIL_APP_PASSWORD,
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
       },
+      // Additional security options
+      tls: {
+        ciphers: 'SSLv3',
+        rejectUnauthorized: false
+      }
     });
+
+    // Test the connection
+    await transporter.verify();
 
     // Email content
     const mailOptions = {
-      from: `"${name}" <${process.env.GMAIL_USER}>`,
+      from: `"Portfolio Contact" <${process.env.SMTP_USER}>`,
       to: process.env.TO_EMAIL || "canadaharsh2002@gmail.com",
       subject: `Portfolio Contact: ${subject}`,
       text: `From: ${name} (${email})\nSubject: ${subject}\n\nMessage:\n${message}`,
@@ -63,9 +79,25 @@ export async function sendEmail(values: TFormSchema) {
     
   } catch (error) {
     console.error("Nodemailer error:", error);
+    
+    // Provide more specific error messages
+    let errorMessage = "Failed to send email";
+    
+    if (error instanceof Error) {
+      if (error.message.includes("Invalid login")) {
+        errorMessage = "Invalid email credentials";
+      } else if (error.message.includes("connect ECONNREFUSED")) {
+        errorMessage = "SMTP server connection failed";
+      } else if (error.message.includes("Authentication failed")) {
+        errorMessage = "Email authentication failed";
+      } else {
+        errorMessage = error.message;
+      }
+    }
+    
     return { 
       success: false, 
-      error: error instanceof Error ? error.message : "Failed to send email" 
+      error: errorMessage
     };
   }
 }

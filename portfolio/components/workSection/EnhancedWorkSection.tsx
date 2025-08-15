@@ -12,8 +12,9 @@ import {
   ProjectStats 
 } from './components';
 import { 
-  MobileMockup, 
-  DesktopMockup, 
+  Mobile3DMockup,
+  Desktop3DMockup,
+  DeviceSwitcher3D,
   PluginMockup, 
   InnovativeMockup 
 } from './mockups';
@@ -78,19 +79,30 @@ export function EnhancedWorkSection() {
     setAutoAdvance(false); // Stop auto-advance when user manually selects project
   };
 
-  // Render appropriate mockup based on project type
+  // Render appropriate mockup based on project type (3D only)
   const renderMockup = () => {
     const mockupProps = { project: currentProject };
     
     switch (currentProject.type) {
       case "mobile":
-        return <MobileMockup {...mockupProps} />;
+        return <Mobile3DMockup {...mockupProps} />;
       case "tool":
         return <PluginMockup {...mockupProps} />;
       case "innovative":
         return <InnovativeMockup {...mockupProps} />;
       default:
-        return <DesktopMockup {...mockupProps} />;
+        // For web projects, use the device switcher to show both desktop and mobile
+        if (currentProject.mobileScreenshots && currentProject.mobileScreenshots.length > 0) {
+          return (
+            <DeviceSwitcher3D 
+              {...mockupProps} 
+              autoSwitch={autoAdvance}
+              switchInterval={6000}
+              allowManualSwitch={true}
+            />
+          );
+        }
+        return <Desktop3DMockup {...mockupProps} />;
     }
   };
 
