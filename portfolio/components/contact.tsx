@@ -162,7 +162,7 @@ export function ContactSection() {
 
               {submitStatus === 'error' && (
                 <div className="p-4 bg-red-500/20 border border-red-500/30 rounded-lg text-red-300 text-center">
-                  ✗ Failed to send message. Please try emailing me directly at hello@harshkumar.dev
+                  ✗ Failed to send message. Please try emailing me directly at mister.harshkumar@gmail.com
                 </div>
               )}
             </form>
@@ -175,7 +175,7 @@ export function ContactSection() {
               
               <div className="space-y-6">
                 <a
-                  href="mailto:hello@harshkumar.dev"
+                  href="mailto:mister.harshkumar@gmail.com"
                   className="group flex items-center gap-4 p-4 bg-gray-700/30 rounded-lg hover:bg-gray-700/50 transition-all duration-300"
                 >
                   <div className="text-3xl">📧</div>
@@ -183,7 +183,7 @@ export function ContactSection() {
                     <h4 className="text-white font-semibold group-hover:text-green-400 transition-colors">
                       Email
                     </h4>
-                    <p className="text-gray-400 text-sm">hello@harshkumar.dev</p>
+                    <p className="text-gray-400 text-sm">mister.harshkumar@gmail.com</p>
                   </div>
                 </a>
 
@@ -198,7 +198,7 @@ export function ContactSection() {
                     <h4 className="text-white font-semibold group-hover:text-blue-400 transition-colors">
                       Telegram
                     </h4>
-                    <p className="text-gray-400 text-sm">@Harshkumar_dev</p>
+                    <p className="text-gray-400 text-sm">@harshkdev</p>
                   </div>
                 </a>
 
