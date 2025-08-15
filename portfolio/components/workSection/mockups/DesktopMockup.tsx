@@ -1,17 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { DeviceMockupProps } from '../types';
 
 export const DesktopMockup: React.FC<DeviceMockupProps> = ({ project }) => {
   const [currentScreenshot, setCurrentScreenshot] = useState(0);
   const screenshots = project.webScreenshots || [project.image];
 
-  // Auto-cycle through screenshots every 1.5 seconds
+  // Dynamic timing based on number of images
   useEffect(() => {
     if (screenshots.length > 1) {
+      // Calculate timing: more images = faster transitions
+      const baseTime = screenshots.length <= 2 ? 3000 : 
+                      screenshots.length <= 4 ? 2000 : 1500;
+      
       const interval = setInterval(() => {
         setCurrentScreenshot((prev) => (prev + 1) % screenshots.length);
-      }, 1500); // Change screenshot every 1.5 seconds
+      }, baseTime);
       return () => clearInterval(interval);
     }
   }, [screenshots.length]);
@@ -24,18 +28,37 @@ export const DesktopMockup: React.FC<DeviceMockupProps> = ({ project }) => {
     <div className="relative max-w-full overflow-hidden">
       {/* MacBook Frame */}
       <div className="relative">
-        <div className="w-full max-w-[500px] sm:max-w-[600px] h-[300px] sm:h-[375px] bg-gray-800 rounded-lg overflow-hidden shadow-2xl mx-auto">
-          {/* Screen */}
+        {/* Screen */}
+        <div className="w-full max-w-[500px] sm:max-w-[600px] h-[300px] sm:h-[375px] bg-gray-800 rounded-t-lg overflow-hidden shadow-2xl mx-auto border-2 border-gray-700"
+             style={{ 
+               transform: 'perspective(800px) rotateX(-2deg)',
+               transformOrigin: 'bottom center'
+             }}>
           <div className="w-full h-full bg-black rounded-lg overflow-hidden relative">
-            <motion.img 
-              key={currentScreenshot}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.3 }}
-              src={screenshots[currentScreenshot]}
-              alt={`${project.title} - Screenshot ${currentScreenshot + 1}`}
-              className="w-full h-full object-cover"
-            />
+            <AnimatePresence mode="wait">
+              <motion.img 
+                key={currentScreenshot}
+                initial={{ 
+                  opacity: 0,
+                  scale: 1.02
+                }}
+                animate={{ 
+                  opacity: 1,
+                  scale: 1
+                }}
+                exit={{ 
+                  opacity: 0,
+                  scale: 0.98
+                }}
+                transition={{ 
+                  duration: 0.8,
+                  ease: [0.4, 0, 0.2, 1]
+                }}
+                src={screenshots[currentScreenshot]}
+                alt={`${project.title} - Screenshot ${currentScreenshot + 1}`}
+                className="w-full h-full object-cover"
+              />
+            </AnimatePresence>
             
             {/* Browser UI */}
             <div className="absolute top-0 left-0 right-0 h-6 sm:h-8 bg-gray-800 flex items-center px-2 sm:px-4 z-10">
@@ -83,10 +106,8 @@ export const DesktopMockup: React.FC<DeviceMockupProps> = ({ project }) => {
           </div>
         </div>
         
-        {/* Base */}
-        <div className="w-full max-w-[520px] sm:max-w-[620px] h-3 sm:h-4 bg-gray-700 rounded-b-lg mx-auto shadow-lg"></div>
-        
-        {/* Reflection */}
+     
+        {/* Enhanced Reflection */}
         <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-32 h-2 bg-gradient-to-r from-transparent via-white/10 to-transparent blur-sm"></div>
       </div>
     </div>

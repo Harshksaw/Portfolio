@@ -117,6 +117,7 @@ export const DeviceSwitcher3D: React.FC<DeviceSwitcher3DProps> = ({
               initial="initial"
               animate="animate"
               exit="exit"
+              transition={transitionSettings}
               className="absolute"
             >
               <Desktop3DMockup project={project} />
@@ -128,6 +129,7 @@ export const DeviceSwitcher3D: React.FC<DeviceSwitcher3DProps> = ({
               initial="initial"
               animate="animate"
               exit="exit"
+              transition={transitionSettings}
               className="absolute"
             >
               <Mobile3DMockup project={project} />

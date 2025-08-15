@@ -49,13 +49,12 @@ export const Desktop3DMockup: React.FC<DeviceMockupProps> = ({ project }) => {
       >
         {/* MacBook Frame with enhanced 3D effect */}
         <div className="relative transform-style-preserve-3d">
-          {/* 3D Depth layers for the laptop body */}
-          <div className="absolute inset-0 bg-gradient-to-br from-gray-600 via-gray-700 to-gray-800 rounded-lg transform translate-z-[-16px] opacity-40 blur-sm scale-105"></div>
-          <div className="absolute inset-0 bg-gradient-to-br from-gray-700 via-gray-800 to-gray-900 rounded-lg transform translate-z-[-12px] opacity-60 blur-sm scale-103"></div>
-          <div className="absolute inset-0 bg-gradient-to-br from-gray-800 via-gray-900 to-black rounded-lg transform translate-z-[-8px] opacity-80 blur-sm scale-101"></div>
-          
-          {/* Main laptop body - Mobile responsive */}
-          <div className="w-full max-w-[320px] sm:max-w-[500px] lg:max-w-[600px] h-[200px] sm:h-[300px] lg:h-[375px] bg-gradient-to-br from-gray-800 via-gray-850 to-gray-900 rounded-lg overflow-hidden shadow-2xl mx-auto relative transform translate-z-[4px]">
+          {/* Laptop Screen - Mobile responsive */}
+          <div className="w-full max-w-[320px] sm:max-w-[500px] lg:max-w-[600px] h-[200px] sm:h-[300px] lg:h-[375px] bg-gradient-to-br from-gray-800 via-gray-850 to-gray-900 rounded-t-lg overflow-hidden shadow-2xl mx-auto relative transform translate-z-[4px] border-2 border-gray-700"
+               style={{ 
+                 transform: 'perspective(800px) rotateX(-2deg)',
+                 transformOrigin: 'bottom center'
+               }}>
             
             {/* Screen */}
             <div className="w-full h-full bg-gray-900 rounded-lg overflow-hidden relative transform translate-z-[2px]">
@@ -186,22 +185,7 @@ export const Desktop3DMockup: React.FC<DeviceMockupProps> = ({ project }) => {
             </div>
           </div>
           
-          {/* Enhanced Base with 3D depth - Mobile responsive */}
-          <motion.div 
-            className="w-full max-w-[340px] sm:max-w-[520px] lg:max-w-[620px] h-2 sm:h-3 lg:h-4 bg-gradient-to-b from-gray-700 to-gray-800 rounded-b-lg mx-auto shadow-2xl relative transform translate-z-[2px]"
-            animate={{
-              scale: isHovered ? 1.02 : 1,
-              boxShadow: isHovered 
-                ? "0 8px 32px rgba(0, 0, 0, 0.3)"
-                : "0 4px 16px rgba(0, 0, 0, 0.2)"
-            }}
-            transition={{ duration: 0.3 }}
-          >
-            {/* Base depth layers */}
-            <div className="absolute inset-0 bg-gradient-to-b from-gray-600 to-gray-700 rounded-b-lg transform translate-z-[-2px] opacity-80"></div>
-            <div className="absolute inset-0 bg-gradient-to-b from-gray-500 to-gray-600 rounded-b-lg transform translate-z-[-4px] opacity-60"></div>
-          </motion.div>
-          
+        
           {/* Enhanced Reflection - Mobile responsive */}
           <motion.div 
             className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-24 sm:w-32 lg:w-40 h-1 sm:h-2 lg:h-3 bg-gradient-to-r from-transparent via-white/20 to-transparent blur-sm"

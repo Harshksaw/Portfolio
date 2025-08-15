@@ -1,17 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { DeviceMockupProps } from '../types';
 
 export const MobileMockup: React.FC<DeviceMockupProps> = ({ project }) => {
   const [currentScreenshot, setCurrentScreenshot] = useState(0);
   const screenshots = project.mobileScreenshots || [project.image];
 
-  // Auto-cycle through screenshots every 1.5 seconds (to show multiple within 7-second project interval)
+  // Dynamic timing based on number of images
   useEffect(() => {
     if (screenshots.length > 1) {
+      // Calculate timing: more images = faster transitions
+      const baseTime = screenshots.length <= 2 ? 3000 : 
+                      screenshots.length <= 4 ? 2000 : 1500;
+      
       const interval = setInterval(() => {
         setCurrentScreenshot((prev) => (prev + 1) % screenshots.length);
-      }, 1500); // Change screenshot every 1.5 seconds
+      }, baseTime);
       return () => clearInterval(interval);
     }
   }, [screenshots.length]);
@@ -30,15 +34,30 @@ export const MobileMockup: React.FC<DeviceMockupProps> = ({ project }) => {
           
           {/* Screen Content */}
           <div className="w-full h-full bg-gradient-to-br from-blue-500 to-purple-600 relative overflow-hidden">
-            <motion.img 
-              key={currentScreenshot}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.3 }}
-              src={screenshots[currentScreenshot]} 
-              alt={`${project.title} - Screenshot ${currentScreenshot + 1}`}
-              className="w-full h-full object-cover"
-            />
+            <AnimatePresence mode="wait">
+              <motion.img 
+                key={currentScreenshot}
+                initial={{ 
+                  opacity: 0,
+                  scale: 1.02
+                }}
+                animate={{ 
+                  opacity: 1,
+                  scale: 1
+                }}
+                exit={{ 
+                  opacity: 0,
+                  scale: 0.98
+                }}
+                transition={{ 
+                  duration: 0.8,
+                  ease: [0.4, 0, 0.2, 1]
+                }}
+                src={screenshots[currentScreenshot]} 
+                alt={`${project.title} - Screenshot ${currentScreenshot + 1}`}
+                className="w-full h-full object-cover"
+              />
+            </AnimatePresence>
             
             {/* Navigation dots for multiple screenshots */}
             {screenshots.length > 1 && (

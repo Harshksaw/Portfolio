@@ -14,9 +14,7 @@ import {
 import { 
   Mobile3DMockup,
   Desktop3DMockup,
-  DeviceSwitcher3D,
-  PluginMockup, 
-  InnovativeMockup 
+  DeviceSwitcher3D
 } from './mockups';
 
 export function EnhancedWorkSection() {
@@ -86,10 +84,6 @@ export function EnhancedWorkSection() {
     switch (currentProject.type) {
       case "mobile":
         return <Mobile3DMockup {...mockupProps} />;
-      case "tool":
-        return <PluginMockup {...mockupProps} />;
-      case "innovative":
-        return <InnovativeMockup {...mockupProps} />;
       default:
         // For web projects, use the device switcher to show both desktop and mobile
         if (currentProject.mobileScreenshots && currentProject.mobileScreenshots.length > 0) {
@@ -97,7 +91,6 @@ export function EnhancedWorkSection() {
             <DeviceSwitcher3D 
               {...mockupProps} 
               autoSwitch={autoAdvance}
-              switchInterval={6000}
               allowManualSwitch={true}
             />
           );
@@ -148,18 +141,11 @@ export function EnhancedWorkSection() {
           projects={filteredProjects}
         />
 
-        {/* Main Content Grid */}
-        <div className="grid lg:grid-cols-2 gap-2 lg:gap-16 items-center">
+        {/* Main Content - Mobile Optimized Layout */}
+        <div className="flex flex-col lg:grid lg:grid-cols-2 gap-4 lg:gap-16 items-center">
           
-          {/* Project Info */}
-          <div className="order-2 lg:order-1">
-            <AnimatePresence mode="wait">
-              <ProjectInfo project={currentProject} />
-            </AnimatePresence>
-          </div>
-
-          {/* Device Mockup */}
-          <div className="relative order-1 lg:order-2 flex justify-center">
+          {/* Device Mockup - Show first on mobile */}
+          <div className="relative order-1 lg:order-2 flex justify-center w-full">
             <AnimatePresence mode="wait">
               <motion.div
                 key={`${activeProject}-${currentProject.type}`}
@@ -167,9 +153,25 @@ export function EnhancedWorkSection() {
                 animate={{ opacity: 1, scale: 1, rotateY: 0 }}
                 exit={{ opacity: 0, scale: 0.8, rotateY: -90 }}
                 transition={{ duration: 0.6, ease: "easeOut" }}
-                className="relative"
+                className="relative max-w-full"
               >
                 {renderMockup()}
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          {/* Project Info - Compact mobile layout */}
+          <div className="order-2 lg:order-1 w-full px-4 lg:px-0">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeProject}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.5 }}
+                className="text-center lg:text-left"
+              >
+                <ProjectInfo project={currentProject} />
               </motion.div>
             </AnimatePresence>
           </div>
