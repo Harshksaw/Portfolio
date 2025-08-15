@@ -1,18 +1,7 @@
 'use client'
 
 import { useState } from 'react';
-import { z } from 'zod';
-
-// Zod schema for form validation
-export const FormSchema = z.object({
-  name: z.string().min(1, "Name is required").max(100, "Name too long"),
-  email: z.string().email("Invalid email address"),
-  subject: z.string().min(1, "Subject is required").max(200, "Subject too long"),
-  message: z.string().min(10, "Message must be at least 10 characters").max(1000, "Message too long")
-});
-
-// Type definition for form schema
-export type TFormSchema = z.infer<typeof FormSchema>;
+import { FormSchema } from '@/lib/schemas';
 
 export function ContactSection() {
   const [formData, setFormData] = useState({
@@ -38,11 +27,14 @@ export function ContactSection() {
     setSubmitStatus('idle');
 
     try {
+      // Client-side validation
+      const validatedData = FormSchema.parse(formData);
+      
       // Import the server action
       const { sendEmail } = await import('@/actions/sendEmail');
       
       // Send email using server action
-      const result = await sendEmail(formData);
+      const result = await sendEmail(validatedData);
       
       if (result.success) {
         setSubmitStatus('success');

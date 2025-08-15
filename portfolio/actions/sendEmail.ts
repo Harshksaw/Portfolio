@@ -1,6 +1,6 @@
 "use server";
 
-import { TFormSchema, FormSchema } from "@/components/contact";
+import { TFormSchema, FormSchema } from "@/lib/schemas";
 import nodemailer from "nodemailer";
 
 export async function sendEmail(values: TFormSchema) {
