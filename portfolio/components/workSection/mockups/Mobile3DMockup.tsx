@@ -7,12 +7,16 @@ export const Mobile3DMockup: React.FC<DeviceMockupProps> = ({ project }) => {
   const screenshots = project.mobileScreenshots || [project.image];
   const [isHovered, setIsHovered] = useState(false);
 
-  // Auto-cycle through screenshots every 2 seconds
+  // Dynamic timing based on number of images
   useEffect(() => {
     if (screenshots.length > 1) {
+      // Calculate timing: more images = faster transitions
+      const baseTime = screenshots.length <= 2 ? 3000 : 
+                      screenshots.length <= 4 ? 2000 : 1500;
+      
       const interval = setInterval(() => {
         setCurrentScreenshot((prev) => (prev + 1) % screenshots.length);
-      }, 2000);
+      }, baseTime);
       return () => clearInterval(interval);
     }
   }, [screenshots.length]);
@@ -54,23 +58,26 @@ export const Mobile3DMockup: React.FC<DeviceMockupProps> = ({ project }) => {
             {/* Notch with 3D effect */}
             <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-24 sm:w-32 h-4 sm:h-6 bg-gradient-to-b from-gray-900 to-black rounded-b-xl z-20 shadow-lg"></div>
             
-            {/* Screen Content with fade slideshow */}
+            {/* Screen Content with smooth cross-fade */}
             <div className="w-full h-full bg-gray-900 relative overflow-hidden">
               <AnimatePresence mode="wait">
                 <motion.img 
                   key={currentScreenshot}
                   initial={{ 
-                    opacity: 0
+                    opacity: 0,
+                    scale: 1.02
                   }}
                   animate={{ 
-                    opacity: 1
+                    opacity: 1,
+                    scale: 1
                   }}
                   exit={{ 
-                    opacity: 0
+                    opacity: 0,
+                    scale: 0.98
                   }}
                   transition={{ 
-                    duration: 1.2,
-                    ease: "easeInOut"
+                    duration: 0.8,
+                    ease: [0.4, 0, 0.2, 1]
                   }}
                   src={screenshots[currentScreenshot]} 
                   alt={`${project.title} - Screenshot ${currentScreenshot + 1}`}
@@ -156,57 +163,6 @@ export const Mobile3DMockup: React.FC<DeviceMockupProps> = ({ project }) => {
           </div>
         </div>
         
-        {/* Enhanced floating icons with subtle 3D movement */}
-        <motion.div
-          className="absolute -top-2 sm:-top-4 -right-2 sm:-right-4 w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center shadow-2xl text-lg sm:text-xl z-10"
-          animate={{ 
-            y: [0, -8, 0],
-            rotate: [0, 5, -5, 0],
-            scale: [1, 1.05, 1]
-          }}
-          transition={{ 
-            duration: 6, 
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-          whileHover={{
-            scale: 1.15,
-            rotate: 180,
-            transition: { duration: 0.3 }
-          }}
-        >
-          📱
-        </motion.div>
-
-        {/* Optimized floating particles */}
-        <motion.div
-          className="absolute -bottom-4 -left-4 w-4 h-4 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full opacity-40"
-          animate={{ 
-            y: [0, -12, 0],
-            x: [0, 6, 0],
-            scale: [1, 1.1, 1]
-          }}
-          transition={{ 
-            duration: 8, 
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        />
-
-        <motion.div
-          className="absolute top-1/3 -left-6 w-3 h-3 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full opacity-30"
-          animate={{ 
-            y: [0, -8, 0],
-            x: [0, -4, 0],
-            scale: [1, 1.15, 1]
-          }}
-          transition={{ 
-            duration: 7, 
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 2
-          }}
-        />
       </motion.div>
 
       <style jsx>{`

@@ -13,22 +13,30 @@ interface DeviceSwitcher3DProps extends DeviceMockupProps {
 export const DeviceSwitcher3D: React.FC<DeviceSwitcher3DProps> = ({ 
   project,
   autoSwitch = true,
-  switchInterval = 6000,
   allowManualSwitch = true
 }) => {
   const [currentDevice, setCurrentDevice] = useState<'mobile' | 'desktop'>('desktop');
   const [isTransitioning, setIsTransitioning] = useState(false);
 
-  // Auto-switch between devices
+  // Auto-switch between devices with dynamic timing
   useEffect(() => {
     if (!autoSwitch) return;
     
+    // Calculate timing based on total number of images
+    const mobileImages = project.mobileScreenshots?.length || 1;
+    const webImages = project.webScreenshots?.length || 1;
+    const totalImages = mobileImages + webImages;
+    
+    // Longer intervals for fewer images, shorter for more images
+    const dynamicInterval = totalImages <= 4 ? 8000 : 
+                           totalImages <= 8 ? 6000 : 5000;
+    
     const interval = setInterval(() => {
       setCurrentDevice(prev => prev === 'mobile' ? 'desktop' : 'mobile');
-    }, switchInterval);
+    }, dynamicInterval);
     
     return () => clearInterval(interval);
-  }, [autoSwitch, switchInterval]);
+  }, [autoSwitch, project.mobileScreenshots, project.webScreenshots]);
 
   const handleDeviceSwitch = (device: 'mobile' | 'desktop') => {
     if (!allowManualSwitch || isTransitioning || device === currentDevice) return;
@@ -42,22 +50,22 @@ export const DeviceSwitcher3D: React.FC<DeviceSwitcher3DProps> = ({
 
   const containerVariants = {
     initial: { 
-      opacity: 0
+      opacity: 0,
+      scale: 0.95
     },
     animate: { 
       opacity: 1,
-      transition: {
-        duration: 1.2,
-        ease: "easeInOut"
-      }
+      scale: 1
     },
     exit: { 
       opacity: 0,
-      transition: {
-        duration: 1,
-        ease: "easeInOut"
-      }
+      scale: 0.95
     }
+  };
+
+  const transitionSettings = {
+    duration: 1,
+    ease: [0.4, 0, 0.2, 1] as const
   };
 
   return (
@@ -164,7 +172,7 @@ export const DeviceSwitcher3D: React.FC<DeviceSwitcher3DProps> = ({
         )}
       </AnimatePresence>
 
-      {/* Auto-switch indicator */}
+      {/* Auto-switch indicator with dynamic timing */}
       {autoSwitch && (
         <motion.div
           className="absolute bottom-0 left-1/2 transform -translate-x-1/2 flex items-center gap-2 bg-black/20 backdrop-blur-md rounded-full px-4 py-2 border border-white/10"
@@ -184,7 +192,9 @@ export const DeviceSwitcher3D: React.FC<DeviceSwitcher3DProps> = ({
               ease: "easeInOut"
             }}
           />
-          <span className="text-white/70 text-xs">Auto-switching every {switchInterval/1000}s</span>
+          <span className="text-white/70 text-xs">
+            Smart timing • {project.mobileScreenshots?.length || 1} mobile + {project.webScreenshots?.length || 1} web
+          </span>
         </motion.div>
       )}
 
