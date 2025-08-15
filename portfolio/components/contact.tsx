@@ -38,29 +38,21 @@ export function ContactSection() {
     setSubmitStatus('idle');
 
     try {
-      // Import EmailJS dynamically to avoid SSR issues
-      const emailjs = await import('@emailjs/browser');
+      // Import the server action
+      const { sendEmail } = await import('@/actions/sendEmail');
       
-      // Get EmailJS configuration from environment variables
-      const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
-      const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
-      const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
-
-      const templateParams = {
-        from_name: formData.name,
-        from_email: formData.email,
-        subject: formData.subject,
-        message: formData.message,
-        to_email: process.env.NEXT_PUBLIC_TO_EMAIL || 'canadaharsh2002@gmail.com'
-      };
-
-      //@ts-ignore
-      await emailjs.send(serviceId, templateId, templateParams, publicKey);
+      // Send email using server action
+      const result = await sendEmail(formData);
       
-      setSubmitStatus('success');
-      setFormData({ name: '', email: '', subject: '', message: '' });
+      if (result.success) {
+        setSubmitStatus('success');
+        setFormData({ name: '', email: '', subject: '', message: '' });
+      } else {
+        console.error('Email send error:', result.error);
+        setSubmitStatus('error');
+      }
     } catch (error) {
-      console.error('EmailJS Error:', error);
+      console.error('Form submission error:', error);
       setSubmitStatus('error');
     } finally {
       setIsSubmitting(false);
