@@ -69,7 +69,7 @@ export const DeviceSwitcher3D: React.FC<DeviceSwitcher3DProps> = ({
   };
 
   return (
-    <div className="relative w-full flex flex-col items-center justify-center min-h-[600px] perspective-1200">
+    <div className="relative w-full max-w-screen-lg mx-auto flex flex-col items-center justify-center min-h-[400px] max-h-[90vh] overflow-hidden perspective-1200">
       {/* Device Toggle Buttons */}
       {allowManualSwitch && (
         <motion.div 
@@ -108,7 +108,7 @@ export const DeviceSwitcher3D: React.FC<DeviceSwitcher3DProps> = ({
       )}
 
       {/* Device Animation Container */}
-      <div className="relative w-full flex justify-center items-center pt-16">
+  <div className="relative w-full flex justify-center items-center pt-16 h-full">
         <AnimatePresence mode="wait">
           {currentDevice === 'desktop' ? (
             <motion.div
@@ -118,7 +118,7 @@ export const DeviceSwitcher3D: React.FC<DeviceSwitcher3DProps> = ({
               animate="animate"
               exit="exit"
               transition={transitionSettings}
-              className="absolute"
+              className="absolute w-full h-auto max-h-[80vh] flex items-center justify-center"
             >
               <Desktop3DMockup project={project} />
             </motion.div>
@@ -130,7 +130,7 @@ export const DeviceSwitcher3D: React.FC<DeviceSwitcher3DProps> = ({
               animate="animate"
               exit="exit"
               transition={transitionSettings}
-              className="absolute"
+              className="absolute w-full h-auto max-h-[80vh] flex items-center justify-center"
             >
               <Mobile3DMockup project={project} />
             </motion.div>

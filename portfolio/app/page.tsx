@@ -2,12 +2,13 @@
 import { Suspense, lazy } from "react";
 import { Main } from "@/components/main";
 import { Cursor } from "@/components/cursor";
-import FullpageProvider from "@/components/fullpageProvider";
 import { HeaderNavigation } from "@/components/headerNavigation";
 import LazySection from "@/components/LazySection";
 import { useVisitTracker } from "@/hooks/useVisitTracker";
 
+
 import "./index.css";
+import { ScrollProvider } from "@/components/ScrollProvider";
 
 const ContactSection = lazy(() => 
   import("@/components/contact").then(module => ({ 
@@ -19,7 +20,6 @@ const ExperienceTimelineSection = lazy(() =>
   import("@/components/ExperienceTimelineSection")
 );
 
-// Enhanced loading fallback component with better UX
 const ComponentLoader = ({ name }: { name: string }) => (
   <div className="flex items-center justify-center min-h-[60vh] text-white bg-black/30">
     <div className="text-center max-w-md mx-auto p-8">
@@ -33,9 +33,7 @@ const ComponentLoader = ({ name }: { name: string }) => (
   </div>
 );
 
-
-export default function HomePage({ }) {
-  // Track page visits
+export default function HomePage() {
   useVisitTracker();
 
   return (
@@ -43,14 +41,11 @@ export default function HomePage({ }) {
       <Cursor />
       <HeaderNavigation />
 
-      {/* Fullpage.js sections - ONLY Hero and About with GSAP transitions */}
-      <FullpageProvider>
+      <ScrollProvider>
+        {/* Main sections */}
         <Main />
-      </FullpageProvider>
 
-      {/* Normal scroll content - Optimized with intersection observer lazy loading */}
-      <div className="normal-scroll-content">
-        {/* Experience Timeline Section - Lazy loaded */}
+        {/* Additional content */}
         <LazySection 
           name="Experience Timeline" 
           rootMargin="150px"
@@ -59,7 +54,6 @@ export default function HomePage({ }) {
           <ExperienceTimelineSection />
         </LazySection>
 
-        {/* Contact Section - Lazy loaded when almost in view */}
         <LazySection 
           name="Contact Form" 
           rootMargin="100px"
@@ -67,7 +61,7 @@ export default function HomePage({ }) {
         >
           <ContactSection />
         </LazySection>
-      </div>
+      </ScrollProvider>
     </>
   );
 }

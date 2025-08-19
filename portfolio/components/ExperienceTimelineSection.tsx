@@ -110,54 +110,7 @@ export default  function ExperienceTimelineSection() {
     ),
   }));
 
-  // GSAP slide-in animation when component comes into view
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Create a slide-in animation from the About section
-      gsap.fromTo(
-        sectionRef.current,
-        {
-          y: "100vh",
-          opacity: 0,
-        },
-        {
-          y: "0vh",
-          opacity: 1,
-          duration: 1.5,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top bottom",
-            end: "top center",
-            toggleActions: "play none none reverse",
-          },
-        }
-      );
-
-      // Animate individual timeline items
-      gsap.fromTo(
-        ".timeline-content",
-        {
-          x: -100,
-          opacity: 0,
-        },
-        {
-          x: 0,
-          opacity: 1,
-          duration: 0.8,
-          stagger: 0.2,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: ".timeline-content",
-            start: "top 85%",
-            toggleActions: "play none none reverse",
-          },
-        }
-      );
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
+  // ...no GSAP animation, section stays in place
 
   return (
     <section 
