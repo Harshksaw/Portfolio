@@ -69,31 +69,18 @@ export function HeroWrapper({ }) {
       <h2 className="left mask pointer-events-none z-20 md:pt-20 pt-10">
         <div className="free anime relative hidden md:block">
           <span className="bg-gradient-to-r from-blue-400 via-indigo-300 to-blue-200 bg-clip-text text-transparent">
-            Software Developer
+            Software Dev
           </span>
 
 
         </div>
         <div className="animation__wrapper anime hidden md:block">
-          <span className="animate__this animate__this1 left-0 animated-line">
-            Full Stack Dev<span className="violet__it animate-dot">.</span>
-            <br />
-          </span>
-          <span className="animate__this animate__this2 left-0 animated-line">
-            Gen AI Dev<span className="violet__it animate-dot">.</span>
-            <br />
-          </span>
-
-          <span className="animate__this animate__this5 left-0 animated-line">
-            Cloud Architect<span className="violet__it animate-dot">.</span>
-            <br />
-          </span>
-
-          <span className="animate__this animate__this8 left-0 animated-line">
-            DevOps Engineer<span className="violet__it animate-dot">.</span>
-            <br />
-          </span>
-          <span>&nbsp;</span>
+          <div className="flip-container">
+            <div className="flip-text">Full Stack Dev<span className="violet__it">.</span></div>
+            <div className="flip-text">Gen AI Dev<span className="violet__it">.</span></div>
+            <div className="flip-text">Cloud Architect<span className="violet__it">.</span></div>
+            <div className="flip-text">DevOps Engineer<span className="violet__it">.</span></div>
+          </div>
         </div>
       </h2>
 
@@ -105,62 +92,63 @@ export function HeroWrapper({ }) {
           100% { filter: drop-shadow(0 0 30px rgba(59, 130, 246, 0.8)); }
         }
 
-        @keyframes orbit {
-          0% { transform: rotate(0deg) translateX(100px) rotate(0deg); }
-          100% { transform: rotate(360deg) translateX(100px) rotate(-360deg); }
+        @keyframes flipIn {
+          0% { transform: rotateX(-90deg); opacity: 0; }
+          100% { transform: rotateX(0deg); opacity: 1; }
         }
 
-        .skill-orbit {
+        @keyframes flipOut {
+          0% { transform: rotateX(0deg); opacity: 1; }
+          100% { transform: rotateX(90deg); opacity: 0; }
+        }
+
+        .animation__wrapper {
+          position: relative;
+          height: 60px;
+          overflow: hidden;
+        }
+
+        .flip-container {
+          position: relative;
+          height: 100%;
+        }
+
+        .flip-text {
           position: absolute;
-          font-size: 24px;
-          animation: orbit 10s linear infinite;
+          top: 0;
+          left: 0;
+          font-size: 2.5rem;
+          font-weight: bold;
+          color: white;
+          opacity: 0;
+          transform: rotateX(-90deg);
+          transform-origin: 50% 50%;
+          animation: flipIn 0.6s ease-out forwards, flipOut 0.6s ease-out 3s forwards;
         }
 
-        .skill-orbit-1 {
-          top: 20%;
-          left: 30%;
-          animation-delay: 0s;
-          animation-duration: 8s;
+        .flip-text:nth-child(1) { animation-delay: 0s, 3s; }
+        .flip-text:nth-child(2) { animation-delay: 3.6s, 6.6s; }
+        .flip-text:nth-child(3) { animation-delay: 7.2s, 10.2s; }
+        .flip-text:nth-child(4) { animation-delay: 10.8s, 13.8s; }
+
+        .violet__it {
+          color: #8b5cf6;
         }
 
-        .skill-orbit-2 {
-          top: 40%;
-          right: 25%;
-          animation-delay: -2s;
-          animation-duration: 12s;
-        }
-
-        .skill-orbit-3 {
-          bottom: 30%;
-          left: 20%;
-          animation-delay: -4s;
-          animation-duration: 10s;
-        }
-
-        .skill-orbit-4 {
-          top: 60%;
-          right: 40%;
-          animation-delay: -6s;
-          animation-duration: 9s;
-        }
-
-        .skill-orbit-5 {
-          bottom: 20%;
-          right: 30%;
-          animation-delay: -8s;
-          animation-duration: 11s;
+        .free span {
+          font-size: 3rem;
+          font-weight: bold;
+          display: block;
+          margin-bottom: 1rem;
         }
 
         @media (max-width: 768px) {
-          .skill-orbit {
-            display: none;
+          .animate__this {
+            font-size: 1.5rem;
           }
           
-          .absolute.bottom-20.right-10 {
-            position: relative;
-            bottom: auto;
-            right: auto;
-            margin-top: 20px;
+          .free span {
+            font-size: 2rem;
           }
 
           .section1__wrapper {
