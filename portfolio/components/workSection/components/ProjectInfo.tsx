@@ -1,13 +1,30 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Project } from '../types';
-import { getTechIcon } from '../utils/techIcons';
-
+import * as DevIcons from 'developer-icons';
 interface ProjectInfoProps {
   project: Project;
 }
 
+
 export const ProjectInfo: React.FC<ProjectInfoProps> = ({ project }) => {
+  const techIconMap: Record<string, React.FC<any>> = {
+    "React": DevIcons.React,
+    "Node.js": DevIcons.NodeJs,
+    "AWS": DevIcons.AWS,
+    "PostgreSQL": DevIcons.PostgreSQL,
+    "Tailwind": DevIcons.TailwindCSS,
+    "Grafana": DevIcons.Grafana,
+    "Docker": DevIcons.Docker,
+    "TypeScript": DevIcons.TypeScript,
+    "JavaScript": DevIcons.JavaScript,
+  "NestJS": DevIcons.NestJS,
+  "Next.js": DevIcons.NextJs,
+  "Kubernetes": DevIcons.Kubernetes,
+  "Redis": DevIcons.Redis,
+  "RabbitMQ": DevIcons.React,
+  "Prometheus": DevIcons.React,
+  };
   return (
     <motion.div 
       key={project.id}
@@ -38,21 +55,25 @@ export const ProjectInfo: React.FC<ProjectInfoProps> = ({ project }) => {
       <div>
         <h4 className="text-sm font-semibold text-gray-400 mb-3">Built with:</h4>
         <div className="flex flex-wrap gap-2">
-          {project.tech.map((tech, idx) => (
-            <motion.div 
-              key={idx}
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: idx * 0.1 }}
-              className="flex items-center gap-2 px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-sm hover:border-gray-600 transition-colors group"
-              title={tech}
-            >
-              <div className="text-blue-400 group-hover:text-blue-300 transition-colors">
-                {getTechIcon(tech)}
-              </div>
-              <span className="hidden sm:inline">{tech}</span>
-            </motion.div>
-          ))}
+     
+          {project.tech.map((tech, idx) => {
+            const IconComponent = techIconMap[tech] || null;
+            return (
+              <motion.div 
+                key={idx}
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: idx * 0.1 }}
+                className="flex items-center gap-2 px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-sm hover:border-gray-600 transition-colors group"
+                title={tech}
+              >
+                <div className="text-blue-400 group-hover:text-blue-300 transition-colors">
+                  {IconComponent ? <IconComponent style={{ width: 20, height: 20 }} /> : null}
+                </div>
+                <span className="hidden sm:inline">{tech}</span>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
 

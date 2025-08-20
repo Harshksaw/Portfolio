@@ -177,19 +177,7 @@ export function EnhancedWorkSection() {
           </div>
         </div>
 
-        {/* Flying Project Stats - Positioned absolutely to not affect layout */}
-        {/* <AnimatePresence mode="wait">
-          <motion.div
-            key={`stats-${activeProject}`}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.5 }}
-            className="absolute inset-0 pointer-events-none"
-          >
-            <ProjectStats project={currentProject} />
-          </motion.div>
-        </AnimatePresence> */}
+      
 
 
      
