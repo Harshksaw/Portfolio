@@ -58,6 +58,7 @@ export const ProjectInfo: React.FC<ProjectInfoProps> = ({ project }) => {
      
           {project.tech.map((tech, idx) => {
             const IconComponent = techIconMap[tech] || null;
+            const isFallback = tech === "RabbitMQ" || tech === "Prometheus";
             return (
               <motion.div 
                 key={idx}
@@ -70,7 +71,7 @@ export const ProjectInfo: React.FC<ProjectInfoProps> = ({ project }) => {
                 <div className="text-blue-400 group-hover:text-blue-300 transition-colors">
                   {IconComponent ? <IconComponent style={{ width: 20, height: 20 }} /> : null}
                 </div>
-                <span className="hidden sm:inline">{tech}</span>
+                <span className={isFallback ? "inline" : "hidden sm:inline"}>{tech}</span>
               </motion.div>
             );
           })}

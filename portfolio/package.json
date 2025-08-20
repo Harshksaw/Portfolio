@@ -23,6 +23,7 @@
     "@vercel/speed-insights": "^1.2.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
+    "developer-icons": "^6.0.3",
     "framer-motion": "^12.23.6",
     "fullpage.js": "^4.0.20",
     "gsap": "^3.12.4",
