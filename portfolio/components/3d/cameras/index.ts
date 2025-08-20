@@ -1,0 +1,1 @@
+export { HeroCamera } from './HeroCamera';
