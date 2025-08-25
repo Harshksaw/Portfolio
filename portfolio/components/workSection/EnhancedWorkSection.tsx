@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
+
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { projects } from './data/projects';
 import { ProjectType } from './types';
@@ -100,40 +101,36 @@ export function EnhancedWorkSection() {
   };
 
   return (
-    <div 
-      ref={containerRef} 
-      className="min-h-screen bg-gradient-to-b text-white relative overflow-hidden"
+    <div
+      ref={containerRef}
+      className="min-h-screen bg-gradient-to-b text-white relative overflow-hidden bg-gray-600"
     >
-      
       {/* Animated background particles */}
       <BackgroundParticles count={20} />
 
-      <motion.div 
+      <motion.div
         style={{ y, opacity, scale }}
-        className="container mx-auto px-4 sm:px-6 py-16 sm:py-20 relative z-10"
+        className="container mx-auto px-4 sm:px-6 py-2 sm:py-10 relative z-10 "
       >
-        
         {/* Header */}
         <div className="text-center mb-6 sm:mb-6">
-          <motion.h2 
-            initial={{ opacity: 0, y: 50 }}
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="text-4xl sm:text-5xl md:text-7xl font-bold mb-4 sm:mb-6"
           >
-
             <span className={`block bg-gradient-to-r ${currentProject.color} bg-clip-text text-transparent mt-2 mb-6`}>
               Projects
             </span>
           </motion.h2>
-        
         </div>
 
         {/* Project Type Filter */}
-        <ProjectFilter 
+        {/* <ProjectFilter
           activeFilter={activeFilter}
           onFilterChange={handleFilterChange}
-        />
-           <ProjectNavigation
+        /> */}
+        <ProjectNavigation
           totalProjects={filteredProjects.length}
           activeIndex={activeProject}
           onProjectChange={handleProjectChange}
@@ -143,7 +140,6 @@ export function EnhancedWorkSection() {
 
         {/* Main Content - Mobile Optimized Layout */}
         <div className="flex flex-col lg:grid lg:grid-cols-2 gap-4 lg:gap-16 items-center">
-          
           {/* Device Mockup - Show first on mobile */}
           <div className="relative order-1 lg:order-2 flex justify-center w-full">
             <AnimatePresence mode="wait">
@@ -176,14 +172,11 @@ export function EnhancedWorkSection() {
             </AnimatePresence>
           </div>
         </div>
-
-      
-
-
-     
       </motion.div>
     </div>
   );
+     
+    
 }
 
 export default EnhancedWorkSection;
