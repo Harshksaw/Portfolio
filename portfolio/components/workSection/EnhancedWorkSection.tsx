@@ -103,7 +103,7 @@ export function EnhancedWorkSection() {
   return (
     <div
       ref={containerRef}
-      className="min-h-screen bg-gradient-to-b text-white relative overflow-hidden bg-gray-600"
+      className="min-h-screen  text-white relative overflow-hidden bg-gray-800"
     >
       {/* Animated background particles */}
       <BackgroundParticles count={20} />
