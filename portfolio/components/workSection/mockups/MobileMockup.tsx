@@ -27,7 +27,7 @@ export const MobileMockup: React.FC<DeviceMockupProps> = ({ project }) => {
   return (
     <div className="relative mx-auto">
       {/* Phone Frame */}
-      <div className="relative w-64 sm:w-80 h-[520px] sm:h-[640px] bg-gray-900 rounded-[2rem] sm:rounded-[3rem] p-2 shadow-2xl">
+      <div className="relative w-64 sm:w-80 h-[820px] sm:h-[640px] bg-gray-900 rounded-[2rem] sm:rounded-[3rem] p-2 shadow-2xl">
         <div className="w-full h-full bg-black rounded-[1.5rem] sm:rounded-[2.5rem] overflow-hidden relative">
           {/* Notch */}
           <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-24 sm:w-32 h-4 sm:h-6 bg-black rounded-b-xl z-10"></div>
