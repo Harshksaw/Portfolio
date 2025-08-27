@@ -47,7 +47,7 @@ export const Mobile3DMockup: React.FC<DeviceMockupProps> = ({ project }) => {
         }}
       >
         {/* Phone Frame with 3D effect */}
-        <div className="relative w-64 sm:w-80 h-[20px] sm:h-[340px] bg-gradient-to-br from-gray-800 via-gray-900 to-black rounded-[2rem] sm:rounded-[3rem] p-2 shadow-2xl transform-style-preserve-3d">
+        <div className="relative w-64 sm:w-80 h-[48px] sm:h-[440px] bg-gradient-to-br from-gray-800 via-gray-900 to-black rounded-[2rem] sm:rounded-[3rem] p-2 shadow-2xl transform-style-preserve-3d">
           {/* 3D Depth layers */}
           <div className="absolute inset-0 bg-gradient-to-br from-gray-700 via-gray-800 to-gray-900 rounded-[2rem] sm:rounded-[3rem] transform translate-z-[-4px] opacity-80"></div>
           <div className="absolute inset-0 bg-gradient-to-br from-gray-600 via-gray-700 to-gray-800 rounded-[2rem] sm:rounded-[3rem] transform translate-z-[-8px] opacity-60"></div>
