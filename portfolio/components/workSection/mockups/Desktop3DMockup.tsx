@@ -114,20 +114,20 @@ export const Desktop3DMockup: React.FC<DeviceMockupProps> = ({ project }) => {
           duration: 0.3
         }}
       >
-        {/* Laptop Container with responsive sizing */}
+        {/* Laptop Container with more conservative sizing */}
         <div className={`
           relative mx-auto
           ${!isMobile ? 'transform-style-preserve-3d' : ''}
-          /* Responsive laptop sizing */
+          /* Much smaller, more reasonable laptop sizing */
           w-full
-          max-w-[350px] sm:max-w-[500px] md:max-w-[650px] lg:max-w-[800px] xl:max-w-[900px]
+          max-w-[280px] sm:max-w-[380px] md:max-w-[480px] lg:max-w-[580px] xl:max-w-[650px]
         `}>
           {/* Laptop Screen */}
           <div 
             className={`
               w-full
-              /* Responsive height with proper aspect ratios */
-              h-[220px] sm:h-[300px] md:h-[390px] lg:h-[480px] xl:h-[540px]
+              /* Smaller, more proportional heights */
+              h-[160px] sm:h-[220px] md:h-[280px] lg:h-[340px] xl:h-[380px]
               bg-gradient-to-br from-gray-800 via-gray-850 to-gray-900 
               rounded-t-lg sm:rounded-t-xl md:rounded-t-2xl
               overflow-hidden 
@@ -142,14 +142,14 @@ export const Desktop3DMockup: React.FC<DeviceMockupProps> = ({ project }) => {
             }}
           >
             
-            {/* Enhanced Browser UI Bar */}
+            {/* Enhanced Browser UI Bar - smaller */}
             <motion.div 
               className={`
                 absolute top-0 left-0 right-0 
-                h-6 sm:h-8 md:h-10 lg:h-12
+                h-4 sm:h-6 md:h-7 lg:h-8
                 bg-gradient-to-b from-gray-800 to-gray-850 
                 flex items-center 
-                px-2 sm:px-3 md:px-4 lg:px-6
+                px-1.5 sm:px-2 md:px-3 lg:px-4
                 z-20
                 ${!isMobile ? 'translate-z-[4px]' : ''}
                 border-b border-gray-700
@@ -161,13 +161,13 @@ export const Desktop3DMockup: React.FC<DeviceMockupProps> = ({ project }) => {
               }}
               transition={{ duration: 0.3 }}
             >
-              {/* Traffic lights */}
-              <div className="flex gap-1 sm:gap-1.5 md:gap-2">
+              {/* Traffic lights - smaller */}
+              <div className="flex gap-0.5 sm:gap-1 md:gap-1.5">
                 {['red', 'yellow', 'green'].map((color, index) => (
                   <motion.div
                     key={color}
                     className={`
-                      w-2.5 h-2.5 sm:w-3 sm:h-3 md:w-3.5 md:h-3.5 lg:w-4 lg:h-4
+                      w-1.5 h-1.5 sm:w-2 sm:h-2 md:w-2.5 md:h-2.5 lg:w-3 lg:h-3
                       bg-${color}-500 rounded-full cursor-pointer
                       shadow-sm
                     `}
@@ -184,19 +184,19 @@ export const Desktop3DMockup: React.FC<DeviceMockupProps> = ({ project }) => {
                 ))}
               </div>
               
-              {/* Address bar */}
+              {/* Address bar - smaller */}
               <motion.div 
-                className="flex-1 mx-2 sm:mx-3 md:mx-4 lg:mx-6"
+                className="flex-1 mx-1.5 sm:mx-2 md:mx-3 lg:mx-4"
                 animate={{
                   scale: isInteracted ? 1.01 : 1
                 }}
               >
                 <div className={`
-                  h-4 sm:h-5 md:h-6 lg:h-7
+                  h-2.5 sm:h-3.5 md:h-4 lg:h-5
                   bg-gradient-to-r from-gray-700 to-gray-600 
-                  rounded-md
+                  rounded-sm
                   flex items-center 
-                  px-2 sm:px-3 md:px-4
+                  px-1.5 sm:px-2 md:px-3
                   text-gray-300 
                   overflow-hidden relative
                   shadow-inner
@@ -208,23 +208,23 @@ export const Desktop3DMockup: React.FC<DeviceMockupProps> = ({ project }) => {
                     }}
                     transition={{ duration: 0.3 }}
                   />
-                  <span className="truncate relative z-10 text-xs sm:text-sm md:text-base font-mono">
+                  <span className="truncate relative z-10 text-[10px] sm:text-xs md:text-sm font-mono">
                     {project.link || 'https://example.com'}
                   </span>
                 </div>
               </motion.div>
 
-              {/* Browser controls */}
-              <div className="flex gap-1 sm:gap-2">
+              {/* Browser controls - smaller */}
+              <div className="flex gap-0.5 sm:gap-1">
                 {['←', '→', '↻'].map((symbol, index) => (
                   <motion.button
                     key={symbol}
                     className={`
-                      w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8
+                      w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6
                       bg-gray-600 hover:bg-gray-500 
-                      rounded-md
+                      rounded-sm
                       flex items-center justify-center
-                      text-gray-300 text-sm sm:text-base
+                      text-gray-300 text-[10px] sm:text-xs md:text-sm
                       shadow-sm
                     `}
                     whileHover={!isMobile ? { scale: 1.05, backgroundColor: '#6B7280' } : {}}
@@ -236,11 +236,11 @@ export const Desktop3DMockup: React.FC<DeviceMockupProps> = ({ project }) => {
               </div>
             </motion.div>
             
-            {/* Screen Content Area */}
+            {/* Screen Content Area - adjusted for smaller UI */}
             <div className={`
               w-full 
-              h-[calc(100%-24px)] sm:h-[calc(100%-32px)] md:h-[calc(100%-40px)] lg:h-[calc(100%-48px)]
-              bg-gray-900 relative overflow-hidden mt-6 sm:mt-8 md:mt-10 lg:mt-12
+              h-[calc(100%-16px)] sm:h-[calc(100%-24px)] md:h-[calc(100%-28px)] lg:h-[calc(100%-32px)]
+              bg-gray-900 relative overflow-hidden mt-4 sm:mt-6 md:mt-7 lg:mt-8
               ${!isMobile ? 'translate-z-[2px]' : ''}
             `}>
               {/* Screenshot Display with smooth transitions */}
@@ -282,16 +282,16 @@ export const Desktop3DMockup: React.FC<DeviceMockupProps> = ({ project }) => {
                 transition={{ duration: 0.3 }}
               />
               
-              {/* Navigation dots for multiple screenshots */}
+              {/* Navigation dots - smaller and better positioned */}
               {screenshots.length > 1 && (
                 <motion.div 
                   className={`
-                    absolute bottom-4 sm:bottom-6 md:bottom-8 
+                    absolute bottom-2 sm:bottom-3 md:bottom-4 
                     left-1/2 transform -translate-x-1/2 
-                    flex gap-2 sm:gap-3
+                    flex gap-1.5 sm:gap-2
                     bg-black/30 backdrop-blur-md 
                     rounded-full 
-                    px-3 sm:px-4 py-2 sm:py-3
+                    px-2 sm:px-3 py-1.5 sm:py-2
                     border border-white/10
                   `}
                   initial={{ opacity: 0, y: 20 }}
@@ -305,7 +305,7 @@ export const Desktop3DMockup: React.FC<DeviceMockupProps> = ({ project }) => {
                       onClick={() => handleScreenshotChange(index)}
                       className={`
                         rounded-full transition-all duration-300 
-                        min-w-[44px] min-h-[44px] sm:min-w-[48px] sm:min-h-[48px]
+                        min-w-[36px] min-h-[36px] sm:min-w-[40px] sm:min-h-[40px]
                         flex items-center justify-center
                         ${index === currentScreenshot ? 'bg-white/90' : 'bg-white/30 hover:bg-white/50'}
                       `}
@@ -341,11 +341,11 @@ export const Desktop3DMockup: React.FC<DeviceMockupProps> = ({ project }) => {
             </div>
           </div>
           
-          {/* Laptop Base/Keyboard */}
+          {/* Laptop Base/Keyboard - smaller */}
           <motion.div 
             className={`
               w-full 
-              h-3 sm:h-4 md:h-5 lg:h-6
+              h-2 sm:h-3 md:h-3.5 lg:h-4
               bg-gradient-to-b from-gray-700 to-gray-800 
               rounded-b-lg sm:rounded-b-xl md:rounded-b-2xl
               shadow-lg
@@ -363,12 +363,12 @@ export const Desktop3DMockup: React.FC<DeviceMockupProps> = ({ project }) => {
             }}
           />
           
-          {/* Enhanced reflection/shadow */}
+          {/* Enhanced reflection/shadow - smaller */}
           <motion.div 
             className={`
               absolute bottom-0 left-1/2 transform -translate-x-1/2 
-              w-16 sm:w-24 md:w-32 lg:w-40
-              h-1 sm:h-1.5 md:h-2
+              w-12 sm:w-16 md:w-20 lg:w-24
+              h-0.5 sm:h-1 md:h-1.5
               bg-gradient-to-r from-transparent via-white/15 to-transparent 
               blur-sm
               ${!isMobile ? 'translate-z-[-4px]' : ''}
@@ -421,17 +421,24 @@ export const Desktop3DMockup: React.FC<DeviceMockupProps> = ({ project }) => {
           background-color: rgb(26, 32, 44);
         }
 
-        /* Responsive design improvements */
+        /* Responsive design improvements for smaller sizes */
         @media (max-width: 640px) {
           .perspective-1200 {
-            perspective: 800px;
+            perspective: 600px;
           }
         }
 
         @media (max-height: 600px) {
           /* Adjust for small height screens */
-          .h-[220px] {
-            height: 180px;
+          .h-[160px] {
+            height: 140px;
+          }
+        }
+
+        @media (max-height: 500px) {
+          /* Very small screens */
+          .h-[160px] {
+            height: 120px;
           }
         }
 
