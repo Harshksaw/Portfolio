@@ -76,15 +76,15 @@ export const Mobile3DMockup: React.FC<DeviceMockupProps> = ({ project }) => {
   };
 
   return (
-    <div className="relative w-full flex items-center justify-center py-2">
+    <div className="relative w-full flex items-center justify-center py-3 sm:py-4">
       <div 
         ref={containerRef}
         className={`
           relative mx-auto select-none
-          /* Better sizing for device switcher context */
-          w-full max-w-[200px] sm:max-w-[240px] md:max-w-[280px] lg:max-w-[300px]
-          /* Aspect ratio maintained height */
-          h-[400px] sm:h-[480px] md:h-[520px] lg:h-[560px]
+          /* Moderate sizing - bigger than before but not overwhelming */
+          w-full max-w-[220px] sm:max-w-[260px] md:max-w-[300px] lg:max-w-[320px]
+          /* Better proportioned height */
+          h-[440px] sm:h-[520px] md:h-[560px] lg:h-[600px]
         `}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
@@ -92,39 +92,47 @@ export const Mobile3DMockup: React.FC<DeviceMockupProps> = ({ project }) => {
       >
         <motion.div
           className="relative w-full h-full cursor-pointer"
-          whileHover={{ scale: 1.005 }}
+          whileHover={{ scale: 1.02 }}
           transition={{ 
             type: "spring",
-            stiffness: 400,
-            damping: 30,
-            duration: 0.3
+            stiffness: 350,
+            damping: 25,
+            duration: 0.4
           }}
         >
-          {/* Phone Frame - more compact */}
+          {/* Phone Frame - moderate styling */}
           <div className={`
             relative w-full h-full
             bg-gradient-to-br from-gray-700 via-gray-800 to-gray-900
-            rounded-[1.5rem] sm:rounded-[2rem] md:rounded-[2.5rem]
-            p-1 sm:p-1.5
-            shadow-xl
+            rounded-[1.8rem] sm:rounded-[2.2rem] md:rounded-[2.6rem]
+            p-1.5 sm:p-2 md:p-2.5
+            shadow-2xl
             border border-gray-600
+            backdrop-blur-sm
           `}>
+            
+            {/* Subtle depth effect for desktop */}
+            {!isMobile && (
+              <div className="absolute inset-0 bg-gradient-to-br from-gray-600 via-gray-700 to-gray-800 rounded-[1.8rem] sm:rounded-[2.2rem] md:rounded-[2.6rem] translate-z-[-2px] opacity-50" />
+            )}
             
             {/* Main Screen Container */}
             <div className={`
               relative w-full h-full 
               bg-black 
-              rounded-[1.25rem] sm:rounded-[1.75rem] md:rounded-[2.25rem]
+              rounded-[1.5rem] sm:rounded-[1.9rem] md:rounded-[2.3rem]
               overflow-hidden
+              ${!isMobile ? 'translate-z-[1px]' : ''}
             `}>
               
-              {/* Notch - smaller */}
+              {/* Dynamic Island - modern look */}
               <div className={`
                 absolute top-0 left-1/2 transform -translate-x-1/2 z-30
-                w-12 sm:w-16 md:w-20
-                h-1.5 sm:h-2 md:h-2.5
-                bg-black 
-                rounded-b-md sm:rounded-b-lg
+                w-16 sm:w-20 md:w-24
+                h-2 sm:h-2.5 md:h-3
+                bg-gradient-to-b from-gray-900 to-black
+                rounded-b-lg sm:rounded-b-xl
+                shadow-lg
               `} />
               
               {/* Screen Content */}
@@ -134,154 +142,229 @@ export const Mobile3DMockup: React.FC<DeviceMockupProps> = ({ project }) => {
                     key={`${project.id}-mobile-${currentScreenshot}`}
                     initial={{ 
                       opacity: 0,
-                      scale: 1.01
+                      scale: 1.02,
+                      filter: 'blur(2px)'
                     }}
                     animate={{ 
                       opacity: 1,
-                      scale: 1
+                      scale: 1,
+                      filter: 'blur(0px)'
                     }}
                     exit={{ 
                       opacity: 0,
-                      scale: 0.99
+                      scale: 0.98,
+                      filter: 'blur(2px)'
                     }}
                     transition={{ 
-                      duration: 0.8,
-                      ease: [0.25, 0.1, 0.25, 1]
+                      duration: 0.7,
+                      ease: [0.4, 0, 0.2, 1]
                     }}
                     src={screenshots[currentScreenshot]} 
                     alt={`${project.title} - Mobile View ${currentScreenshot + 1}`}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover will-change-transform"
                     loading="lazy"
                   />
                 </AnimatePresence>
                 
-                {/* Very subtle reflection */}
-                <div className="absolute inset-0 bg-gradient-to-br from-white/2 via-transparent to-transparent pointer-events-none" />
+                {/* Screen reflection - moderate */}
+                <motion.div 
+                  className="absolute inset-0 bg-gradient-to-br from-white/4 via-transparent to-transparent pointer-events-none"
+                  animate={{
+                    opacity: isInteracted ? 0.08 : 0.04
+                  }}
+                  transition={{ duration: 0.3 }}
+                />
                 
-                {/* Status Bar - minimal */}
+                {/* Status Bar - well-sized */}
                 <div className={`
-                  absolute top-0.5 sm:top-1 md:top-1.5 
-                  left-2 sm:left-3 right-2 sm:right-3 
+                  absolute top-1 sm:top-1.5 md:top-2 
+                  left-3 sm:left-4 right-3 sm:right-4 
                   flex justify-between items-center 
-                  text-white text-[8px] sm:text-[9px] md:text-[10px] 
-                  z-20 opacity-70
+                  text-white text-[9px] sm:text-[10px] md:text-xs 
+                  z-20 opacity-75
                 `}>
-                  <span className="font-medium">9:41</span>
+                  <motion.span 
+                    className="font-medium"
+                    animate={{ opacity: [1, 0.8, 1] }}
+                    transition={{ duration: 2.5, repeat: Infinity }}
+                  >
+                    9:41
+                  </motion.span>
                   
-                  <div className="flex gap-0.5 sm:gap-1 items-center">
-                    {/* Signal */}
+                  <div className="flex gap-1 sm:gap-1.5 items-center">
+                    {/* Signal bars */}
                     <div className="flex gap-0.5">
                       {[1, 2, 3, 4].map((bar) => (
-                        <div
+                        <motion.div
                           key={bar}
                           className={`
-                            w-0.5 rounded-full bg-white
-                            ${bar === 1 ? 'h-0.5' : bar === 2 ? 'h-1' : bar === 3 ? 'h-1' : 'h-1.5'}
+                            w-0.5 sm:w-1 rounded-full bg-white
+                            ${bar === 1 ? 'h-1' : bar === 2 ? 'h-1.5' : bar === 3 ? 'h-2' : 'h-2.5'}
                           `}
+                          animate={{ 
+                            opacity: [0.7, 1, 0.7]
+                          }}
+                          transition={{ 
+                            duration: 2,
+                            repeat: Infinity,
+                            delay: bar * 0.2
+                          }}
                         />
                       ))}
                     </div>
                     
-                    {/* Battery - smaller */}
-                    <div className="w-3 sm:w-4 h-1.5 sm:h-2 border border-white rounded-sm relative ml-0.5">
-                      <div className="h-0.5 bg-green-400 rounded-sm m-0.5 w-2/3" />
-                      <div className="absolute -right-0.5 top-1/2 transform -translate-y-1/2 w-0.5 h-0.5 sm:h-1 bg-white rounded-r-sm" />
-                    </div>
+                    {/* Battery indicator */}
+                    <motion.div 
+                      className="w-4 sm:w-5 h-2 sm:h-2.5 border border-white rounded-sm relative ml-1"
+                      whileHover={!isMobile ? { scale: 1.05 } : {}}
+                    >
+                      <motion.div 
+                        className="h-1 sm:h-1.5 bg-green-400 rounded-sm m-0.5"
+                        animate={{ width: ["75%", "85%", "75%"] }}
+                        transition={{ duration: 4, repeat: Infinity }}
+                      />
+                      <div className="absolute -right-0.5 top-1/2 transform -translate-y-1/2 w-0.5 h-1 sm:h-1.5 bg-white rounded-r-sm" />
+                    </motion.div>
                   </div>
                 </div>
 
-                {/* Navigation indicator - more subtle */}
+                {/* Navigation indicator - balanced */}
                 {screenshots.length > 1 && (
                   <motion.div
-                    className="absolute bottom-2 sm:bottom-3 left-1/2 transform -translate-x-1/2 text-white/30 text-[10px] sm:text-xs text-center bg-black/10 px-2 py-0.5 rounded-full backdrop-blur-sm"
+                    className="absolute bottom-3 sm:bottom-4 left-1/2 transform -translate-x-1/2 text-white/40 text-xs text-center bg-black/20 px-3 py-1.5 rounded-full backdrop-blur-sm border border-white/10"
                     animate={{ 
-                      opacity: [0.3, 0.5, 0.3]
+                      opacity: [0.4, 0.6, 0.4]
                     }}
                     transition={{ 
-                      duration: 4, 
+                      duration: 3, 
                       repeat: Infinity,
                       ease: "easeInOut"
                     }}
                   >
-                    {currentScreenshot + 1}/{screenshots.length}
+                    {currentScreenshot + 1} / {screenshots.length}
                   </motion.div>
                 )}
+
+                {/* Subtle ambient glow */}
+                <motion.div
+                  className="absolute inset-0 pointer-events-none rounded-[1.5rem] sm:rounded-[1.9rem] md:rounded-[2.3rem]"
+                  animate={{
+                    boxShadow: isInteracted ? [
+                      "0 0 20px rgba(34, 197, 94, 0.15)",
+                      "0 0 40px rgba(59, 130, 246, 0.2)",
+                      "0 0 20px rgba(34, 197, 94, 0.15)"
+                    ] : [
+                      "0 0 15px rgba(34, 197, 94, 0.1)",
+                      "0 0 30px rgba(59, 130, 246, 0.15)",
+                      "0 0 15px rgba(34, 197, 94, 0.1)"
+                    ]
+                  }}
+                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                />
               </div>
             </div>
           </div>
         </motion.div>
       </div>
       
-      {/* Custom CSS for minimal animations and mobile fixes */}
+      {/* Custom CSS for moderate styling */}
       <style jsx>{`
-        /* Performance optimizations */
+        /* Performance and visual improvements */
         .relative {
           will-change: auto;
         }
         
-        /* Mobile-specific fixes */
+        .will-change-transform {
+          will-change: transform;
+          backface-visibility: hidden;
+        }
+        
+        .translate-z-[-2px] {
+          transform: translateZ(-2px);
+        }
+        
+        .translate-z-[1px] {
+          transform: translateZ(1px);
+        }
+        
+        /* Mobile-specific adjustments */
         @media (max-width: 480px) {
-          .h-[400px] {
-            height: 350px;
+          .h-[440px] {
+            height: 380px;
           }
-          .max-w-[200px] {
-            max-width: 180px;
+          .max-w-[220px] {
+            max-width: 200px;
           }
         }
 
         @media (max-height: 600px) {
-          .h-[400px] {
-            height: 320px;
+          .h-[440px] {
+            height: 360px;
           }
         }
 
         @media (max-height: 500px) and (orientation: landscape) {
-          .h-[400px] {
-            height: 280px;
+          .h-[440px] {
+            height: 300px;
           }
-          .py-2 {
-            padding: 0.25rem 0;
+          .py-3 {
+            padding: 0.5rem 0;
           }
         }
 
-        /* Better fit in device switcher */
+        /* Tablet and desktop refinements */
         @media (min-width: 768px) {
-          .max-w-[240px] {
-            max-width: 220px;
+          .max-w-[260px] {
+            max-width: 250px;
           }
-          .h-[480px] {
-            height: 440px;
+          .h-[520px] {
+            height: 500px;
           }
         }
 
         @media (min-width: 1024px) {
-          .max-w-[280px] {
-            max-width: 260px;
+          .max-w-[300px] {
+            max-width: 280px;
           }
-          .h-[520px] {
-            height: 480px;
+          .h-[560px] {
+            height: 540px;
           }
         }
 
-        /* High DPI optimizations */
+        @media (min-width: 1280px) {
+          .max-w-[320px] {
+            max-width: 300px;
+          }
+          .h-[600px] {
+            height: 580px;
+          }
+        }
+
+        /* High DPI and performance optimizations */
         @media (-webkit-min-device-pixel-ratio: 2) {
           .object-cover {
             image-rendering: -webkit-optimize-contrast;
           }
+          .backdrop-blur-sm {
+            backdrop-filter: blur(4px) saturate(1.1);
+          }
         }
 
-        /* Reduced motion accessibility */
+        /* Accessibility - reduced motion */
         @media (prefers-reduced-motion: reduce) {
           * {
             animation-duration: 0.01ms !important;
             animation-iteration-count: 1 !important;
-            transition-duration: 0.2s !important;
+            transition-duration: 0.3s !important;
+          }
+          .scale-1\.02:hover {
+            transform: scale(1);
           }
         }
 
-        /* Focus styles for accessibility */
+        /* Focus and interaction states */
         .cursor-pointer:focus-visible {
-          outline: 2px solid #60A5FA;
+          outline: 2px solid #3B82F6;
           outline-offset: 2px;
         }
 
@@ -290,9 +373,27 @@ export const Mobile3DMockup: React.FC<DeviceMockupProps> = ({ project }) => {
           .cursor-pointer {
             cursor: default;
           }
-          .scale-1\.005:hover {
+          .hover\\:scale-1\\.05:hover {
             transform: scale(1);
           }
+        }
+
+        /* Container improvements */
+        .backdrop-blur-sm {
+          backdrop-filter: blur(4px);
+        }
+        
+        /* Color consistency */
+        .bg-gray-700 {
+          background-color: rgb(55, 65, 81);
+        }
+        
+        .bg-gray-800 {
+          background-color: rgb(31, 41, 55);
+        }
+        
+        .bg-gray-900 {
+          background-color: rgb(17, 24, 39);
         }
       `}</style>
     </div>
