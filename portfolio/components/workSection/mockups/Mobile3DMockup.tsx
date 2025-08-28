@@ -76,18 +76,15 @@ export const Mobile3DMockup: React.FC<DeviceMockupProps> = ({ project }) => {
   };
 
   return (
-    <div className="relative w-full flex items-center justify-center min-h-[400px] py-4 px-2">
-      {/* Responsive Dark Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 opacity-60 rounded-2xl" />
-      
+    <div className="relative w-full flex items-center justify-center py-2">
       <div 
         ref={containerRef}
         className={`
-          relative mx-auto select-none z-10
-          /* Compact, content-focused sizing */
-          w-full max-w-[240px] sm:max-w-[280px] md:max-w-[320px] lg:max-w-[340px]
-          /* Fixed height for consistency */
-          h-[480px] sm:h-[520px] md:h-[550px] lg:h-[580px]
+          relative mx-auto select-none
+          /* Better sizing for device switcher context */
+          w-full max-w-[200px] sm:max-w-[240px] md:max-w-[280px] lg:max-w-[300px]
+          /* Aspect ratio maintained height */
+          h-[400px] sm:h-[480px] md:h-[520px] lg:h-[560px]
         `}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
@@ -95,21 +92,21 @@ export const Mobile3DMockup: React.FC<DeviceMockupProps> = ({ project }) => {
       >
         <motion.div
           className="relative w-full h-full cursor-pointer"
-          whileHover={{ scale: 1.01 }}
+          whileHover={{ scale: 1.005 }}
           transition={{ 
             type: "spring",
-            stiffness: 300,
-            damping: 25,
-            duration: 0.4
+            stiffness: 400,
+            damping: 30,
+            duration: 0.3
           }}
         >
-          {/* Simplified Phone Frame */}
+          {/* Phone Frame - more compact */}
           <div className={`
             relative w-full h-full
             bg-gradient-to-br from-gray-700 via-gray-800 to-gray-900
-            rounded-[2rem] sm:rounded-[2.5rem] md:rounded-[3rem]
-            p-1 sm:p-1.5 md:p-2
-            shadow-2xl
+            rounded-[1.5rem] sm:rounded-[2rem] md:rounded-[2.5rem]
+            p-1 sm:p-1.5
+            shadow-xl
             border border-gray-600
           `}>
             
@@ -117,27 +114,27 @@ export const Mobile3DMockup: React.FC<DeviceMockupProps> = ({ project }) => {
             <div className={`
               relative w-full h-full 
               bg-black 
-              rounded-[1.75rem] sm:rounded-[2.25rem] md:rounded-[2.75rem]
+              rounded-[1.25rem] sm:rounded-[1.75rem] md:rounded-[2.25rem]
               overflow-hidden
             `}>
               
-              {/* Minimal Notch */}
+              {/* Notch - smaller */}
               <div className={`
                 absolute top-0 left-1/2 transform -translate-x-1/2 z-30
-                w-16 sm:w-20 md:w-24
-                h-2 sm:h-2.5 md:h-3
+                w-12 sm:w-16 md:w-20
+                h-1.5 sm:h-2 md:h-2.5
                 bg-black 
-                rounded-b-lg
+                rounded-b-md sm:rounded-b-lg
               `} />
               
-              {/* Screen Content - Full Focus */}
+              {/* Screen Content */}
               <div className="w-full h-full bg-gray-900 relative overflow-hidden">
                 <AnimatePresence mode="wait">
                   <motion.img 
                     key={`${project.id}-mobile-${currentScreenshot}`}
                     initial={{ 
                       opacity: 0,
-                      scale: 1.02
+                      scale: 1.01
                     }}
                     animate={{ 
                       opacity: 1,
@@ -145,10 +142,10 @@ export const Mobile3DMockup: React.FC<DeviceMockupProps> = ({ project }) => {
                     }}
                     exit={{ 
                       opacity: 0,
-                      scale: 0.98
+                      scale: 0.99
                     }}
                     transition={{ 
-                      duration: 1.2, // Slower, more gentle transitions
+                      duration: 0.8,
                       ease: [0.25, 0.1, 0.25, 1]
                     }}
                     src={screenshots[currentScreenshot]} 
@@ -158,55 +155,55 @@ export const Mobile3DMockup: React.FC<DeviceMockupProps> = ({ project }) => {
                   />
                 </AnimatePresence>
                 
-                {/* Minimal screen reflection */}
-                <div className="absolute inset-0 bg-gradient-to-br from-white/3 via-transparent to-transparent pointer-events-none" />
+                {/* Very subtle reflection */}
+                <div className="absolute inset-0 bg-gradient-to-br from-white/2 via-transparent to-transparent pointer-events-none" />
                 
-                {/* Simplified Status Bar */}
+                {/* Status Bar - minimal */}
                 <div className={`
-                  absolute top-1 sm:top-1.5 md:top-2 
-                  left-2 sm:left-3 md:left-4 right-2 sm:right-3 md:right-4 
+                  absolute top-0.5 sm:top-1 md:top-1.5 
+                  left-2 sm:left-3 right-2 sm:right-3 
                   flex justify-between items-center 
-                  text-white text-[9px] sm:text-[10px] md:text-xs 
-                  z-20 opacity-80
+                  text-white text-[8px] sm:text-[9px] md:text-[10px] 
+                  z-20 opacity-70
                 `}>
                   <span className="font-medium">9:41</span>
                   
-                  <div className="flex gap-1 items-center">
-                    {/* Simple signal bars */}
+                  <div className="flex gap-0.5 sm:gap-1 items-center">
+                    {/* Signal */}
                     <div className="flex gap-0.5">
                       {[1, 2, 3, 4].map((bar) => (
                         <div
                           key={bar}
                           className={`
                             w-0.5 rounded-full bg-white
-                            ${bar === 1 ? 'h-1' : bar === 2 ? 'h-1.5' : bar === 3 ? 'h-1.5' : 'h-2'}
+                            ${bar === 1 ? 'h-0.5' : bar === 2 ? 'h-1' : bar === 3 ? 'h-1' : 'h-1.5'}
                           `}
                         />
                       ))}
                     </div>
                     
-                    {/* Simple battery */}
-                    <div className="w-4 sm:w-5 h-2 border border-white rounded-sm relative ml-1">
-                      <div className="h-0.5 sm:h-1 bg-green-400 rounded-sm m-0.5 w-3/4" />
-                      <div className="absolute -right-0.5 top-1/2 transform -translate-y-1/2 w-0.5 h-1 bg-white rounded-r-sm" />
+                    {/* Battery - smaller */}
+                    <div className="w-3 sm:w-4 h-1.5 sm:h-2 border border-white rounded-sm relative ml-0.5">
+                      <div className="h-0.5 bg-green-400 rounded-sm m-0.5 w-2/3" />
+                      <div className="absolute -right-0.5 top-1/2 transform -translate-y-1/2 w-0.5 h-0.5 sm:h-1 bg-white rounded-r-sm" />
                     </div>
                   </div>
                 </div>
 
-                {/* Content tap indicator - only show if multiple screenshots */}
+                {/* Navigation indicator - more subtle */}
                 {screenshots.length > 1 && (
                   <motion.div
-                    className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-white/40 text-xs text-center bg-black/20 px-3 py-1 rounded-full backdrop-blur-sm"
+                    className="absolute bottom-2 sm:bottom-3 left-1/2 transform -translate-x-1/2 text-white/30 text-[10px] sm:text-xs text-center bg-black/10 px-2 py-0.5 rounded-full backdrop-blur-sm"
                     animate={{ 
-                      opacity: [0.4, 0.7, 0.4]
+                      opacity: [0.3, 0.5, 0.3]
                     }}
                     transition={{ 
-                      duration: 3, 
+                      duration: 4, 
                       repeat: Infinity,
                       ease: "easeInOut"
                     }}
                   >
-                    Tap or swipe • {currentScreenshot + 1}/{screenshots.length}
+                    {currentScreenshot + 1}/{screenshots.length}
                   </motion.div>
                 )}
               </div>
@@ -214,36 +211,55 @@ export const Mobile3DMockup: React.FC<DeviceMockupProps> = ({ project }) => {
           </div>
         </motion.div>
       </div>
-
-      {/* Gradient background extensions for better visual integration */}
-      <div className="absolute -inset-4 bg-gradient-to-br from-gray-900/20 via-transparent to-gray-800/20 pointer-events-none rounded-3xl" />
       
-      {/* Custom CSS for minimal animations */}
+      {/* Custom CSS for minimal animations and mobile fixes */}
       <style jsx>{`
-        /* Ensure smooth performance */
+        /* Performance optimizations */
         .relative {
           will-change: auto;
         }
         
-        /* Responsive adjustments */
-        @media (max-width: 640px) {
-          .min-h-[400px] {
-            min-height: 380px;
+        /* Mobile-specific fixes */
+        @media (max-width: 480px) {
+          .h-[400px] {
+            height: 350px;
+          }
+          .max-w-[200px] {
+            max-width: 180px;
           }
         }
 
         @media (max-height: 600px) {
-          .h-[480px] {
-            height: 420px;
+          .h-[400px] {
+            height: 320px;
           }
         }
 
         @media (max-height: 500px) and (orientation: landscape) {
-          .h-[480px] {
-            height: 360px;
+          .h-[400px] {
+            height: 280px;
           }
-          .min-h-[400px] {
-            min-height: 300px;
+          .py-2 {
+            padding: 0.25rem 0;
+          }
+        }
+
+        /* Better fit in device switcher */
+        @media (min-width: 768px) {
+          .max-w-[240px] {
+            max-width: 220px;
+          }
+          .h-[480px] {
+            height: 440px;
+          }
+        }
+
+        @media (min-width: 1024px) {
+          .max-w-[280px] {
+            max-width: 260px;
+          }
+          .h-[520px] {
+            height: 480px;
           }
         }
 
@@ -254,7 +270,7 @@ export const Mobile3DMockup: React.FC<DeviceMockupProps> = ({ project }) => {
           }
         }
 
-        /* Reduce motion for accessibility */
+        /* Reduced motion accessibility */
         @media (prefers-reduced-motion: reduce) {
           * {
             animation-duration: 0.01ms !important;
@@ -263,16 +279,19 @@ export const Mobile3DMockup: React.FC<DeviceMockupProps> = ({ project }) => {
           }
         }
 
-        /* Focus styles */
+        /* Focus styles for accessibility */
         .cursor-pointer:focus-visible {
           outline: 2px solid #60A5FA;
           outline-offset: 2px;
         }
 
-        /* Touch optimization */
+        /* Touch device optimizations */
         @media (pointer: coarse) {
           .cursor-pointer {
             cursor: default;
+          }
+          .scale-1\.005:hover {
+            transform: scale(1);
           }
         }
       `}</style>
