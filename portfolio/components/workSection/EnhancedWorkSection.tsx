@@ -137,7 +137,7 @@ export function EnhancedWorkSection() {
         {/* Header */}
         <div className={`text-center ${usesDeviceSwitcher ? 'mb-4 sm:mb-6' : 'mb-6 sm:mb-8'}`}>
           <motion.h2
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             className="text-4xl sm:text-5xl md:text-7xl font-bold mb-4 sm:mb-6"
           >
@@ -148,7 +148,7 @@ export function EnhancedWorkSection() {
         </div>
 
         {/* Project Navigation */}
-        <div className={`${usesDeviceSwitcher ? 'mb-4' : 'mb-6'}`}>
+{/*         <div className={`${usesDeviceSwitcher ? 'mb-4' : 'mb-6'}`}>
           <ProjectNavigation
             totalProjects={filteredProjects.length}
             activeIndex={activeProject}
@@ -156,7 +156,7 @@ export function EnhancedWorkSection() {
             activeColor={currentProject.color}
             projects={filteredProjects}
           />
-        </div>
+        </div> */}
 
         {/* Main Content - Adaptive Layout */}
         <div className={`
