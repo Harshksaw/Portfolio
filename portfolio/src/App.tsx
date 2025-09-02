@@ -7,9 +7,9 @@ import ReactLenis from "lenis/react";
 import ExperienceSection from "./components/shared/experience-section";
 import Projects from "./components/sections/projects";
 import TechArsenal from "./components/sections/tech-arsenal";
-import Hero from "./pages/hero";
+import Hero from "./page-components/hero";
 import TechArsenalMobile from "./components/sections/tech-arsenal-mobile";
-import Cta from "./pages/cta";
+import Cta from "./page-components/cta";
 
 
 

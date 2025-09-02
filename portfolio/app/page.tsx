@@ -2,15 +2,15 @@
 
 import { motion } from "motion/react";
 import { container, charVariant } from "@/variants/stagger";
-import Navbar from "@/src/components/common/navbar";
+import Navbar from "@/components/common/navbar";
 import { useEffect, useState } from "react";
 import ReactLenis from "lenis/react";
-import ExperienceSection from "@/src/components/shared/experience-section";
-import Projects from "@/src/components/sections/projects";
-import TechArsenal from "@/src/components/sections/tech-arsenal";
-import Hero from "@/src/pages/hero";
-import TechArsenalMobile from "@/src/components/sections/tech-arsenal-mobile";
-import Cta from "@/src/pages/cta";
+import ExperienceSection from "@/components/shared/experience-section";
+import Projects from "@/components/sections/projects";
+import TechArsenal from "@/components/sections/tech-arsenal";
+import Hero from "@/page-components/hero";
+import TechArsenalMobile from "@/components/sections/tech-arsenal-mobile";
+import Cta from "@/page-components/cta";
 
 function App() {
   const [mounted, setMounted] = useState(false);
@@ -147,4 +147,6 @@ function App() {
   )
 }
 
-export default App
+export default function Page() {
+  return <App />
+}

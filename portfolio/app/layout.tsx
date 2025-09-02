@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
-import '@/src/index.css'
-import { SmoothCursor } from '@/src/components/shared/smooth-cursor'
+import '@/index.css'
+import { SmoothCursor } from '@/components/shared/smooth-cursor'
 
 export const metadata: Metadata = {
   title: 'Harsh Kumar Saw - Full-Stack & AI/DevOps Engineer',

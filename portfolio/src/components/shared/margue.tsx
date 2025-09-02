@@ -44,7 +44,6 @@ export function Marquee({
   children,
   vertical = false,
   repeat = 4,
-  isMobile = false,
   ...props
 }: MarqueeProps) {
   return (
