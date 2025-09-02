@@ -15,7 +15,7 @@ export const experiences: Experience[] = [
   {
     id: 1,
     year: "2024-2025",
-    company: "Airing Ltd",
+    company: "BwisherLtd",
     position: "Full-Stack Software Engineer",
     duration: "Dec 2024 - Jun 2025",
     location: "Remote",
@@ -23,12 +23,10 @@ export const experiences: Experience[] = [
     skills: ["NestJS", "Docker", "Kubernetes", "Redis", "RabbitMQ", "BullMQ", "Next.js", "React", "GitHub Actions", "Prometheus", "Grafana"],
     achievements: [
       "Designed microservices on hardened Linux VPS; ~20K+ API calls/day; availability ~98%",
-      "Blue-green CI/CD with GitHub Actions + IaC; ~45% faster MTTR",
       "Queues for orders/inventory/shipping; order-to-dispatch latency ↓ ~70%",
       "Redis caching + SQL indexing; median endpoint latency ~500ms → ~200ms (~60% faster)",
-      "SEO-first Next.js storefront and live KPI dashboard; order processing time ↓ ~40%, organic traffic ↑ ~50%",
       "WhatsApp marketing engine with cohort targeting; repeat purchase rate ↑ ~35%, +15% monthly revenue",
-      "Mentored 2 engineers; coding standards and RBAC cut post-merge defects ~30%"
+
     ],
     logo: "🚀"
   },
