@@ -1,3 +1,5 @@
+'use client'
+
 import video0 from '../assets/videos/ctavideo0.mp4'
 
 export default function Cta() {

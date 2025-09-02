@@ -1,3 +1,5 @@
+'use client'
+
 import { useEffect, useState } from "react";
 import { experiences } from "../../data/experiences";
 import ExperienceCard from "./experience-card";
