@@ -90,6 +90,7 @@ export const Mobile3DMockup: React.FC<DeviceMockupProps> = ({ project }) => {
         onTouchEnd={handleTouchEnd}
         onClick={handleContentClick}
       >
+<<<<<<< Updated upstream
         <motion.div
           className="relative w-full h-full cursor-pointer"
           whileHover={{ scale: 1.02 }}
@@ -110,6 +111,20 @@ export const Mobile3DMockup: React.FC<DeviceMockupProps> = ({ project }) => {
             border border-gray-600
             backdrop-blur-sm
           `}>
+=======
+        {/* Phone Frame with 3D effect */}
+
+        <div className="relative w-64 sm:w-80 h-[80px] sm:h-[440px] bg-gradient-to-br from-gray-800 via-gray-900 to-black rounded-[2rem] sm:rounded-[3rem] p-2 shadow-2xl transform-style-preserve-3d">
+</div>          {/* 3D Depth layers */}
+          <div className="absolute inset-0 bg-gradient-to-br from-gray-700 via-gray-800 to-gray-900 rounded-[2rem] sm:rounded-[3rem] transform translate-z-[-4px] opacity-80"></div>
+          <div className="absolute inset-0 bg-gradient-to-br from-gray-600 via-gray-700 to-gray-800 rounded-[2rem] sm:rounded-[3rem] transform translate-z-[-8px] opacity-60"></div>
+          <div className="absolute inset-0 bg-gradient-to-br from-gray-500 via-gray-600 to-gray-700 rounded-[2rem] sm:rounded-[3rem] transform translate-z-[-12px] opacity-40"></div>
+          
+          {/* Main Screen Container */}
+          <div className="relative w-full h-full bg-black rounded-[1.5rem] sm:rounded-[2.5rem] overflow-hidden transform translate-z-[2px]">
+            {/* Notch with 3D effect */}
+            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-24 sm:w-32 h-4 sm:h-6 bg-gradient-to-b from-gray-900 to-black rounded-b-xl z-20 shadow-lg"></div>
+>>>>>>> Stashed changes
             
             {/* Subtle depth effect for desktop */}
             {!isMobile && (
