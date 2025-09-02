@@ -52,7 +52,8 @@ export default function Desktop3DMockup({ images, title, className = "" }: Deskt
                 <div className="relative" style={{ transformStyle: "preserve-3d" }}>
                     {/* Laptop Screen - Mobile responsive */}
                     <div 
-                        className="w-full max-w-[320px] sm:max-w-[500px] lg:max-w-[600px] h-[200px] sm:h-[300px] lg:h-[375px] bg-gradient-to-br from-gray-800 via-gray-800 to-gray-900 rounded-t-lg overflow-hidden shadow-2xl mx-auto relative border-2 border-gray-700"
+                        className="w-full lg:min-w-[450px] max-w-[600px] sm:max-w-[600px] lg:max-w-[750px] aspect-[3/2] bg-gradient-to-br from-gray-800 via-gray-800 to-gray-900 
+                         rounded-t-lg overflow-hidden shadow-2xl mx-auto relative border-2 border-gray-700"
                         style={{ 
                             transform: 'perspective(800px) rotateX(-2deg) translateZ(4px)',
                             transformOrigin: 'bottom center'
@@ -64,30 +65,29 @@ export default function Desktop3DMockup({ images, title, className = "" }: Deskt
                             style={{ transform: 'translateZ(2px)' }}
                         >
                             {/* Screen content with smooth cross-fade */}
-                            <AnimatePresence mode="wait">
-                                <motion.img 
-                                    key={currentImageIndex}
-                                    initial={{ 
-                                        opacity: 0,
-                                        scale: 1.02
-                                    }}
-                                    animate={{ 
-                                        opacity: 1,
-                                        scale: 1
-                                    }}
-                                    exit={{ 
-                                        opacity: 0,
-                                        scale: 0.98
-                                    }}
-                                    transition={{ 
-                                        duration: 0.8,
-                                        ease: [0.4, 0, 0.2, 1]
-                                    }}
-                                    src={images[currentImageIndex] || "/placeholder-desktop.png"}
-                                    alt={`${title} - Screenshot ${currentImageIndex + 1}`}
-                                    className="w-full h-full object-cover"
-                                />
-                            </AnimatePresence>
+                            <div className="relative w-full h-full">
+                                <AnimatePresence>
+                                    <motion.img 
+                                        key={currentImageIndex}
+                                        initial={{ 
+                                            opacity: 0
+                                        }}
+                                        animate={{ 
+                                            opacity: 1
+                                        }}
+                                        exit={{ 
+                                            opacity: 0
+                                        }}
+                                        transition={{ 
+                                            duration: 0.6,
+                                            ease: "easeInOut"
+                                        }}
+                                        src={images[currentImageIndex] || "/placeholder-desktop.png"}
+                                        alt={`${title} - Screenshot ${currentImageIndex + 1}`}
+                                        className="absolute inset-0 w-full h-full object-cover"
+                                    />
+                                </AnimatePresence>
+                            </div>
                             
                             {/* Enhanced Browser UI with 3D effects - Mobile responsive */}
                             <motion.div 

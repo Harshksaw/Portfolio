@@ -156,7 +156,7 @@ export default function SemiCircularDial({
 
   // Adjusting layout to move items more to the right and ensure the middle one is selected
   return (
-    <div className={`flex items-center ${className} absolute -right-10 top-30`}>
+    <div className={`flex items-center ${className} absolute -right-10 top-60`}>
       {/* LEFT ARC */}
       <div
         ref={wrapRef}

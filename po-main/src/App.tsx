@@ -4,7 +4,7 @@ import { container, charVariant } from "./variants/stagger";
 import Navbar from "./components/common/navbar";
 import { useEffect, useState } from "react";
 import ReactLenis from "lenis/react";
-import NailConnectionsDemo from "./components/shared/nail-connection";
+import ExperienceSection from "./components/shared/experience-section";
 import Projects from "./components/sections/projects";
 import TechArsenal from "./components/sections/tech-arsenal";
 import Hero from "./pages/hero";
@@ -151,7 +151,7 @@ function App() {
             className="bg-transparent h-full w-full flex flex-col justify-end  rounded-[32px] relative"
           >
             <h2 className="text-3xl md:text-6xl  block leading-32 mb-12 md:mb-0 md:leading-48  tracking-[0.12em] md:tracking-[0.2em] font-bold text-neutral-900 ">Work Experience</h2>
-            <NailConnectionsDemo />
+            <ExperienceSection />
           </section>
 
           {/* Skills  */}

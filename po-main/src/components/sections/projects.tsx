@@ -48,14 +48,14 @@ const projects: Project[] = [
     },
     {
         title: "MySmartFactory.ai",
-        shortTitle: "MySmartFactory.ai",
+        shortTitle: "AI Safety Detection",
         type: "production",
         description: [
+            "End-to-end system with FastAPI backend and Next.js frontend, integrated with three containers running machine learning models",
             "AI-centric site with multi-persona chat and RAG experiments (self-hosted LLM via Ollama).",
-            "Admin console for persona management, model routing, guardrails, and vector index ops.",
-            "Implemented with FastAPI, MongoDB, and Qdrant/FAISS for advanced AI capabilities.",
-            "Industrial KPI & incident management with multi-role RBAC (Admin/Manager/Employee).",
-            "Live KPIs, structured incident workflows, and role-aware dashboards."
+            "(YOLO and CV) for safety failure detection using live CCTV cameras.",
+            "Real-time alerts via WhatsApp, email, browser, and push notifications.",
+            "Industrial KPI & incident management with multi-role RBAC",
         ],
         techStack: ["Next.js", "FastAPI", "MongoDB", "Redis"],
         image: ["https://res.cloudinary.com/dgheyg3iv/image/upload/v1756762378/Screenshot_2025-09-01_at_2.31.13_PM_degmoj.png","https://res.cloudinary.com/dgheyg3iv/image/upload/v1756762379/Screenshot_2025-09-01_at_2.32.41_PM_iiqlvi.png","https://res.cloudinary.com/dgheyg3iv/image/upload/v1756762379/Screenshot_2025-09-01_at_2.31.23_PM_djcjap.png"]
