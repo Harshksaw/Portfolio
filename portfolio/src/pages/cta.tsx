@@ -1,7 +1,5 @@
 'use client'
 
-import video0 from '../assets/videos/ctavideo0.mp4'
-
 export default function Cta() {
   return (
     <div className='h-72 md:h-96 -mt-16 w-full bg-black rounded-3xl relative overflow-hidden'>
@@ -38,7 +36,7 @@ export default function Cta() {
         playsInline
         poster=""
       >
-        <source src={video0} type="video/mp4" />
+        <source src="/videos/ctavideo0.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
     
