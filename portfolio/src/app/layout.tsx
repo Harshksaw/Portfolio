@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { StrictMode } from 'react'
 import { SmoothCursor } from '../components/shared/smooth-cursor'
-import '../index.css'
+import './globals.css'
 
 export const metadata: Metadata = {
   title: 'Harsh Kumar Saw - Full-Stack & AI/DevOps Engineer',

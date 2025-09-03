@@ -3,8 +3,8 @@
 import { motion, } from "motion/react";
 import { useEffect, useState } from "react";
 
-import Orb from "../components/common/bolb";
-import { sectionVariant } from "../variants/common_variants";
+import Orb from "../common/bolb";
+import { sectionVariant } from "../../variants/common_variants";
 
 
 export default function Hero() {

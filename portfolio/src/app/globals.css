@@ -1,1 +1,50 @@
-@import url('../index.css');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+:root {
+  font-family: "Nunito", sans-serif;
+  font-optical-sizing: auto;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color: #0b0b0b;             /* dark text */
+  background-color: #ffffff;  /* white background */
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+* {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+}
+
+*::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari, and Opera */
+}
+*, *::before, *::after {
+  cursor: none !important;
+}
+
+
+
+body {
+  font-family: "Nunito", sans-serif;
+  font-optical-sizing: auto;
+  margin: 0;
+  padding:0;
+}
+
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  
+}
+
+
+
