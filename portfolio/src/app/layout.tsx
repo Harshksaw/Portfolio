@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
 import { StrictMode } from 'react'
+import { Analytics } from '@vercel/analytics/react'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 import { SmoothCursor } from '../components/shared/smooth-cursor'
 import './globals.css'
 
@@ -34,6 +36,8 @@ export default function RootLayout({
         <StrictMode>
           {children}
           <SmoothCursor />
+          <Analytics />
+          <SpeedInsights />
         </StrictMode>
       </body>
     </html>
