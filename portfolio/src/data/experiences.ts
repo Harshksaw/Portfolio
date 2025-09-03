@@ -14,18 +14,17 @@ export interface Experience {
 export const experiences: Experience[] = [
   {
     id: 1,
-    year: "2024-2025",
-    company: "BwisherLtd",
-    position: "Full-Stack Software Engineer",
-    duration: "Dec 2024 - Jun 2025",
+    year: "2023-2025",
+    company: "Freelancer.com",
+    position: "Full-Stack Software Dev",
+    duration: "Dec 2023 - Present",
     location: "Remote",
-    description: "Leading microservices architecture for Bwisher E-commerce platform with comprehensive DevOps implementation and performance optimization.",
+    description: "Developed ,Designed & Deployed full stack apps .",
     skills: ["NestJS", "Docker", "Kubernetes", "Redis", "RabbitMQ", "BullMQ", "Next.js", "React", "GitHub Actions", "Prometheus", "Grafana"],
     achievements: [
-      "Designed microservices on hardened Linux VPS; ~20K+ API calls/day; availability ~98%",
-      "Queues for orders/inventory/shipping; order-to-dispatch latency ↓ ~70%",
-      "Redis caching + SQL indexing; median endpoint latency ~500ms → ~200ms (~60% faster)",
-      "WhatsApp marketing engine with cohort targeting; repeat purchase rate ↑ ~35%, +15% monthly revenue",
+    "Ranked among top 2% freelancers globally on Freelancer.com",
+    "Delivered 50+ full-stack apps for clients across diverse industries",
+    "Maintained 5-star rating with 99% client satisfaction"
 
     ],
     logo: "🚀"

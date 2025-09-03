@@ -1,4 +1,4 @@
-import video0 from '../assets/videos/ctavideo0.mp4'
+//
 
 export default function Cta() {
   return (
@@ -36,7 +36,7 @@ export default function Cta() {
         playsInline
         poster=""
       >
-        <source src={video0} type="video/mp4" />
+        <source src="/videos/ctavideo0.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
     

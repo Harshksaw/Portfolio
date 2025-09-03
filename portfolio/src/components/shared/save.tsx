@@ -1,4 +1,6 @@
 
+'use client'
+
 import { motion, useSpring } from "motion/react";
 import type { FC, JSX } from "react";
 import { useEffect, useRef, useState } from "react";

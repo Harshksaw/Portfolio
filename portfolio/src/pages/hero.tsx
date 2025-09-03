@@ -1,3 +1,5 @@
+'use client'
+
 import { motion, } from "motion/react";
 import { useEffect, useState } from "react";
 
@@ -41,7 +43,7 @@ export default function Hero() {
     return (
         <div className="pt-16 md:pt-20 px-4 md:px-14 pb-8 h-full w-full z-100">
             <motion.section
-                variants={isMobile ? mobileSectionVariant : sectionVariant}
+                variants={isMobile ? mobileSectionVariant as any : sectionVariant as any}
                 initial="hidden"
                 animate="show"
                 className="bg-black h-full w-full flex flex-col justify-center pb-8 px-4 md:px-0 md:items-center rounded-[32px] relative"
@@ -81,7 +83,7 @@ export default function Hero() {
                 animate="show" src="/Vecto.svg" className="hidden lg:block absolute -bottom-0.5 rotate-180 right-20 h-40" /> */}
 
                 <div className="flex flex-col ">
-                    <h3 className="border border-neutral-400/60 text-white text-sm text-center bg-white/5 w-fit mx-auto px-4 py-1 mb-4 rounded-full">Hey! I'm Harsh Kumar Saw</h3>
+                    <h3 className="border border-neutral-400/60 text-white text-sm text-center bg-white/5 w-fit mx-auto px-4 py-1 mb-4 rounded-full">Hey! I&apos;m Harsh Kumar Saw</h3>
                     <h3 className="text-white text-center text-[24px] md:text-[44px] md:leading-13 font-light max-w-[880px] font-bitcount">Full-Stack & AI/DevOps Engineer who ships <p className="text-black w-fit inline-block -rotate-6 mr-1 md:mr-0 md:-translate-y-4 bg-white px-4 md:py-1 rounded-full">production-grade </p>systems end-to-end</h3>
                 </div>
                 <section className=" w-[90%] md:w-fit  absolute bottom-8  right-1/2 translate-x-1/2 md:translate-x-0 md:right-9">

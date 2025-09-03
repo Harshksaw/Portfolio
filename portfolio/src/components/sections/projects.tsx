@@ -1,3 +1,5 @@
+'use client'
+
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 
@@ -206,7 +208,7 @@ export default function Projects() {
                         <motion.div
                             key={displayedIndex}
                             className="absolute inset-0 rounded-3xl bg-gradient-to-tr gap-6 flex flex-col"
-                            variants={cardVariants}
+                            variants={cardVariants as any}
                             initial="hidden"
                             animate="visible"
                             exit="exit"
