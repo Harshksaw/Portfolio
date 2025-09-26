@@ -4,7 +4,7 @@ const nextConfig = {
     optimizePackageImports: ['motion', 'lenis', 'ogl', 'heroicons']
   },
   images: {
-    domains: [],
+    domains: ['res.cloudinary.com'],
     unoptimized: true
   },
   typescript: {
