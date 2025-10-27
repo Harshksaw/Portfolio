@@ -195,8 +195,8 @@ export default function SemiCircularDial({
 
           const isActive = idx === activeIndex;
 
-          const scale = isActive ? 1.2 : 1; // Emphasize the middle one
-          const opacity = isActive ? 1 : 0.8; // Highlight the middle one
+          const scale = isActive ? 1.25 : 0.95; // Emphasize the middle one more
+          const opacity = isActive ? 1 : 0.7; // Highlight the middle one
           const zIndex = isActive ? 200 : 100; // Ensure the middle one is on top
 
           return (
@@ -221,15 +221,17 @@ export default function SemiCircularDial({
             >
               <div
                 className={[
-                  "rounded-full flex items-start gap-3 transition-all p-3 duration-300 cursor-pointer",
-                  isActive ? "bg-neutral-200" : "bg-white",
-                  "shadow-sm",
+                  "rounded-full flex items-start gap-3 transition-all p-4 duration-300 cursor-pointer",
+                  isActive
+                    ? "bg-gradient-to-br from-blue-100 via-purple-200 to-pink-200 shadow-lg shadow-purple-200/50 border border-purple-100"
+                    : "bg-white shadow-sm",
                 ].join(" ")}
               >
-                <div className="h-5 w-5 flex items-center justify-center rounded-full bg-black text-white">
-                  {idx + 1}
-                </div>
-                <p className="font-semibold text-sm">{proj.shortTitle}</p>
+
+                <p className={[
+                  "transition-all duration-300",
+                  isActive ? "font-bold text-base" : "font-semibold text-sm"
+                ].join(" ")}>{proj.shortTitle}</p>
               </div>
             </button>
           );
