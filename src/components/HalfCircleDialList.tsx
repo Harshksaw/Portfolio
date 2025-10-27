@@ -210,7 +210,7 @@ export default function SemiCircularDial({
                 animateToOffset(idx);
                 onChange?.(idx);
               }}
-              className="absolute w-40 lg:w-48 text-left"
+              className="absolute w-40 lg:w-48 text-left text-white"
               style={{
                 left: `${x}px`,
                 top: `${y}px`,
@@ -223,14 +223,14 @@ export default function SemiCircularDial({
                 className={[
                   "rounded-full flex items-start gap-3 transition-all p-4 duration-300 cursor-pointer",
                   isActive
-                    ? "bg-gradient-to-br from-blue-100 via-purple-200 to-pink-200 shadow-lg shadow-purple-200/50 border border-purple-100"
-                    : "bg-white shadow-sm",
+                    ? "bg-gradient-to-br from-primary-main via-primary-violet to-primary-light shadow-[0_0_30px_rgba(18,113,255,0.5)] border border-primary-violet/50"
+                    : "bg-primary-darker/60 backdrop-blur-sm shadow-sm border border-primary-main/20 hover:border-primary-main/40",
                 ].join(" ")}
               >
 
                 <p className={[
-                  "transition-all duration-300",
-                  isActive ? "font-bold text-base" : "font-semibold text-sm"
+                  "transition-all duration-300 text-white",
+                  isActive ? "font-bold text-base" : "font-semibold text-sm opacity-80"
                 ].join(" ")}>{proj.shortTitle}</p>
               </div>
             </button>
