@@ -53,10 +53,12 @@ export default function Desktop3DMockup({ images, title, className = "" }: Deskt
                 {/* MacBook Frame with enhanced 3D effect */}
                 <div className="relative" style={{ transformStyle: "preserve-3d" }}>
                     {/* Laptop Screen - Mobile responsive */}
-                    <div 
-                        className="w-full lg:min-w-[450px] max-w-[600px] sm:max-w-[600px] lg:max-w-[750px] aspect-[3/2] bg-gradient-to-br from-gray-800 via-gray-800 to-gray-900 
+                    <div
+                        className="w-full min-w-[320px] sm:min-w-[400px] md:min-w-[450px] lg:min-w-[450px]
+                         max-w-[500px] sm:max-w-[600px] lg:max-w-[750px] aspect-[3/2]
+                         bg-gradient-to-br from-gray-800 via-gray-800 to-gray-900
                          rounded-t-lg overflow-hidden shadow-2xl mx-auto relative border-2 border-gray-700"
-                        style={{ 
+                        style={{
                             transform: 'perspective(800px) rotateX(-2deg) translateZ(4px)',
                             transformOrigin: 'bottom center'
                         }}

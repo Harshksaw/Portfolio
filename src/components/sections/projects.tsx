@@ -105,18 +105,18 @@ function MobileProject({ project }: { project: Project }) {
     
     return (
         <div>
-            <div className="flex justify-center mb-8">
+            <div className="flex justify-center mb-8 px-4">
                 {isProjectMobile ? (
-                    <Mobile3DMockup 
+                    <Mobile3DMockup
                         images={project.image}
                         title={project.title}
-                        className="transform scale-75"
+                        className="transform scale-90 sm:scale-100"
                     />
                 ) : (
-                    <Desktop3DMockup 
+                    <Desktop3DMockup
                         images={project.image}
                         title={project.title}
-                        className="transform scale-90"
+                        className="w-full max-w-full"
                     />
                 )}
             </div>
