@@ -8,8 +8,16 @@
   line-height: 1.5;
   font-weight: 400;
 
-  color: #0b0b0b;             /* dark text */
-  background-color: #ffffff;  /* white background */
+  color: #ffffff;             /* white text */
+  background-color: #04071d;  /* very dark navy background */
+
+  /* Gradient colors from inspiration */
+  --gradient-start: rgb(108, 0, 162);
+  --gradient-end: rgb(0, 17, 82);
+  --first-color: 18, 113, 255;
+  --second-color: 221, 74, 255;
+  --third-color: 100, 220, 255;
+  --pointer-color: 140, 100, 255;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -38,12 +46,90 @@ body {
 }
 
 
-@media (prefers-color-scheme: light) {
+@media (prefers-color-scheme: dark) {
   :root {
-    color: #213547;
-    background-color: #ffffff;
+    color: #ffffff;
+    background-color: #04071d;
   }
-  
+}
+
+/* Grid background pattern */
+.bg-grid-pattern {
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+/* Radial gradient overlay */
+.radial-gradient-overlay {
+  background: radial-gradient(ellipse at center, transparent 20%, #04071d);
+}
+
+/* Gradient animations */
+@keyframes first {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes second {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes third {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes fourth {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes fifth {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-first {
+  animation: first 30s linear infinite;
+}
+
+.animate-second {
+  animation: second 30s linear infinite;
+}
+
+.animate-third {
+  animation: third 40s linear infinite;
+}
+
+.animate-fourth {
+  animation: fourth 25s linear infinite;
+}
+
+.animate-fifth {
+  animation: fifth 35s linear infinite;
 }
 
 

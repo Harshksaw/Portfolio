@@ -142,11 +142,12 @@ export default function Orb({
       return vec4(colorIn.rgb / (a + 1e-5), a);
     }
     
-    const vec3 baseColor1 = vec3(0.150000, 0.150000, 0.150000);
-    const vec3 baseColor2 = vec3(0.350000, 0.350000, 0.350000);
-    const vec3 baseColor3 = vec3(0.600000, 0.600000, 0.600000);
-    const float innerRadius = 0.6;
-    const float noiseScale = 0.65;
+    const vec3 baseColor1 = vec3(0.071, 0.443, 1.000);    // Bright blue
+    const vec3 baseColor2 = vec3(0.867, 0.290, 1.000);    // Magenta/Violet
+    const vec3 baseColor3 = vec3(0.392, 0.863, 1.000);    // Cyan
+    const vec3 baseColor4 = vec3(0.424, 0.000, 0.635);    // Deep purple
+    const float innerRadius = 0.5;
+    const float noiseScale = 0.85;
     
     float light1(float intensity, float attenuation, float dist) {
       return intensity / (1.0 + dist * attenuation);
@@ -160,32 +161,61 @@ export default function Orb({
       vec3 color1 = adjustHue(baseColor1, hue);
       vec3 color2 = adjustHue(baseColor2, hue);
       vec3 color3 = adjustHue(baseColor3, hue);
-      
+      vec3 color4 = adjustHue(baseColor4, hue);
+
       float ang = atan(uv.y, uv.x);
       float len = length(uv);
       float invLen = len > 0.0 ? 1.0 / len : 0.0;
-      
+
+      // Multi-layered noise for organic shape variation
       float n0 = snoise3(vec3(uv * noiseScale, iTime * 0.5)) * 0.5 + 0.5;
-      float r0 = mix(mix(innerRadius, 1.0, 0.4), mix(innerRadius, 1.0, 0.6), n0);
+      float n1 = snoise3(vec3(uv * noiseScale * 1.5, iTime * 0.3 + 100.0)) * 0.5 + 0.5;
+      float n2 = snoise3(vec3(uv * noiseScale * 0.5, iTime * 0.7 + 200.0)) * 0.5 + 0.5;
+
+      // Dynamic radius with multiple frequencies for blob-like deformation
+      float noiseBlend = mix(n0, n1, 0.5);
+      float r0 = mix(mix(innerRadius, 1.0, 0.3), mix(innerRadius, 1.0, 0.8), noiseBlend);
+      r0 += n2 * 0.15 * sin(iTime * 0.5); // Pulsing effect
+
       float d0 = distance(uv, (r0 * invLen) * uv);
-      float v0 = light1(1.0, 10.0, d0);
-      v0 *= smoothstep(r0 * 1.05, r0, len);
-      float cl = cos(ang + iTime * 2.0) * 0.5 + 0.5;
-      
-      float a = iTime * -1.0;
-      vec2 pos = vec2(cos(a), sin(a)) * r0;
-      float d = distance(uv, pos);
-      float v1 = light2(1.5, 5.0, d);
-      v1 *= light1(1.0, 50.0, d0);
-      
-      float v2 = smoothstep(1.0, mix(innerRadius, 1.0, n0 * 0.5), len);
-      float v3 = smoothstep(innerRadius, mix(innerRadius, 1.0, 0.5), len);
-      
+      float v0 = light1(1.2, 8.0, d0);
+      v0 *= smoothstep(r0 * 1.1, r0 * 0.95, len);
+
+      // Rotating color wave
+      float cl = cos(ang + iTime * 1.5) * 0.5 + 0.5;
+      float cl2 = sin(ang * 2.0 - iTime * 2.0) * 0.5 + 0.5;
+
+      // Multiple orbiting lights for more dynamic look
+      float a = iTime * -0.8;
+      vec2 pos1 = vec2(cos(a), sin(a)) * r0 * 0.7;
+      vec2 pos2 = vec2(cos(a * 1.3 + 3.14), sin(a * 1.3 + 3.14)) * r0 * 0.8;
+
+      float d1 = distance(uv, pos1);
+      float d2 = distance(uv, pos2);
+
+      float v1 = light2(1.8, 4.0, d1);
+      v1 *= light1(1.2, 40.0, d0);
+
+      float v1b = light2(1.5, 5.0, d2);
+      v1b *= light1(1.0, 45.0, d0);
+
+      float v2 = smoothstep(1.1, mix(innerRadius, 1.0, n0 * 0.4), len);
+      float v3 = smoothstep(innerRadius * 0.9, mix(innerRadius, 1.0, 0.6), len);
+
+      // Rich color blending with multiple layers
       vec3 col = mix(color1, color2, cl);
-      col = mix(color3, col, v0);
-      col = (col + v1) * v2 * v3;
+      col = mix(col, color3, cl2 * 0.6);
+      col = mix(color4, col, v0);
+      col = col + v1 * color2 + v1b * color3;
+      col = col * v2 * v3;
+
+      // Add subtle rainbow shimmer at edges
+      float edgeGlow = smoothstep(0.7, 1.0, len) * (1.0 - smoothstep(0.95, 1.0, len));
+      vec3 rainbowColor = mix(color2, color3, sin(ang * 3.0 + iTime * 2.0) * 0.5 + 0.5);
+      col += rainbowColor * edgeGlow * 0.3;
+
       col = clamp(col, 0.0, 1.0);
-      
+
       return extractAlpha(col);
     }
     

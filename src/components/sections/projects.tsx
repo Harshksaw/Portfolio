@@ -120,11 +120,11 @@ function MobileProject({ project }: { project: Project }) {
                     />
                 )}
             </div>
-            <h2 className="text-xl sm:text-2xl font-bold text-center text-black mb-4">
+            <h2 className="text-xl sm:text-2xl font-bold text-center text-white mb-4">
                 {project.title}
             </h2>
             <div className="max-w-2xl mx-auto px-6 py-4 rounded-2xl glass-effect">
-                <ul className="relative list-disc ml-4 mt-4 space-y-2.5 text-black">
+                <ul className="relative list-disc ml-4 mt-4 space-y-2.5 text-white">
                     {project.description.map((desc: string, idx: number) => (
                         <li key={idx}>{desc}</li>
                     ))}
@@ -138,7 +138,7 @@ function MobileProject({ project }: { project: Project }) {
                                 href={project.demoUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors duration-200"
+                                className="inline-flex items-center gap-2 px-3 py-1.5 bg-primary-main hover:bg-primary-light text-white text-sm font-medium rounded-lg transition-colors duration-200"
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                             >
@@ -154,7 +154,7 @@ function MobileProject({ project }: { project: Project }) {
                                 href={project.repoUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="inline-flex items-center gap-2 px-3 py-1.5 bg-gray-800 hover:bg-gray-900 text-white text-sm font-medium rounded-lg transition-colors duration-200"
+                                className="inline-flex items-center gap-2 px-3 py-1.5 bg-primary-violet hover:bg-primary-violet-light text-white text-sm font-medium rounded-lg transition-colors duration-200"
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                             >
@@ -234,10 +234,10 @@ export default function Projects() {
                                     </div>
                                 )}
                                 <div className="mt-2 -ml-12 z-10">
-                                    <h3 className="text-4xl font-bold text-black">
+                                    <h3 className="text-4xl font-bold text-white">
                                         {projects[displayedIndex].title}
                                     </h3>
-                                    <ul className="list-disc ml-4 mt-4 text-black text-base max-w-2xl font-medium">
+                                    <ul className="list-disc ml-4 mt-4 text-white text-base max-w-2xl font-medium">
                                         {projects[displayedIndex].description.map((desc: string, idx: number) => (
                                             <li key={idx}>{desc}</li>
                                         ))}
@@ -251,7 +251,7 @@ export default function Projects() {
                                                     href={projects[displayedIndex].demoUrl}
                                                     target="_blank"
                                                     rel="noopener noreferrer"
-                                                    className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors duration-200"
+                                                    className="inline-flex items-center gap-2 px-4 py-2 bg-primary-main hover:bg-primary-light text-white text-sm font-medium rounded-lg transition-colors duration-200"
                                                     whileHover={{ scale: 1.05 }}
                                                     whileTap={{ scale: 0.95 }}
                                                 >
@@ -267,7 +267,7 @@ export default function Projects() {
                                                     href={projects[displayedIndex].repoUrl}
                                                     target="_blank"
                                                     rel="noopener noreferrer"
-                                                    className="inline-flex items-center gap-2 px-4 py-2 bg-gray-800 hover:bg-gray-900 text-white text-sm font-medium rounded-lg transition-colors duration-200"
+                                                    className="inline-flex items-center gap-2 px-4 py-2 bg-primary-violet hover:bg-primary-violet-light text-white text-sm font-medium rounded-lg transition-colors duration-200"
                                                     whileHover={{ scale: 1.05 }}
                                                     whileTap={{ scale: 0.95 }}
                                                 >

@@ -94,7 +94,7 @@ export default function ExperienceSection() {
           <path
             key={path.id}
             d={path.d}
-            stroke="black"
+            stroke="white"
             strokeWidth={2}
             fill="none"
             strokeDasharray="8 6"

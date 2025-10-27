@@ -20,7 +20,7 @@ export default function Navbar() {
       initial="hidden"
       animate="show"
     >
-      {name.map((word, i) => (
+      {/* {name.map((word, i) => (
         <motion.span
           key={i}
           variants={charVariantWithDelay as any}
@@ -28,7 +28,7 @@ export default function Navbar() {
         >
           {word}
         </motion.span>
-      ))}
+      ))} */}
     </motion.h2>
 
             <motion.div
@@ -40,7 +40,7 @@ export default function Navbar() {
                 <motion.a
                 href="https://www.linkedin.com/in/harsh-kumar-saw-32727b247"
                 target="_blank"
-                    className="rounded-full p-2 h-10 w-10 cursor-pointer hover:bg-neutral-100 relative"
+                    className="rounded-full p-2 h-10 w-10 cursor-pointer hover:bg-primary-main/20 relative"
                     variants={variants as any}
                 >
                     <img src="/svgs/linkedin.svg" className="h-full w-full z-10" />
@@ -49,7 +49,7 @@ export default function Navbar() {
                 <motion.a
                 href="https://github.com/Harshksaw"
                 target="_blank"
-                    className="rounded-full p-2 h-10 w-10 cursor-pointer hover:bg-neutral-100 relative"
+                    className="rounded-full p-2 h-10 w-10 cursor-pointer hover:bg-primary-violet/20 relative"
                     variants={variants as any}
                 >
                     <img src="/svgs/github.svg" className="h-full w-full z-10" />
@@ -57,7 +57,7 @@ export default function Navbar() {
                 <motion.a
                 href="https://drive.google.com/file/d/1iyV0euSsl0PY2wEbspc6uuIKQ_nGyyww/view?usp=sharing"
                 target="_blank"
-                    className="rounded-full block md:hidden  p-2 h-10 w-10 cursor-pointer hover:bg-neutral-100 relative"
+                    className="rounded-full block md:hidden  p-2 h-10 w-10 cursor-pointer hover:bg-primary-light/20 relative"
                     variants={variants as any}
                 >
                     <img src="/svgs/resume.jpg" className="h-full w-full z-10 rounded-full" />
@@ -68,7 +68,7 @@ export default function Navbar() {
                 <motion.a
                 href="https://drive.google.com/file/d/1iyV0euSsl0PY2wEbspc6uuIKQ_nGyyww/view?usp=sharing"
                 target="_blank"
-                    className="px-6 py-2 md:block hidden bg-black rounded-[32px] text-white"
+                    className="px-6 py-2 md:block hidden bg-gradient-to-r from-primary-main to-primary-light hover:shadow-[0_0_20px_rgba(18,113,255,0.6)] transition-all duration-300 rounded-[32px] text-white font-semibold"
                     variants={variants as any}
                 >
                     Resume

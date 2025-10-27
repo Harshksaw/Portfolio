@@ -7,6 +7,21 @@ module.exports = {
   ],
   theme: {
     extend: {
+      colors: {
+        primary: {
+          darkest: '#04071d',  // Very dark navy (rgb(4,7,29))
+          darker: '#0c0e23',   // Dark navy (rgb(12,14,35))
+          dark: '#001152',     // Deep blue
+          main: '#1271ff',     // Bright blue (rgb(18,113,255))
+          light: '#64dcff',    // Cyan (rgb(100,220,255))
+          violet: '#dd4aff',   // Magenta (rgb(221,74,255))
+          purple: '#6c00a2',   // Deep purple (rgb(108,0,162))
+          'violet-light': '#8c64ff', // Light purple (rgb(140,100,255))
+          cyan: '#06b6d4',     // Cyan accent
+          sky: '#0ea5e9',      // Sky blue
+        },
+        'black-100': 'hsl(240, 10%, 3.9%)', // Near-black navy
+      },
       fontFamily: {
         nunito: ['Nunito', 'sans-serif'],
         bitcount: ['Bitcount Prop Double', 'monospace'],

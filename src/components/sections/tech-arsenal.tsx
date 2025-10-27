@@ -9,8 +9,8 @@ const TechArsenal: React.FC = () => {
 
     return (
         <div className="relative flex w-full flex-col items-center justify-center overflow-hidden">
-          <div className='absolute h-full bg-gradient-to-r from-transparent to-white top-0 bottom-0 right-0 w-10 z-50'></div>
-          <div className='absolute h-full bg-gradient-to-r from-white to-transparent top-0 bottom-0 left-0 w-10 z-50'></div>
+          <div className='absolute h-full bg-gradient-to-r from-transparent to-primary-darkest top-0 bottom-0 right-0 w-10 z-50'></div>
+          <div className='absolute h-full bg-gradient-to-r from-primary-darkest to-transparent top-0 bottom-0 left-0 w-10 z-50'></div>
 
       <Marquee pauseOnHover className="[--duration:120s]">
         {assets.map((review) => (
@@ -62,7 +62,7 @@ const ReviewCard = ({
           "dark:border-gray-50/[.1] dark:bg-gray-50/[.10] dark:hover:bg-gray-50/[.15]",
         )}
       >
-        <div className="flex flex-row relative w-48 items-center justify-center p-2 bg-neutral-300/40 h-24 rounded-3xl">
+        <div className="flex flex-row relative w-48 items-center justify-center p-2 bg-gradient-to-br from-primary-darkest/80 to-primary-darker/60 h-24 rounded-3xl border border-primary-main/20 shadow-[0_4px_16px_rgba(0,0,0,0.3)]">
           <img className="rounded-md mx-auto  h-9 w-fit object-contain object-center absolute" alt="" src={img} />
           {/* <div className="flex flex-col"> */}
             {/* <figcaption className="text-sm font-medium dark:text-white">

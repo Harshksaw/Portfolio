@@ -56,16 +56,16 @@ export default function Desktop3DMockup({ images, title, className = "" }: Deskt
                     <div
                         className="w-full min-w-[320px] sm:min-w-[400px] md:min-w-[450px] lg:min-w-[450px]
                          max-w-[500px] sm:max-w-[600px] lg:max-w-[750px] aspect-[3/2]
-                         bg-gradient-to-br from-gray-800 via-gray-800 to-gray-900
-                         rounded-t-lg overflow-hidden shadow-2xl mx-auto relative border-2 border-gray-700"
+                         bg-gradient-to-br from-primary-darker via-primary-dark to-primary-darkest
+                         rounded-t-lg overflow-hidden shadow-2xl mx-auto relative border-2 border-primary-violet/30"
                         style={{
                             transform: 'perspective(800px) rotateX(-2deg) translateZ(4px)',
                             transformOrigin: 'bottom center'
                         }}
                     >
                         {/* Screen */}
-                        <div 
-                            className="w-full h-full bg-gray-900 rounded-lg overflow-hidden relative"
+                        <div
+                            className="w-full h-full bg-primary-darkest rounded-lg overflow-hidden relative"
                             style={{ transform: 'translateZ(2px)' }}
                         >
                             {/* Screen content with smooth cross-fade */}
@@ -94,8 +94,8 @@ export default function Desktop3DMockup({ images, title, className = "" }: Deskt
                             </div>
                             
                             {/* Enhanced Browser UI with 3D effects - Mobile responsive */}
-                            <motion.div 
-                                className="absolute top-0 left-0 right-0 h-4 sm:h-6 lg:h-8 bg-gradient-to-b from-gray-800 to-gray-900 flex items-center px-1 sm:px-2 lg:px-4 z-20"
+                            <motion.div
+                                className="absolute top-0 left-0 right-0 h-4 sm:h-6 lg:h-8 bg-gradient-to-b from-primary-dark to-primary-darkest flex items-center px-1 sm:px-2 lg:px-4 z-20"
                                 style={{ transform: 'translateZ(4px)' }}
                                 animate={{
                                     boxShadow: isHovered 

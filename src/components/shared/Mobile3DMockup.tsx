@@ -47,11 +47,11 @@ export default function Mobile3DMockup({ images, title, className = "" }: Mobile
                 }}
             >
                 {/* Phone Body */}
-                <div className="relative bg-gray-900 rounded-[2.5rem] p-2 shadow-2xl">
+                <div className="relative bg-primary-darker rounded-[2.5rem] p-2 shadow-2xl">
                     {/* Screen Bezel */}
-                    <div className="bg-black rounded-[2.25rem] p-3">
+                    <div className="bg-primary-darkest rounded-[2.25rem] p-3">
                         {/* Notch */}
-                        <div className="absolute top-3 left-1/2 transform -translate-x-1/2 w-20 h-6 bg-gray-900 rounded-full z-10"></div>
+                        <div className="absolute top-3 left-1/2 transform -translate-x-1/2 w-20 h-6 bg-primary-darker rounded-full z-10"></div>
                         
                         {/* Screen */}
                         <div className="relative bg-white rounded-[1.75rem] overflow-hidden aspect-[9/19.5] w-64">
@@ -76,16 +76,16 @@ export default function Mobile3DMockup({ images, title, className = "" }: Mobile
                     </div>
                     
                     {/* Home Indicator */}
-                    <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 w-32 h-1 bg-gray-300 rounded-full"></div>
+                    <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 w-32 h-1 bg-primary-light/50 rounded-full"></div>
                 </div>
-                
+
                 {/* Shadow */}
-                <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 w-48 h-4 bg-black/20 rounded-full blur-xl"></div>
+                <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 w-48 h-4 bg-primary-darkest/20 rounded-full blur-xl"></div>
             </motion.div>
             
             {/* Floating Elements */}
             <motion.div
-                className="absolute -top-4 -right-4 w-6 h-6 bg-blue-500 rounded-full shadow-lg"
+                className="absolute -top-4 -right-4 w-6 h-6 bg-primary-main rounded-full shadow-lg"
                 animate={{
                     y: [-5, 5, -5],
                     rotate: [0, 180, 360]
