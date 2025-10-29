@@ -11,33 +11,33 @@ const TechArsenal: React.FC = () => {
         <div className="relative flex w-full flex-col items-center justify-center overflow-hidden">
           <div className='absolute h-full bg-gradient-to-r from-transparent to-primary-darkest top-0 bottom-0 right-0 w-10 z-50'></div>
           <div className='absolute h-full bg-gradient-to-r from-primary-darkest to-transparent top-0 bottom-0 left-0 w-10 z-50'></div>
+  <Marquee pauseOnHover className="[--duration:120s]">
+    {assets.map((review) => (
+      <ReviewCard key={review.name} img={review.path} name={review.name} />
+    ))}
+  </Marquee>
+  <Marquee reverse pauseOnHover className="[--duration:120s]">
+    {assets.map((review) => (
+      <ReviewCard key={review.name} img={review.path} name={review.name} />
+    ))}
+  </Marquee>
 
-      <Marquee pauseOnHover className="[--duration:120s]">
-        {assets.map((review) => (
-          <ReviewCard key={review.name} img={review.path} name={review.name} />
-        ))}
-      </Marquee>
-      <Marquee reverse pauseOnHover className="[--duration:120s]">
-        {assets.map((review) => (
-          <ReviewCard key={review.name} img={review.path} name={review.name} />
-        ))}
-      </Marquee>
+  <Marquee pauseOnHover className="[--duration:120s]">
+    {assets.map((review) => (
+      <ReviewCard key={review.name} img={review.path} name={review.name} />
+    ))}
+  </Marquee>
 
-      <Marquee pauseOnHover className="[--duration:120s]">
-        {assets.map((review) => (
-          <ReviewCard key={review.name} img={review.path} name={review.name} />
-        ))}
-      </Marquee>
+  <Marquee reverse pauseOnHover className="[--duration:120s]">
+    {assets.map((review) => (
+      <ReviewCard key={review.name} img={review.path} name={review.name} />
+    ))}
+  </Marquee>
 
-      <Marquee reverse pauseOnHover className="[--duration:120s]">
-        {assets.map((review) => (
-          <ReviewCard key={review.name} img={review.path} name={review.name} />
-        ))}
-      </Marquee>
-      
-      <div className="pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r from-background"></div>
-      <div className="pointer-events-none absolute inset-y-0 right-0 w-1/4 bg-gradient-to-l from-background"></div>
-    </div>
+  <div className="pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r from-background" />
+  <div className="pointer-events-none absolute inset-y-0 right-0 w-1/4 bg-gradient-to-l from-background" />
+</div>
+
     );
 };
 
