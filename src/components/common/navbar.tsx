@@ -64,7 +64,7 @@ export default function Navbar() {
                 </motion.a>
 
 
-
+{/* 
                 <motion.a
                 href="https://drive.google.com/file/d/1iyV0euSsl0PY2wEbspc6uuIKQ_nGyyww/view?usp=sharing"
                 target="_blank"
@@ -72,7 +72,7 @@ export default function Navbar() {
                     variants={variants as any}
                 >
                     Resume
-                </motion.a>
+                </motion.a> */}
             </motion.div>
            </div>
         </nav>
