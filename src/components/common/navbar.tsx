@@ -77,10 +77,9 @@ export default function Navbar() {
                     className="rounded-full block md:hidden  p-0 h-10 w-10 cursor-pointer hover:opacity-90 relative"
                     variants={variants as any}
                 >
-                    {/* Resume thumbnail with subtle border so it stands out on dark background */}
-                    {/* <span className="h-full w-full flex items-center justify-center rounded-full bg-gradient-to-r from-primary-main to-primary-light overflow-hidden">
+                    <span className="h-full w-full flex items-center justify-center rounded-full bg-gradient-to-r from-primary-main to-primary-light overflow-hidden">
                       <img src="/svgs/resume.jpg" alt="Resume" className="h-full w-full object-cover" />
-                    </span> */}
+                    </span>
                 </motion.a> */}
             </motion.div>
            </div>

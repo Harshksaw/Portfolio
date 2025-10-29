@@ -59,7 +59,7 @@ const ReviewCard = ({
           "dark:border-gray-50/[.1] dark:bg-gray-50/[.10] dark:hover:bg-gray-50/[.15]",
         )}
       >
-        <div className="flex flex-row relative w-24 items-center justify-center p-2 bg-neutral-300/40 h-20 rounded-3xl">
+        <div className="flex flex-row relative w-24 items-center justify-center p-2 bg-neutral-300/40 dark:bg-neutral-700/60 h-20 rounded-3xl">
           <img className="rounded-md mx-auto  h-7 w-fit object-contain object-center absolute" alt="" src={img} />
           {/* <div className="flex flex-col"> */}
             {/* <figcaption className="text-sm font-medium dark:text-white">
