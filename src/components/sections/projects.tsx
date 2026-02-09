@@ -7,79 +7,7 @@ import SemiCircularDial from "../HalfCircleDialList";
 import Mobile3DMockup from "../shared/Mobile3DMockup";
 import Desktop3DMockup from "../shared/Desktop3DMockup";
 
-interface Project {
-    title: string;
-    shortTitle: string;
-    type: string;
-    description: string[];
-    techStack: string[];
-    image: string[];
-    demoUrl?: string;
-    repoUrl?: string;
-}
-
-// Project data with demo URLs and GitHub links
-const projects: Project[] = [
-    {
-        title: "Full-Stack Room Booking System",
-        shortTitle: "StudyEkaant",
-        type: "production",
-        description: [
-            "Microservices architecture with autoscaling and load balancing.",
-            "Supports 200+ concurrent users; ~95% uptime.",
-            "Offline booking + payments; >$5K monthly transactions. Message queues, caching, and real-time seat tracking; API response times ~60% faster."
-        ],
-        techStack: ["React Native", "Docker", "Kubernetes", "Redis"],
-        image: ["https://res.cloudinary.com/dgheyg3iv/image/upload/v1756760193/File5_oppopy.png","https://res.cloudinary.com/dgheyg3iv/image/upload/v1756760200/p17_mui7p3.png","https://res.cloudinary.com/dgheyg3iv/image/upload/v1756760201/p15_m78wma.png","https://res.cloudinary.com/dgheyg3iv/image/upload/v1756760201/p16_rgvkmt.png","https://res.cloudinary.com/dgheyg3iv/image/upload/v1756760191/File3_mdbyvr.png","https://res.cloudinary.com/dgheyg3iv/image/upload/v1756760190/File8_tccknl.png"],
-        demoUrl: "https://www.studyekaant.com",
-        repoUrl: "https://github.com/Harshksaw/Ekaant-StudyRoom-APP"
-    },
-    {
-        title: "Learning Management System",
-        shortTitle: "LMS",
-        type: "production",
-        description: [
-            "Used by 3 institutions; 1500+ concurrent students.",
-            "Low-latency streaming via AWS + FFmpeg; latency ↓ ~40%.",
-            "Anti-piracy: screenshot/record blocking, device-bound login, suspicious-activity alerts."
-        ],
-        techStack: ["React", "Node/Express", "MongoDB", "AWS"],
-        image: ["https://res.cloudinary.com/dgheyg3iv/image/upload/v1756760199/File12_wa4uol.png","https://res.cloudinary.com/dgheyg3iv/image/upload/v1756760198/File11_p5uety.png","https://res.cloudinary.com/dgheyg3iv/image/upload/v1756760199/File13_gkbiv1.png"],
-        demoUrl: "https://krishnaacademy.in",
-        repoUrl: "https://github.com/Harshksaw/LMS-App"
-    },
-    {
-        title: "MySmartFactory.ai",
-        shortTitle: "AI Safety Detection",
-        type: "production",
-        description: [
-            "End-to-end system with FastAPI backend and Next.js frontend, integrated with three containers running machine learning models",
-            "AI-centric site with multi-persona chat and RAG experiments (self-hosted LLM via Ollama).",
-            "(YOLO and CV) for safety failure detection using live CCTV cameras.",
-            "Real-time alerts via WhatsApp, email, browser, and push notifications.",
-            "Industrial KPI & incident management with multi-role RBAC",
-        ],
-        techStack: ["Next.js", "FastAPI", "MongoDB", "Redis"],
-        image: ["https://res.cloudinary.com/dgheyg3iv/image/upload/v1756762378/Screenshot_2025-09-01_at_2.31.13_PM_degmoj.png","https://res.cloudinary.com/dgheyg3iv/image/upload/v1756762379/Screenshot_2025-09-01_at_2.32.41_PM_iiqlvi.png","https://res.cloudinary.com/dgheyg3iv/image/upload/v1756762379/Screenshot_2025-09-01_at_2.31.23_PM_djcjap.png"]
-    },
-
-    {
-        title: "Bwisher E-commerce Platform",
-        shortTitle: "Bwisher",
-        type: "production",
-        description: [
-            "Full-featured e-commerce platform for fashion and lifestyle products.",
-            "Multi-vendor support, product catalog, cart, checkout, and order tracking.",
-            "Integrated payment gateways, inventory management, and analytics dashboard.",
-            "Mobile-first responsive UI with optimized performance.",
-            "Admin panel for vendor onboarding, product uploads, and sales insights."
-        ],
-        techStack: ["Next.js", "Node.js", "MongoDB", "Stripe"],
-        image: ["https://res.cloudinary.com/dgheyg3iv/image/upload/v1756762378/Screenshot_2025-09-01_at_1.32.14_PM_ssxp1g.png", "https://res.cloudinary.com/dgheyg3iv/image/upload/v1756760200/l3_xtghtv.png"],
-        demoUrl: "https://bwisher.com",
-        repoUrl: "https://github.com/Harshksaw/bwisher-ecommerce"
-    }
-];
+import { projects, Project } from "@/data/projects";
 
 // Helper function to determine if project is mobile app
 const isMobileProject = (title: string) => {
@@ -89,7 +17,7 @@ const isMobileProject = (title: string) => {
 
 function MobileProject({ project }: { project: Project }) {
     const isProjectMobile = isMobileProject(project.title);
-    
+
     return (
         <div>
             <div className="flex justify-center mb-8 px-4">
@@ -116,7 +44,7 @@ function MobileProject({ project }: { project: Project }) {
                         <li key={idx}>{desc}</li>
                     ))}
                 </ul>
-                
+
                 {/* Project Links */}
                 {(project.demoUrl || project.repoUrl) && (
                     <div className="flex gap-3 mt-4 justify-center">
@@ -135,7 +63,7 @@ function MobileProject({ project }: { project: Project }) {
                                 Live Demo
                             </motion.a>
                         )}
-                        
+
                         {project.repoUrl && (
                             <motion.a
                                 href={project.repoUrl}
@@ -177,7 +105,7 @@ const cardVariants = {
 };
 
 export default function Projects() {
-    const [activeIndex, setActiveIndex] = useState(2); // Start with 3rd item (index 2)
+    const [activeIndex, setActiveIndex] = useState(0); // Start with Document Intelligence Platform
 
     // The card to show
     const displayedIndex = activeIndex;
@@ -188,7 +116,7 @@ export default function Projects() {
 
     return (
         <>
-            <div className="h-[540px] md:flex relative mt-16 md:mt-24 hidden">
+            <div className="h-[750px] md:flex relative mt-16 md:mt-24 hidden">
                 {/* Card container */}
                 <div className="h-full w-full relative">
                     <AnimatePresence mode="wait">
@@ -204,7 +132,7 @@ export default function Projects() {
                                 {isMobileProject(projects[displayedIndex].title) ? (
                                     // Mobile Project Layout - Single mockup
                                     <div className="flex-1 flex justify-center">
-                                        <Mobile3DMockup 
+                                        <Mobile3DMockup
                                             images={projects[displayedIndex].image}
                                             title={projects[displayedIndex].title}
                                             className="transform scale-90"
@@ -213,7 +141,7 @@ export default function Projects() {
                                 ) : (
                                     // Desktop Project Layout - Single mockup
                                     <div className="flex-1">
-                                        <Desktop3DMockup 
+                                        <Desktop3DMockup
                                             images={projects[displayedIndex].image}
                                             title={projects[displayedIndex].title}
                                             className="transform scale-90 origin-left"
@@ -229,7 +157,7 @@ export default function Projects() {
                                             <li key={idx}>{desc}</li>
                                         ))}
                                     </ul>
-                                    
+
                                     {/* Project Links */}
                                     {(projects[displayedIndex].demoUrl || projects[displayedIndex].repoUrl) && (
                                         <div className="flex gap-4 mt-6 ml-4">
@@ -248,7 +176,7 @@ export default function Projects() {
                                                     Live Demo
                                                 </motion.a>
                                             )}
-                                            
+
                                             {projects[displayedIndex].repoUrl && (
                                                 <motion.a
                                                     href={projects[displayedIndex].repoUrl}
@@ -275,7 +203,7 @@ export default function Projects() {
                 {/* SemiCircular Dial Navigation */}
                 <SemiCircularDial
                     projects={projects}
-                    initialIndex={2}
+                    initialIndex={0}
                     onChange={(idx) => scrollToIndex(idx)}
                 />
             </div>

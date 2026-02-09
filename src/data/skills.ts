@@ -75,15 +75,15 @@ export const skillCategories: SkillCategory[] = [
         title: "AI & GenAI Frameworks",
         color: "#A259FF", // Generic AI Purple
         skills: [
-            { name: "LangChain", icon: images.langchain, invert: true }, // Langchain simple icon is intricate black.
-            { name: "LangSmith" }, // No icon
-            { name: "AutoGen" }, // No icon
-            { name: "Mem0" }, // No icon
-            { name: "RAG" }, // No icon, conceptual
-            { name: "Pinecone", icon: images.pinecone, invert: true }, // Custom white placeholder
-            { name: "Qdrant", icon: images.qdrant, invert: true }, // Custom white placeholder
+            { name: "LangChain", icon: images.langchain, invert: true },
+            { name: "LangSmith", icon: images.langsmith, invert: true },
+            { name: "AutoGen", icon: images.autogen, invert: true },
+            { name: "Mem0", icon: images.mem0, invert: true },
+            { name: "RAG", icon: images.rag, invert: true },
+            { name: "Pinecone", icon: images.pinecone, invert: true },
+            { name: "Qdrant", icon: images.qdrant, invert: true },
             { name: "N8N", icon: images.n8n },
-            { name: "Faiss" }, // No icon
+            { name: "Faiss", icon: images.faiss, invert: true },
             { name: "AstraDB", icon: images.datastax },
         ]
     }

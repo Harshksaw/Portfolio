@@ -23,7 +23,7 @@ export const projects: Project[] = [
             "Deployed to AWS ECS Fargate."
         ],
         techStack: ["FastAPI", "LangChain", "FAISS", "Groq", "Google Gemini", "AWS ECS", "Docker"],
-        image: ["https://res.cloudinary.com/dgheyg3iv/image/upload/v1756762378/9d7cb1f6c53918b3c36069f08ce3bb8e.png", "https://res.cloudinary.com/dgheyg3iv/image/upload/v1756762378/5d92c6ea0824910384219e31ec7f7798.png", "https://res.cloudinary.com/dgheyg3iv/image/upload/v1756762378/db50fe271496c3eb25c423de4f1bc1c8.png"],
+        image: ["https://res.cloudinary.com/dgheyg3iv/image/upload/v1770617252/Screenshot_2026-02-01_at_10.09.24_PM_jyno2o.png", "https://res.cloudinary.com/dgheyg3iv/image/upload/v1770617251/Screenshot_2026-02-01_at_10.09.33_PM_fvhvht.png", "https://res.cloudinary.com/dgheyg3iv/image/upload/v1770617252/Screenshot_2026-02-01_at_10.09.10_PM_nrjwbt.png"],
         demoUrl: "https://aidoc.harshsaw.ca",
         repoUrl: "https://github.com/Harshksaw/document-intelligence-platform"
     },
