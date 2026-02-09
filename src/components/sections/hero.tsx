@@ -2,9 +2,15 @@
 
 import { motion, } from "motion/react";
 import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 
-import Orb from "../common/bolb";
 import { sectionVariant } from "../../variants/common_variants";
+import { profile } from "@/data/profile";
+
+const Orb = dynamic(() => import("../common/bolb"), {
+    ssr: false,
+    loading: () => <div className="absolute inset-0" />
+});
 
 
 export default function Hero() {
@@ -14,10 +20,10 @@ export default function Hero() {
         const checkMobile = () => {
             setIsMobile(window.innerWidth < 768);
         };
-        
+
         checkMobile();
         window.addEventListener('resize', checkMobile);
-        
+
         return () => {
             window.removeEventListener('resize', checkMobile);
         };
@@ -33,7 +39,7 @@ export default function Hero() {
             transition: {
                 delay: 2.2, // Adjusted to let text animation complete first on mobile
                 duration: 1.0, // Slightly faster animation on mobile
-                ease: [0.22, 1, 0.36, 1], 
+                ease: [0.22, 1, 0.36, 1],
             },
         },
     };
@@ -50,17 +56,17 @@ export default function Hero() {
 
                 rounded-[32px] relative overflow-hidden border-2 border-primary-violet/20 shadow-[0_8px_32px_rgba(0,0,0,0.6)]"
                 style={{
-                  willChange: 'transform', // Optimize for transform animations
-                  backfaceVisibility: 'hidden', // Prevent flickering
-                  transform: 'translateZ(0)', // Force hardware acceleration
-                  ...(isMobile && {
-                    // Additional mobile optimizations
-                    contain: 'layout style paint',
-                    isolation: 'isolate',
-                  })
+                    willChange: 'transform', // Optimize for transform animations
+                    backfaceVisibility: 'hidden', // Prevent flickering
+                    transform: 'translateZ(0)', // Force hardware acceleration
+                    ...(isMobile && {
+                        // Additional mobile optimizations
+                        contain: 'layout style paint',
+                        isolation: 'isolate',
+                    })
                 }}
             >
-                       <Orb
+                <Orb
                     hoverIntensity={0.5}
                     rotateOnHover={true}
                     hue={4}
@@ -85,21 +91,21 @@ export default function Hero() {
                 animate="show" src="/Vecto.svg" className="hidden lg:block absolute -bottom-0.5 rotate-180 right-20 h-40" /> */}
 
                 <div className="flex flex-col relative z-10">
-                    <h3 className="border border-primary-violet/60 text-white text-sm text-center bg-primary-violet/10 w-fit mx-auto px-4 py-1 mb-4 rounded-full">Hey! I&apos;m Harsh Kumar Saw</h3>
-                    <h3 className="text-white text-center text-[24px] md:text-[44px] md:leading-13 font-light max-w-[880px] font-bitcount">Full-Stack & AI/DevOps Engineer who ships <p className="text-primary-darkest w-fit inline-block -rotate-6 mr-1 md:mr-0 md:-translate-y-4 bg-primary-light px-4 md:py-1 rounded-full">production-grade </p>systems end-to-end</h3>
+                    <h3 className="border border-primary-violet/60 text-white text-sm text-center bg-primary-violet/10 w-fit mx-auto px-4 py-1 mb-4 rounded-full">{profile.heroQuote}</h3>
+                    <h3 className="text-white text-center text-[24px] md:text-[44px] md:leading-13 font-light max-w-[880px] font-bitcount">{profile.title.main} {profile.title.sub} <p className="text-primary-darkest w-fit inline-block -rotate-6 mr-1 md:mr-0 md:-translate-y-4 bg-primary-light px-4 md:py-1 rounded-full">{profile.title.highlight} </p>{profile.title.suffix}</h3>
                 </div>
                 <section className=" w-[90%] md:w-fit  absolute bottom-8  right-1/2 translate-x-1/2 md:translate-x-0 md:right-9 z-10">
 
                     <div className=" flex flex-col md:flex-row gap-4 md:gap-3  min-w-60 text-white">
-                        <div className="px-3 py-2 rounded-3xl bg-gradient-to-r from-primary-main/30 to-primary-light/20 border border-primary-main/30 shadow-[0_4px_12px_rgba(18,113,255,0.2)]">AI/LLM Systems</div>
+                        <div className="px-3 py-2 rounded-3xl bg-gradient-to-r from-primary-main/30 to-primary-light/20 border border-primary-main/30 shadow-[0_4px_12px_rgba(18,113,255,0.2)]">{profile.skills.ai}</div>
                         <div className="flex gap-3 items-center">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className={`size-6 ${!isMobile ? 'animate-spin' : ''}`}>
                                 <path fillRule="evenodd" d="M11.622 1.602a.75.75 0 0 1 .756 0l2.25 1.313a.75.75 0 0 1-.756 1.295L12 3.118 10.128 4.21a.75.75 0 1 1-.756-1.295l2.25-1.313ZM5.898 5.81a.75.75 0 0 1-.27 1.025l-1.14.665 1.14.665a.75.75 0 1 1-.756 1.295L3.75 8.806v.944a.75.75 0 0 1-1.5 0V7.5a.75.75 0 0 1 .372-.648l2.25-1.312a.75.75 0 0 1 1.026.27Zm12.204 0a.75.75 0 0 1 1.026-.27l2.25 1.312a.75.75 0 0 1 .372.648v2.25a.75.75 0 0 1-1.5 0v-.944l-1.122.654a.75.75 0 1 1-.756-1.295l1.14-.665-1.14-.665a.75.75 0 0 1-.27-1.025Zm-9 5.25a.75.75 0 0 1 1.026-.27L12 11.882l1.872-1.092a.75.75 0 1 1 .756 1.295l-1.878 1.096V15a.75.75 0 0 1-1.5 0v-1.82l-1.878-1.095a.75.75 0 0 1-.27-1.025ZM3 13.5a.75.75 0 0 1 .75.75v1.82l1.878 1.095a.75.75 0 1 1-.756 1.295l-2.25-1.312a.75.75 0 0 1-.372-.648v-2.25A.75.75 0 0 1 3 13.5Zm18 0a.75.75 0 0 1 .75.75v2.25a.75.75 0 0 1-.372.648l-2.25 1.312a.75.75 0 1 1-.756-1.295l1.878-1.096V14.25a.75.75 0 0 1 .75-.75Zm-9 5.25a.75.75 0 0 1 .75.75v.944l1.122-.654a.75.75 0 1 1 .756 1.295l-2.25 1.313a.75.75 0 0 1-.756 0l-2.25-1.313a.75.75 0 1 1 .756-1.295l1.122.654V19.5a.75.75 0 0 1 .75-.75Z" clipRule="evenodd" />
                             </svg>
                             <div className="px-3 py-2 rounded-3xl w-full bg-gradient-to-r from-primary-main/30 to-primary-light/20 border border-primary-main/30 shadow-[0_4px_12px_rgba(18,113,255,0.2)] flex">
-                                DevOps/Cloud</div>
+                                {profile.skills.devops}</div>
                         </div>
-                        <div className="px-3 py-2 rounded-3xl bg-gradient-to-r from-primary-violet/30 to-primary-purple/20 border border-primary-violet/30 shadow-[0_4px_12px_rgba(221,74,255,0.2)]">Microservices</div>
+                        <div className="px-3 py-2 rounded-3xl bg-gradient-to-r from-primary-violet/30 to-primary-purple/20 border border-primary-violet/30 shadow-[0_4px_12px_rgba(221,74,255,0.2)]">{profile.skills.microservices}</div>
                     </div>
                 </section>
             </motion.section>

@@ -8,16 +8,16 @@ interface ExperienceCardProps {
   marginClass?: string;
 }
 
-export default function ExperienceCard({ 
-  experience, 
-  nailId, 
-  rotation, 
-  justification, 
-  marginClass = "" 
+export default function ExperienceCard({
+  experience,
+  nailId,
+  rotation,
+  justification,
+  marginClass = ""
 }: ExperienceCardProps) {
   return (
     <div className={`w-full flex ${justification} ${marginClass}`}>
-      <article className={`h-[430px] aspect-[9/12] md:aspect-[9/10] ${rotation} bg-gradient-to-br from-primary-darkest to-primary-darker z-10 rounded-[32px] relative shadow-[0_8px_32px_rgba(0,0,0,0.6)] border border-primary-violet/20`}>
+      <article className={`h-[430px] aspect-[9/12] md:aspect-[9/10] ${rotation} bg-gradient-to-br from-primary-darkest to-primary-darker z-10 rounded-[32px] relative shadow-[0_0_25px_rgba(112,0,255,0.4)] hover:shadow-[0_0_40px_rgba(112,0,255,0.6)] transition-shadow duration-300 border border-primary-violet/30`}>
         <div
           id={nailId}
           className="h-6 w-6 rounded-full bg-primary-violet absolute top-4 left-1/2 -translate-x-1/2"
