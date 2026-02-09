@@ -3,6 +3,7 @@ import { StrictMode } from 'react'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { SmoothCursor } from '../components/shared/smooth-cursor'
+import SmoothScroller from '../components/shared/smooth-scroller'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -23,21 +24,23 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        <link 
+        <link
           href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
-          rel="stylesheet" 
+          rel="stylesheet"
         />
-        <link 
+        <link
           href="https://fonts.googleapis.com/css2?family=Bitcount+Prop+Double:wght@100..900&display=swap"
-          rel="stylesheet" 
+          rel="stylesheet"
         />
       </head>
-      <body>
+      <body className="antialiased cursor-none bg-primary-darkest">
         <StrictMode>
-          {children}
-          <SmoothCursor />
-          <Analytics />
-          <SpeedInsights />
+          <SmoothScroller>
+            <SmoothCursor />
+            {children}
+            <Analytics />
+            <SpeedInsights />
+          </SmoothScroller>
         </StrictMode>
       </body>
     </html>

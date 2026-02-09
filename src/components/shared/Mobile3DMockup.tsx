@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "motion/react";
+import Image from "next/image";
 
 interface Mobile3DMockupProps {
     images: string[];
@@ -29,10 +30,10 @@ export default function Mobile3DMockup({ images, title, className = "" }: Mobile
     return (
         <div className={`relative ${className}`}>
             {/* Mobile Frame */}
-            <motion.div 
+            <motion.div
                 className="relative transform-gpu"
                 initial={{ rotateY: -15, rotateX: 5 }}
-                animate={{ 
+                animate={{
                     rotateY: [-15, -10, -15],
                     rotateX: [5, 8, 5]
                 }}
@@ -55,7 +56,7 @@ export default function Mobile3DMockup({ images, title, className = "" }: Mobile
                     <div className="bg-primary-darkest rounded-[2.25rem] p-3 border border-primary-darker">
                         {/* Notch */}
                         <div className="absolute top-3 left-1/2 transform -translate-x-1/2 w-20 h-6 bg-primary-darker rounded-full z-10 border border-primary-darkest shadow-inner"></div>
-                        
+
                         {/* Screen */}
                         <div className="relative bg-white rounded-[1.75rem] overflow-hidden aspect-[9/19.5] w-64 border border-gray-800/50 shadow-inner">
                             {/* Screen glass reflection */}
@@ -63,24 +64,30 @@ export default function Mobile3DMockup({ images, title, className = "" }: Mobile
 
                             {/* Status Bar */}
                             <div className="absolute top-0 left-0 right-0 h-12 bg-gradient-to-b from-gray-100 to-transparent z-10"></div>
-                            
+
                             {/* App Content */}
-                            <motion.img
+                            <motion.div
                                 key={currentImageIndex}
-                                src={images[currentImageIndex] || "/placeholder-mobile.png"}
-                                alt={`${title} - Screen ${currentImageIndex + 1}`}
-                                className="w-full h-full object-cover"
+                                className="w-full h-full relative"
                                 initial={{ opacity: 0, scale: 1.1 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 exit={{ opacity: 0, scale: 0.9 }}
                                 transition={{ duration: 0.5 }}
-                            />
-                            
+                            >
+                                <Image
+                                    src={images[currentImageIndex] || "/placeholder-mobile.png"}
+                                    alt={`${title} - Screen ${currentImageIndex + 1}`}
+                                    fill
+                                    className="object-cover"
+                                    priority={currentImageIndex === 0}
+                                />
+                            </motion.div>
+
                             {/* Screen Reflection */}
                             <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-black/5 pointer-events-none"></div>
                         </div>
                     </div>
-                    
+
                     {/* Home Indicator */}
                     <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 w-32 h-1 bg-primary-light/60 rounded-full shadow-[0_0_8px_rgba(100,220,255,0.4)]"></div>
 
@@ -94,7 +101,7 @@ export default function Mobile3DMockup({ images, title, className = "" }: Mobile
                 <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 w-48 h-4 bg-primary-darkest/40 rounded-full blur-xl"></div>
                 <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 w-40 h-3 bg-primary-main/20 rounded-full blur-lg"></div>
             </motion.div>
-            
+
             {/* Floating Elements */}
             <motion.div
                 className="absolute -top-4 -right-4 w-6 h-6 bg-primary-main rounded-full shadow-[0_0_20px_rgba(18,113,255,0.6)] border border-primary-light/30"
@@ -108,7 +115,7 @@ export default function Mobile3DMockup({ images, title, className = "" }: Mobile
                     ease: "easeInOut"
                 }}
             />
-            
+
             <motion.div
                 className="absolute -bottom-2 -left-2 w-4 h-4 bg-primary-violet rounded-full shadow-[0_0_15px_rgba(221,74,255,0.6)] border border-primary-violet-light/30"
                 animate={{
