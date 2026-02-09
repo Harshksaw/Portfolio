@@ -51,30 +51,37 @@ export default function Desktop3DMockup({ images, title, className = "" }: Deskt
                 }}
                 style={{ transformStyle: "preserve-3d" }}
             >
-                {/* MacBook Frame with enhanced 3D effect */}
+                {/* iPad Frame with enhanced 3D effect */}
                 <div className="relative" style={{ transformStyle: "preserve-3d" }}>
-                    {/* Laptop Screen - Mobile responsive */}
+                    {/* Gradient border wrapper */}
                     <div
-                        className="w-full min-w-[320px] sm:min-w-[400px] md:min-w-[450px] lg:min-w-[450px]
-                         max-w-[500px] sm:max-w-[600px] lg:max-w-[750px] aspect-[3/2]
-                         bg-gradient-to-br from-primary-darker via-primary-dark to-primary-darkest
-                         rounded-t-lg overflow-hidden shadow-[0_25px_70px_rgba(0,0,0,0.85)] mx-auto relative border-2 border-primary-violet/40"
+                        className="w-full min-w-[380px] sm:min-w-[500px] md:min-w-[600px] lg:min-w-[700px]
+                         max-w-[600px] sm:max-w-[750px] lg:max-w-[950px] aspect-[16/10]
+                         bg-gradient-to-br from-violet-500 via-purple-600 to-fuchsia-500
+                         rounded-[24px] p-[4px] mx-auto relative shadow-[0_25px_70px_rgba(139,92,246,0.3),0_10px_40px_rgba(0,0,0,0.5)]"
                         style={{
                             transform: 'perspective(800px) rotateX(-2deg) translateZ(4px)',
                             transformOrigin: 'bottom center'
                         }}
                     >
-                        {/* Metallic edge detail */}
-                        <div className="absolute inset-0 rounded-t-lg ring-1 ring-primary-main/25 ring-inset"></div>
+                    {/* Inner device body */}
+                    <div className="w-full h-full bg-gradient-to-b from-[#1a1a1a] via-[#111] to-[#0a0a0a] rounded-[20px] overflow-hidden relative">
+                        {/* Metallic edge detail - iPad style */}
+                        <div className="absolute inset-0 rounded-[20px] ring-1 ring-white/10 ring-inset"></div>
 
-                        {/* Screen Bezel */}
-                        <div className="w-full h-full bg-primary-darkest rounded-lg overflow-hidden relative p-2 border border-primary-darker">
+                        {/* Screen Bezel - iPad style thick border */}
+                        <div className="w-full h-full bg-[#0a0a0a] rounded-[16px] overflow-hidden relative p-3 sm:p-4 lg:p-5">
                             {/* Screen glass reflection overlay */}
-                            <div className="absolute top-0 left-0 w-full h-1/4 bg-gradient-to-b from-white/15 to-transparent pointer-events-none z-30 rounded-t-lg"></div>
+                            <div className="absolute top-0 left-0 w-full h-1/4 bg-gradient-to-b from-white/10 to-transparent pointer-events-none z-30 rounded-[12px]"></div>
+
+                            {/* Front camera dot - iPad style */}
+                            <div className="absolute top-[-12px] left-1/2 transform -translate-x-1/2 w-2 h-2 bg-[#1a1a1a] rounded-full border border-[#333] z-40">
+                                <div className="absolute inset-[2px] bg-[#0a0a0a] rounded-full"></div>
+                            </div>
 
                             {/* Screen */}
                             <div
-                                className="w-full h-full bg-primary-darkest rounded-md overflow-hidden relative border border-gray-800/60 shadow-inner"
+                                className="w-full h-full bg-primary-darkest rounded-[10px] overflow-hidden relative border border-gray-800/60 shadow-[inset_0_2px_4px_rgba(0,0,0,0.5)]"
                                 style={{ transform: 'translateZ(2px)' }}
                             >
                                 {/* Screen content with smooth cross-fade */}
@@ -189,18 +196,18 @@ export default function Desktop3DMockup({ images, title, className = "" }: Deskt
                                     </motion.div>
                                 )}
 
-                                {/* Enhanced Glow effect */}
+                                {/* Enhanced Glow effect - violet */}
                                 <motion.div
-                                    className="absolute inset-0 rounded-md pointer-events-none"
+                                    className="absolute inset-0 rounded-[10px] pointer-events-none"
                                     animate={{
                                         boxShadow: isHovered ? [
-                                            "0 0 30px rgba(18, 113, 255, 0.5)",
-                                            "0 0 60px rgba(221, 74, 255, 0.6)",
-                                            "0 0 30px rgba(18, 113, 255, 0.5)"
+                                            "0 0 30px rgba(139, 92, 246, 0.5)",
+                                            "0 0 60px rgba(168, 85, 247, 0.6)",
+                                            "0 0 30px rgba(139, 92, 246, 0.5)"
                                         ] : [
-                                            "0 0 20px rgba(18, 113, 255, 0.25)",
-                                            "0 0 40px rgba(221, 74, 255, 0.35)",
-                                            "0 0 20px rgba(18, 113, 255, 0.25)"
+                                            "0 0 20px rgba(139, 92, 246, 0.25)",
+                                            "0 0 40px rgba(168, 85, 247, 0.35)",
+                                            "0 0 20px rgba(139, 92, 246, 0.25)"
                                         ]
                                     }}
                                     transition={{ duration: 3, repeat: Infinity }}
@@ -208,14 +215,15 @@ export default function Desktop3DMockup({ images, title, className = "" }: Deskt
                             </div>
                         </div>
                     </div>
+                    </div>
 
-                    {/* Multi-layered shadows for depth */}
-                    <div className="absolute -bottom-10 left-1/2 transform -translate-x-1/2 w-3/4 h-6 bg-primary-darkest/50 rounded-full blur-2xl"></div>
-                    <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 w-2/3 h-4 bg-primary-main/20 rounded-full blur-xl"></div>
+                    {/* Multi-layered shadows for depth - violet tint */}
+                    <div className="absolute -bottom-10 left-1/2 transform -translate-x-1/2 w-3/4 h-8 bg-violet-900/40 rounded-full blur-2xl"></div>
+                    <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 w-2/3 h-5 bg-purple-500/25 rounded-full blur-xl"></div>
 
-                    {/* Enhanced Reflection - Mobile responsive */}
+                    {/* Enhanced Reflection - violet glow */}
                     <motion.div
-                        className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-24 sm:w-32 lg:w-40 h-1 sm:h-2 lg:h-3 bg-gradient-to-r from-transparent via-primary-light/30 to-transparent blur-sm rounded-full"
+                        className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-24 sm:w-32 lg:w-40 h-1 sm:h-2 lg:h-3 bg-gradient-to-r from-transparent via-violet-400/40 to-transparent blur-sm rounded-full"
                         animate={{
                             opacity: isHovered ? 0.7 : 0.4,
                             scale: isHovered ? 1.3 : 1
