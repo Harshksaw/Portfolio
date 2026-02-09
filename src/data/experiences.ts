@@ -9,6 +9,7 @@ export interface Experience {
   skills: string[];
   achievements: string[];
   logo: string;
+  companyUrl?: string;
 }
 
 export const experiences: Experience[] = [
@@ -47,7 +48,7 @@ export const experiences: Experience[] = [
   {
     id: 3,
     year: "Dec 2024 - Jun 2025",
-    company: "Airing Ltd",
+    company: "Bwisher",
     position: "Software Engineer Intern",
     duration: "Dec 2024 - Jun 2025",
     location: "Remote",
@@ -58,7 +59,8 @@ export const experiences: Experience[] = [
       "Managed data storage and caching with PostgreSQL and Redis for an e-commerce platform handling 20K+ API calls/day.",
       "Integrated BullMQ for async order processing and developed internal FastAPI utilities for data aggregation."
     ],
-    logo: "✈️"
+    logo: "✈️",
+    companyUrl: "https://bwishernepal.com"
   },
   {
     id: 3,

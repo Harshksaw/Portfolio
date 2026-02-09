@@ -26,7 +26,18 @@ export default function ExperienceCard({
         </div>
         <div className="px-4 py-4 pt-12 flex flex-col h-full">
           <h3 className="font-bold text-2xl text-white">
-            {experience.company} — <span className="text-gray-300">{experience.position}</span>
+            {experience.companyUrl ? (
+              <a 
+                href={experience.companyUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-primary-violet transition-colors duration-200 underline decoration-primary-violet/30 hover:decoration-primary-violet"
+              >
+                {experience.company}
+              </a>
+            ) : (
+              experience.company
+            )} — <span className="text-gray-300">{experience.position}</span>
           </h3>
           <span className="flex mb-1 text-[13px] md:text-sm text-gray-300 justify-between">
             <span>{experience.position}</span>
