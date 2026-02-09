@@ -63,7 +63,7 @@ export const experiences: Experience[] = [
     companyUrl: "https://bwishernepal.com"
   },
   {
-    id: 3,
+    id: 4,
     year: "2023-2025",
     company: "Freelancer.com",
     position: "Full-Stack Software Dev",
@@ -80,7 +80,7 @@ export const experiences: Experience[] = [
     logo: "🚀"
   },
   {
-    id: 4,
+    id: 5,
     year: "2024",
     company: "Jythu Ltd",
     position: "Full-Stack Developer (Part-time Contract)",
@@ -96,7 +96,7 @@ export const experiences: Experience[] = [
     logo: "💼"
   },
   {
-    id: 5,
+    id: 6,
     year: "2024",
     company: "Tastemate",
     position: "React Native Full-Stack Developer",
