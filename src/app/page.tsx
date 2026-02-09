@@ -3,7 +3,6 @@ import ExperienceSection from "../components/shared/experience-section";
 import Projects from "../components/sections/projects";
 import TechArsenal from "../components/sections/tech-arsenal";
 import Hero from "../components/sections/hero";
-import TechArsenalMobile from "../components/sections/tech-arsenal-mobile";
 import Cta from "../components/sections/cta";
 import IntroSection from "../components/sections/intro-section";
 
@@ -39,16 +38,10 @@ export default function Home() {
 
         {/* Skills  */}
         <section
-          className="hidden md:flex bg-transparent h-full w-full flex-col justify-end rounded-[32px] relative z-10"
-        >
-          <h2 className="text-3xl md:text-6xl  block  leading-48  tracking-[0.12em] md:tracking-[0.2em] font-bold text-white">Tech Arsenal</h2>
-          <TechArsenal />
-        </section>
-        <section
-          className="flex md:hidden bg-transparent h-full w-full flex-col justify-end rounded-[32px] relative z-10"
+          className="flex bg-transparent h-full w-full flex-col justify-end rounded-[32px] relative z-10"
         >
           <h2 className="text-3xl md:text-6xl  block leading-32 mt-8 md:mt-0 md:leading-48  tracking-[0.12em] md:tracking-[0.2em] font-bold text-white">Tech Arsenal</h2>
-          <TechArsenalMobile />
+          <TechArsenal />
         </section>
         <Cta />
 
