@@ -12,6 +12,22 @@ export interface Project {
 
 export const projects: Project[] = [
     {
+        title: "Document Intelligence Platform",
+        shortTitle: "AI Doc Ent",
+        type: "production",
+        description: [
+            "Architected a multi-tenant RAG platform with session-isolated FAISS indices for semantic search across PDF, DOCX, and TXT.",
+            "Engineered fault-tolerant LLM orchestration using LangChain with automatic failover between Groq and Google Gemini.",
+            "Built LCEL-based retrieval pipelines with context-aware query rewriting and hybrid document chunking.",
+            "Designed idempotent ingestion workflows using SHA-256 fingerprinting to deduplicate embeddings.",
+            "Deployed to AWS ECS Fargate."
+        ],
+        techStack: ["FastAPI", "LangChain", "FAISS", "Groq", "Google Gemini", "AWS ECS", "Docker"],
+        image: ["https://res.cloudinary.com/dgheyg3iv/image/upload/v1756762378/9d7cb1f6c53918b3c36069f08ce3bb8e.png", "https://res.cloudinary.com/dgheyg3iv/image/upload/v1756762378/5d92c6ea0824910384219e31ec7f7798.png", "https://res.cloudinary.com/dgheyg3iv/image/upload/v1756762378/db50fe271496c3eb25c423de4f1bc1c8.png"],
+        demoUrl: "https://aidoc.harshsaw.ca",
+        repoUrl: "https://github.com/Harshksaw/document-intelligence-platform"
+    },
+    {
         title: "Full-Stack Room Booking System",
         shortTitle: "StudyEkaant",
         type: "production",
@@ -21,7 +37,7 @@ export const projects: Project[] = [
             "Offline booking + payments; >$5K monthly transactions. Message queues, caching, and real-time seat tracking; API response times ~60% faster."
         ],
         techStack: ["React Native", "Docker", "Kubernetes", "Redis"],
-        image: ["https://res.cloudinary.com/dgheyg3iv/image/upload/v1756760193/File5_oppopy.png","https://res.cloudinary.com/dgheyg3iv/image/upload/v1756760200/p17_mui7p3.png","https://res.cloudinary.com/dgheyg3iv/image/upload/v1756760201/p15_m78wma.png","https://res.cloudinary.com/dgheyg3iv/image/upload/v1756760201/p16_rgvkmt.png","https://res.cloudinary.com/dgheyg3iv/image/upload/v1756760191/File3_mdbyvr.png","https://res.cloudinary.com/dgheyg3iv/image/upload/v1756760190/File8_tccknl.png"],
+        image: ["https://res.cloudinary.com/dgheyg3iv/image/upload/v1756760193/File5_oppopy.png", "https://res.cloudinary.com/dgheyg3iv/image/upload/v1756760200/p17_mui7p3.png", "https://res.cloudinary.com/dgheyg3iv/image/upload/v1756760201/p15_m78wma.png", "https://res.cloudinary.com/dgheyg3iv/image/upload/v1756760201/p16_rgvkmt.png", "https://res.cloudinary.com/dgheyg3iv/image/upload/v1756760191/File3_mdbyvr.png", "https://res.cloudinary.com/dgheyg3iv/image/upload/v1756760190/File8_tccknl.png"],
         demoUrl: "https://www.studyekaant.com",
         repoUrl: "https://github.com/Harshksaw/Ekaant-StudyRoom-APP"
     },
@@ -35,7 +51,7 @@ export const projects: Project[] = [
             "Anti-piracy: screenshot/record blocking, device-bound login, suspicious-activity alerts."
         ],
         techStack: ["React", "Node/Express", "MongoDB", "AWS"],
-        image: ["https://res.cloudinary.com/dgheyg3iv/image/upload/v1756760199/File12_wa4uol.png","https://res.cloudinary.com/dgheyg3iv/image/upload/v1756760198/File11_p5uety.png","https://res.cloudinary.com/dgheyg3iv/image/upload/v1756760199/File13_gkbiv1.png"],
+        image: ["https://res.cloudinary.com/dgheyg3iv/image/upload/v1756760199/File12_wa4uol.png", "https://res.cloudinary.com/dgheyg3iv/image/upload/v1756760198/File11_p5uety.png", "https://res.cloudinary.com/dgheyg3iv/image/upload/v1756760199/File13_gkbiv1.png"],
         demoUrl: "https://krishnaacademy.in",
         repoUrl: "https://github.com/Harshksaw/LMS-App"
     },
@@ -51,7 +67,7 @@ export const projects: Project[] = [
             "Industrial KPI & incident management with multi-role RBAC",
         ],
         techStack: ["Next.js", "FastAPI", "MongoDB", "Redis"],
-        image: ["https://res.cloudinary.com/dgheyg3iv/image/upload/v1756762378/Screenshot_2025-09-01_at_2.31.13_PM_degmoj.png","https://res.cloudinary.com/dgheyg3iv/image/upload/v1756762379/Screenshot_2025-09-01_at_2.32.41_PM_iiqlvi.png","https://res.cloudinary.com/dgheyg3iv/image/upload/v1756762379/Screenshot_2025-09-01_at_2.31.23_PM_djcjap.png"]
+        image: ["https://res.cloudinary.com/dgheyg3iv/image/upload/v1756762378/Screenshot_2025-09-01_at_2.31.13_PM_degmoj.png", "https://res.cloudinary.com/dgheyg3iv/image/upload/v1756762379/Screenshot_2025-09-01_at_2.32.41_PM_iiqlvi.png", "https://res.cloudinary.com/dgheyg3iv/image/upload/v1756762379/Screenshot_2025-09-01_at_2.31.23_PM_djcjap.png"]
     },
     {
         title: "AI Interview Platform with Autogen",
