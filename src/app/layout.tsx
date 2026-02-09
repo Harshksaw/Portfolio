@@ -4,6 +4,7 @@ import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { SmoothCursor } from '../components/shared/smooth-cursor'
 import SmoothScroller from '../components/shared/smooth-scroller'
+import AmbientBackground from '../components/shared/ambient-background'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -36,6 +37,7 @@ export default function RootLayout({
       <body className="antialiased cursor-none bg-primary-darkest">
         <StrictMode>
           <SmoothScroller>
+            <AmbientBackground />
             <SmoothCursor />
             {children}
             <Analytics />
