@@ -55,8 +55,8 @@ export default function Desktop3DMockup({ images, title, className = "" }: Deskt
                 <div className="relative" style={{ transformStyle: "preserve-3d" }}>
                     {/* Laptop Screen - Mobile responsive */}
                     <div
-                        className="w-full min-w-[320px] sm:min-w-[400px] md:min-w-[450px] lg:min-w-[450px]
-                         max-w-[500px] sm:max-w-[600px] lg:max-w-[750px] aspect-[3/2]
+                        className="w-full min-w-[380px] sm:min-w-[500px] md:min-w-[600px] lg:min-w-[700px]
+                         max-w-[600px] sm:max-w-[750px] lg:max-w-[950px] aspect-[16/10]
                          bg-gradient-to-br from-primary-darker via-primary-dark to-primary-darkest
                          rounded-t-lg overflow-hidden shadow-[0_25px_70px_rgba(0,0,0,0.85)] mx-auto relative border-2 border-primary-violet/40"
                         style={{

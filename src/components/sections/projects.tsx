@@ -116,7 +116,7 @@ export default function Projects() {
 
     return (
         <>
-            <div className="h-[750px] md:flex relative mt-16 md:mt-24 hidden">
+            <div className="h-[850px] md:flex relative mt-16 md:mt-24 hidden">
                 {/* Card container */}
                 <div className="h-full w-full relative">
                     <AnimatePresence mode="wait">
