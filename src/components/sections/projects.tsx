@@ -8,6 +8,27 @@ import Desktop3DMockup from "../shared/Desktop3DMockup";
 
 import { projects, Project, ProjectCategory } from "@/data/projects";
 
+import { FaReact, FaNodeJs, FaDocker, FaAws, FaStripe, FaBrain } from "react-icons/fa";
+import { SiFastapi, SiKubernetes, SiRedis, SiMongodb, SiNextdotjs, SiGoogle } from "react-icons/si";
+
+const getTechBadgeConfig = (tech: string) => {
+    const t = tech.toLowerCase();
+    if (t.includes('react')) return { Icon: FaReact, color: 'text-[#61DAFB]', bg: 'bg-[#61DAFB]/10', border: 'border-[#61DAFB]/20' };
+    if (t.includes('next')) return { Icon: SiNextdotjs, color: 'text-white', bg: 'bg-white/10', border: 'border-white/20' };
+    if (t.includes('node') || t.includes('express')) return { Icon: FaNodeJs, color: 'text-[#339933]', bg: 'bg-[#339933]/10', border: 'border-[#339933]/20' };
+    if (t.includes('docker')) return { Icon: FaDocker, color: 'text-[#2496ED]', bg: 'bg-[#2496ED]/10', border: 'border-[#2496ED]/20' };
+    if (t.includes('aws')) return { Icon: FaAws, color: 'text-[#FF9900]', bg: 'bg-[#FF9900]/10', border: 'border-[#FF9900]/20' };
+    if (t.includes('stripe')) return { Icon: FaStripe, color: 'text-[#008CDD]', bg: 'bg-[#008CDD]/10', border: 'border-[#008CDD]/20' };
+    if (t.includes('fastapi')) return { Icon: SiFastapi, color: 'text-[#009688]', bg: 'bg-[#009688]/10', border: 'border-[#009688]/20' };
+    if (t.includes('kubernetes')) return { Icon: SiKubernetes, color: 'text-[#326CE5]', bg: 'bg-[#326CE5]/10', border: 'border-[#326CE5]/20' };
+    if (t.includes('redis')) return { Icon: SiRedis, color: 'text-[#DC382D]', bg: 'bg-[#DC382D]/10', border: 'border-[#DC382D]/20' };
+    if (t.includes('mongo')) return { Icon: SiMongodb, color: 'text-[#47A248]', bg: 'bg-[#47A248]/10', border: 'border-[#47A248]/20' };
+    if (t.includes('gemini') || t.includes('google')) return { Icon: SiGoogle, color: 'text-[#4285F4]', bg: 'bg-[#4285F4]/10', border: 'border-[#4285F4]/20' };
+    if (t.includes('langchain') || t.includes('faiss') || t.includes('groq')) return { Icon: FaBrain, color: 'text-[#8B5CF6]', bg: 'bg-[#8B5CF6]/10', border: 'border-[#8B5CF6]/20' };
+
+    return { Icon: null, color: 'text-neutral-300', bg: 'bg-white/5', border: 'border-white/10' };
+};
+
 const isMobileProject = (category: string) => {
     return category === 'Mobile';
 };
@@ -107,8 +128,8 @@ export default function Projects() {
                                 key={cat}
                                 onClick={() => handleCategoryChange(cat)}
                                 className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 backdrop-blur-md relative ${activeCategory === cat
-                                        ? "text-white shadow-[0_0_20px_rgba(139,92,246,0.3)]"
-                                        : "text-neutral-400 hover:text-white bg-white/5 hover:bg-white/10"
+                                    ? "text-white shadow-[0_0_20px_rgba(139,92,246,0.3)]"
+                                    : "text-neutral-400 hover:text-white bg-white/5 hover:bg-white/10"
                                     }`}
                             >
                                 {activeCategory === cat && (
@@ -135,8 +156,8 @@ export default function Projects() {
                                         key={proj.shortTitle}
                                         onClick={() => setActiveProjectIndex(idx)}
                                         className={`px-4 py-2 rounded-xl text-sm font-medium transition-colors duration-300 ${activeProjectIndex === idx
-                                                ? "bg-white/10 text-white border border-white/20"
-                                                : "text-neutral-500 hover:text-neutral-300 border border-transparent"
+                                            ? "bg-white/10 text-white border border-white/20"
+                                            : "text-neutral-500 hover:text-neutral-300 border border-transparent"
                                             }`}
                                     >
                                         {proj.shortTitle}
@@ -222,16 +243,20 @@ export default function Projects() {
                                         initial={{ opacity: 0, y: 20 }}
                                         animate={{ opacity: 1, y: 0 }}
                                         transition={{ delay: 0.5 }}
-                                        className="flex flex-wrap gap-2 mt-4"
+                                        className="flex flex-wrap gap-2.5 mt-4"
                                     >
-                                        {activeProject.techStack.map((tech) => (
-                                            <span
-                                                key={tech}
-                                                className="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-xs font-medium text-neutral-400"
-                                            >
-                                                {tech}
-                                            </span>
-                                        ))}
+                                        {activeProject.techStack.map((tech) => {
+                                            const { Icon, color, bg, border } = getTechBadgeConfig(tech);
+                                            return (
+                                                <span
+                                                    key={tech}
+                                                    className={`flex items-center gap-1.5 px-3 py-1.5 ${bg} border ${border} rounded-lg text-[13px] font-medium ${color} transition-all hover:-translate-y-0.5`}
+                                                >
+                                                    {Icon && <Icon className="w-3.5 h-3.5" />}
+                                                    {tech}
+                                                </span>
+                                            );
+                                        })}
                                     </motion.div>
 
                                     {/* Action Links */}
