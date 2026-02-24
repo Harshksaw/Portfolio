@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 
 export default function WelcomeScreen({ onComplete }: { onComplete: () => void }) {
     useEffect(() => {
+        // Kept the same timeout logic to transition away after 2.8s
         const timer = setTimeout(() => {
             onComplete()
         }, 2800)
@@ -20,128 +21,88 @@ export default function WelcomeScreen({ onComplete }: { onComplete: () => void }
                 transition: { duration: 0.8, ease: "easeInOut" }
             }}
         >
-            <div className="relative flex items-center justify-center">
-                {/* Animated Half-Human / Half-Robot SVG */}
-                <motion.svg
-                    className="absolute w-[200px] h-[200px] md:w-[250px] md:h-[250px]"
-                    viewBox="0 0 100 100"
-                    initial="hidden"
-                    animate="visible"
-                >
-                    <defs>
-                        <linearGradient id="humanGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                            <stop offset="0%" stopColor="#8c64ff" /> {/* violet-light */}
-                            <stop offset="100%" stopColor="#dd4aff" /> {/* primary-violet */}
-                        </linearGradient>
-                        <linearGradient id="robotGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                            <stop offset="0%" stopColor="#64dcff" /> {/* primary-light */}
-                            <stop offset="100%" stopColor="#1271ff" /> {/* primary-main */}
-                        </linearGradient>
-                        <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-                            <feGaussianBlur stdDeviation="2" result="blur" />
-                            <feComposite in="SourceGraphic" in2="blur" operator="over" />
-                        </filter>
-                    </defs>
-
-                    {/* Left Side: Human Face Profile */}
-                    <motion.path
-                        d="M 50 10 C 35 10 25 20 25 35 C 25 45 30 50 30 55 C 30 65 20 75 25 85 C 30 90 40 90 50 90"
-                        stroke="url(#humanGradient)"
-                        strokeWidth="2"
-                        fill="transparent"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        filter="url(#glow)"
-                        variants={{
-                            hidden: { pathLength: 0, opacity: 0 },
-                            visible: {
-                                pathLength: 1,
-                                opacity: 1,
-                                transition: { duration: 2, ease: "easeInOut" }
-                            }
-                        }}
-                    />
-                    {/* Human Eye Details */}
-                    <motion.path
-                        d="M 35 45 Q 40 42 45 45"
-                        stroke="url(#humanGradient)"
-                        strokeWidth="1.5"
-                        fill="transparent"
-                        strokeLinecap="round"
-                        variants={{
-                            hidden: { pathLength: 0, opacity: 0 },
-                            visible: {
-                                pathLength: 1,
-                                opacity: 1,
-                                transition: { duration: 1, delay: 1, ease: "easeOut" }
-                            }
-                        }}
-                    />
-
-                    {/* Right Side: Robot/Cybernetic Face Profile */}
-                    <motion.path
-                        d="M 50 10 L 65 15 L 75 30 L 70 50 L 75 65 L 60 85 L 50 90"
-                        stroke="url(#robotGradient)"
-                        strokeWidth="2"
-                        fill="transparent"
-                        strokeLinecap="square"
-                        strokeLinejoin="miter"
-                        filter="url(#glow)"
-                        variants={{
-                            hidden: { pathLength: 0, opacity: 0 },
-                            visible: {
-                                pathLength: 1,
-                                opacity: 1,
-                                transition: { duration: 2, ease: "easeInOut" }
-                            }
-                        }}
-                    />
-                    {/* Robot Eye Details (Geometric) */}
-                    <motion.rect
-                        x="55" y="42" width="8" height="6"
-                        stroke="url(#robotGradient)"
-                        strokeWidth="1.5"
-                        fill="transparent"
-                        variants={{
-                            hidden: { scale: 0, opacity: 0 },
-                            visible: {
-                                scale: 1,
-                                opacity: 1,
-                                transition: { duration: 0.5, delay: 1.5, ease: "backOut" }
-                            }
-                        }}
-                        style={{ originX: "59px", originY: "45px" }}
-                    />
-
-                    {/* Center connecting nodes */}
-                    <motion.circle cx="50" cy="10" r="2" fill="#fff"
-                        variants={{ hidden: { opacity: 0 }, visible: { opacity: 1, transition: { delay: 2 } } }} />
-                    <motion.circle cx="50" cy="90" r="2" fill="#fff"
-                        variants={{ hidden: { opacity: 0 }, visible: { opacity: 1, transition: { delay: 2 } } }} />
-                    <motion.line x1="50" y1="10" x2="50" y2="90"
-                        stroke="rgba(255,255,255,0.2)" strokeWidth="0.5" strokeDasharray="2 4"
-                        variants={{
-                            hidden: { pathLength: 0, opacity: 0 },
-                            visible: { pathLength: 1, opacity: 1, transition: { duration: 1.5, delay: 0.5 } }
-                        }}
-                    />
-                </motion.svg>
-
-                {/* Centered Text */}
+            <div className="relative flex items-center justify-center w-full px-4">
                 <motion.div
-                    className="text-transparent bg-clip-text bg-gradient-to-r from-white via-primary-light to-white text-xl md:text-2xl font-light tracking-[0.3em] pl-[0.3em] drop-shadow-[0_0_15px_rgba(100,220,255,0.3)] flex items-center justify-center whitespace-nowrap"
-                    initial="hidden"
-                    animate="visible"
-                    variants={{
-                        hidden: { opacity: 0, scale: 0.9 },
-                        visible: {
-                            opacity: 1,
-                            scale: 1,
-                            transition: { duration: 1.5, ease: "easeOut", delay: 0.2 }
-                        }
-                    }}
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 1.5, ease: "easeOut" }}
+                    className="w-full max-w-3xl mx-auto"
                 >
-                    WELCOME
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 800 600"
+                        className="w-full h-auto drop-shadow-2xl"
+                        fill="none"
+                    >
+                        {/* Gradients and Definitions */}
+                        <defs>
+                            <linearGradient id="aiBackgroundGlow" x1="0" y1="0" x2="800" y2="600" gradientUnits="userSpaceOnUse">
+                                <stop stopColor="#4F46E5" stopOpacity="0.15" />
+                                <stop offset="1" stopColor="#9333EA" stopOpacity="0.02" />
+                            </linearGradient>
+                            <linearGradient id="screenLight" x1="400" y1="380" x2="400" y2="480" gradientUnits="userSpaceOnUse">
+                                <stop stopColor="#06B6D4" stopOpacity="0.9" />
+                                <stop offset="1" stopColor="#3B82F6" stopOpacity="0.1" />
+                            </linearGradient>
+                        </defs>
+
+                        {/* Ambient AI Background Glow */}
+                        <circle cx="400" cy="300" r="350" fill="url(#aiBackgroundGlow)" />
+
+                        {/* AI Neural Network Connections */}
+                        <g stroke="#8B5CF6" strokeWidth="2" strokeOpacity="0.5" strokeDasharray="4 4">
+                            <path d="M 400 350 L 250 200 L 150 250" />
+                            <path d="M 400 350 L 550 180 L 680 220" />
+                            <path d="M 250 200 L 300 100 L 450 80 L 550 180" />
+                            <path d="M 150 250 L 100 150 L 300 100" />
+                        </g>
+
+                        {/* Network Nodes */}
+                        <g fill="#A78BFA">
+                            <circle cx="250" cy="200" r="6" />
+                            <circle cx="150" cy="250" r="4" />
+                            <circle cx="550" cy="180" r="8" />
+                            <circle cx="680" cy="220" r="5" />
+                            <circle cx="300" cy="100" r="5" />
+                            <circle cx="450" cy="80" r="7" />
+                            <circle cx="100" cy="150" r="5" />
+                        </g>
+
+                        {/* Floating Elements: Learning & Code */}
+                        <g fill="#10B981" fontFamily="monospace" fontSize="28" fontWeight="bold">
+                            <text x="160" y="160">&lt;/&gt;</text>
+                            <text x="580" y="130">&#123; &#125;</text>
+                        </g>
+
+                        {/* Floating Element: Experience (Gear) */}
+                        <g stroke="#F59E0B" strokeWidth="4" fill="none" transform="translate(640, 320) scale(0.7)">
+                            <circle cx="0" cy="0" r="20" />
+                            <path d="M 0 -20 L 0 -28 M 0 20 L 0 28 M -20 0 L -28 0 M 20 0 L 28 0" strokeLinecap="round" />
+                            <path d="M -14 -14 L -20 -20 M 14 14 L 20 20 M -14 14 L -20 20 M 14 -14 L 20 -20" strokeLinecap="round" />
+                        </g>
+
+                        {/* Environment - Desk */}
+                        <path d="M 120 480 L 680 480 L 750 600 L 50 600 Z" fill="#1E293B" />
+
+                        {/* Person silhouette */}
+                        <path d="M 400 370 C 320 370 290 480 290 480 L 510 480 C 510 480 480 370 400 370 Z" fill="#334155" />
+                        <circle cx="400" cy="310" r="45" fill="#475569" />
+
+                        {/* Hardware - Laptop Base */}
+                        <path d="M 310 480 L 490 480 L 520 510 L 280 510 Z" fill="#94A3B8" />
+
+                        {/* Hardware - Laptop Screen Frame */}
+                        <rect x="320" y="390" width="160" height="95" rx="6" fill="#0F172A" stroke="#64748B" strokeWidth="4" />
+
+                        {/* Glowing Screen Content */}
+                        <rect x="322" y="392" width="156" height="91" rx="4" fill="url(#screenLight)" />
+
+                        {/* Code lines on screen */}
+                        <line x1="340" y1="415" x2="420" y2="415" stroke="#22D3EE" strokeWidth="3" strokeLinecap="round" />
+                        <line x1="340" y1="435" x2="450" y2="435" stroke="#22D3EE" strokeWidth="3" strokeLinecap="round" />
+                        <line x1="340" y1="455" x2="390" y2="455" stroke="#22D3EE" strokeWidth="3" strokeLinecap="round" />
+
+                    </svg>
                 </motion.div>
             </div>
         </motion.div>
