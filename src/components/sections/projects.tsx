@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useMemo } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, Variants } from "framer-motion";
 
 import Mobile3DMockup from "../shared/Mobile3DMockup";
 import Desktop3DMockup from "../shared/Desktop3DMockup";
@@ -64,7 +64,7 @@ const BackgroundBeams = () => (
     </div>
 );
 
-const cardVariants = {
+const cardVariants: Variants = {
     hidden: { opacity: 0, scale: 0.95, y: 20 },
     visible: {
         opacity: 1,
@@ -84,7 +84,7 @@ const cardVariants = {
     },
 };
 
-const buttonVariants = {
+const buttonVariants: Variants = {
     hover: { scale: 1.05, y: -2 },
     tap: { scale: 0.95 }
 };
