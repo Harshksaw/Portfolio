@@ -1,8 +1,10 @@
+export type ProjectCategory = 'AI' | 'Web' | 'Mobile' | 'Subjects';
 
 export interface Project {
     title: string;
     shortTitle: string;
     type: string;
+    category: ProjectCategory;
     description: string[];
     techStack: string[];
     image: string[];
@@ -15,6 +17,7 @@ export const projects: Project[] = [
         title: "Document Intelligence Platform",
         shortTitle: "AI Doc Ent",
         type: "production",
+        category: "AI",
         description: [
             "Architected a multi-tenant RAG platform with session-isolated FAISS indices for semantic search across PDF, DOCX, and TXT.",
             "Engineered fault-tolerant LLM orchestration using LangChain with automatic failover between Groq and Google Gemini.",
@@ -31,6 +34,7 @@ export const projects: Project[] = [
         title: "Full-Stack Room Booking System",
         shortTitle: "StudyEkaant",
         type: "production",
+        category: "Mobile",
         description: [
             "Microservices architecture with autoscaling and load balancing.",
             "Supports 200+ concurrent users; ~95% uptime.",
@@ -45,12 +49,13 @@ export const projects: Project[] = [
         title: "Learning Management System",
         shortTitle: "Krishna Academy LMS",
         type: "production",
+        category: "Mobile",
         description: [
             "Used by 3 institutions; 1500+ concurrent students.",
             "Low-latency streaming via AWS + FFmpeg; latency ↓ ~40%.",
             "Anti-piracy: screenshot/record blocking, device-bound login, suspicious-activity alerts."
         ],
-        techStack: ["React", "Node/Express", "MongoDB", "AWS"],
+        techStack: ["React Native", "Node/Express", "MongoDB", "AWS"],
         image: ["https://res.cloudinary.com/dgheyg3iv/image/upload/v1756760199/File12_wa4uol.png", "https://res.cloudinary.com/dgheyg3iv/image/upload/v1756760198/File11_p5uety.png", "https://res.cloudinary.com/dgheyg3iv/image/upload/v1756760199/File13_gkbiv1.png"],
         demoUrl: "https://krishnaacademy.in",
         repoUrl: "https://github.com/Harshksaw/LMS-App"
@@ -59,12 +64,13 @@ export const projects: Project[] = [
         title: "MySmartFactory.ai",
         shortTitle: "AI Safety Detection",
         type: "production",
+        category: "AI",
         description: [
             "End-to-end system with FastAPI backend and Next.js frontend, integrated with three containers running machine learning models",
             "AI-centric site with multi-persona chat and RAG experiments (self-hosted LLM via Ollama).",
             "(YOLO and CV) for safety failure detection using live CCTV cameras.",
             "Real-time alerts via WhatsApp, email, browser, and push notifications.",
-            "Industrial KPI & incident management with multi-role RBAC",
+            "Industrial KPI & incident management with multi-role RBAC"
         ],
         techStack: ["Next.js", "FastAPI", "MongoDB", "Redis"],
         image: ["https://res.cloudinary.com/dgheyg3iv/image/upload/v1756762378/Screenshot_2025-09-01_at_2.31.13_PM_degmoj.png", "https://res.cloudinary.com/dgheyg3iv/image/upload/v1756762379/Screenshot_2025-09-01_at_2.32.41_PM_iiqlvi.png", "https://res.cloudinary.com/dgheyg3iv/image/upload/v1756762379/Screenshot_2025-09-01_at_2.31.23_PM_djcjap.png"]
@@ -73,6 +79,7 @@ export const projects: Project[] = [
         title: "Bwisher E-commerce Platform",
         shortTitle: "Bwisher",
         type: "production",
+        category: "Web",
         description: [
             "Full-featured e-commerce platform for fashion and lifestyle products.",
             "Multi-vendor support, product catalog, cart, checkout, and order tracking.",
@@ -86,4 +93,3 @@ export const projects: Project[] = [
         repoUrl: "https://github.com/Harshksaw/bwisher-ecommerce"
     }
 ];
-
