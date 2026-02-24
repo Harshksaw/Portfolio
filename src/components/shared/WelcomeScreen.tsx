@@ -13,7 +13,7 @@ export default function WelcomeScreen({ onComplete }: { onComplete: () => void }
 
     return (
         <motion.div
-            className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#0a0a0f]"
+            className="fixed inset-0 z-[9999] flex items-center justify-center bg-primary-darkest"
             initial={{ opacity: 1 }}
             exit={{
                 opacity: 0,
@@ -49,15 +49,15 @@ export default function WelcomeScreen({ onComplete }: { onComplete: () => void }
                     />
                     <defs>
                         <linearGradient id="circleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stopColor="#8B5CF6" />
-                            <stop offset="100%" stopColor="#3B82F6" />
+                            <stop offset="0%" stopColor="#dd4aff" />
+                            <stop offset="100%" stopColor="#1271ff" />
                         </linearGradient>
                     </defs>
                 </motion.svg>
 
                 {/* Staggered Text */}
                 <motion.div
-                    className="text-white text-2xl md:text-3xl font-light tracking-[0.5em] ml-2"
+                    className="text-transparent bg-clip-text bg-gradient-to-r from-white via-primary-light to-white text-2xl md:text-3xl font-light tracking-[0.5em] ml-2 drop-shadow-[0_0_15px_rgba(100,220,255,0.3)]"
                     initial="hidden"
                     animate="visible"
                     variants={{

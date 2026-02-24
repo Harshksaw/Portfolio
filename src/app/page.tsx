@@ -5,10 +5,11 @@ import TechArsenal from "../components/sections/tech-arsenal";
 import Hero from "../components/sections/hero";
 import Cta from "../components/sections/cta";
 import IntroSection from "../components/sections/intro-section";
+import InitialLoader from "../components/shared/InitialLoader";
 
 export default function Home() {
   return (
-    <>
+    <InitialLoader>
       <Navbar />
 
       {/* Hero Section */}
@@ -88,6 +89,6 @@ export default function Home() {
         {/* CTA Section */}
         <Cta />
       </main>
-    </>
+    </InitialLoader>
   )
 }

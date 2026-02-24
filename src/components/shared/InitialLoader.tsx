@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import WelcomeScreen from "./WelcomeScreen";
 
 export default function InitialLoader({ children }: { children: React.ReactNode }) {
@@ -23,20 +23,16 @@ export default function InitialLoader({ children }: { children: React.ReactNode 
 
     return (
         <>
-            <AnimatePresence mode="wait">
-                {isLoading ? (
+            <AnimatePresence>
+                {isLoading && (
                     <WelcomeScreen key="welcome" onComplete={() => setIsLoading(false)} />
-                ) : (
-                    <motion.div
-                        key="content"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ duration: 0.5 }}
-                    >
-                        {children}
-                    </motion.div>
                 )}
             </AnimatePresence>
+            <div
+                className={`transition-opacity duration-1000 ${isLoading ? 'opacity-0' : 'opacity-100'}`}
+            >
+                {children}
+            </div>
         </>
     );
 }
