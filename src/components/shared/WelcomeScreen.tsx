@@ -23,7 +23,7 @@ export default function WelcomeScreen({ onComplete }: { onComplete: () => void }
             <div className="relative flex items-center justify-center">
                 {/* Animated Rings/SVG */}
                 <motion.svg
-                    className="absolute w-[300px] h-[300px] md:w-[400px] md:h-[400px]"
+                    className="absolute w-[200px] h-[200px] md:w-[250px] md:h-[250px]"
                     viewBox="0 0 100 100"
                     initial="hidden"
                     animate="visible"
@@ -31,13 +31,14 @@ export default function WelcomeScreen({ onComplete }: { onComplete: () => void }
                     <motion.circle
                         cx="50"
                         cy="50"
-                        r="40"
+                        r="44"
                         stroke="url(#circleGradient)"
-                        strokeWidth="0.5"
+                        strokeWidth="2"
                         fill="transparent"
-                        strokeDasharray="251.2"
+                        strokeLinecap="round"
+                        strokeDasharray="276.5"
                         variants={{
-                            hidden: { strokeDashoffset: 251.2, rotate: -90, opacity: 0 },
+                            hidden: { strokeDashoffset: 276.5, rotate: -90, opacity: 0 },
                             visible: {
                                 strokeDashoffset: 0,
                                 rotate: 270,
@@ -55,36 +56,21 @@ export default function WelcomeScreen({ onComplete }: { onComplete: () => void }
                     </defs>
                 </motion.svg>
 
-                {/* Staggered Text */}
+                {/* Centered Text */}
                 <motion.div
-                    className="text-transparent bg-clip-text bg-gradient-to-r from-white via-primary-light to-white text-2xl md:text-3xl font-light tracking-[0.5em] ml-2 drop-shadow-[0_0_15px_rgba(100,220,255,0.3)]"
+                    className="text-transparent bg-clip-text bg-gradient-to-r from-white via-primary-light to-white text-xl md:text-2xl font-light tracking-[0.3em] pl-[0.3em] drop-shadow-[0_0_15px_rgba(100,220,255,0.3)] flex items-center justify-center whitespace-nowrap"
                     initial="hidden"
                     animate="visible"
                     variants={{
-                        hidden: { opacity: 0 },
+                        hidden: { opacity: 0, scale: 0.9 },
                         visible: {
                             opacity: 1,
-                            transition: { staggerChildren: 0.15, delayChildren: 0.4 }
+                            scale: 1,
+                            transition: { duration: 1.5, ease: "easeOut", delay: 0.2 }
                         }
                     }}
                 >
-                    {"WELCOME".split('').map((char, index) => (
-                        <motion.span
-                            key={index}
-                            variants={{
-                                hidden: { opacity: 0, y: 10, filter: "blur(5px)" },
-                                visible: {
-                                    opacity: 1,
-                                    y: 0,
-                                    filter: "blur(0px)",
-                                    transition: { duration: 0.8, ease: "easeOut" }
-                                }
-                            }}
-                            style={{ display: "inline-block" }}
-                        >
-                            {char}
-                        </motion.span>
-                    ))}
+                    WELCOME
                 </motion.div>
             </div>
         </motion.div>
