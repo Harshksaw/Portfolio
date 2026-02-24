@@ -34,7 +34,31 @@ export default function WelcomeScreen({ onComplete }: { onComplete: () => void }
                         className="w-full h-auto drop-shadow-2xl"
                         fill="none"
                     >
-                        {/* Gradients and Definitions */}
+                        <style>
+                            {`
+                            @keyframes pulseNetwork {
+                            0%, 100% { stroke-opacity: 0.3; stroke-width: 2px; }
+                            50% { stroke-opacity: 1; stroke-width: 3px; }
+                            }
+                            @keyframes floatUp {
+                            0%, 100% { transform: translateY(0px); }
+                            50% { transform: translateY(-15px); }
+                            }
+                            @keyframes floatDown {
+                            0%, 100% { transform: translateY(0px); }
+                            50% { transform: translateY(10px); }
+                            }
+                            .network-path { animation: pulseNetwork 3s infinite ease-in-out; }
+                            .delay-1 { animation-delay: 1s; }
+                            .delay-2 { animation-delay: 2s; }
+                            
+                            .float-item-1 { animation: floatUp 4s infinite ease-in-out; }
+                            .float-item-2 { animation: floatDown 5s infinite ease-in-out; }
+                            .float-item-3 { animation: floatUp 6s infinite ease-in-out; }
+                        `}
+                        </style>
+
+                        {/* Gradients */}
                         <defs>
                             <linearGradient id="aiBackgroundGlow" x1="0" y1="0" x2="800" y2="600" gradientUnits="userSpaceOnUse">
                                 <stop stopColor="#4F46E5" stopOpacity="0.15" />
@@ -49,12 +73,12 @@ export default function WelcomeScreen({ onComplete }: { onComplete: () => void }
                         {/* Ambient AI Background Glow */}
                         <circle cx="400" cy="300" r="350" fill="url(#aiBackgroundGlow)" />
 
-                        {/* AI Neural Network Connections */}
-                        <g stroke="#8B5CF6" strokeWidth="2" strokeOpacity="0.5" strokeDasharray="4 4">
-                            <path d="M 400 350 L 250 200 L 150 250" />
-                            <path d="M 400 350 L 550 180 L 680 220" />
-                            <path d="M 250 200 L 300 100 L 450 80 L 550 180" />
-                            <path d="M 150 250 L 100 150 L 300 100" />
+                        {/* Animated AI Neural Network Connections */}
+                        <g stroke="#8B5CF6" strokeDasharray="4 4">
+                            <path className="network-path" d="M 400 350 L 250 200 L 150 250" />
+                            <path className="network-path delay-1" d="M 400 350 L 550 180 L 680 220" />
+                            <path className="network-path delay-2" d="M 250 200 L 300 100 L 450 80 L 550 180" />
+                            <path className="network-path" d="M 150 250 L 100 150 L 300 100" />
                         </g>
 
                         {/* Network Nodes */}
@@ -70,15 +94,17 @@ export default function WelcomeScreen({ onComplete }: { onComplete: () => void }
 
                         {/* Floating Elements: Learning & Code */}
                         <g fill="#10B981" fontFamily="monospace" fontSize="28" fontWeight="bold">
-                            <text x="160" y="160">&lt;/&gt;</text>
-                            <text x="580" y="130">&#123; &#125;</text>
+                            <g className="float-item-1"><text x="160" y="160">&lt;/&gt;</text></g>
+                            <g className="float-item-2"><text x="580" y="130">&#123; &#125;</text></g>
                         </g>
 
                         {/* Floating Element: Experience (Gear) */}
-                        <g stroke="#F59E0B" strokeWidth="4" fill="none" transform="translate(640, 320) scale(0.7)">
-                            <circle cx="0" cy="0" r="20" />
-                            <path d="M 0 -20 L 0 -28 M 0 20 L 0 28 M -20 0 L -28 0 M 20 0 L 28 0" strokeLinecap="round" />
-                            <path d="M -14 -14 L -20 -20 M 14 14 L 20 20 M -14 14 L -20 20 M 14 -14 L 20 -20" strokeLinecap="round" />
+                        <g className="float-item-3">
+                            <g stroke="#F59E0B" strokeWidth="4" fill="none" transform="translate(640, 320) scale(0.7)">
+                                <circle cx="0" cy="0" r="20" />
+                                <path d="M 0 -20 L 0 -28 M 0 20 L 0 28 M -20 0 L -28 0 M 20 0 L 28 0" strokeLinecap="round" />
+                                <path d="M -14 -14 L -20 -20 M 14 14 L 20 20 M -14 14 L -20 20 M 14 -14 L 20 -20" strokeLinecap="round" />
+                            </g>
                         </g>
 
                         {/* Environment - Desk */}
