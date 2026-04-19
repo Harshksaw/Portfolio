@@ -2,7 +2,7 @@
 
 Welcome to my personal portfolio! This repository houses the source code for my portfolio website, visualizing my experience, projects, and technical skills using modern web technologies.
 
-**Live Site:** [harshsaw.ca](https://harshsaw.ca)
+**Live Site:** [harshsaw.me](https://harshsaw.me)
 
 ## 🚀 Tech Stack
 

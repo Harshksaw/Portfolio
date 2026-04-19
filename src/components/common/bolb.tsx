@@ -248,8 +248,16 @@ export default function Orb({
     const container = ctnDom.current;
     if (!container) return;
 
-    const renderer = new Renderer({ alpha: true, premultipliedAlpha: false });
+    let renderer: Renderer;
+    try {
+      renderer = new Renderer({ alpha: true, premultipliedAlpha: false });
+    } catch {
+      // WebGL unavailable or blocked — ogl throws when getContext returns null
+      return;
+    }
     const gl = renderer.gl;
+    if (!gl) return;
+
     gl.clearColor(0, 0, 0, 0);
     container.appendChild(gl.canvas);
 

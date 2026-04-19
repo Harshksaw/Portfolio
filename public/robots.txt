@@ -1,9 +1,9 @@
-# Robots.txt for harshsaw.ca
+# Robots.txt for harshsaw.me
 User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://harshsaw.tech/sitemap.xml
+Sitemap: https://harshsaw.me/sitemap.xml
 
 # Crawl-delay
 Crawl-delay: 1

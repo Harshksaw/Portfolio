@@ -15,7 +15,7 @@ const nunito = Nunito({
 })
 
 // SEO Configuration
-const siteUrl = 'https://harshsaw.tech'
+const siteUrl = 'https://harshsaw.me'
 const siteName = 'Harsh Kumar Saw - Portfolio'
 const siteDescription = 'Full-Stack Developer & AI/DevOps Engineer specializing in React, Next.js, Node.js, Python, AWS, Kubernetes, and AI/ML solutions. Building scalable, production-ready applications.'
 const siteKeywords = [
