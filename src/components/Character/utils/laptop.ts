@@ -7,17 +7,15 @@ export async function loadLaptop(scene: THREE.Scene): Promise<THREE.Object3D | n
     const gltf = await loader.loadAsync("/models/laptop.glb");
     const laptop = gltf.scene;
 
-    // Sketchfab models are often in cm (1 unit = 1cm), so 0.01 = 1 metre scale
     laptop.scale.setScalar(0.01);
 
-    // Position: in front of avatar's hands when sitting
-    // Y=0.74 = desk height, Z=-0.3 = in front, adjust as needed
-    laptop.position.set(0, 0.74, -0.3);
+    // Angled slightly to the right, screen tilted open toward camera
+    // Tune live in console: __laptop.position.set(x,y,z) / __laptop.rotation.y = val
+    laptop.position.set(0.1, 0.74, -0.35);
+    laptop.rotation.y = Math.PI + 0.3;  // facing camera + slight angle
+    laptop.rotation.x = 0.05;           // very slight forward tilt
 
-    // Face the laptop screen toward the camera
-    laptop.rotation.y = Math.PI;
-
-    // Visible for tuning — set back to false once position is correct
+    // Visible for tuning — will be hidden on load once position confirmed
     laptop.visible = true;
 
     laptop.traverse((child) => {
