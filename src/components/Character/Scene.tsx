@@ -10,8 +10,6 @@ import {
   handleHeadRotation,
   handleTouchMove,
 } from "./utils/mouseUtils";
-import setAnimations from "./utils/animationUtils";
-import { updateScreenLight } from "./utils/monitor";
 import { setProgress } from "../Loading";
 
 const Scene = () => {
@@ -48,7 +46,6 @@ const Scene = () => {
 
     let headBone: THREE.Object3D | null = null;
     let mixer: THREE.AnimationMixer | null = null;
-    let screenMat: THREE.MeshStandardMaterial | null = null;
 
     const clock = new THREE.Clock();
     const light = setLighting(scene);
@@ -57,27 +54,17 @@ const Scene = () => {
 
     loadCharacter().then((result) => {
       if (cancelled || !result) return;
-      const { gltf, typingClip, monitor } = result;
+      const { gltf, mixer: m } = result;
 
       const character = gltf.scene;
       characterRef.current = character;
       scene.add(character);
 
-      // Head bone for mouse-tracking (Avaturn uses Mixamo naming)
       headBone = character.getObjectByName("Head") || null;
-
-      // Wire up the Typing animation from the FBX
-      if (typingClip) {
-        const anim = setAnimations(character, typingClip);
-        mixer = anim.mixer;
-      }
-
-      screenMat = monitor.screenMat;
+      mixer = m;
 
       progress.loaded().then(() => {
-        setTimeout(() => {
-          light.turnOnLights();
-        }, 500);
+        setTimeout(() => light.turnOnLights(), 500);
       });
 
       window.addEventListener("resize", () =>
@@ -133,12 +120,7 @@ const Scene = () => {
       }
 
       const delta = clock.getDelta();
-      // Advance animation mixer (drives Typing clip each frame)
       if (mixer) mixer.update(delta);
-      // Keep point light in sync with monitor screen glow
-      if (screenMat) updateScreenLight(screenMat, scene.children.find(
-        (c) => c instanceof THREE.PointLight && c.position.x > 0
-      ) as THREE.PointLight);
 
       renderer.render(scene, camera);
     };

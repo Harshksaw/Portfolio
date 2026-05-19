@@ -1,33 +1,20 @@
 import * as THREE from "three";
-import { GLTFLoader, GLTF, FBXLoader } from "three-stdlib";
+import { GLTFLoader, GLTF } from "three-stdlib";
 import { setCharTimeline, setAllTimeline } from "../../utils/GsapScroll";
-import { createMonitor, MonitorRefs } from "./monitor";
 
 const setCharacter = (
   renderer: THREE.WebGLRenderer,
   scene: THREE.Scene,
   camera: THREE.PerspectiveCamera
 ) => {
-  const gltfLoader = new GLTFLoader();
-  const fbxLoader = new FBXLoader();
+  const loader = new GLTFLoader();
 
-  const loadCharacter = (): Promise<{ gltf: GLTF; typingClip: THREE.AnimationClip; monitor: MonitorRefs } | null> => {
+  const loadCharacter = (): Promise<{ gltf: GLTF; mixer: THREE.AnimationMixer } | null> => {
     return new Promise((resolve, reject) => {
-      // Load avatar GLB and Typing FBX in parallel
-      const gltfPromise = new Promise<GLTF>((res, rej) =>
-        gltfLoader.load("/models/avatar.glb", res, undefined, rej)
-      );
-      const fbxPromise = new Promise<THREE.Group>((res, rej) =>
-        fbxLoader.load("/models/Typing.fbx", res, undefined, rej)
-      );
-
-      Promise.all([gltfPromise, fbxPromise])
-        .then(async ([gltf, fbx]) => {
+      loader.load(
+        "/models/portfolio_scene.glb",
+        async (gltf) => {
           const character = gltf.scene;
-
-          // Scale Avaturn model to a comfortable size in the scene
-          character.scale.setScalar(1);
-
           await renderer.compileAsync(character, camera, scene);
 
           character.traverse((child) => {
@@ -38,37 +25,21 @@ const setCharacter = (
             }
           });
 
-          // Build the procedural monitor and add it to the scene
-          const monitor = createMonitor(scene);
-
-          // Set up scroll-driven GSAP timelines, passing monitor refs
-          setCharTimeline(character, camera, monitor);
-          setAllTimeline();
-
-          // Extract the Typing AnimationClip from the FBX
-          // Mixamo exports with the clip in fbx.animations[0]
-          const typingClip = fbx.animations[0];
-          if (!typingClip) {
-            console.warn("No animation found in Typing.fbx");
+          const mixer = new THREE.AnimationMixer(character);
+          if (gltf.animations.length > 0) {
+            const action = mixer.clipAction(gltf.animations[0]);
+            action.setLoop(THREE.LoopRepeat, Infinity);
+            action.play();
           }
 
-          // Dispose FBX group — only the AnimationClip is needed, never add to scene
-          fbx.traverse((child) => {
-            const mesh = child as THREE.Mesh;
-            if (mesh.geometry) mesh.geometry.dispose();
-            if (mesh.material) {
-              const mat = mesh.material;
-              if (Array.isArray(mat)) mat.forEach((m) => m.dispose());
-              else (mat as THREE.Material).dispose();
-            }
-          });
+          setCharTimeline(character, camera);
+          setAllTimeline();
 
-          resolve({ gltf, typingClip, monitor });
-        })
-        .catch((err) => {
-          console.error("Error loading character assets:", err);
-          reject(err);
-        });
+          resolve({ gltf, mixer });
+        },
+        undefined,
+        reject
+      );
     });
   };
 
