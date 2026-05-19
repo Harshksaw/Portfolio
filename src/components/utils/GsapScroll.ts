@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 // ─── WHAT THIS FILE DOES ────────────────────────────────────────────────────
 //
@@ -14,9 +15,15 @@ import gsap from "gsap";
 //  Camera positions are tuned for Avaturn model (head at Y≈1.65, 1 unit = 1m)
 // ────────────────────────────────────────────────────────────────────────────
 
+interface ScrollCallbacks {
+  toTyping: () => void;
+  toWave:   () => void; // reused for "back to idle"
+}
+
 export function setCharTimeline(
   character: THREE.Object3D | null,
-  camera: THREE.PerspectiveCamera
+  camera: THREE.PerspectiveCamera,
+  onScroll?: ScrollCallbacks
 ) {
   // ── Timeline 1: Landing section scroll ──────────────────────────────────
   const tl1 = gsap.timeline({
@@ -28,6 +35,16 @@ export function setCharTimeline(
       invalidateOnRefresh: true,
     },
   });
+
+  // Animation switch: wave on hero, typing once about section enters, wave on scroll back up
+  if (onScroll) {
+    ScrollTrigger.create({
+      trigger: ".about-section",
+      start: "top 85%",
+      onEnter:     () => onScroll.toTyping(),
+      onLeaveBack: () => onScroll.toWave(),
+    });
+  }
 
   // ── Timeline 2: About section ────────────────────────────────────────────
   const tl2 = gsap.timeline({

@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { GLTFLoader, GLTF } from "three-stdlib";
-import { setCharTimeline, setAllTimeline } from "../../utils/GsapScroll";
+
+const MODEL_PATH = "/models/avatar.glb";
 
 const setCharacter = (
   renderer: THREE.WebGLRenderer,
@@ -12,7 +13,7 @@ const setCharacter = (
   const loadCharacter = (): Promise<{ gltf: GLTF; mixer: THREE.AnimationMixer } | null> => {
     return new Promise((resolve, reject) => {
       loader.load(
-        "/models/portfolio_scene.glb",
+        MODEL_PATH,
         async (gltf) => {
           const character = gltf.scene;
           await renderer.compileAsync(character, camera, scene);
@@ -25,20 +26,19 @@ const setCharacter = (
             }
           });
 
+          // Debug: print all bone names to verify skeleton for retargeting
+          character.traverse((obj) => {
+            if ((obj as THREE.Bone).isBone) console.log("BONE:", obj.name);
+          });
+
           const mixer = new THREE.AnimationMixer(character);
-          if (gltf.animations.length > 0) {
-            const action = mixer.clipAction(gltf.animations[0]);
-            action.setLoop(THREE.LoopRepeat, Infinity);
-            action.play();
-          }
-
-          setCharTimeline(character, camera);
-          setAllTimeline();
-
           resolve({ gltf, mixer });
         },
         undefined,
-        reject
+        (error) => {
+          console.error(`Failed to load character model at ${MODEL_PATH}`, error);
+          reject(error);
+        }
       );
     });
   };

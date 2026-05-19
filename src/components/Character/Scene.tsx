@@ -2,6 +2,8 @@ import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import setCharacter from "./utils/character";
 import setLighting from "./utils/lighting";
+import { loadAnimations, startIdle, startTyping, updateMixer } from "./utils/animationManager";
+import { loadLaptop } from "./utils/laptop";
 import { useLoading } from "../../context/LoadingProvider";
 import handleResize from "./utils/resizeUtils";
 import {
@@ -11,12 +13,12 @@ import {
   handleTouchMove,
 } from "./utils/mouseUtils";
 import { setProgress } from "../Loading";
+import { setCharTimeline, setAllTimeline } from "../utils/GsapScroll";
 
 const Scene = () => {
   const canvasDiv = useRef<HTMLDivElement | null>(null);
   const hoverDivRef = useRef<HTMLDivElement>(null);
   const sceneRef = useRef(new THREE.Scene());
-  const characterRef = useRef<THREE.Object3D | null>(null);
   const { setLoading } = useLoading();
 
   useEffect(() => {
@@ -28,7 +30,7 @@ const Scene = () => {
     const aspect = container.width / container.height;
     const scene = sceneRef.current;
 
-    // ── Renderer ────────────────────────────────────────────────────────────
+    // ── Renderer ─────────────────────────────────────────────────────────────
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
     renderer.setSize(container.width, container.height);
     renderer.setPixelRatio(window.devicePixelRatio);
@@ -36,32 +38,44 @@ const Scene = () => {
     renderer.toneMappingExposure = 1;
     canvasDiv.current.appendChild(renderer.domElement);
 
-    // ── Camera ──────────────────────────────────────────────────────────────
-    // FOV 14.5° = telephoto lens — at Z=2.8 this tightly frames the face.
-    // GsapScroll.ts animates Z out to 8.0 + Y down to 0.85 to reveal the desk.
+    // ── Camera ────────────────────────────────────────────────────────────────
+    // FOV 14.5° telephoto — at Z=2.8 tightly frames the face.
+    // GsapScroll animates Z out to 8.0 + Y down to 0.85 to reveal full body + laptop.
     const camera = new THREE.PerspectiveCamera(14.5, aspect, 0.01, 100);
     camera.position.set(0, 1.65, 2.8);
     camera.zoom = 1.1;
     camera.updateProjectionMatrix();
 
     let headBone: THREE.Object3D | null = null;
-    let mixer: THREE.AnimationMixer | null = null;
-
     const clock = new THREE.Clock();
     const light = setLighting(scene);
     const progress = setProgress((value) => setLoading(value));
     const { loadCharacter } = setCharacter(renderer, scene, camera);
 
-    loadCharacter().then((result) => {
+    loadCharacter().then(async (result) => {
       if (cancelled || !result) return;
-      const { gltf, mixer: m } = result;
+      const { gltf } = result;
 
       const character = gltf.scene;
-      characterRef.current = character;
       scene.add(character);
-
       headBone = character.getObjectByName("Head") || null;
-      mixer = m;
+
+      // Load animations + laptop in parallel
+      const [, laptop] = await Promise.all([
+        loadAnimations(character),
+        loadLaptop(scene),
+      ]);
+
+      if (cancelled) return;
+
+      // Idle on load — laptop hidden. On scroll: typing starts + laptop appears.
+      startIdle();
+
+      setCharTimeline(character, camera, {
+        toTyping: () => { startTyping(); if (laptop) laptop.visible = true; },
+        toWave:   () => { startIdle();   if (laptop) laptop.visible = false; },
+      });
+      setAllTimeline();
 
       progress.loaded().then(() => {
         setTimeout(() => light.turnOnLights(), 500);
@@ -72,7 +86,7 @@ const Scene = () => {
       );
     });
 
-    // ── Mouse / touch tracking ───────────────────────────────────────────────
+    // ── Mouse / touch ─────────────────────────────────────────────────────────
     let mouse = { x: 0, y: 0 };
     let interpolation = { x: 0.1, y: 0.2 };
 
@@ -103,7 +117,7 @@ const Scene = () => {
       landingDiv.addEventListener("touchend", onTouchEnd);
     }
 
-    // ── Render loop ──────────────────────────────────────────────────────────
+    // ── Render loop ───────────────────────────────────────────────────────────
     let animFrameId: number;
     const animate = () => {
       animFrameId = requestAnimationFrame(animate);
@@ -119,19 +133,16 @@ const Scene = () => {
         );
       }
 
-      const delta = clock.getDelta();
-      if (mixer) mixer.update(delta);
-
+      updateMixer(clock.getDelta());
       renderer.render(scene, camera);
     };
     animate();
 
-    // ── Cleanup ──────────────────────────────────────────────────────────────
+    // ── Cleanup ───────────────────────────────────────────────────────────────
     return () => {
       cancelled = true;
       clearTimeout(debounce);
       cancelAnimationFrame(animFrameId);
-      mixer?.stopAllAction();
       scene.clear();
       renderer.dispose();
       document.removeEventListener("mousemove", onMouseMove);
