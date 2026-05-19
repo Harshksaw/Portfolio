@@ -8,10 +8,6 @@ const SmoothCursor = dynamic(
   () => import('../shared/smooth-cursor').then(mod => ({ default: mod.SmoothCursor })),
   { ssr: false }
 )
-const SmoothScroller = dynamic(
-  () => import('../shared/smooth-scroller'),
-  { ssr: false }
-)
 const AmbientBackground = dynamic(
   () => import('../shared/ambient-background'),
   { ssr: false }
@@ -23,10 +19,10 @@ interface ClientProvidersProps {
 
 export default function ClientProviders({ children }: ClientProvidersProps) {
   return (
-    <SmoothScroller>
+    <>
       <AmbientBackground />
       <SmoothCursor />
       {children}
-    </SmoothScroller>
+    </>
   )
 }

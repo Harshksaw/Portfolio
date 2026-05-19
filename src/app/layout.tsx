@@ -4,6 +4,7 @@ import { StrictMode } from 'react'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import ClientProviders from '../components/providers/client-providers'
+import { LoadingProvider } from '../components/providers/LoadingProvider'
 import './globals.css'
 
 // Optimized font loading with next/font
@@ -148,11 +149,13 @@ export default function RootLayout({
       </head>
       <body className={`${nunito.className} antialiased cursor-none bg-primary-darkest`}>
         <StrictMode>
-          <ClientProviders>
-            {children}
-            <Analytics />
-            <SpeedInsights />
-          </ClientProviders>
+          <LoadingProvider>
+            <ClientProviders>
+              {children}
+              <Analytics />
+              <SpeedInsights />
+            </ClientProviders>
+          </LoadingProvider>
         </StrictMode>
       </body>
     </html>

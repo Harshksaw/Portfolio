@@ -87,20 +87,20 @@ const WhatIDo = () => {
             <div className="what-corner"></div>
 
             <div className="what-content-in">
-              <h3>AI & AUTOMATION</h3>
-              <h4>Workflow Intelligence for Organizations</h4>
+              <h3>AI & LLM SYSTEMS</h3>
+              <h4>Production-Grade AI Pipelines</h4>
               <p>
-                AI specialist helping organizations automate workflows—internal ops
-                and customer-facing—so teams ship faster with less manual work.
+                I build AI systems that ship — RAG platforms, LLM orchestration,
+                multi-agent workflows, and real-time inference. Not prototypes. Production.
               </p>
               <h5>Skillset & tools</h5>
               <div className="what-content-flex">
-                <div className="what-tags">LLMs &amp; agents</div>
-                <div className="what-tags">Workflow design</div>
-                <div className="what-tags">RAG &amp; retrieval</div>
-                <div className="what-tags">Evals &amp; guardrails</div>
-                <div className="what-tags">Integrations</div>
-                <div className="what-tags">Product strategy</div>
+                <div className="what-tags">LangChain</div>
+                <div className="what-tags">RAG &amp; FAISS</div>
+                <div className="what-tags">LLM Orchestration</div>
+                <div className="what-tags">AutoGen</div>
+                <div className="what-tags">Pinecone / Qdrant</div>
+                <div className="what-tags">FastAPI</div>
               </div>
               <div className="what-arrow"></div>
             </div>
@@ -124,21 +124,20 @@ const WhatIDo = () => {
             </div>
             <div className="what-corner"></div>
             <div className="what-content-in">
-              <h3>BUILD &amp; SCALE</h3>
-              <h4>Shipping AI in Production</h4>
+              <h3>FULL-STACK &amp; DEVOPS</h3>
+              <h4>End-to-End Systems Engineering</h4>
               <p>
-                I build the systems behind it: APIs, data, voice/real-time, and
-                full-stack products—production-ready, not slide decks.
+                From React/React Native frontends to Node.js/Go backends, Kubernetes
+                clusters, and CI/CD pipelines — I own the full stack and deploy it.
               </p>
               <h5>Skillset & tools</h5>
               <div className="what-content-flex">
-                <div className="what-tags">Node.js</div>
-                <div className="what-tags">Python</div>
-                <div className="what-tags">REST &amp; real-time APIs</div>
-                <div className="what-tags">PostgreSQL</div>
-                <div className="what-tags">MongoDB</div>
-                <div className="what-tags">React</div>
-                <div className="what-tags">Cloud &amp; infra</div>
+                <div className="what-tags">Node.js / Go</div>
+                <div className="what-tags">React / React Native</div>
+                <div className="what-tags">AWS &amp; Kubernetes</div>
+                <div className="what-tags">Docker</div>
+                <div className="what-tags">PostgreSQL / Redis</div>
+                <div className="what-tags">GitHub Actions</div>
               </div>
               <div className="what-arrow"></div>
             </div>
