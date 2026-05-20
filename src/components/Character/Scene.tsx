@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import setCharacter from "./utils/character";
 import setLighting from "./utils/lighting";
-import { loadAnimations, startIdle, startTyping, updateMixer } from "./utils/animationManager";
+import { loadAnimations, startIdle, startTyping, startWave, updateMixer } from "./utils/animationManager";
 import { loadLaptop } from "./utils/laptop";
 import { useLoading } from "../../context/LoadingProvider";
 import handleResize from "./utils/resizeUtils";
@@ -73,8 +73,8 @@ const Scene = () => {
 
       setCharTimeline(character, camera, {
         toTyping: () => { startTyping(); if (laptop) laptop.visible = true; },
-        toWave:   () => { startIdle();   if (laptop) laptop.visible = false; },
-      });
+        toWave:   () => { startWave();   if (laptop) laptop.visible = false; },
+      }, laptop);
       setAllTimeline();
 
       progress.loaded().then(() => {

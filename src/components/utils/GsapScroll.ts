@@ -17,13 +17,14 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 interface ScrollCallbacks {
   toTyping: () => void;
-  toWave:   () => void; // reused for "back to idle"
+  toWave:   () => void;
 }
 
 export function setCharTimeline(
   character: THREE.Object3D | null,
   camera: THREE.PerspectiveCamera,
-  onScroll?: ScrollCallbacks
+  onScroll?: ScrollCallbacks,
+  laptop?: THREE.Object3D | null
 ) {
   // ── Timeline 1: Landing section scroll ──────────────────────────────────
   const tl1 = gsap.timeline({
@@ -41,8 +42,8 @@ export function setCharTimeline(
     ScrollTrigger.create({
       trigger: ".about-section",
       start: "top 85%",
-      onEnter:     () => onScroll.toTyping(),
-      onLeaveBack: () => onScroll.toWave(),
+      onEnter:     () => { console.log("🔔 ST: toTyping"); onScroll.toTyping(); },
+      onLeaveBack: () => { console.log("🔔 ST: toWave");   onScroll.toWave(); },
     });
   }
 
@@ -110,6 +111,12 @@ export function setCharTimeline(
           { opacity: 0, scale: 0, y: "-70%", duration: 5, delay: 2 },
           0.3
         );
+
+      // laptop appears when camera finishes zooming out, hides as character slides off
+      if (laptop) {
+        tl2.call(() => { laptop.visible = true; },  [], 0.4);
+        tl3.call(() => { laptop.visible = false; }, [], 0.5);
+      }
 
       // tl3 — character slides off screen as whatIDO comes in
       tl3

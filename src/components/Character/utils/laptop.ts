@@ -15,8 +15,7 @@ export async function loadLaptop(scene: THREE.Scene): Promise<THREE.Object3D | n
     laptop.rotation.y = Math.PI + 0.3;  // facing camera + slight angle
     laptop.rotation.x = 0.05;           // very slight forward tilt
 
-    // Visible for tuning — will be hidden on load once position confirmed
-    laptop.visible = true;
+    laptop.visible = false;
 
     laptop.traverse((child) => {
       if ((child as THREE.Mesh).isMesh) {

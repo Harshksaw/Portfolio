@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { FBXLoader } from "three-stdlib";
 
-type AnimName = "idle" | "typing";
+type AnimName = "idle" | "typing" | "wave";
 
 let mixer: THREE.AnimationMixer | null = null;
 let current: AnimName | null = null;
@@ -29,6 +29,7 @@ export async function loadAnimations(avatar: THREE.Object3D): Promise<void> {
   const files: [AnimName, string][] = [
     ["idle",   "/models/Idle.fbx"],
     ["typing", "/models/Typing.fbx"],
+    ["wave",   "/models/Wave.fbx"],
   ];
 
   await Promise.all(
@@ -38,7 +39,12 @@ export async function loadAnimations(avatar: THREE.Object3D): Promise<void> {
         if (!fbx.animations.length) return;
         const clip = remapClip(fbx.animations[0]);
         const action = mixer!.clipAction(clip);
-        action.setLoop(THREE.LoopRepeat, Infinity);
+        if (name === "wave") {
+          action.setLoop(THREE.LoopOnce, 1);
+          action.clampWhenFinished = true;
+        } else {
+          action.setLoop(THREE.LoopRepeat, Infinity);
+        }
         actions[name] = action;
         console.log(`✅ Animation loaded: ${name}`);
       } catch {
@@ -46,10 +52,23 @@ export async function loadAnimations(avatar: THREE.Object3D): Promise<void> {
       }
     })
   );
+
+  // After wave finishes, return to idle
+  mixer.addEventListener("finished", (e) => {
+    if (e.action === actions["wave"]) {
+      current = null;
+      switchAnimation("idle", 0.4);
+    }
+  });
 }
 
 export function switchAnimation(name: AnimName, fade = 0.5): void {
-  if (!actions[name] || current === name) return;
+  if (!actions[name]) {
+    console.warn(`⚠️ switchAnimation: "${name}" not loaded`);
+    return;
+  }
+  if (current === name) return;
+  console.log(`🎬 ${current ?? "none"} → ${name}`);
   if (current && actions[current]) actions[current].fadeOut(fade);
   actions[name]!.reset().fadeIn(fade).play();
   current = name;
@@ -61,6 +80,10 @@ export function startIdle(): void {
 
 export function startTyping(): void {
   switchAnimation("typing", 0.8);
+}
+
+export function startWave(): void {
+  switchAnimation("wave", 0.3);
 }
 
 export function updateMixer(delta: number): void {
