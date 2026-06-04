@@ -52,6 +52,8 @@ const Scene = () => {
     const progress = setProgress((value) => setLoading(value));
     const { loadCharacter } = setCharacter(renderer, scene, camera);
 
+    let resizeHandler: (() => void) | undefined;
+
     loadCharacter().then(async (result) => {
       if (cancelled || !result) return;
       const { gltf } = result;
@@ -71,19 +73,22 @@ const Scene = () => {
       // Idle on load — laptop hidden. On scroll: typing starts + laptop appears.
       startIdle();
 
-      setCharTimeline(character, camera, {
+      const scrollCallbacks = {
         toTyping: () => { startTyping(); if (laptop) laptop.visible = true; },
         toWave:   () => { startWave();   if (laptop) laptop.visible = false; },
-      }, laptop);
+      };
+
+      setCharTimeline(character, camera, scrollCallbacks, laptop);
       setAllTimeline();
 
       progress.loaded().then(() => {
         setTimeout(() => light.turnOnLights(), 500);
       });
 
-      window.addEventListener("resize", () =>
-        handleResize(renderer, camera, canvasDiv, character)
-      );
+      resizeHandler = () => {
+        handleResize(renderer, camera, canvasDiv, character, scrollCallbacks, laptop);
+      };
+      window.addEventListener("resize", resizeHandler);
     });
 
     // ── Mouse / touch ─────────────────────────────────────────────────────────
@@ -149,6 +154,9 @@ const Scene = () => {
       if (landingDiv) {
         landingDiv.removeEventListener("touchstart", onTouchStart);
         landingDiv.removeEventListener("touchend", onTouchEnd);
+      }
+      if (resizeHandler) {
+        window.removeEventListener("resize", resizeHandler);
       }
       if (canvasDiv.current && renderer.domElement.parentNode === canvasDiv.current) {
         canvasDiv.current.removeChild(renderer.domElement);

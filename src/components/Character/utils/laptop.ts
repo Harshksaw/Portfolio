@@ -9,11 +9,9 @@ export async function loadLaptop(scene: THREE.Scene): Promise<THREE.Object3D | n
 
     laptop.scale.setScalar(0.01);
 
-    // Angled slightly to the right, screen tilted open toward camera
-    // Tune live in console: __laptop.position.set(x,y,z) / __laptop.rotation.y = val
-    laptop.position.set(0.1, 0.74, -0.35);
-    laptop.rotation.y = Math.PI + 0.3;  // facing camera + slight angle
-    laptop.rotation.x = 0.05;           // very slight forward tilt
+    laptop.position.set(0.1, 0.74, 0.4);
+    laptop.rotation.y = Math.PI + 0.3;
+    laptop.rotation.x = 0.05;
 
     laptop.visible = false;
 

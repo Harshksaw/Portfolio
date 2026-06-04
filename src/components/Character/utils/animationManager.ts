@@ -63,14 +63,15 @@ export async function loadAnimations(avatar: THREE.Object3D): Promise<void> {
 }
 
 export function switchAnimation(name: AnimName, fade = 0.5): void {
-  if (!actions[name]) {
+  const nextAction = actions[name];
+  if (!nextAction) {
     console.warn(`⚠️ switchAnimation: "${name}" not loaded`);
     return;
   }
   if (current === name) return;
   console.log(`🎬 ${current ?? "none"} → ${name}`);
-  if (current && actions[current]) actions[current].fadeOut(fade);
-  actions[name]!.reset().fadeIn(fade).play();
+  actions[current ?? "idle"]?.fadeOut(fade);
+  nextAction.reset().fadeIn(fade).play();
   current = name;
 }
 

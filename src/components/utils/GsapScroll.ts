@@ -43,6 +43,7 @@ export function setCharTimeline(
       trigger: ".about-section",
       start: "top 85%",
       onEnter:     () => { console.log("🔔 ST: toTyping"); onScroll.toTyping(); },
+      onEnterBack: () => { console.log("🔔 ST: toTyping"); onScroll.toTyping(); },
       onLeaveBack: () => { console.log("🔔 ST: toWave");   onScroll.toWave(); },
     });
   }
@@ -112,10 +113,26 @@ export function setCharTimeline(
           0.3
         );
 
-      // laptop appears when camera finishes zooming out, hides as character slides off
+      // laptop fades in as camera zooms out, fades out as character slides off
       if (laptop) {
-        tl2.call(() => { laptop.visible = true; },  [], 0.4);
-        tl3.call(() => { laptop.visible = false; }, [], 0.5);
+        const meshes: THREE.Mesh[] = [];
+        laptop.traverse((c) => { if ((c as THREE.Mesh).isMesh) meshes.push(c as THREE.Mesh); });
+        meshes.forEach((m) => {
+          const mat = m.material as THREE.MeshStandardMaterial;
+          if (mat) mat.transparent = true;
+        });
+        laptop.visible = true;
+        tl2.fromTo(
+          meshes.map((m) => (m.material as THREE.MeshStandardMaterial)),
+          { opacity: 0 },
+          { opacity: 1, duration: 1, delay: 4 },
+          0
+        );
+        tl3.to(
+          meshes.map((m) => (m.material as THREE.MeshStandardMaterial)),
+          { opacity: 0, duration: 1 },
+          0
+        );
       }
 
       // tl3 — character slides off screen as whatIDO comes in
