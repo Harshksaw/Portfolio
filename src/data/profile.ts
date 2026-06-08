@@ -3,7 +3,7 @@ export const profile = {
     name: "Harsh Kumar Saw",
     nameChars: "Harsh Kumar Saw".split(""),
     title: {
-        main: "Full-Stack & AI/DevOps Engineer",
+        main: "Software Engineer & AI Engineer",
         sub: "who ships",
         highlight: "production-grade",
         suffix: "systems end-to-end"
