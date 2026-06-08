@@ -100,5 +100,27 @@
     ],
     "demoUrl": "https://bwisher.com",
     "repoUrl": "https://github.com/Harshksaw/bwisher-ecommerce"
+  },
+  {
+    "id": "6",
+    "title": "CodeExpo — Browser-Based Code Sandbox",
+    "shortTitle": "CodeExpo",
+    "type": "production",
+    "category": "Web",
+    "description": [
+      "Self-hosted, browser-based IDE inspired by CodeSandbox and Google Project IDX — each project boots in its own isolated Docker container (Docker-out-of-Docker).",
+      "Monaco Editor with a full xterm.js terminal attached over WebSocket to the per-project sandbox, plus in-browser live preview proxied through the backend.",
+      "File explorer with create/rename/delete operations executed inside the sandbox; resizable panes powered by Allotment.",
+      "Node.js + TypeScript backend split into three services — REST API (50002), terminal WebSocket (50003), preview reverse-proxy (50004) — orchestrated via Dockerode.",
+      "One-command VPS deploy via Docker Compose + Nginx; React 18 + Vite 6 SPA on the front end."
+    ],
+    "techStack": ["React", "Vite", "TypeScript", "Node.js", "Express", "Socket.IO", "Docker", "Monaco Editor", "xterm.js", "Nginx"],
+    "image": [
+      "https://res.cloudinary.com/dgheyg3iv/image/upload/v1780955282/Screenshot_2026-06-08_at_2.45.47_PM_htbmow.png",
+      "https://res.cloudinary.com/dgheyg3iv/image/upload/v1780955282/Screenshot_2026-06-08_at_2.45.11_PM_rozjon.png",
+      "https://res.cloudinary.com/dgheyg3iv/image/upload/v1780955282/Screenshot_2026-06-08_at_2.45.37_PM_qy3nmv.png"
+    ],
+    "demoUrl": "https://code.harshsaw.ca",
+    "repoUrl": "https://github.com/Harshksaw/Project-IDX-Codesandbox"
   }
 ]
