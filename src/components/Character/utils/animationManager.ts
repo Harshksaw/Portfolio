@@ -70,7 +70,7 @@ export function switchAnimation(name: AnimName, fade = 0.5): void {
   }
   if (current === name) return;
   console.log(`🎬 ${current ?? "none"} → ${name}`);
-  actions[current ?? "idle"]?.fadeOut(fade);
+  if (current && actions[current]) actions[current].fadeOut(fade);
   nextAction.reset().fadeIn(fade).play();
   current = name;
 }
@@ -84,7 +84,7 @@ export function startTyping(): void {
 }
 
 export function startWave(): void {
-  switchAnimation("wave", 0.3);
+  switchAnimation("wave", 0.5);
 }
 
 export function updateMixer(delta: number): void {

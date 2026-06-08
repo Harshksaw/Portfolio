@@ -30,6 +30,13 @@ Thumbs.db
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+console-*.log
+
+# Playwright MCP artifacts
+.playwright-mcp/
+
+# Local debug screenshots (root only — don't match assets in public/)
+/portfolio-*.png
 
 # Next.js leftovers
 .next/

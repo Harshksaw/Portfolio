@@ -77,7 +77,7 @@ export function setCharTimeline(
       // tl1 — character rotates right, shifts left, landing text fades
       tl1
         .fromTo(character.rotation, { y: 0 }, { y: 0.7, duration: 1 }, 0)
-        .to(camera.position, { z: 2.2 }, 0)
+        .fromTo(camera.position, { z: 2.8 }, { z: 2.2 }, 0)
         .fromTo(".character-model", { x: 0 }, { x: "-25%", duration: 1 }, 0)
         .to(".landing-container", { opacity: 0, duration: 0.4 }, 0)
         .to(".landing-container", { y: "40%", duration: 0.8 }, 0)
@@ -85,8 +85,9 @@ export function setCharTimeline(
 
       // tl2 — zoom WAY out to reveal full body sitting at desk
       tl2
-        .to(
+        .fromTo(
           camera.position,
+          { z: 2.2, y: 1.65 },
           { z: 8.0, y: 0.85, duration: 6, delay: 2, ease: "power3.inOut" },
           0
         )
@@ -98,8 +99,15 @@ export function setCharTimeline(
           { pointerEvents: "none", x: "-12%", delay: 2, duration: 5 },
           0
         )
-        .to(character.rotation, { y: 0.92, x: 0.12, delay: 3, duration: 3 }, 0)
-        .to(neckBone!.rotation, { x: 0.4, delay: 2, duration: 3 }, 0)
+        // fromTo (not .to) so scroll-up always returns to the known start state,
+        // even if scrub captures stale values after async loads / refreshes.
+        .fromTo(
+          character.rotation,
+          { y: 0.7, x: 0 },
+          { y: 0.92, x: 0.12, delay: 3, duration: 3 },
+          0
+        )
+        .fromTo(neckBone!.rotation, { x: 0 }, { x: 0.4, delay: 2, duration: 3 }, 0)
         .fromTo(
           ".what-box-in",
           { display: "none" },
@@ -115,22 +123,30 @@ export function setCharTimeline(
 
       // laptop fades in as camera zooms out, fades out as character slides off
       if (laptop) {
-        const meshes: THREE.Mesh[] = [];
-        laptop.traverse((c) => { if ((c as THREE.Mesh).isMesh) meshes.push(c as THREE.Mesh); });
-        meshes.forEach((m) => {
-          const mat = m.material as THREE.MeshStandardMaterial;
-          if (mat) mat.transparent = true;
+        const materials: THREE.Material[] = [];
+        laptop.traverse((c) => {
+          const mesh = c as THREE.Mesh;
+          if (!mesh.isMesh) return;
+          const mats = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+          mats.forEach((mat) => {
+            if (mat && "opacity" in mat) {
+              mat.transparent = true;
+              mat.opacity = 0;
+              materials.push(mat);
+            }
+          });
         });
         laptop.visible = true;
         tl2.fromTo(
-          meshes.map((m) => (m.material as THREE.MeshStandardMaterial)),
+          materials,
           { opacity: 0 },
-          { opacity: 1, duration: 1, delay: 4 },
+          { opacity: 1, duration: 1, delay: 4, ease: "power2.inOut" },
           0
         );
-        tl3.to(
-          meshes.map((m) => (m.material as THREE.MeshStandardMaterial)),
-          { opacity: 0, duration: 1 },
+        tl3.fromTo(
+          materials,
+          { opacity: 1 },
+          { opacity: 0, duration: 1, ease: "power2.inOut" },
           0
         );
       }
@@ -144,7 +160,7 @@ export function setCharTimeline(
           0
         )
         .fromTo(".whatIDO", { y: 0 }, { y: "15%", duration: 2 }, 0)
-        .to(character.rotation, { x: -0.04, duration: 2, delay: 1 }, 0);
+        .fromTo(character.rotation, { x: 0.12 }, { x: -0.04, duration: 2, delay: 1 }, 0);
     }
   } else {
     // Mobile: just show what-box-in when in view

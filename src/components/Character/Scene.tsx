@@ -70,12 +70,13 @@ const Scene = () => {
 
       if (cancelled) return;
 
-      // Idle on load — laptop hidden. On scroll: typing starts + laptop appears.
+      // Idle on load — hand down, simple. On scroll past about-section: typing.
+      // On scroll back up: wave (set via scrollCallbacks below).
       startIdle();
 
       const scrollCallbacks = {
-        toTyping: () => { startTyping(); if (laptop) laptop.visible = true; },
-        toWave:   () => { startWave();   if (laptop) laptop.visible = false; },
+        toTyping: () => { startTyping(); },
+        toWave:   () => { startWave();   },
       };
 
       setCharTimeline(character, camera, scrollCallbacks, laptop);

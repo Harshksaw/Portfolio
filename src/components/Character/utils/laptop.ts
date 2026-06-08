@@ -4,16 +4,16 @@ import { GLTFLoader } from "three-stdlib";
 export async function loadLaptop(scene: THREE.Scene): Promise<THREE.Object3D | null> {
   const loader = new GLTFLoader();
   try {
-    const gltf = await loader.loadAsync("/models/laptop.glb");
+    const gltf = await loader.loadAsync("/models/macbook.glb");
     const laptop = gltf.scene;
 
     laptop.scale.setScalar(0.01);
 
-    laptop.position.set(0.1, 0.74, 0.4);
+    laptop.position.set(0.4, 0.74, 0.4);
     laptop.rotation.y = Math.PI + 0.3;
     laptop.rotation.x = 0.05;
 
-    laptop.visible = false;
+    laptop.visible = true;
 
     laptop.traverse((child) => {
       if ((child as THREE.Mesh).isMesh) {
@@ -28,7 +28,7 @@ export async function loadLaptop(scene: THREE.Scene): Promise<THREE.Object3D | n
     console.log("✅ Laptop loaded — tune live: window.__laptop.position / scale / rotation");
     return laptop;
   } catch {
-    console.warn("⚠️ laptop.glb not found");
+    console.warn("⚠️ macbook.glb not found");
     return null;
   }
 }
