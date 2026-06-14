@@ -91,11 +91,11 @@ export function setCharTimeline(
           { z: 8.0, y: 0.85, duration: 6, delay: 2, ease: "power3.inOut" },
           0
         )
-        .to(".about-section", { y: "30%", duration: 6 }, 0)
-        .to(".about-section", { opacity: 0, delay: 3, duration: 2 }, 0)
+        .fromTo(".about-section", { y: "0%" }, { y: "30%", duration: 6 }, 0)
+        .fromTo(".about-section", { opacity: 1 }, { opacity: 0, delay: 3, duration: 2 }, 0)
         .fromTo(
           ".character-model",
-          { pointerEvents: "inherit" },
+          { pointerEvents: "inherit", x: "-25%", y: "0%" },
           { pointerEvents: "none", x: "-12%", delay: 2, duration: 5 },
           0
         )
@@ -121,46 +121,52 @@ export function setCharTimeline(
           0.3
         );
 
-      // laptop fades in as camera zooms out, fades out as character slides off
+      // DEBUG: opacity fade temporarily disabled so the laptop is visible
+      // from page load. Re-enable once you've confirmed it renders & tuned
+      // its transform — see the commented block below.
       if (laptop) {
-        const materials: THREE.Material[] = [];
+        laptop.visible = true;
         laptop.traverse((c) => {
           const mesh = c as THREE.Mesh;
           if (!mesh.isMesh) return;
           const mats = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
           mats.forEach((mat) => {
             if (mat && "opacity" in mat) {
-              mat.transparent = true;
-              mat.opacity = 0;
-              materials.push(mat);
+              mat.transparent = false;
+              mat.opacity = 1;
             }
           });
         });
-        laptop.visible = true;
-        tl2.fromTo(
-          materials,
-          { opacity: 0 },
-          { opacity: 1, duration: 1, delay: 4, ease: "power2.inOut" },
-          0
-        );
-        tl3.fromTo(
-          materials,
-          { opacity: 1 },
-          { opacity: 0, duration: 1, ease: "power2.inOut" },
-          0
-        );
+        // To re-enable scroll-gated fade later:
+        //   const materials: THREE.Material[] = []; collect as before
+        //   tl2.fromTo(materials, {opacity:0}, {opacity:1, duration:2, delay:2}, 0)
+        //   tl3.fromTo(materials, {opacity:1}, {opacity:0, duration:1, delay:1.5}, 0)
       }
 
-      // tl3 — character slides off screen as whatIDO comes in
+      // tl3 — character slides off screen as whatIDO comes in.
+      // Slide-off must FINISH before Career section enters the viewport, or
+      // the 3D canvas overlaps onto Career/Work. With tl3 total ≈ 5s,
+      // delay 1.5 + duration 1.5 → done by 60% of whatIDO scroll.
       tl3
         .fromTo(
           ".character-model",
-          { y: "0%" },
-          { y: "-100%", duration: 4, ease: "none", delay: 1 },
+          { y: "0%", x: "-12%" },
+          { y: "-100%", x: "-12%", duration: 1.5, ease: "power2.in", delay: 1.5 },
           0
         )
         .fromTo(".whatIDO", { y: 0 }, { y: "15%", duration: 2 }, 0)
         .fromTo(character.rotation, { x: 0.12 }, { x: -0.04, duration: 2, delay: 1 }, 0);
+
+      // Safety net: regardless of timeline math, hide the 3D canvas entirely
+      // once Career is in view and restore it on scroll back up. Prevents any
+      // residual overlap from scrub drift / refresh races.
+      ScrollTrigger.create({
+        trigger: ".career-section",
+        start: "top 80%",
+        end: "bottom top",
+        onEnter:     () => gsap.set(".character-container", { autoAlpha: 0 }),
+        onLeaveBack: () => gsap.set(".character-container", { autoAlpha: 1 }),
+      });
     }
   } else {
     // Mobile: just show what-box-in when in view

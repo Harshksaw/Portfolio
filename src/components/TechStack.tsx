@@ -10,19 +10,29 @@ import {
   CylinderCollider,
   RapierRigidBody,
 } from "@react-three/rapier";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const textureLoader = new THREE.TextureLoader();
-const imageUrls = [
-  "/images/react2.webp",
-  "/images/next2.webp",
-  "/images/node2.webp",
-  "/images/express.webp",
-  "/images/mongo.webp",
-  "/images/mysql.webp",
-  "/images/typescript.webp",
-  "/images/javascript.webp",
+const TECH_LIST = [
+  { name: "React",      url: "/images/react2.webp" },
+  { name: "Next.js",    url: "/images/next2.webp" },
+  { name: "Node.js",    url: "/images/node2.webp" },
+  { name: "Express",    url: "/images/express.webp" },
+  { name: "MongoDB",    url: "/images/mongo.webp" },
+  { name: "MySQL",      url: "/images/mysql.webp" },
+  { name: "TypeScript", url: "/images/typescript.webp" },
+  { name: "JavaScript", url: "/images/javascript.webp" },
 ];
-const textures = imageUrls.map((url) => textureLoader.load(url));
+// sRGB color space + anisotropy keeps the icon textures crisp on the sphere surface
+const textures = TECH_LIST.map(({ url }) => {
+  const tex = textureLoader.load(url);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  tex.anisotropy = 8;
+  return tex;
+});
 
 const sphereGeometry = new THREE.SphereGeometry(1, 28, 28);
 
@@ -127,29 +137,19 @@ function Pointer({ vec = new THREE.Vector3(), isActive }: PointerProps) {
 const TechStack = () => {
   const [isActive, setIsActive] = useState(false);
 
+  // ScrollTrigger replaces the manual scroll/click listeners — it is resilient
+  // to ScrollSmoother lag and stays correct on resize/refresh.
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollY = window.scrollY || document.documentElement.scrollTop;
-      const threshold = document
-        .getElementById("work")!
-        .getBoundingClientRect().top;
-      setIsActive(scrollY > threshold);
-    };
-    document.querySelectorAll(".header a").forEach((elem) => {
-      const element = elem as HTMLAnchorElement;
-      element.addEventListener("click", () => {
-        const interval = setInterval(() => {
-          handleScroll();
-        }, 10);
-        setTimeout(() => {
-          clearInterval(interval);
-        }, 1000);
-      });
+    const trigger = ScrollTrigger.create({
+      trigger: ".techstack",
+      start: "top 85%",
+      end: "bottom 15%",
+      onEnter:     () => setIsActive(true),
+      onEnterBack: () => setIsActive(true),
+      onLeave:     () => setIsActive(false),
+      onLeaveBack: () => setIsActive(false),
     });
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+    return () => trigger.kill();
   }, []);
   const materials = useMemo(() => {
     return textures.map(
@@ -158,17 +158,23 @@ const TechStack = () => {
           map: texture,
           emissive: "#ffffff",
           emissiveMap: texture,
-          emissiveIntensity: 0.3,
-          metalness: 0.5,
-          roughness: 1,
-          clearcoat: 0.1,
+          emissiveIntensity: 0.55,
+          metalness: 0.15,
+          roughness: 0.45,
+          clearcoat: 0.6,
+          clearcoatRoughness: 0.2,
         })
     );
   }, []);
 
   return (
     <div className="techstack">
-      <h2> My Techstack</h2>
+      <div className="techstack-header">
+        <h2>My Tech Stack</h2>
+        <p className="techstack-subtitle">
+          The tools I build with — drag, throw, and play with them.
+        </p>
+      </div>
 
       <Canvas
         shadows
@@ -207,6 +213,12 @@ const TechStack = () => {
           <N8AO color="#0f002c" aoRadius={2} intensity={1.15} />
         </EffectComposer>
       </Canvas>
+
+      <ul className="techstack-labels">
+        {TECH_LIST.map(({ name }) => (
+          <li key={name}>{name}</li>
+        ))}
+      </ul>
     </div>
   );
 };
