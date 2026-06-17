@@ -78,7 +78,7 @@ export function setCharTimeline(
       tl1
         .fromTo(character.rotation, { y: 0 }, { y: 0.7, duration: 1 }, 0)
         .fromTo(camera.position, { z: 2.8 }, { z: 2.2 }, 0)
-        .fromTo(".character-model", { x: 0 }, { x: "-25%", duration: 1 }, 0)
+        .fromTo(".character-model", { x: 0 }, { x: "-20%", duration: 1 }, 0)
         .to(".landing-container", { opacity: 0, duration: 0.4 }, 0)
         .to(".landing-container", { y: "40%", duration: 0.8 }, 0)
         .fromTo(".about-me", { y: "-50%" }, { y: "0%" }, 0);
@@ -95,8 +95,8 @@ export function setCharTimeline(
         .fromTo(".about-section", { opacity: 1 }, { opacity: 0, delay: 3, duration: 2 }, 0)
         .fromTo(
           ".character-model",
-          { pointerEvents: "inherit", x: "-25%", y: "0%" },
-          { pointerEvents: "none", x: "-12%", delay: 2, duration: 5 },
+          { pointerEvents: "inherit", x: "-20%", y: "0%" },
+          { pointerEvents: "none", x: "-20%", delay: 2, duration: 5 },
           0
         )
         // fromTo (not .to) so scroll-up always returns to the known start state,
@@ -150,8 +150,8 @@ export function setCharTimeline(
       tl3
         .fromTo(
           ".character-model",
-          { y: "0%", x: "-12%" },
-          { y: "-100%", x: "-12%", duration: 1.5, ease: "power2.in", delay: 1.5 },
+          { y: "0%", x: "-20%" },
+          { y: "-100%", x: "-20%", duration: 1.5, ease: "power2.in", delay: 1.5 },
           0
         )
         .fromTo(".whatIDO", { y: 0 }, { y: "15%", duration: 2 }, 0)

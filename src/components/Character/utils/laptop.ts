@@ -54,9 +54,9 @@ export async function loadLaptop(scene: THREE.Scene): Promise<THREE.Object3D | n
     // tune to the lap position with:
     //   __laptop.position.set(0.4, 0.74, 0.4)
     //   __laptop.scale.setScalar(0.01)
-    laptop.scale.setScalar(0.3);
-    laptop.position.set(0.4, 0.7, 1.5);
-    laptop.rotation.set(0, Math.PI, 0);
+    laptop.scale.setScalar(0.85);
+    laptop.position.set(0.45, 0.75, 1.75);
+    laptop.rotation.set(-2, Math.PI - Math.PI / 4, -1); // ~45° right-side 3/4 view (tune live)
     laptop.visible = true;
 
     // Auto-frame: compute the model's bounding box so we know it actually has
@@ -84,7 +84,7 @@ export async function loadLaptop(scene: THREE.Scene): Promise<THREE.Object3D | n
     // PROD-34805_2 by -110° on X opens the screen with the Apple logo facing
     // camera (= person typing view).
     const LID_NODE_NAME = "PROD-34805_2";
-    const LID_OPEN_DEG  = 110;
+    const LID_OPEN_DEG  = 130;
     const lid = laptop.getObjectByName(LID_NODE_NAME);
     if (lid) {
       lid.rotation.x = THREE.MathUtils.degToRad(-LID_OPEN_DEG);
