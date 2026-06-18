@@ -4,6 +4,7 @@ import setCharacter from "./utils/character";
 import setLighting from "./utils/lighting";
 import { loadAnimations, startIdle, startTyping, startWave, updateMixer } from "./utils/animationManager";
 import { loadLaptop } from "./utils/laptop";
+import { loadIntroAvatar } from "./utils/introModel";
 import { useLoading } from "../../context/LoadingProvider";
 import handleResize from "./utils/resizeUtils";
 import {
@@ -14,6 +15,7 @@ import {
 } from "./utils/mouseUtils";
 import { setProgress } from "../Loading";
 import { setCharTimeline, setAllTimeline } from "../utils/GsapScroll";
+import gsap from "gsap";
 
 const Scene = () => {
   const canvasDiv = useRef<HTMLDivElement | null>(null);
@@ -47,12 +49,15 @@ const Scene = () => {
     camera.updateProjectionMatrix();
 
     let headBone: THREE.Object3D | null = null;
+    let introHeadBone: THREE.Object3D | null = null;
+    let introMixer: THREE.AnimationMixer | null = null;
     const clock = new THREE.Clock();
     const light = setLighting(scene);
     const progress = setProgress((value) => setLoading(value));
     const { loadCharacter } = setCharacter(renderer, scene, camera);
 
     let resizeHandler: (() => void) | undefined;
+    let ctx: gsap.Context | undefined;
 
     loadCharacter().then(async (result) => {
       if (cancelled || !result) return;
@@ -62,13 +67,23 @@ const Scene = () => {
       scene.add(character);
       headBone = character.getObjectByName("Head") || null;
 
-      // Load animations + laptop in parallel
-      const [, laptop] = await Promise.all([
+      // Load animations + laptop + intro avatar in parallel
+      const [, laptop, introResult] = await Promise.all([
         loadAnimations(character),
         loadLaptop(scene),
+        loadIntroAvatar(scene),
       ]);
 
       if (cancelled) return;
+
+      // Two-model setup: harshfirst.glb (intro) holds the hero on the landing,
+      // avatar.glb (character) takes over from the about section onward. They
+      // share a spot + skeleton, so GsapScroll just toggles their visibility.
+      const intro = introResult?.intro ?? null;
+      introMixer = introResult?.introMixer ?? null;
+      introHeadBone = introResult?.introHeadBone ?? null;
+      if (intro) intro.visible = true;
+      character.visible = false;
 
       // Idle on load — hand down, simple. On scroll past about-section: typing.
       // On scroll back up: wave (set via scrollCallbacks below).
@@ -79,15 +94,21 @@ const Scene = () => {
         toWave:   () => { startWave();   },
       };
 
-      setCharTimeline(character, camera, scrollCallbacks, laptop);
-      setAllTimeline();
+      // Scope every ScrollTrigger/timeline to a gsap.context so cleanup() can
+      // kill them. Without this, StrictMode's double-mount and Vite HMR remounts
+      // stack duplicate timelines on each reload; the stale ones keep running
+      // their old logic (e.g. the career hide-latch) and the model gets stuck.
+      ctx = gsap.context(() => {
+        setCharTimeline(character, camera, scrollCallbacks, laptop, intro);
+        setAllTimeline();
+      });
 
       progress.loaded().then(() => {
         setTimeout(() => light.turnOnLights(), 500);
       });
 
       resizeHandler = () => {
-        handleResize(renderer, camera, canvasDiv, character, scrollCallbacks, laptop);
+        handleResize(renderer, camera, canvasDiv, character, scrollCallbacks, laptop, intro);
       };
       window.addEventListener("resize", resizeHandler);
     });
@@ -128,6 +149,16 @@ const Scene = () => {
     const animate = () => {
       animFrameId = requestAnimationFrame(animate);
 
+      if (introHeadBone) {
+        handleHeadRotation(
+          introHeadBone,
+          mouse.x,
+          mouse.y,
+          interpolation.x,
+          interpolation.y,
+          THREE.MathUtils.lerp
+        );
+      }
       if (headBone) {
         handleHeadRotation(
           headBone,
@@ -139,7 +170,9 @@ const Scene = () => {
         );
       }
 
-      updateMixer(clock.getDelta());
+      const delta = clock.getDelta();
+      updateMixer(delta);
+      introMixer?.update(delta);
       renderer.render(scene, camera);
     };
     animate();
@@ -147,6 +180,7 @@ const Scene = () => {
     // ── Cleanup ───────────────────────────────────────────────────────────────
     return () => {
       cancelled = true;
+      ctx?.revert(); // kill this mount's ScrollTriggers/timelines (no HMR/StrictMode duplicates)
       clearTimeout(debounce);
       cancelAnimationFrame(animFrameId);
       scene.clear();

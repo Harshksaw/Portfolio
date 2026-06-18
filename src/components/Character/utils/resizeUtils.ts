@@ -13,7 +13,8 @@ export default function handleResize(
   canvasDiv: React.RefObject<HTMLDivElement | null>,
   character: THREE.Object3D,
   onScroll?: ScrollCallbacks,
-  laptop?: THREE.Object3D | null
+  laptop?: THREE.Object3D | null,
+  intro?: THREE.Object3D | null
 ) {
   if (!canvasDiv.current) return;
   const { width, height } = canvasDiv.current.getBoundingClientRect();
@@ -24,6 +25,6 @@ export default function handleResize(
   // Kill all scroll triggers and rebuild (monitor refs are not needed on resize
   // since GSAP already has references to the material objects)
   ScrollTrigger.getAll().forEach((t) => t.kill());
-  setCharTimeline(character, camera, onScroll, laptop);
+  setCharTimeline(character, camera, onScroll, laptop, intro);
   setAllTimeline();
 }

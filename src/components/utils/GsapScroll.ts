@@ -24,7 +24,8 @@ export function setCharTimeline(
   character: THREE.Object3D | null,
   camera: THREE.PerspectiveCamera,
   onScroll?: ScrollCallbacks,
-  laptop?: THREE.Object3D | null
+  laptop?: THREE.Object3D | null,
+  intro?: THREE.Object3D | null
 ) {
   // ── Timeline 1: Landing section scroll ──────────────────────────────────
   const tl1 = gsap.timeline({
@@ -37,16 +38,28 @@ export function setCharTimeline(
     },
   });
 
-  // Animation switch: wave on hero, typing once about section enters, wave on scroll back up
-  if (onScroll) {
-    ScrollTrigger.create({
-      trigger: ".about-section",
-      start: "top 85%",
-      onEnter:     () => { console.log("🔔 ST: toTyping"); onScroll.toTyping(); },
-      onEnterBack: () => { console.log("🔔 ST: toTyping"); onScroll.toTyping(); },
-      onLeaveBack: () => { console.log("🔔 ST: toWave");   onScroll.toWave(); },
-    });
-  }
+  // Hero → body swap + animation switch, both pinned to the about-section edge:
+  //   • landing/hero → intro avatar (harshfirst) visible, holding its flex pose
+  //   • about onward → main avatar (character) visible, typing
+  // Both sit at the same spot with the same skeleton, so toggling visibility is
+  // enough. These are discrete onEnter/back events (no scrub needed).
+  const toBody = () => {
+    onScroll?.toTyping();
+    if (intro) intro.visible = false;
+    if (character) character.visible = true;
+  };
+  const toHero = () => {
+    onScroll?.toWave();
+    if (intro) intro.visible = true;
+    if (character) character.visible = false;
+  };
+  ScrollTrigger.create({
+    trigger: ".about-section",
+    start: "top 85%",
+    onEnter: toBody,
+    onEnterBack: toBody,
+    onLeaveBack: toHero,
+  });
 
   // ── Timeline 2: About section ────────────────────────────────────────────
   const tl2 = gsap.timeline({
@@ -157,15 +170,23 @@ export function setCharTimeline(
         .fromTo(".whatIDO", { y: 0 }, { y: "15%", duration: 2 }, 0)
         .fromTo(character.rotation, { x: 0.12 }, { x: -0.04, duration: 2, delay: 1 }, 0);
 
-      // Safety net: regardless of timeline math, hide the 3D canvas entirely
-      // once Career is in view and restore it on scroll back up. Prevents any
-      // residual overlap from scrub drift / refresh races.
+      // Safety net: hide the 3D canvas from the Career section down to the
+      // bottom of the page, and reliably bring it back on scroll-up.
+      //
+      // We drive visibility from the trigger's OWN active state via onToggle
+      // (single source of truth) instead of a one-shot onEnter/onLeaveBack pair.
+      // The old pair could latch the model permanently hidden: if the
+      // onLeaveBack crossing was missed (ScrollSmoother momentum / a refresh
+      // recreating the trigger), autoAlpha stayed 0 and the model never
+      // returned — even back at the landing. onToggle re-evaluates isActive on
+      // every toggle and on refresh, so it self-corrects. end:"max" keeps it
+      // hidden through Work/TechStack/Contact (active = career-start → bottom).
       ScrollTrigger.create({
         trigger: ".career-section",
         start: "top 80%",
-        end: "bottom top",
-        onEnter:     () => gsap.set(".character-container", { autoAlpha: 0 }),
-        onLeaveBack: () => gsap.set(".character-container", { autoAlpha: 1 }),
+        end: "max",
+        onToggle: (self) =>
+          gsap.set(".character-container", { autoAlpha: self.isActive ? 0 : 1 }),
       });
     }
   } else {
