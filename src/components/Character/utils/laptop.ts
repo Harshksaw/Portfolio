@@ -48,15 +48,8 @@ export async function loadLaptop(scene: THREE.Scene): Promise<THREE.Object3D | n
     const gltf = await loader.loadAsync("/models/macbook.glb");
     const laptop = gltf.scene;
 
-    // ── Transform defaults ────────────────────────────────────────────────
-    // DEBUG-VISIBLE placement: parked right in front of the camera at chest
-    // height so you can confirm the model actually loads. Once you see it,
-    // tune to the lap position with:
-    //   __laptop.position.set(0.4, 0.74, 0.4)
-    //   __laptop.scale.setScalar(0.01)
-    laptop.scale.setScalar(0.85);
-    laptop.position.set(0.45, 0.75, 1.75);
-    laptop.rotation.set(-2, Math.PI - Math.PI / 4, -1); // ~45° right-side 3/4 view (tune live)
+    // Position / rotation / scale are set by the caller (deskModel.ts) so all
+    // desk placement lives in one file. Live tuning: __laptop.position.set(...)
     laptop.visible = true;
 
     // Auto-frame: compute the model's bounding box so we know it actually has

@@ -66,6 +66,9 @@ export interface CameraConfig {
   fov?: number;
   position?: [number, number, number];
   zoom?: number;
+  /** Point the camera at this scene coordinate (e.g. the model's chest). Lets a
+   *  camera placed off to the side still aim at the model for a 3/4 angle. */
+  lookAt?: [number, number, number];
 }
 
 export interface SectionModelProps extends PropsWithChildren {
@@ -125,6 +128,10 @@ const SectionModel = ({
     camera.position.set(px, py, pz);
     camera.zoom = cameraConfig?.zoom ?? 1.1;
     camera.updateProjectionMatrix();
+    if (cameraConfig?.lookAt) {
+      const [lx, ly, lz] = cameraConfig.lookAt;
+      camera.lookAt(lx, ly, lz);
+    }
 
     const lights = setLighting(scene, rimSelector);
     const clock = new THREE.Clock();

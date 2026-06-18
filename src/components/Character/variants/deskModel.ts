@@ -23,8 +23,9 @@ const DESK_Z = 8.0; // wide enough to frame the full body + desk
 
 export const deskCamera: CameraConfig = {
   fov: 14.5,
-  position: [0, 0.85, DESK_Z],
+  position: [-2.5, 1.0, DESK_Z], // camera placed to the LEFT (negative x)
   zoom: 1.0,
+  lookAt: [0, 0.9, 0],           // aim at the avatar's chest so it stays framed
 };
 
 export async function loadDeskModel(
@@ -47,22 +48,37 @@ export async function loadDeskModel(
 
     const headBone = avatar.getObjectByName("Head") || null;
     scene.add(avatar);
+    avatar.position.set(-0.5, 0, 0);    // ← position: x (left/right), y (up/down), z (forward/back)
+    avatar.rotation.set(0.2, 0.4 ,  0); // ← turn: y turns the body left/right (radians; flip sign to turn the other way)
 
     // Retargeted FBX clips (Idle / Typing) onto the avatar skeleton.
     await loadAnimations(avatar);
     startIdle();
 
     // Desk laptop — loadLaptop adds it to the scene and exposes __laptop* helpers.
-    await loadLaptop(scene);
+    const laptop = await loadLaptop(scene);
+    if (laptop) {
+      laptop.position.set(-0.5, 0.65, 1.75);              // ← laptop position: x (left/right), y (up/down), z (forward/back)
+      laptop.rotation.set(-2, Math.PI - Math.PI / 4, -0.6); // ← laptop rotation (radians)
+      laptop.scale.setScalar(0.9);                       // ← laptop size
+    }
 
     const w = window as unknown as Record<string, unknown>;
     w.__deskCam = camera;
     w.__avatar = avatar;
 
+    // Camera aim point, re-applied every frame so the scroll dolly never knocks
+    // the angle off. Tune live: __deskLook.set(x, y, z)
+    const lookTarget = new THREE.Vector3(...(deskCamera.lookAt ?? [0, 0.9, 0]));
+    w.__deskLook = lookTarget;
+
     return {
       object: avatar,
       headBone,
-      onFrame: updateMixer, // animationManager owns the mixer
+      onFrame: (delta: number) => {
+        updateMixer(delta);        // advance idle/typing animation
+        camera.lookAt(lookTarget); // keep the camera aimed at the avatar
+      },
       onReady: (h: SectionHandles) => {
         h.lights.turnOnLights();
       },
