@@ -51,6 +51,42 @@
   margin: 0;
 }
 
+.career-typed {
+  position: relative;
+}
+
+/* Reserves the final height so the timeline doesn't shift while typing */
+.career-typed-ghost {
+  visibility: hidden;
+}
+
+.career-typed-visible {
+  position: absolute;
+  inset: 0;
+}
+
+.career-caret {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  background-color: var(--accentColor);
+  animation: career-blink 0.7s step-end infinite;
+}
+
+@keyframes career-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .career-caret {
+    animation: none;
+  }
+}
+
 .career-info-in {
   display: flex;
   width: 40%;

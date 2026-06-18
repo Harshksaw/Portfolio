@@ -80,7 +80,7 @@ export async function loadDeskModel(
         });
 
         // Self-contained dolly-in driven by this section's own scroll.
-        gsap.fromTo(
+        const dolly = gsap.fromTo(
           h.camera.position,
           { z: DESK_Z },
           {
@@ -94,6 +94,12 @@ export async function loadDeskModel(
             },
           }
         );
+
+        // Live-tuning helpers (devtools console):
+        //   __deskFreeze()  → stop the scroll dolly so you can set camera z freely
+        //   __deskUnfreeze() → restore the scroll-driven dolly
+        w.__deskFreeze = () => dolly.scrollTrigger?.disable(false);
+        w.__deskUnfreeze = () => dolly.scrollTrigger?.enable();
       },
     };
   } catch (err) {
