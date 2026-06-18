@@ -83,7 +83,10 @@ const Scene = () => {
       introMixer = introResult?.introMixer ?? null;
       introHeadBone = introResult?.introHeadBone ?? null;
       const introAction = introResult?.introAction ?? null;
-      if (intro) intro.visible = true;
+      if (intro) {
+        intro.visible = true;
+        intro.position.x = 0.1;
+      }
       character.visible = false;
 
       // Idle on load — hand down, simple. On scroll past about-section: typing.

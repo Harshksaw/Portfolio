@@ -11,12 +11,12 @@ const Contact = () => {
             <h4>Connect</h4>
             <p>
               <a
-                href="https://www.linkedin.com/in/harsh-kumar-saw-32727b247"
+                href="https://www.linkedin.com/in/harsh--saw-32727b247"
                 target="_blank"
                 rel="noreferrer"
                 data-cursor="disable"
               >
-                LinkedIn — harsh-kumar-saw
+                LinkedIn — harsh--saw
               </a>
             </p>
             <h4>Resume</h4>
@@ -43,7 +43,7 @@ const Contact = () => {
               GitHub <MdArrowOutward />
             </a>
             <a
-              href="https://www.linkedin.com/in/harsh-kumar-saw-32727b247"
+              href="https://www.linkedin.com/in/harsh--saw-32727b247"
               target="_blank"
               rel="noreferrer"
               data-cursor="disable"
@@ -52,7 +52,7 @@ const Contact = () => {
               LinkedIn <MdArrowOutward />
             </a>
             <a
-              href="mailto:mister.harshkumar@gmail.com"
+              href="mailto:mister.harsh@gmail.com"
               data-cursor="disable"
               className="contact-social"
             >
@@ -61,7 +61,7 @@ const Contact = () => {
           </div>
           <div className="contact-box">
             <h2>
-              Designed and Developed <br /> by <span>Harsh Kumar Saw</span>
+              Designed and Developed <br /> by <span>Harsh  Saw</span>
             </h2>
             <h5>
               <MdCopyright /> 2026

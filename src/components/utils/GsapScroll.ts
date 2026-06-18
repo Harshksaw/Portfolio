@@ -91,9 +91,9 @@ export function setCharTimeline(
       tl1
         .fromTo(character.rotation, { y: 0 }, { y: 0.7, duration: 1 }, 0)
         .fromTo(camera.position, { z: 2.8 }, { z: 2.2 }, 0)
-        .fromTo(".character-model", { x: 0 }, { x: "-20%", duration: 1 }, 0)
+        .fromTo(".character-model", { x: "-10%" }, { x: "20%", duration: 1 }, 0)
         .to(".landing-container", { opacity: 0, duration: 0.4 }, 0)
-        .to(".landing-container", { y: "40%", duration: 0.8 }, 0)
+        .to(".landing-container", { y: "50%", duration: 0.8 }, 0)
         .fromTo(".about-me", { y: "-50%" }, { y: "0%" }, 0);
 
       // tl2 — zoom WAY out to reveal full body sitting at desk
