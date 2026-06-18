@@ -82,6 +82,7 @@ const Scene = () => {
       const intro = introResult?.intro ?? null;
       introMixer = introResult?.introMixer ?? null;
       introHeadBone = introResult?.introHeadBone ?? null;
+      const introAction = introResult?.introAction ?? null;
       if (intro) intro.visible = true;
       character.visible = false;
 
@@ -104,7 +105,23 @@ const Scene = () => {
       });
 
       progress.loaded().then(() => {
+        if (cancelled) return;
         setTimeout(() => light.turnOnLights(), 500);
+
+        // Play the flex animation now that the loading screen has cleared,
+        // paired with a camera zoom-out→zoom-in so the arm action is visible.
+        if (introAction) introAction.play();
+        gsap.fromTo(
+          camera,
+          { zoom: 0.42 },
+          {
+            zoom: 1.1,
+            duration: 5,
+            delay: 0.3,
+            ease: "power2.inOut",
+            onUpdate() { camera.updateProjectionMatrix(); },
+          }
+        );
       });
 
       resizeHandler = () => {

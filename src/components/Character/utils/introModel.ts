@@ -8,7 +8,12 @@ import { GLTFLoader } from "three-stdlib";
 // two by toggling visibility (they share the same spot + skeleton).
 export async function loadIntroAvatar(
   scene: THREE.Scene
-): Promise<{ intro: THREE.Object3D; introMixer: THREE.AnimationMixer; introHeadBone: THREE.Object3D | null } | null> {
+): Promise<{
+  intro: THREE.Object3D;
+  introMixer: THREE.AnimationMixer;
+  introHeadBone: THREE.Object3D | null;
+  introAction: THREE.AnimationAction | null;
+} | null> {
   const loader = new GLTFLoader();
   try {
     const gltf = await loader.loadAsync("/models/harshfirst.glb");
@@ -26,18 +31,20 @@ export async function loadIntroAvatar(
     const introHeadBone = intro.getObjectByName("Head") || null;
 
     const introMixer = new THREE.AnimationMixer(intro);
+    let introAction: THREE.AnimationAction | null = null;
     if (gltf.animations.length > 0) {
-      const action = introMixer.clipAction(gltf.animations[0]);
-      action.setLoop(THREE.LoopOnce, 1);
-      action.clampWhenFinished = true;
-      action.play();
+      introAction = introMixer.clipAction(gltf.animations[0]);
+      introAction.setLoop(THREE.LoopOnce, 1);
+      introAction.clampWhenFinished = true;
+      // Playback is deferred — caller triggers it after the loading screen clears
+      // so the animation is visible rather than playing behind the loading overlay.
       console.log(`🦾 intro avatar clip: "${gltf.animations[0].name}"`);
     } else {
       console.warn("⚠️ harshfirst.glb has no baked animation clip.");
     }
 
     scene.add(intro);
-    return { intro, introMixer, introHeadBone };
+    return { intro, introMixer, introHeadBone, introAction };
   } catch (err) {
     console.warn("⚠️ harshfirst.glb (intro avatar) failed to load", err);
     return null;

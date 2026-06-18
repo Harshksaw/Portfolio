@@ -225,7 +225,20 @@
   }
 
   .career-info h3 {
-    font-size: 33px;
+    font-size: 26px;
+    line-height: 26px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .career-info h4 {
+    font-size: 17px;
+    line-height: 20px;
+  }
+
+  .career-role {
+    flex: 1;
+    min-width: 0;
   }
 
   .career-info-in,
