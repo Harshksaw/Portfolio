@@ -19,13 +19,13 @@ import type { CameraConfig, LoadedModel, SectionHandles } from "../SectionModel"
 //   __deskCam.position.set(x, y, z); __deskCam.updateProjectionMatrix()
 //   __laptop.position.set(x, y, z) / __laptop.scale.setScalar(s) / __laptopOpen(deg)
 
-const DESK_Z = 8.0; // wide enough to frame the full body + desk
+const DESK_Z = 6.9; // tuned camera distance (full body + desk, from the left)
 
 export const deskCamera: CameraConfig = {
   fov: 14.5,
-  position: [-2.5, 1.0, DESK_Z], // camera placed to the LEFT (negative x)
+  position: [-3.25, -1.45, DESK_Z], // camera placed to the LEFT + low
   zoom: 1.0,
-  lookAt: [0, 0.9, 0],           // aim at the avatar's chest so it stays framed
+  lookAt: [0, 0.95, -0.05],         // aim at the avatar's chest so it stays framed
 };
 
 export async function loadDeskModel(
@@ -48,8 +48,8 @@ export async function loadDeskModel(
 
     const headBone = avatar.getObjectByName("Head") || null;
     scene.add(avatar);
-    avatar.position.set(-0.5, 0, 0);    // ← position: x (left/right), y (up/down), z (forward/back)
-    avatar.rotation.set(0.2, 0.4 ,  0); // ← turn: y turns the body left/right (radians; flip sign to turn the other way)
+    avatar.position.set(-0.6, -0.05, 0.15);     // ← position: x (left/right), y (up/down), z (forward/back)
+    avatar.rotation.set(0.178, 0.458, 0.138);   // ← turn: y turns the body left/right (radians)
 
     // Retargeted FBX clips (Idle / Typing) onto the avatar skeleton.
     await loadAnimations(avatar);
@@ -58,9 +58,9 @@ export async function loadDeskModel(
     // Desk laptop — loadLaptop adds it to the scene and exposes __laptop* helpers.
     const laptop = await loadLaptop(scene);
     if (laptop) {
-      laptop.position.set(-0.5, 0.65, 1.75);              // ← laptop position: x (left/right), y (up/down), z (forward/back)
-      laptop.rotation.set(-2, Math.PI - Math.PI / 4, -0.6); // ← laptop rotation (radians)
-      laptop.scale.setScalar(0.9);                       // ← laptop size
+      laptop.position.set(-0.65, 0.35, 1.6);          // ← laptop position: x (left/right), y (up/down), z (forward/back)
+      laptop.rotation.set(-1.962, 2.558, -0.462);     // ← laptop rotation (radians)
+      laptop.scale.setScalar(1.15);                   // ← laptop size
     }
 
     const w = window as unknown as Record<string, unknown>;
@@ -81,6 +81,13 @@ export async function loadDeskModel(
       },
       onReady: (h: SectionHandles) => {
         h.lights.turnOnLights();
+        // Dev-only live tuner (sliders for camera/avatar/laptop). Dynamic import
+        // gated on DEV so it's stripped from production builds.
+        if (import.meta.env.DEV) {
+          import("../utils/devPanel").then((m) =>
+            m.mountDeskDevPanel({ camera, avatar, laptop, lookTarget })
+          );
+        }
       },
       scrollScene: (h: SectionHandles) => {
         if (!h.section) return;
@@ -100,7 +107,7 @@ export async function loadDeskModel(
           h.camera.position,
           { z: DESK_Z },
           {
-            z: DESK_Z - 1.5,
+            z: DESK_Z - 0.6, // subtle push-in (kept small so it preserves the tuned framing)
             ease: "none",
             scrollTrigger: {
               trigger: h.section,

@@ -77,7 +77,7 @@ export async function loadLaptop(scene: THREE.Scene): Promise<THREE.Object3D | n
     // PROD-34805_2 by -110° on X opens the screen with the Apple logo facing
     // camera (= person typing view).
     const LID_NODE_NAME = "PROD-34805_2";
-    const LID_OPEN_DEG  = 130;
+    const LID_OPEN_DEG  = 108;
     const lid = laptop.getObjectByName(LID_NODE_NAME);
     if (lid) {
       lid.rotation.x = THREE.MathUtils.degToRad(-LID_OPEN_DEG);
