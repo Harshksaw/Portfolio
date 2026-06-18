@@ -1,6 +1,10 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three-stdlib";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import type { CameraConfig, LoadedModel, SectionHandles } from "../SectionModel";
+
+gsap.registerPlugin(ScrollTrigger); // idempotent — ensures scrollTrigger config works
 
 // ABOUT model (harshsecond.glb) — lives in the About section's LEFT column
 // (the about-me text sits on the right at ≥1025px). Plays its baked clip 0 once
@@ -25,6 +29,7 @@ export async function loadAboutModel(
   try {
     const gltf = await loader.loadAsync("/models/harshsecond.glb");
     const object = gltf.scene;
+    object.scale.setScalar(0.90); // 5% smaller than the hero/desk avatars
 
     object.traverse((child) => {
       const mesh = child as THREE.Mesh;
@@ -58,6 +63,25 @@ export async function loadAboutModel(
       object,
       mixers: [mixer],
       headBone,
+      scrollScene: () => {
+        // Soften the Landing → About border: the model drops in from above and
+        // fades up as the About section scrolls into view (scrubbed to scroll).
+        gsap.fromTo(
+          ".about-model",
+          { yPercent: -30, autoAlpha: 0 },
+          {
+            yPercent: 0,
+            autoAlpha: 1,
+            ease: "none",
+            scrollTrigger: {
+              trigger: ".about-section",
+              start: "top bottom",
+              end: "top 45%",
+              scrub: 1,
+            },
+          }
+        );
+      },
       onReady: (h: SectionHandles) => {
         // Lights without the landing-only backlight rim (no .character-rim here).
         h.lights.turnOnLights();

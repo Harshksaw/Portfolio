@@ -16,14 +16,29 @@ const Career = () => {
           <div className="career-info-box">
             <div className="career-info-in">
               <div className="career-role">
-                <h4>Software Engineer Intern</h4>
+                <h4>Teaching Assistant</h4>
+                <h5>Okanagan College · Contract</h5>
+              </div>
+              <h3>2026</h3>
+            </div>
+            <p>
+              Helped build an end-to-end workflow management system for the
+              Developer course; coordinated staff and students to track issues
+              and progress, streamlining task management.
+            </p>
+          </div>
+
+          <div className="career-info-box">
+            <div className="career-info-in">
+              <div className="career-role">
+                <h4>Software Engineer</h4>
                 <h5>OmMuse · Remote</h5>
               </div>
               <h3>NOW</h3>
             </div>
             <p>
-              HubSpot CRM integration in Go, enterprise project sharing with RBAC,
-              goroutine concurrency fixes, and enhanced search functionality.
+              Built an AI-powered search (RAG) feature, worked directly with B2B
+              clients, and owned end-to-end delivery from development to deployment.
             </p>
           </div>
 

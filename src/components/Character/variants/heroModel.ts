@@ -1,7 +1,10 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three-stdlib";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import type { CameraConfig, LoadedModel, SectionHandles } from "../SectionModel";
+
+gsap.registerPlugin(ScrollTrigger); // idempotent
 
 // HERO model (harshfirst.glb) — the landing/hero avatar.
 // Ships with its own baked clip ("Flexing_Arm_Clean"); we play clip 0 once on
@@ -49,6 +52,23 @@ export async function loadHeroModel(
       object,
       mixers: [mixer],
       headBone,
+      scrollScene: () => {
+        // Cross-dissolve OUT: as the landing scrolls away, the hero fades and
+        // sinks down — the mirror of the About model fading + dropping in. The
+        // two overlap at the section boundary so it reads as one blending into
+        // the other rather than a hard cut.
+        gsap.to(".hero-model", {
+          autoAlpha: 0,
+          yPercent: 35, // sink down while fading ("fade as it goes down")
+          ease: "none",
+          scrollTrigger: {
+            trigger: ".landing-section",
+            start: "top top",
+            end: "bottom top",
+            scrub: true,
+          },
+        });
+      },
       onReady: (h: SectionHandles) => {
         // Lights up (with the .character-rim backlight glow) once visible.
         setTimeout(() => h.lights.turnOnLights(), 500);
