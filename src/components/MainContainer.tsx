@@ -1,4 +1,5 @@
-import { lazy, PropsWithChildren, Suspense, useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
+import gsap from "gsap";
 import About from "./About";
 import Career from "./Career";
 import Contact from "./Contact";
@@ -9,10 +10,11 @@ import SocialIcons from "./SocialIcons";
 import WhatIDo from "./WhatIDo";
 import Work from "./Work";
 import setSplitText from "./utils/splitText";
+import { setContentTimeline, setAllTimeline } from "./utils/GsapScroll";
 
 const TechStack = lazy(() => import("./TechStack"));
 
-const MainContainer = ({ children }: PropsWithChildren) => {
+const MainContainer = () => {
   const [isDesktopView, setIsDesktopView] = useState<boolean>(
     window.innerWidth > 1024
   );
@@ -29,18 +31,29 @@ const MainContainer = ({ children }: PropsWithChildren) => {
     };
   }, [isDesktopView]);
 
+  // DOM-only scroll reveals (cards + career). The 3D models drive their own
+  // per-section scroll effects internally, so nothing here touches a canvas.
+  // Set up once; ScrollTrigger refreshes handle resize. gsap.context → clean
+  // teardown across HMR / StrictMode remounts.
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      setContentTimeline();
+      setAllTimeline();
+    });
+    return () => ctx.revert();
+  }, []);
+
   return (
     <div className="container-main">
       <Cursor />
       <Navbar />
       <SocialIcons />
-      {isDesktopView && children}
       <div id="smooth-wrapper">
         <div id="smooth-content">
           <div className="container-main">
-            <Landing>{!isDesktopView && children}</Landing>
-            <About />
-            <WhatIDo />
+            <Landing />
+            <About enable3D={isDesktopView} />
+            <WhatIDo enable3D={isDesktopView} />
             <Career />
             <Work />
             {isDesktopView && (

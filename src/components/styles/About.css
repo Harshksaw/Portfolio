@@ -64,6 +64,13 @@
     padding: 0px;
     opacity: 1;
   }
+  /* harshsecond canvas — left half of the about section, full height. */
+  .about-model {
+    height: 100%;
+    width: 50%;
+    left: 0;
+    bottom: 0;
+  }
   .about-me {
     padding: 0px;
     width: 50%;

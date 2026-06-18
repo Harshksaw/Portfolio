@@ -2,8 +2,11 @@ import * as THREE from "three";
 import { RGBELoader } from "three-stdlib";
 import { gsap } from "gsap";
 
-// Lighting tuned for Avaturn human scale (1 unit = 1 metre, head at Y≈1.65)
-const setLighting = (scene: THREE.Scene) => {
+// Lighting tuned for Avaturn human scale (1 unit = 1 metre, head at Y≈1.65).
+// rimSelector is the backlight-glow element to fade in with the lights; only
+// the hero section has one (".character-rim"). Other sections omit it so they
+// don't reach across the DOM and animate the hero's rim.
+const setLighting = (scene: THREE.Scene, rimSelector?: string) => {
   // Key light — cyan tint to match the portfolio colour scheme
   const directionalLight = new THREE.DirectionalLight(0x5eead4, 0);
   directionalLight.position.set(-1, 2, 2);
@@ -40,7 +43,9 @@ const setLighting = (scene: THREE.Scene) => {
   function turnOnLights() {
     gsap.to(scene, { environmentIntensity: 0.64, duration: 2, ease: "power2.inOut" });
     gsap.to(directionalLight, { intensity: 1, duration: 2, ease: "power2.inOut" });
-    gsap.to(".character-rim", { y: "55%", opacity: 1, delay: 0.2, duration: 2 });
+    if (rimSelector) {
+      gsap.to(rimSelector, { y: "55%", opacity: 1, delay: 0.2, duration: 2 });
+    }
   }
 
   return { setPointLight, turnOnLights };

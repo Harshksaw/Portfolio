@@ -40,10 +40,14 @@ export const handleHeadRotation = (
   mouseY: number,
   interpolationX: number,
   interpolationY: number,
-  lerp: (x: number, y: number, t: number) => number
+  lerp: (x: number, y: number, t: number) => number,
+  // Per-section models render only while their section is in view (the loop is
+  // paused otherwise), so they should track the cursor regardless of scrollY.
+  // The legacy single-canvas path leaves this false to keep its scroll gate.
+  alwaysTrack = false
 ) => {
   if (!headBone) return;
-  if (window.scrollY < 200) {
+  if (alwaysTrack || window.scrollY < 200) {
     const maxRotation = Math.PI / 6;
     headBone.rotation.y = lerp(
       headBone.rotation.y,

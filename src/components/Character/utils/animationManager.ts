@@ -70,7 +70,8 @@ export function switchAnimation(name: AnimName, fade = 0.5): void {
   }
   if (current === name) return;
   console.log(`🎬 ${current ?? "none"} → ${name}`);
-  if (current && actions[current]) actions[current].fadeOut(fade);
+  const prevAction = current ? actions[current] : undefined;
+  if (prevAction) prevAction.fadeOut(fade);
   nextAction.reset().fadeIn(fade).play();
   current = name;
 }

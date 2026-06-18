@@ -157,6 +157,37 @@
   z-index: 2;
 }
 
+/* ── Per-section 3D canvas (SectionModel) ──────────────────────────────────
+   Each section owns its own model in its own canvas, positioned ABSOLUTELY
+   inside its (position: relative) section so it scrolls naturally with it. */
+.section-model {
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+}
+.section-model canvas {
+  position: relative;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Hero avatar — fills the landing section and scrolls away with it. */
+.hero-model {
+  height: 80vh;
+  width: 100%;
+  max-width: 1920px;
+  max-height: 1080px;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 50px;
+}
+@media only screen and (min-width: 1025px) {
+  .hero-model {
+    height: 100vh;
+    bottom: 0;
+  }
+}
+
 .character-hover {
   position: absolute;
   width: 280px;

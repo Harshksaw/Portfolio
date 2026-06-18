@@ -1,8 +1,19 @@
 import "./styles/About.css";
+import SectionModel from "./Character/SectionModel";
+import { aboutCamera, loadAboutModel } from "./Character/variants/aboutModel";
 
-const About = () => {
+const About = ({ enable3D = false }: { enable3D?: boolean }) => {
   return (
     <div className="about-section" id="about">
+      {/* harshsecond — its own canvas in the left column (text is on the right). */}
+      {enable3D && (
+        <SectionModel
+          className="section-model about-model"
+          sectionSelector=".about-section"
+          camera={aboutCamera}
+          load={loadAboutModel}
+        />
+      )}
       <div className="about-me">
         <h3 className="title">About Me</h3>
         <p className="para">

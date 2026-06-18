@@ -1,8 +1,10 @@
 import { useEffect, useRef } from "react";
 import "./styles/WhatIDo.css";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import SectionModel from "./Character/SectionModel";
+import { deskCamera, loadDeskModel } from "./Character/variants/deskModel";
 
-const WhatIDo = () => {
+const WhatIDo = ({ enable3D = false }: { enable3D?: boolean }) => {
   const containerRef = useRef<(HTMLDivElement | null)[]>([]);
   const setRef = (el: HTMLDivElement | null, index: number) => {
     containerRef.current[index] = el;
@@ -26,6 +28,15 @@ const WhatIDo = () => {
   }, []);
   return (
     <div className="whatIDO">
+      {/* Desk avatar + laptop — its own canvas, behind the cards. */}
+      {enable3D && (
+        <SectionModel
+          className="section-model desk-model"
+          sectionSelector=".whatIDO"
+          camera={deskCamera}
+          load={loadDeskModel}
+        />
+      )}
       <div className="what-box">
         <h2 className="title">
           W<span className="hat-h2">HAT</span>
