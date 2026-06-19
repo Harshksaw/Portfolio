@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { GLTFLoader } from "three-stdlib";
+import { createGLTFLoader } from "../utils/gltf";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
@@ -32,7 +32,7 @@ export async function loadDeskModel(
   scene: THREE.Scene,
   camera: THREE.PerspectiveCamera
 ): Promise<LoadedModel | null> {
-  const loader = new GLTFLoader();
+  const loader = createGLTFLoader();
   try {
     const gltf = await loader.loadAsync("/models/avatar.glb");
     const avatar = gltf.scene;

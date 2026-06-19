@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { GLTFLoader } from "three-stdlib";
+import { createGLTFLoader } from "../utils/gltf";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import type { CameraConfig, LoadedModel, SectionHandles } from "../SectionModel";
@@ -22,7 +22,7 @@ export const heroCamera: CameraConfig = {
 export async function loadHeroModel(
   scene: THREE.Scene
 ): Promise<LoadedModel | null> {
-  const loader = new GLTFLoader();
+  const loader = createGLTFLoader();
   try {
     const gltf = await loader.loadAsync("/models/harshfirst.glb");
     const object = gltf.scene;
@@ -38,11 +38,11 @@ export async function loadHeroModel(
 
     const headBone = object.getObjectByName("Head") || null;
 
-    // Subtle face de-bloat: the Avaturn mesh reads a touch puffy, so narrow the
-    // skull on width (x) and depth (z) while keeping height (y). This slims the
-    // face without distorting proportions. Scale only — head-look sets rotation,
-    // so the two never fight. Lower the numbers for a slimmer face (e.g. 0.92).
-    if (headBone) headBone.scale.set(0.95, 1.0, 0.88);
+    // Subtle face de-bloat: narrow the skull a touch. Kept gentle and near-even
+    // on x/z — the T2 rig has separate teeth/tongue meshes, so an aggressive
+    // depth (z) squash pulls the lips out of alignment. Lower BOTH together for
+    // a slimmer face (e.g. 0.93, 1.0, 0.93); keep z close to x to avoid distortion.
+    if (headBone) headBone.scale.set(0.96, 1.0, 0.96);
 
     // The Avaturn clip animates Head/Neck rotations and face blendshape weights,
     // which would fight our procedural head-look, eye-tracking, blink and smile.

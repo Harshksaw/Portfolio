@@ -11,18 +11,18 @@ const Contact = () => {
             <h4>Connect</h4>
             <p>
               <a
-                href="https://www.linkedin.com/in/harsh--saw-32727b247"
+                href="https://www.linkedin.com/in/harsh-kumar-s-32727b247/"
                 target="_blank"
                 rel="noreferrer"
                 data-cursor="disable"
               >
-                LinkedIn — harsh--saw
+                LinkedIn — harsh-kumar-s
               </a>
             </p>
             <h4>Resume</h4>
             <p>
               <a
-                href="https://drive.google.com/file/d/1iyV0euSsl0PY2wEbspc6uuIKQ_nGyyww/view?usp=sharing"
+                href="https://drive.google.com/file/d/1HbAjcmj3HiaGQHnin8Fgr4x6JFxQfnxo/view?usp=sharing"
                 target="_blank"
                 rel="noreferrer"
                 data-cursor="disable"
@@ -43,7 +43,7 @@ const Contact = () => {
               GitHub <MdArrowOutward />
             </a>
             <a
-              href="https://www.linkedin.com/in/harsh--saw-32727b247"
+              href="https://www.linkedin.com/in/harsh-kumar-s-32727b247/"
               target="_blank"
               rel="noreferrer"
               data-cursor="disable"

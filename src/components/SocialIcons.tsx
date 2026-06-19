@@ -58,7 +58,7 @@ const SocialIcons = () => {
         </span>
         <span>
           <a
-            href="https://www.linkedin.com/in/harsh--saw-32727b247"
+            href="https://www.linkedin.com/in/harsh-kumar-s-32727b247/"
             target="_blank"
             rel="noreferrer"
           >
@@ -68,7 +68,7 @@ const SocialIcons = () => {
       </div>
       <a
         className="resume-button"
-        href="https://drive.google.com/file/d/1iyV0euSsl0PY2wEbspc6uuIKQ_nGyyww/view?usp=sharing"
+        href="https://drive.google.com/file/d/1HbAjcmj3HiaGQHnin8Fgr4x6JFxQfnxo/view?usp=sharing"
         target="_blank"
         rel="noreferrer"
       >

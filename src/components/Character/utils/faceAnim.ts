@@ -130,10 +130,10 @@ export function setupFace(root: THREE.Object3D): FaceController {
         }
       }
 
-      // ── Subtle, breathing smile ─────────────────────────────────────────
+      // ── Clear, gently breathing smile ───────────────────────────────────
       if (smile) {
         smileTime += delta;
-        const s = 0.22 + 0.06 * Math.sin(smileTime * 0.6);
+        const s = 0.32 + 0.05 * Math.sin(smileTime * 0.6);
         setMorph(smile[0], s);
         setMorph(smile[1], s);
       }

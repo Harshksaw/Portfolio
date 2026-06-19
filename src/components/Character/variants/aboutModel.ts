@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { GLTFLoader } from "three-stdlib";
+import { createGLTFLoader } from "../utils/gltf";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import type { CameraConfig, LoadedModel, SectionHandles } from "../SectionModel";
@@ -25,7 +25,7 @@ export async function loadAboutModel(
   scene: THREE.Scene,
   camera: THREE.PerspectiveCamera
 ): Promise<LoadedModel | null> {
-  const loader = new GLTFLoader();
+  const loader = createGLTFLoader();
   try {
     const gltf = await loader.loadAsync("/models/harshsecond.glb");
     const object = gltf.scene;

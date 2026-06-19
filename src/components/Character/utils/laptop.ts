@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { GLTFLoader } from "three-stdlib";
+import { createGLTFLoader } from "./gltf";
 
 // ─── WHAT THIS FILE DOES (plain English) ───────────────────────────────────
 //
@@ -43,7 +43,7 @@ function findLid(root: THREE.Object3D): THREE.Object3D | null {
 }
 
 export async function loadLaptop(scene: THREE.Scene): Promise<THREE.Object3D | null> {
-  const loader = new GLTFLoader();
+  const loader = createGLTFLoader();
   try {
     const gltf = await loader.loadAsync("/models/macbook.glb");
     const laptop = gltf.scene;
