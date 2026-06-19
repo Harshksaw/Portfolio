@@ -94,9 +94,13 @@ export async function loadDeskModel(
       },
       onReady: (h: SectionHandles) => {
         h.lights.turnOnLights();
-        // Dev-only live tuner (sliders for camera/avatar/laptop). Dynamic import
-        // gated on DEV so it's stripped from production builds.
-        if (import.meta.env.DEV) {
+        // Dev-only live tuner (sliders for camera/avatar/laptop). Hidden unless
+        // the URL has ?tune; dynamic import gated on DEV so it's stripped from
+        // production builds entirely.
+        if (
+          import.meta.env.DEV &&
+          new URLSearchParams(window.location.search).has("tune")
+        ) {
           import("../utils/devPanel").then((m) =>
             m.mountDeskDevPanel({ camera, avatar, laptop, lookTarget, neckTurn })
           );

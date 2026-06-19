@@ -19,6 +19,35 @@ export const heroCamera: CameraConfig = {
   zoom: 1.1,
 };
 
+// Hand-tuned corrective expression for the raw Avaturn neutral mesh (deflates
+// the puffy cheeks, eases the heavy lower lip, softens the frown). Applied every
+// frame by the face rig. Tune live with the dev "face morphs" panel, then paste
+// the updated values here.
+const HERO_FACE_MORPHS: Record<string, number> = {
+  eyeLookUpLeft: 0.19,
+  browDownLeft: 0.23,
+  browOuterUpLeft: 0.03,
+  noseSneerRight: -0.12,
+  cheekPuff: -0.68,
+  mouthLeft: 0.06,
+  mouthRight: 0.11,
+  mouthUpperUpLeft: 0.11,
+  mouthOpen: -0.21,
+  viseme_sil: -0.08,
+  mouthClose: 0.07,
+  mouthFrownLeft: -0.53,
+  mouthFrownRight: -0.44,
+  mouthFunnel: 0.1,
+  tongueOut: 0.14,
+  mouthDimpleLeft: 0.65,
+  mouthDimpleRight: 0.62,
+  mouthLowerDownRight: -0.16,
+  mouthPucker: -0.11,
+  mouthRollLower: 0.08,
+  mouthShrugUpper: -0.25,
+  viseme_aa: 0.36,
+};
+
 export async function loadHeroModel(
   scene: THREE.Scene
 ): Promise<LoadedModel | null> {
@@ -68,8 +97,12 @@ export async function loadHeroModel(
     scene.add(object);
 
     // Subtle smile + eye-tracking, plus a single blink shortly after load.
-    // Only activates if the GLB ships ARKit facial morphs / eye bones.
-    const face = setupFace(object, { blinkOnce: true });
+    // baseMorphs is a hand-tuned corrective expression (fixes the puffy
+    // cheeks / heavy lower lip on the raw Avaturn neutral mesh).
+    const face = setupFace(object, {
+      blinkOnce: true,
+      baseMorphs: HERO_FACE_MORPHS,
+    });
     // Subtle breathing + head drift so the static avatar isn't frozen.
     const idle = setupIdleLife(object);
 
@@ -101,6 +134,21 @@ export async function loadHeroModel(
       onReady: (h: SectionHandles) => {
         // Lights up (with the .character-rim backlight glow) once visible.
         setTimeout(() => h.lights.turnOnLights(), 500);
+
+        // Dev-only face-morph tuner (smile + every blendshape). Stripped from prod.
+        if (
+          import.meta.env.DEV &&
+          face.active &&
+          new URLSearchParams(window.location.search).has("tune")
+        ) {
+          import("../utils/devPanel").then((m) =>
+            m.mountFaceDevPanel({
+              params: face.params,
+              root: face.root,
+              baseMorphs: face.baseMorphs,
+            })
+          );
+        }
 
         // Flex once on load, then repeat on a long idle interval.
         const play = () => {
