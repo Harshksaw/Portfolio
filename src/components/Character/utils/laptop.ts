@@ -57,7 +57,9 @@ export async function loadLaptop(scene: THREE.Scene): Promise<THREE.Object3D | n
     // where the GLB loads but is empty / mis-scaled by 1000x.
     const box = new THREE.Box3().setFromObject(laptop);
     const size = box.getSize(new THREE.Vector3());
-    console.log(`📦 Laptop bounding size (scene units): x=${size.x.toFixed(3)} y=${size.y.toFixed(3)} z=${size.z.toFixed(3)}`);
+    if (import.meta.env.DEV) {
+      console.log(`📦 Laptop bounding size (scene units): x=${size.x.toFixed(3)} y=${size.y.toFixed(3)} z=${size.z.toFixed(3)}`);
+    }
 
     // ── Shadow + log every node so we can see what the model contains ────
     const nodeNames: string[] = [];
@@ -69,7 +71,9 @@ export async function loadLaptop(scene: THREE.Scene): Promise<THREE.Object3D | n
         mesh.receiveShadow = true;
       }
     });
-    console.log("🖥️  macbook.glb nodes:\n" + nodeNames.join("\n"));
+    if (import.meta.env.DEV) {
+      console.log("🖥️  macbook.glb nodes:\n" + nodeNames.join("\n"));
+    }
 
     // ── Open the lid ──────────────────────────────────────────────────────
     // This Sketchfab macbook has two child nodes: PROD-34805_1 (base) and
@@ -81,43 +85,45 @@ export async function loadLaptop(scene: THREE.Scene): Promise<THREE.Object3D | n
     const lid = laptop.getObjectByName(LID_NODE_NAME);
     if (lid) {
       lid.rotation.x = THREE.MathUtils.degToRad(-LID_OPEN_DEG);
-      console.log(`✅ Lid "${LID_NODE_NAME}" opened to ${LID_OPEN_DEG}°.`);
     } else {
       console.warn(`⚠️ Lid node "${LID_NODE_NAME}" not found — model may have changed.`);
     }
 
     scene.add(laptop);
 
-    // ── Live tuning helpers (devtools console) ────────────────────────────
-    const w = window as any;
-    w.__laptop = laptop;
-    w.__laptopDump = () => {
-      const names: string[] = [];
-      laptop.traverse((c) => names.push(`${c.type}: ${c.name || "(unnamed)"}`));
-      console.log(names.join("\n"));
-      return names;
-    };
-    w.__laptopOpen = (degrees = 110) => {
-      const l = findLid(laptop);
-      if (!l) return console.warn("No lid node found. Try __laptopOpenByName.");
-      l.rotation.x = THREE.MathUtils.degToRad(-degrees);
-      console.log(`lid "${l.name}" → ${degrees}°`);
-    };
-    w.__laptopOpenByName = (name: string, degrees = 110) => {
-      const l = laptop.getObjectByName(name);
-      if (!l) return console.warn(`No node named "${name}".`);
-      l.rotation.x = THREE.MathUtils.degToRad(-degrees);
-      console.log(`lid "${name}" → ${degrees}°`);
-    };
+    // ── Dev-only live tuning helpers (devtools console) ───────────────────
+    // Gated on DEV so __laptop* globals never ship to production.
+    if (import.meta.env.DEV) {
+      const w = window as any;
+      w.__laptop = laptop;
+      w.__laptopDump = () => {
+        const names: string[] = [];
+        laptop.traverse((c) => names.push(`${c.type}: ${c.name || "(unnamed)"}`));
+        console.log(names.join("\n"));
+        return names;
+      };
+      w.__laptopOpen = (degrees = 110) => {
+        const l = findLid(laptop);
+        if (!l) return console.warn("No lid node found. Try __laptopOpenByName.");
+        l.rotation.x = THREE.MathUtils.degToRad(-degrees);
+        console.log(`lid "${l.name}" → ${degrees}°`);
+      };
+      w.__laptopOpenByName = (name: string, degrees = 110) => {
+        const l = laptop.getObjectByName(name);
+        if (!l) return console.warn(`No node named "${name}".`);
+        l.rotation.x = THREE.MathUtils.degToRad(-degrees);
+        console.log(`lid "${name}" → ${degrees}°`);
+      };
 
-    console.log(
-      "💡 Tune live in console:\n" +
-      "   __laptop.position.set(x, y, z)\n" +
-      "   __laptop.rotation.y = Math.PI + 0.3\n" +
-      "   __laptop.scale.setScalar(0.01)\n" +
-      "   __laptopOpen(110)        // change angle\n" +
-      "   __laptopDump()           // list all node names"
-    );
+      console.log(
+        "💡 Tune live in console:\n" +
+        "   __laptop.position.set(x, y, z)\n" +
+        "   __laptop.rotation.y = Math.PI + 0.3\n" +
+        "   __laptop.scale.setScalar(0.01)\n" +
+        "   __laptopOpen(110)        // change angle\n" +
+        "   __laptopDump()           // list all node names"
+      );
+    }
 
     return laptop;
   } catch (err) {

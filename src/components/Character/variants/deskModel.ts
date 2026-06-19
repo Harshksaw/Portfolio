@@ -51,6 +51,12 @@ export async function loadDeskModel(
     avatar.position.set(-0.6, -0.05, 0.15);     // ← position: x (left/right), y (up/down), z (forward/back)
     avatar.rotation.set(0.178, 0.458, 0.138);   // ← turn: y turns the body left/right (radians)
 
+    // Turn the neck slightly toward the camera (which sits to the left). Applied
+    // every frame AFTER the animation (see onFrame) so the idle/typing clip can't
+    // overwrite it. Tune via the dev panel or __neckTurn.
+    const neckBone = avatar.getObjectByName("Neck") ?? null;
+    const neckTurn = { x: 0, y: -0.25, z: 0 }; // ← neck pose (radians); flip y sign to turn the other way
+
     // Retargeted FBX clips (Idle / Typing) onto the avatar skeleton.
     await loadAnimations(avatar);
     startIdle();
@@ -63,20 +69,27 @@ export async function loadDeskModel(
       laptop.scale.setScalar(1.15);                   // ← laptop size
     }
 
-    const w = window as unknown as Record<string, unknown>;
-    w.__deskCam = camera;
-    w.__avatar = avatar;
-
     // Camera aim point, re-applied every frame so the scroll dolly never knocks
-    // the angle off. Tune live: __deskLook.set(x, y, z)
+    // the angle off.
     const lookTarget = new THREE.Vector3(...(deskCamera.lookAt ?? [0, 0.9, 0]));
-    w.__deskLook = lookTarget;
+
+    // Dev-only live-tuning handles on window (stripped from production builds).
+    //   __deskCam / __avatar / __neckTurn / __deskLook
+    const w = window as unknown as Record<string, unknown>;
+    if (import.meta.env.DEV) {
+      w.__deskCam = camera;
+      w.__avatar = avatar;
+      w.__neckTurn = neckTurn; // tune live: __neckTurn.y = -0.3
+      w.__deskLook = lookTarget;
+    }
 
     return {
       object: avatar,
       headBone,
       onFrame: (delta: number) => {
-        updateMixer(delta);        // advance idle/typing animation
+        updateMixer(delta); // advance idle/typing animation
+        // Re-apply the neck pose AFTER the animation so the clip can't undo it.
+        if (neckBone) neckBone.rotation.set(neckTurn.x, neckTurn.y, neckTurn.z);
         camera.lookAt(lookTarget); // keep the camera aimed at the avatar
       },
       onReady: (h: SectionHandles) => {
@@ -85,7 +98,7 @@ export async function loadDeskModel(
         // gated on DEV so it's stripped from production builds.
         if (import.meta.env.DEV) {
           import("../utils/devPanel").then((m) =>
-            m.mountDeskDevPanel({ camera, avatar, laptop, lookTarget })
+            m.mountDeskDevPanel({ camera, avatar, laptop, lookTarget, neckTurn })
           );
         }
       },
@@ -118,11 +131,13 @@ export async function loadDeskModel(
           }
         );
 
-        // Live-tuning helpers (devtools console):
+        // Dev-only live-tuning helpers (devtools console):
         //   __deskFreeze()  → stop the scroll dolly so you can set camera z freely
         //   __deskUnfreeze() → restore the scroll-driven dolly
-        w.__deskFreeze = () => dolly.scrollTrigger?.disable(false);
-        w.__deskUnfreeze = () => dolly.scrollTrigger?.enable();
+        if (import.meta.env.DEV) {
+          w.__deskFreeze = () => dolly.scrollTrigger?.disable(false);
+          w.__deskUnfreeze = () => dolly.scrollTrigger?.enable();
+        }
       },
     };
   } catch (err) {

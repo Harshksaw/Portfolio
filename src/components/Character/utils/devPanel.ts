@@ -15,6 +15,8 @@ interface DeskRefs {
   avatar: THREE.Object3D;
   laptop: THREE.Object3D | null;
   lookTarget: THREE.Vector3;
+  /** Mutable neck-pose offset re-applied each frame (see deskModel onFrame). */
+  neckTurn?: { x: number; y: number; z: number };
 }
 
 const PANEL_ID = "desk-dev-panel";
@@ -22,7 +24,7 @@ const round = (n: number) => Math.round(n * 1000) / 1000;
 
 type Row = [string, () => number, (v: number) => void, number, number, number];
 
-export function mountDeskDevPanel({ camera, avatar, laptop, lookTarget }: DeskRefs) {
+export function mountDeskDevPanel({ camera, avatar, laptop, lookTarget, neckTurn }: DeskRefs) {
   // Replace any existing panel (HMR / StrictMode double-mount).
   document.getElementById(PANEL_ID)?.remove();
 
@@ -68,6 +70,13 @@ export function mountDeskDevPanel({ camera, avatar, laptop, lookTarget }: DeskRe
     ["avatar rY", () => avatar.rotation.y, (v) => (avatar.rotation.y = v), -PI, PI, 0.02],
     ["avatar rZ", () => avatar.rotation.z, (v) => (avatar.rotation.z = v), -PI, PI, 0.02],
   ];
+  if (neckTurn) {
+    rows.push(
+      ["neck tilt", () => neckTurn.x, (v) => (neckTurn.x = v), -1, 1, 0.02],
+      ["neck turn", () => neckTurn.y, (v) => (neckTurn.y = v), -1, 1, 0.02],
+      ["neck roll", () => neckTurn.z, (v) => (neckTurn.z = v), -1, 1, 0.02]
+    );
+  }
   if (laptop) {
     rows.push(
       ["laptop x", () => laptop.position.x, (v) => (laptop.position.x = v), -3, 3, 0.05],
@@ -147,6 +156,7 @@ export function mountDeskDevPanel({ camera, avatar, laptop, lookTarget }: DeskRe
         ? [laptop.rotation.x, laptop.rotation.y, laptop.rotation.z].map(round)
         : null,
       laptopScale: laptop ? round(laptop.scale.x) : null,
+      neckTurn: neckTurn ? [neckTurn.x, neckTurn.y, neckTurn.z].map(round) : null,
       lidDeg: parseFloat(lid.value),
     };
     const text = JSON.stringify(dump, null, 2);
