@@ -67,9 +67,9 @@ export async function loadHeroModel(
 
     scene.add(object);
 
-    // Eye-blink, subtle smile, and eye-tracking — only activates if the GLB
-    // ships ARKit facial morphs / eye bones; otherwise a safe no-op.
-    const face = setupFace(object);
+    // Subtle smile + eye-tracking, plus a single blink shortly after load.
+    // Only activates if the GLB ships ARKit facial morphs / eye bones.
+    const face = setupFace(object, { blinkOnce: true });
     // Subtle breathing + head drift so the static avatar isn't frozen.
     const idle = setupIdleLife(object);
 
