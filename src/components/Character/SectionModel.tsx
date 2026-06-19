@@ -46,9 +46,10 @@ export interface LoadedModel {
   /**
    * Per-frame hook (visible frames only). For models whose mixer isn't in the
    * `mixers` array — e.g. the desk uses animationManager's module-level mixer
-   * via updateMixer(delta).
+   * via updateMixer(delta). `mouse` (range -1..1) is provided for cursor-driven
+   * effects like eye-tracking.
    */
-  onFrame?: (delta: number) => void;
+  onFrame?: (delta: number, mouse: { x: number; y: number }) => void;
   /**
    * Called once the model is in the scene and (for the loading owner) the
    * loading screen has cleared. Kick off clips, lights, self-contained zooms.
@@ -112,7 +113,9 @@ const SectionModel = ({
     // ── Renderer ────────────────────────────────────────────────────────────
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
     renderer.setSize(rect.width, rect.height);
-    renderer.setPixelRatio(window.devicePixelRatio);
+    // Cap at 2: full retina crispness, but avoid rendering 3×–9× the pixels on
+    // high-DPR phones/displays (the single biggest FPS win for little visible loss).
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1;
     container.appendChild(renderer.domElement);
@@ -139,7 +142,7 @@ const SectionModel = ({
 
     let headBone: THREE.Object3D | null = null;
     let mixers: THREE.AnimationMixer[] = [];
-    let onFrame: ((delta: number) => void) | null = null;
+    let onFrame: ((delta: number, mouse: { x: number; y: number }) => void) | null = null;
     let ctx: gsap.Context | undefined;
 
     // Cosmetic loading screen — only the owner (hero) drives it.
@@ -223,7 +226,7 @@ const SectionModel = ({
         );
       }
       for (const m of mixers) m.update(delta);
-      onFrame?.(delta);
+      onFrame?.(delta, mouse);
       renderer.render(scene, camera);
     };
     animate();

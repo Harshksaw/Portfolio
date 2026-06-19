@@ -3,6 +3,8 @@ import { GLTFLoader } from "three-stdlib";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import type { CameraConfig, LoadedModel, SectionHandles } from "../SectionModel";
+import { setupFace } from "../utils/faceAnim";
+import { setupIdleLife } from "../utils/idleLife";
 
 gsap.registerPlugin(ScrollTrigger); // idempotent
 
@@ -35,6 +37,26 @@ export async function loadHeroModel(
     });
 
     const headBone = object.getObjectByName("Head") || null;
+
+    // Subtle face de-bloat: the Avaturn mesh reads a touch puffy, so narrow the
+    // skull on width (x) and depth (z) while keeping height (y). This slims the
+    // face without distorting proportions. Scale only — head-look sets rotation,
+    // so the two never fight. Lower the numbers for a slimmer face (e.g. 0.92).
+    if (headBone) headBone.scale.set(0.95, 1.0, 0.88);
+
+    // The Avaturn clip animates Head/Neck rotations and face blendshape weights,
+    // which would fight our procedural head-look, eye-tracking, blink and smile.
+    // Strip those tracks so the clip only poses the BODY; we own everything
+    // facial (Head/Neck via head-look + idle, morphs + eyes via setupFace).
+    for (const clip of gltf.animations) {
+      clip.tracks = clip.tracks.filter((tr) => {
+        const node = tr.name.split(".")[0];
+        if (node === "Head" || node === "Neck") return false;
+        if (tr.name.endsWith(".morphTargetInfluences")) return false;
+        return true;
+      });
+    }
+
     const mixer = new THREE.AnimationMixer(object);
     let action: THREE.AnimationAction | null = null;
     if (gltf.animations.length > 0) {
@@ -48,10 +70,20 @@ export async function loadHeroModel(
 
     scene.add(object);
 
+    // Eye-blink, subtle smile, and eye-tracking — only activates if the GLB
+    // ships ARKit facial morphs / eye bones; otherwise a safe no-op.
+    const face = setupFace(object);
+    // Subtle breathing + head drift so the static avatar isn't frozen.
+    const idle = setupIdleLife(object);
+
     return {
       object,
       mixers: [mixer],
       headBone,
+      onFrame: (delta, mouse) => {
+        idle.update(delta);
+        face.update(delta, mouse);
+      },
       scrollScene: () => {
         // Cross-dissolve OUT: as the landing scrolls away, the hero fades and
         // sinks down — the mirror of the About model fading + dropping in. The
