@@ -40,6 +40,26 @@ const Landing = () => {
         <div className="character-rim" />
         <div className="character-hover" />
       </SectionModel>
+
+      {/* Scroll affordance — hidden until the hero's first action cues it in
+          (see scrollHint.ts), then dismissed once the user scrolls. */}
+      <div className="scroll-hint" aria-hidden="true">
+        <span className="scroll-hint-label">Scroll</span>
+        <span className="scroll-hint-chevron">
+          <svg
+            viewBox="0 0 24 24"
+            width="22"
+            height="22"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <polyline points="6 9 12 15 18 9" />
+          </svg>
+        </span>
+      </div>
     </div>
   );
 };

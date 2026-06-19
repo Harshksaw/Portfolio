@@ -5,6 +5,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import type { CameraConfig, LoadedModel, SectionHandles } from "../SectionModel";
 import { setupFace } from "../utils/faceAnim";
 import { setupIdleLife } from "../utils/idleLife";
+import { cueScrollHint } from "../../utils/scrollHint";
 
 gsap.registerPlugin(ScrollTrigger); // idempotent
 
@@ -130,6 +131,16 @@ export async function loadHeroModel(
             scrub: true,
           },
         });
+
+        // Dismiss the scroll cue for good once the user genuinely scrolls past
+        // the teaser range (the nudge tops out at ~70px, well under this).
+        ScrollTrigger.create({
+          trigger: ".landing-section",
+          start: "top+=110 top",
+          once: true,
+          onEnter: () =>
+            gsap.to(".scroll-hint", { autoAlpha: 0, duration: 0.4 }),
+        });
       },
       onReady: (h: SectionHandles) => {
         // Lights up (with the .character-rim backlight glow) once visible.
@@ -163,7 +174,12 @@ export async function loadHeroModel(
               play();
             }, 8000);
           });
-          setTimeout(play, 1200);
+          // First "swipe" on load — also cues the scroll affordance (chevron +
+          // a small teaser dip) so the user knows the page is scrollable.
+          setTimeout(() => {
+            play();
+            cueScrollHint();
+          }, 1200);
         }
 
         // Self-contained intro reveal: slow zoom-in (tween zoom, not position,
