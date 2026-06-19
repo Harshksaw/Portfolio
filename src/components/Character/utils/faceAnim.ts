@@ -83,7 +83,13 @@ export interface FaceController {
   update: (delta: number, mouse?: MousePos) => void;
 }
 
-export function setupFace(root: THREE.Object3D): FaceController {
+export interface FaceOptions {
+  /** Blink a single time shortly after load, then keep the eyes open. */
+  blinkOnce?: boolean;
+}
+
+export function setupFace(root: THREE.Object3D, opts: FaceOptions = {}): FaceController {
+  const blinkOnce = opts.blinkOnce ?? false;
   const blink = resolveMorphPair(root, BLINK_CANDIDATES);
   const smile = resolveMorphPair(root, SMILE_CANDIDATES);
   const eyes = findEyeBones(root);
@@ -101,8 +107,10 @@ export function setupFace(root: THREE.Object3D): FaceController {
   }
 
   // Blink state: idle countdown, then a quick close→open sweep.
-  let nextBlinkIn = rand(2, 5);
+  // blinkOnce → fire a single blink ~0.8s after load, then stop.
+  let nextBlinkIn = blinkOnce ? 0.8 : rand(2, 5);
   let blinkPhase = -1; // -1 = idle; 0..1 = mid-blink
+  let blinksLeft = blinkOnce ? 1 : Infinity;
   const BLINK_DURATION = 0.16; // seconds for a full close+open
 
   let smileTime = 0;
@@ -111,7 +119,7 @@ export function setupFace(root: THREE.Object3D): FaceController {
     active: true,
     update: (delta, mouse) => {
       // ── Blink ──────────────────────────────────────────────────────────
-      if (blink) {
+      if (blink && blinksLeft > 0) {
         if (blinkPhase < 0) {
           nextBlinkIn -= delta;
           if (nextBlinkIn <= 0) blinkPhase = 0;
@@ -123,6 +131,7 @@ export function setupFace(root: THREE.Object3D): FaceController {
           setMorph(blink[1], v);
           if (blinkPhase >= 1) {
             blinkPhase = -1;
+            blinksLeft -= 1;
             nextBlinkIn = rand(2, 6);
             setMorph(blink[0], 0);
             setMorph(blink[1], 0);

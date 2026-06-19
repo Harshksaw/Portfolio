@@ -38,11 +38,8 @@ export async function loadHeroModel(
 
     const headBone = object.getObjectByName("Head") || null;
 
-    // Subtle face de-bloat: narrow the skull a touch. Kept gentle and near-even
-    // on x/z — the T2 rig has separate teeth/tongue meshes, so an aggressive
-    // depth (z) squash pulls the lips out of alignment. Lower BOTH together for
-    // a slimmer face (e.g. 0.93, 1.0, 0.93); keep z close to x to avoid distortion.
-    if (headBone) headBone.scale.set(0.96, 1.0, 0.96);
+    // Face left at its original proportions — scaling the head bone distorts the
+    // T2 rig's separate teeth/tongue/lip meshes, so no slimming is applied.
 
     // The Avaturn clip animates Head/Neck rotations and face blendshape weights,
     // which would fight our procedural head-look, eye-tracking, blink and smile.
