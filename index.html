@@ -23,6 +23,12 @@
       name="twitter:title"
       content="Harsh  Saw — Full-Stack & AI/DevOps Engineer"
     />
+    <!-- The hero avatar (~4.7MB) is what the loading screen waits on. Start
+         fetching it as the HTML parses, in parallel with the JS, instead of at
+         the end of the entry -> vendor -> Landing -> loader chain. three's
+         FileLoader fetches with credentials:'same-origin', so the preload needs
+         crossorigin="anonymous" to match it (otherwise it double-downloads). -->
+    <link rel="preload" as="fetch" href="/models/harshfirst.glb" crossorigin="anonymous" />
   </head>
 
   <body>
