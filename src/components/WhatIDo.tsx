@@ -3,8 +3,12 @@ import "./styles/WhatIDo.css";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import SectionModel from "./Character/SectionModel";
 import { deskCamera, loadDeskModel } from "./Character/variants/deskModel";
+import { useDeferredModel } from "./utils/useDeferredModel";
 
 const WhatIDo = ({ enable3D = false }: { enable3D?: boolean }) => {
+  // Hold the desk model (avatar + macbook + FBX animations) until this section is
+  // approached; it's two screens down, so this never loads on first paint.
+  const showModel = useDeferredModel(".whatIDO");
   const containerRef = useRef<(HTMLDivElement | null)[]>([]);
   const setRef = (el: HTMLDivElement | null, index: number) => {
     containerRef.current[index] = el;
@@ -29,7 +33,7 @@ const WhatIDo = ({ enable3D = false }: { enable3D?: boolean }) => {
   return (
     <div className="whatIDO">
       {/* Desk avatar + laptop — its own canvas, behind the cards. */}
-      {enable3D && (
+      {enable3D && showModel && (
         <SectionModel
           className="section-model desk-model"
           sectionSelector=".whatIDO"
