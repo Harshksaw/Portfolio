@@ -22,12 +22,12 @@ const Contact = () => {
             <h4>Resume</h4>
             <p>
               <a
-                href="https://drive.google.com/file/d/1HbAjcmj3HiaGQHnin8Fgr4x6JFxQfnxo/view?usp=sharing"
+                href="/resume"
                 target="_blank"
                 rel="noreferrer"
                 data-cursor="disable"
               >
-                Download Resume →
+                View / Download Résumé →
               </a>
             </p>
           </div>

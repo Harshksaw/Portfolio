@@ -24,6 +24,8 @@ export function setContentTimeline() {
 }
 
 export function setAllTimeline() {
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
   const careerTimeline = gsap.timeline({
     scrollTrigger: {
       trigger: ".career-section",
@@ -44,8 +46,8 @@ export function setAllTimeline() {
     .fromTo(".career-timeline", { opacity: 0 }, { opacity: 1, duration: 0.1 }, 0)
     .fromTo(
       ".career-info-box",
-      { opacity: 0 },
-      { opacity: 1, stagger: 0.1, duration: 0.5 },
+      { opacity: 0, y: reduce ? 0 : 30 },
+      { opacity: 1, y: 0, stagger: 0.1, duration: 0.5 },
       0
     )
     .fromTo(
