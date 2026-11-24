@@ -69,7 +69,7 @@ const MainContainer = () => {
     return () => {
       window.removeEventListener("resize", resizeHandler);
     };
-  }, [isDesktopView]);
+  }, []);
 
   // DOM-only scroll reveals (cards + career). The 3D models drive their own
   // per-section scroll effects internally, so nothing here touches a canvas.

@@ -176,8 +176,13 @@ const TechStack = () => {
         </p>
       </div>
 
+      {/* Only render + step physics while the section is on screen. Before,
+          the canvas, N8AO pass and Rapier world ran every frame for the whole
+          session once mounted, even when scrolled far away. */}
       <Canvas
         shadows
+        frameloop={isActive ? "always" : "never"}
+        dpr={[1, 1.5]}
         gl={{ alpha: true, stencil: false, depth: false, antialias: false }}
         camera={{ position: [0, 0, 20], fov: 32.5, near: 1, far: 100 }}
         onCreated={(state) => (state.gl.toneMappingExposure = 1.5)}
@@ -193,7 +198,7 @@ const TechStack = () => {
           shadow-mapSize={[512, 512]}
         />
         <directionalLight position={[0, 5, -4]} intensity={2} />
-        <Physics gravity={[0, 0, 0]}>
+        <Physics gravity={[0, 0, 0]} paused={!isActive}>
           <Pointer isActive={isActive} />
           {spheres.map((props, i) => (
             <SphereGeo
@@ -210,7 +215,9 @@ const TechStack = () => {
           environmentRotation={[0, 4, 2]}
         />
         <EffectComposer enableNormalPass={false}>
-          <N8AO color="#0f002c" aoRadius={2} intensity={1.15} />
+          {/* halfRes: AO computed at ¼ the pixels — near-identical look on soft
+              sphere contact shadows, a fraction of the full-screen cost. */}
+          <N8AO color="#0f002c" aoRadius={2} intensity={1.15} halfRes />
         </EffectComposer>
       </Canvas>
 

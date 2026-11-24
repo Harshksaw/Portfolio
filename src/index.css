@@ -181,11 +181,11 @@ body {
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: rgba(234, 229, 236, 0.85);
-  background: rgba(94, 234, 212, 0.04);
+  /* Solid tint instead of backdrop-filter: these sit over the live physics
+     canvas inside ScrollSmoother, so a backdrop blur re-rasterised every frame. */
+  background: rgba(10, 14, 23, 0.72);
   border: 1px solid rgba(94, 234, 212, 0.18);
   border-radius: 999px;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
 }
 
 @media screen and (min-width: 768px) {

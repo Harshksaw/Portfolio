@@ -113,9 +113,10 @@ const SectionModel = ({
     // ── Renderer ────────────────────────────────────────────────────────────
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
     renderer.setSize(rect.width, rect.height);
-    // Cap at 2: full retina crispness, but avoid rendering 3×–9× the pixels on
-    // high-DPR phones/displays (the single biggest FPS win for little visible loss).
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    // Cap at 1.5: with MSAA on and up to three of these canvases alive at once,
+    // DPR 2 costs ~1.8× the fragment work of 1.5 for barely visible gain on a
+    // soft-lit character (the single biggest FPS win for little visible loss).
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1;
     container.appendChild(renderer.domElement);
@@ -214,6 +215,10 @@ const SectionModel = ({
       // and snap any playing clip to its end.
       const delta = clock.getDelta();
       if (!visible) return; // section offscreen → skip the expensive render
+      // Faded fully out by a scroll tween (gsap autoAlpha sets inline
+      // visibility:hidden at 0) — e.g. the hero while its section is still
+      // partly on screen. Inline style read, so no layout cost.
+      if (container.style.visibility === "hidden") return;
       if (headBone) {
         handleHeadRotation(
           headBone,

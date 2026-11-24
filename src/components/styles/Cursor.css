@@ -31,3 +31,9 @@
     --size: 0px;
   }
 }
+/* Touch devices: no hover cursor (Cursor.tsx also skips its frame loop). */
+@media (pointer: coarse) {
+  .cursor-main {
+    display: none;
+  }
+}
