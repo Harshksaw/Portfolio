@@ -78,6 +78,20 @@ export const resume: ResumeData = {
 
   experience: [
     {
+      role: "Software Engineer, AI & Automation",
+      company: "Okanagan College — IT Services",
+      location: "Kelowna, BC",
+      companyUrl: "https://www.okanagan.bc.ca/",
+      date: "Apr 2026 – Present",
+      blurb:
+        "Building OC Connect, a college-wide agentic AI assistant on Azure AI Foundry with a custom RAG layer over institutional data and Banner SIS integrations, plus an org-wide workflow and issue-tracking system adopted across departments.",
+      bullets: [
+        "Building OC Connect, a college-wide unified-services platform — an agentic AI assistant on Azure AI Foundry that goes beyond retrieval to take action for staff and students, surfacing recommendations and initiating cross-system requests.",
+        "Architected a custom RAG layer over heterogeneous institutional data, with a microservice fabric integrating Banner SIS and multiple platform APIs behind a unified retrieval and action interface.",
+        "Shipped an org-wide workflow and issue-tracking system adopted across departments — Jira-style process tracking with real-time collaboration, replacing manual coordination between staff, instructors, and students.",
+      ],
+    },
+    {
       role: "AI Automation Engineer",
       company: "Okanagan College",
       location: "Kelowna, BC",
@@ -93,7 +107,7 @@ export const resume: ResumeData = {
     {
       role: "Software Engineer",
       company: "Ommuse",
-      location: "Remote",
+      location: "Seattle, US (Remote)",
       companyUrl: "https://ommuse.com/",
       date: "Nov 2025 – Present",
       blurb:
@@ -280,6 +294,7 @@ export const resume: ResumeData = {
   ],
 
   achievements: [
+    "Sole developer of an internal LMS migration platform at Okanagan College, built and deployed end-to-end and relied on daily by 1,500+ staff and instructors for the institution-wide Moodle-to-Brightspace transition — featuring guided step-by-step migration workflows with progress tracking and complete records, real-time notifications and chat, and AI-powered templating.",
     "Built an end-to-end stock prediction pipeline covering 500 S&P 500 constituents over 5 years of 15-minute bar data — XGBoost models trained across 26 intraday horizons on 4x NVIDIA H100 GPUs (DRAC), with automated warm-start retraining every 15 minutes during market hours, served via a FastAPI backend backed by a PostgreSQL data warehouse and a multi-rolling feature pipeline.",
     "Ranked in the top 2% of verified freelancers on Freelancer.com with a 5-star rating, delivering 25+ production-grade projects.",
     "Won an inter-university college hackathon, demonstrating innovative problem-solving and technical proficiency.",
