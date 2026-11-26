@@ -1,5 +1,4 @@
 import { resume } from "../data/resume";
-import WhatIDo from "./WhatIDo";
 import "./styles/TechStack.css";
 
 const TechStack = () => {
@@ -11,17 +10,15 @@ const TechStack = () => {
       aria-labelledby="stack-heading"
     >
       <div className="section-head">
-        <span className="section-eyebrow">Capabilities &amp; Stack</span>
+        <span className="section-eyebrow">Technical Stack</span>
         <h2 id="stack-heading" className="section-title">
-          What I build &amp; technologies I ship with
+          Languages, frameworks &amp; infrastructure
         </h2>
         <p className="section-lead">
           Synchronized directly with my engineering résumé across AI/ML,
-          distributed backend services, cloud infrastructure, and frontend apps.
+          distributed backend services, cloud infrastructure, and client apps.
         </p>
       </div>
-
-      <WhatIDo />
 
       <div className="skills-matrix" aria-label="Technical skills by category">
         {resume.skills.map((group) => (

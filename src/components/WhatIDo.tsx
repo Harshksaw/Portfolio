@@ -1,4 +1,8 @@
+import { lazy, Suspense } from "react";
+import { useSection3D } from "./utils/useProgressive3D";
 import "./styles/WhatIDo.css";
+
+const DeskScene = lazy(() => import("./Character/DeskScene"));
 
 const FOCUS_PILLARS = [
   {
@@ -26,21 +30,49 @@ const FOCUS_PILLARS = [
 ];
 
 const WhatIDo = () => {
+  const showDesk = useSection3D("capabilities");
+
   return (
-    <div className="focus-grid">
-      {FOCUS_PILLARS.map((pillar) => (
-        <article className="focus-card" key={pillar.title}>
-          <span className="focus-eyebrow">{pillar.eyebrow}</span>
-          <h3 className="focus-title">{pillar.title}</h3>
-          <p className="focus-desc">{pillar.description}</p>
-          <ul className="focus-list">
-            {pillar.highlights.map((point) => (
-              <li key={point}>{point}</li>
-            ))}
-          </ul>
-        </article>
-      ))}
-    </div>
+    <section
+      className="section-wrap section-block whatido-section"
+      id="capabilities"
+      tabIndex={-1}
+      aria-labelledby="capabilities-heading"
+    >
+      <div className="whatido-layout">
+        <div className="whatido-stage-col">
+          <div className="section-head">
+            <span className="section-eyebrow">What I Do</span>
+            <h2 id="capabilities-heading" className="section-title">
+              Engineering systems from prototype to production
+            </h2>
+          </div>
+
+          <div className="desk-visual" aria-hidden="true">
+            {showDesk && (
+              <Suspense fallback={null}>
+                <DeskScene />
+              </Suspense>
+            )}
+          </div>
+        </div>
+
+        <div className="focus-stack">
+          {FOCUS_PILLARS.map((pillar) => (
+            <article className="focus-card" key={pillar.title}>
+              <span className="focus-eyebrow">{pillar.eyebrow}</span>
+              <h3 className="focus-title">{pillar.title}</h3>
+              <p className="focus-desc">{pillar.description}</p>
+              <ul className="focus-list">
+                {pillar.highlights.map((point) => (
+                  <li key={point}>{point}</li>
+                ))}
+              </ul>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 };
 

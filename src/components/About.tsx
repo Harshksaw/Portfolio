@@ -1,10 +1,15 @@
+import { lazy, Suspense } from "react";
 import { resume } from "../data/resume";
+import { useSection3D } from "./utils/useProgressive3D";
 import "./styles/About.css";
+
+const AboutScene = lazy(() => import("./Character/AboutScene"));
 
 const CREDENTIALS = [
   {
     label: "Education",
-    title: resume.education[0]?.degree ?? "Bachelor of Computer Information Systems",
+    title:
+      resume.education[0]?.degree ?? "Bachelor of Computer Information Systems",
     meta: `${resume.education[0]?.school ?? "Okanagan College"} · ${
       resume.education[0]?.date ?? "Expected Dec 2026"
     }`,
@@ -27,14 +32,24 @@ const CREDENTIALS = [
 ];
 
 const About = () => {
+  const showModel = useSection3D("about");
+
   return (
     <section
-      className="section-wrap section-block deferred-section"
+      className="section-wrap section-block about-section"
       id="about"
       tabIndex={-1}
       aria-labelledby="about-heading"
     >
       <div className="about-grid">
+        <div className="about-visual" aria-hidden="true">
+          {showModel && (
+            <Suspense fallback={null}>
+              <AboutScene />
+            </Suspense>
+          )}
+        </div>
+
         <div className="about-narrative">
           <div className="section-head">
             <span className="section-eyebrow">About</span>
@@ -50,16 +65,16 @@ const About = () => {
             infrastructure, I focus on reliability, latency, and measurable cost
             reduction in production.
           </p>
-        </div>
 
-        <div className="credentials-grid" aria-label="Education and credentials">
-          {CREDENTIALS.map((item) => (
-            <article className="credential-card" key={item.title}>
-              <span className="credential-k">{item.label}</span>
-              <h3 className="credential-v">{item.title}</h3>
-              <p className="credential-m">{item.meta}</p>
-            </article>
-          ))}
+          <div className="credentials-grid" aria-label="Education and credentials">
+            {CREDENTIALS.map((item) => (
+              <article className="credential-card" key={item.title}>
+                <span className="credential-k">{item.label}</span>
+                <h3 className="credential-v">{item.title}</h3>
+                <p className="credential-m">{item.meta}</p>
+              </article>
+            ))}
+          </div>
         </div>
       </div>
     </section>

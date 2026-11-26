@@ -4,6 +4,7 @@ import Contact from "./Contact";
 import Landing from "./Landing";
 import Navbar from "./Navbar";
 import TechStack from "./TechStack";
+import WhatIDo from "./WhatIDo";
 import Work from "./Work";
 
 const MainContainer = () => {
@@ -13,6 +14,7 @@ const MainContainer = () => {
       <main id="main-content">
         <Landing />
         <About />
+        <WhatIDo />
         <Work />
         <TechStack />
         <Career />
