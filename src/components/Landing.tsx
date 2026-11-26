@@ -1,66 +1,117 @@
+import { lazy, Suspense } from "react";
+import { resume } from "../data/resume";
+import CopyEmailButton from "./CopyEmailButton";
+import { ArrowRightIcon, FileTextIcon, GitHubIcon, LinkedInIcon } from "./Icons";
+import { useHero3DReady } from "./utils/useProgressive3D";
 import "./styles/Landing.css";
-import SectionModel from "./Character/SectionModel";
-import { heroCamera, loadHeroModel } from "./Character/variants/heroModel";
+
+const HeroScene = lazy(() => import("./Character/HeroScene"));
 
 const Landing = () => {
+  const hero3DReady = useHero3DReady();
+  const githubUrl =
+    resume.basics.links.find((l) => l.label === "GitHub")?.url ??
+    "https://github.com/Harshksaw";
+  const linkedinUrl =
+    resume.basics.links.find((l) => l.label === "LinkedIn")?.url ??
+    "https://www.linkedin.com/in/harsh-kumar-s-32727b247/";
+
   return (
-    <div className="landing-section" id="landingDiv">
-      <div className="landing-container">
-        <div className="landing-intro">
-          <h2>Hello! I'm</h2>
-          <h1>
-            HARSH
-            <br />
-            <span> SAW</span>
-          </h1>
-        </div>
-        <div className="landing-info">
-          <h3>Full-Stack &</h3>
-          <h2 className="landing-info-h2">
-            <div className="landing-h2-1">AI Engineer</div>
-            <div className="landing-h2-2">DevOps</div>
-          </h2>
-          <h2>
-            <div className="landing-h2-info">DevOps</div>
-            <div className="landing-h2-info-1">AI Engineer</div>
-          </h2>
-        </div>
-      </div>
-
-      {/* Hero avatar — its own canvas, lives inside the landing section and
-          scrolls away with it. Owns the loading screen. */}
-      <SectionModel
-        className="section-model hero-model"
-        sectionSelector=".landing-section"
-        camera={heroCamera}
-        drivesLoading
-        rimSelector=".character-rim"
-        load={loadHeroModel}
-      >
+    <section className="landing-section" id="top" aria-labelledby="hero-heading">
+      <div className="hero-stage" aria-hidden="true">
         <div className="character-rim" />
-        <div className="character-hover" />
-      </SectionModel>
-
-      {/* Scroll affordance — hidden until the hero's first action cues it in
-          (see scrollHint.ts), then dismissed once the user scrolls. */}
-      <div className="scroll-hint" aria-hidden="true">
-        <span className="scroll-hint-label">Scroll</span>
-        <span className="scroll-hint-chevron">
-          <svg
-            viewBox="0 0 24 24"
-            width="22"
-            height="22"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <polyline points="6 9 12 15 18 9" />
-          </svg>
-        </span>
+        {hero3DReady && (
+          <Suspense fallback={null}>
+            <HeroScene />
+          </Suspense>
+        )}
       </div>
-    </div>
+
+      <div className="section-wrap landing-grid">
+        <div className="landing-intro">
+          <div className="hero-status">
+            <span className="status-dot" aria-hidden="true" />
+            <span>{resume.basics.location} · Open to SWE &amp; AI Systems</span>
+          </div>
+
+          <p className="landing-greeting">Hello! I&apos;m</p>
+          <h1 id="hero-heading" className="landing-name" tabIndex={-1}>
+            HARSH <span>SAW</span>
+          </h1>
+
+          <p className="landing-pitch">
+            Shipping production RAG pipelines, Go/Node microservices, and cloud
+            infrastructure — from 1,500+ user institutional platforms to 60%
+            lower LLM inference cost.
+          </p>
+
+          <div className="hero-actions">
+            <a href="#work" className="btn btn-primary">
+              <span>Explore Work</span>
+              <ArrowRightIcon />
+            </a>
+            <a
+              href="/resume"
+              target="_blank"
+              rel="noreferrer"
+              className="btn btn-secondary"
+            >
+              <FileTextIcon />
+              <span>View Résumé</span>
+            </a>
+          </div>
+
+          <div className="hero-links">
+            <a
+              href={githubUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="hero-social-link"
+            >
+              <GitHubIcon />
+              <span>GitHub</span>
+            </a>
+            <a
+              href={linkedinUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="hero-social-link"
+            >
+              <LinkedInIcon />
+              <span>LinkedIn</span>
+            </a>
+            <span id="hero-email-source" className="visually-hidden">
+              {resume.basics.email}
+            </span>
+            <CopyEmailButton
+              email={resume.basics.email}
+              targetId="hero-email-source"
+            />
+          </div>
+        </div>
+
+        <div className="landing-info">
+          <p className="landing-info-kicker">Full-Stack &amp;</p>
+          <div className="landing-role-rotator">
+            <span className="role-primary">AI Systems Engineer</span>
+            <span className="role-secondary" aria-hidden="true">
+              Cloud &amp; DevOps
+            </span>
+          </div>
+
+          <div className="landing-proof" aria-label="Key production metrics">
+            <div className="proof-pill">
+              <strong>1,500+</strong>
+              <span>Daily Users</span>
+            </div>
+            <div className="proof-pill">
+              <strong>-60%</strong>
+              <span>LLM Cost</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 };
 

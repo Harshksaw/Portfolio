@@ -3,6 +3,7 @@ import { createGLTFLoader } from "../utils/gltf";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
+  disposeAnimations,
   loadAnimations,
   startIdle,
   startTyping,
@@ -11,21 +12,15 @@ import {
 import { loadLaptop } from "../utils/laptop";
 import type { CameraConfig, LoadedModel, SectionHandles } from "../SectionModel";
 
-// DESK model (avatar.glb + macbook.glb) — lives in the WhatIDo section.
-// Wide full-body framing at a desk. Idles by default, switches to Typing when
-// the section scrolls into view, with a gentle self-contained dolly-in.
-//
-// Tune live from the console:
-//   __deskCam.position.set(x, y, z); __deskCam.updateProjectionMatrix()
-//   __laptop.position.set(x, y, z) / __laptop.scale.setScalar(s) / __laptopOpen(deg)
+gsap.registerPlugin(ScrollTrigger);
 
-const DESK_Z = 6.9; // tuned camera distance (full body + desk, from the left)
+const DESK_Z = 6.9;
 
 export const deskCamera: CameraConfig = {
   fov: 14.5,
-  position: [-3.25, -1.45, DESK_Z], // camera placed to the LEFT + low
+  position: [-3.25, -1.45, DESK_Z],
   zoom: 1.0,
-  lookAt: [0, 0.95, -0.05],         // aim at the avatar's chest so it stays framed
+  lookAt: [0, 0.95, -0.05],
 };
 
 export async function loadDeskModel(
@@ -48,38 +43,29 @@ export async function loadDeskModel(
 
     const headBone = avatar.getObjectByName("Head") || null;
     scene.add(avatar);
-    avatar.position.set(-0.6, -0.05, 0.15);     // ← position: x (left/right), y (up/down), z (forward/back)
-    avatar.rotation.set(0.178, 0.458, 0.138);   // ← turn: y turns the body left/right (radians)
+    avatar.position.set(-0.6, -0.05, 0.15);
+    avatar.rotation.set(0.178, 0.458, 0.138);
 
-    // Turn the neck slightly toward the camera (which sits to the left). Applied
-    // every frame AFTER the animation (see onFrame) so the idle/typing clip can't
-    // overwrite it. Tune via the dev panel or __neckTurn.
     const neckBone = avatar.getObjectByName("Neck") ?? null;
-    const neckTurn = { x: 0, y: -0.25, z: 0 }; // ← neck pose (radians); flip y sign to turn the other way
+    const neckTurn = { x: 0, y: -0.25, z: 0 };
 
-    // Retargeted FBX clips (Idle / Typing) onto the avatar skeleton.
     await loadAnimations(avatar);
     startIdle();
 
-    // Desk laptop — loadLaptop adds it to the scene and exposes __laptop* helpers.
     const laptop = await loadLaptop(scene);
     if (laptop) {
-      laptop.position.set(-0.65, 0.35, 1.6);          // ← laptop position: x (left/right), y (up/down), z (forward/back)
-      laptop.rotation.set(-1.962, 2.558, -0.462);     // ← laptop rotation (radians)
-      laptop.scale.setScalar(1.15);                   // ← laptop size
+      laptop.position.set(-0.65, 0.35, 1.6);
+      laptop.rotation.set(-1.962, 2.558, -0.462);
+      laptop.scale.setScalar(1.15);
     }
 
-    // Camera aim point, re-applied every frame so the scroll dolly never knocks
-    // the angle off.
     const lookTarget = new THREE.Vector3(...(deskCamera.lookAt ?? [0, 0.9, 0]));
 
-    // Dev-only live-tuning handles on window (stripped from production builds).
-    //   __deskCam / __avatar / __neckTurn / __deskLook
     const w = window as unknown as Record<string, unknown>;
     if (import.meta.env.DEV) {
       w.__deskCam = camera;
       w.__avatar = avatar;
-      w.__neckTurn = neckTurn; // tune live: __neckTurn.y = -0.3
+      w.__neckTurn = neckTurn;
       w.__deskLook = lookTarget;
     }
 
@@ -87,16 +73,12 @@ export async function loadDeskModel(
       object: avatar,
       headBone,
       onFrame: (delta: number) => {
-        updateMixer(delta); // advance idle/typing animation
-        // Re-apply the neck pose AFTER the animation so the clip can't undo it.
+        updateMixer(delta);
         if (neckBone) neckBone.rotation.set(neckTurn.x, neckTurn.y, neckTurn.z);
-        camera.lookAt(lookTarget); // keep the camera aimed at the avatar
+        camera.lookAt(lookTarget);
       },
       onReady: (h: SectionHandles) => {
         h.lights.turnOnLights();
-        // Dev-only live tuner (sliders for camera/avatar/laptop). Hidden unless
-        // the URL has ?tune; dynamic import gated on DEV so it's stripped from
-        // production builds entirely.
         if (
           import.meta.env.DEV &&
           new URLSearchParams(window.location.search).has("tune")
@@ -109,22 +91,20 @@ export async function loadDeskModel(
       scrollScene: (h: SectionHandles) => {
         if (!h.section) return;
 
-        // Typing while the section is in view; idle again when scrolling away.
         ScrollTrigger.create({
           trigger: h.section,
-          start: "top 70%",
+          start: "top 75%",
           end: "bottom top",
           onEnter: () => startTyping(),
           onEnterBack: () => startTyping(),
           onLeaveBack: () => startIdle(),
         });
 
-        // Self-contained dolly-in driven by this section's own scroll.
         const dolly = gsap.fromTo(
           h.camera.position,
           { z: DESK_Z },
           {
-            z: DESK_Z - 0.6, // subtle push-in (kept small so it preserves the tuned framing)
+            z: DESK_Z - 0.6,
             ease: "none",
             scrollTrigger: {
               trigger: h.section,
@@ -135,17 +115,19 @@ export async function loadDeskModel(
           }
         );
 
-        // Dev-only live-tuning helpers (devtools console):
-        //   __deskFreeze()  → stop the scroll dolly so you can set camera z freely
-        //   __deskUnfreeze() → restore the scroll-driven dolly
         if (import.meta.env.DEV) {
           w.__deskFreeze = () => dolly.scrollTrigger?.disable(false);
           w.__deskUnfreeze = () => dolly.scrollTrigger?.enable();
         }
       },
+      onDispose: () => {
+        disposeAnimations();
+      },
     };
   } catch (err) {
-    console.warn("⚠️ avatar.glb / macbook.glb (desk) failed to load", err);
+    if (import.meta.env.DEV) {
+      console.warn("avatar.glb / macbook.glb (desk) failed to load", err);
+    }
     return null;
   }
 }

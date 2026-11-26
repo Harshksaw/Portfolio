@@ -1,181 +1,79 @@
-import { useEffect, useRef } from "react";
+import { lazy, Suspense } from "react";
+import { useSection3D } from "./utils/useProgressive3D";
 import "./styles/WhatIDo.css";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import SectionModel from "./Character/SectionModel";
-import { deskCamera, loadDeskModel } from "./Character/variants/deskModel";
-import { useDeferredModel } from "./utils/useDeferredModel";
 
-const WhatIDo = ({ enable3D = false }: { enable3D?: boolean }) => {
-  // Hold the desk model (avatar + macbook + FBX animations) until this section is
-  // approached; it's two screens down, so this never loads on first paint.
-  const showModel = useDeferredModel(".whatIDO");
-  const containerRef = useRef<(HTMLDivElement | null)[]>([]);
-  const setRef = (el: HTMLDivElement | null, index: number) => {
-    containerRef.current[index] = el;
-  };
-  useEffect(() => {
-    if (ScrollTrigger.isTouch) {
-      containerRef.current.forEach((container) => {
-        if (container) {
-          container.classList.remove("what-noTouch");
-          container.addEventListener("click", () => handleClick(container));
-        }
-      });
-    }
-    return () => {
-      containerRef.current.forEach((container) => {
-        if (container) {
-          container.removeEventListener("click", () => handleClick(container));
-        }
-      });
-    };
-  }, []);
+const DeskScene = lazy(() => import("./Character/DeskScene"));
+
+const FOCUS_PILLARS = [
+  {
+    eyebrow: "AI & Agentic Systems",
+    title: "Production RAG & Inference Pipelines",
+    description:
+      "Designing multi-tenant retrieval pipelines, agentic tool execution over enterprise APIs, and staged ML inference that cuts LLM costs without sacrificing accuracy.",
+    highlights: [
+      "Azure AI Foundry, AWS Bedrock, LangChain, Qdrant & FAISS",
+      "Bi-encoder retrieval + cross-encoder reranking & GLiNER NER",
+      "QLoRA/Unsloth fine-tuning (60% cost reduction on Qwen3-4B)",
+    ],
+  },
+  {
+    eyebrow: "Full-Stack & Cloud",
+    title: "Distributed Backends & Infrastructure",
+    description:
+      "Owning features end-to-end across Go gRPC services, Node.js/FastAPI microservices, React/React Native clients, and Kubernetes/IaC deployment pipelines.",
+    highlights: [
+      "Go (gRPC/Protobuf), NestJS, FastAPI, Next.js & Electron",
+      "Apache Kafka, BullMQ, RabbitMQ & idempotent payment workflows",
+      "AWS, Azure, Kubernetes, Terraform, Pulumi, Bazel & CI/CD",
+    ],
+  },
+];
+
+const WhatIDo = () => {
+  const showDesk = useSection3D("capabilities");
+
   return (
-    <div className="whatIDO">
-      {/* Desk avatar + laptop — its own canvas, behind the cards. */}
-      {enable3D && showModel && (
-        <SectionModel
-          className="section-model desk-model"
-          sectionSelector=".whatIDO"
-          camera={deskCamera}
-          load={loadDeskModel}
-        />
-      )}
-      <div className="what-box">
-        <h2 className="title">
-          W<span className="hat-h2">HAT</span>
-          <div>
-            I<span className="do-h2"> DO</span>
+    <section
+      className="section-wrap section-block whatido-section"
+      id="capabilities"
+      tabIndex={-1}
+      aria-labelledby="capabilities-heading"
+    >
+      <div className="whatido-layout">
+        <div className="whatido-stage-col">
+          <div className="section-head">
+            <span className="section-eyebrow">What I Do</span>
+            <h2 id="capabilities-heading" className="section-title">
+              Engineering systems from prototype to production
+            </h2>
           </div>
-        </h2>
-      </div>
-      <div className="what-box">
-        <div className="what-box-in">
-          <div className="what-border2">
-            <svg width="100%">
-              <line
-                x1="0"
-                y1="0"
-                x2="0"
-                y2="100%"
-                stroke="white"
-                strokeWidth="2"
-                strokeDasharray="7,7"
-              />
-              <line
-                x1="100%"
-                y1="0"
-                x2="100%"
-                y2="100%"
-                stroke="white"
-                strokeWidth="2"
-                strokeDasharray="7,7"
-              />
-            </svg>
-          </div>
-          <div
-            className="what-content what-noTouch"
-            ref={(el) => setRef(el, 0)}
-          >
-            <div className="what-border1">
-              <svg height="100%">
-                <line
-                  x1="0"
-                  y1="0"
-                  x2="100%"
-                  y2="0"
-                  stroke="white"
-                  strokeWidth="2"
-                  strokeDasharray="6,6"
-                />
-                <line
-                  x1="0"
-                  y1="100%"
-                  x2="100%"
-                  y2="100%"
-                  stroke="white"
-                  strokeWidth="2"
-                  strokeDasharray="6,6"
-                />
-              </svg>
-            </div>
-            <div className="what-corner"></div>
 
-            <div className="what-content-in">
-              <h3>AI & LLM SYSTEMS</h3>
-              <h4>Production-Grade AI Pipelines</h4>
-              <p>
-                I build AI systems that ship — RAG platforms, LLM orchestration,
-                multi-agent workflows, and real-time inference. Not prototypes. Production.
-              </p>
-              <h5>Skillset & tools</h5>
-              <div className="what-content-flex">
-                <div className="what-tags">LangChain</div>
-                <div className="what-tags">RAG &amp; FAISS</div>
-                <div className="what-tags">LLM Orchestration</div>
-                <div className="what-tags">AutoGen</div>
-                <div className="what-tags">Pinecone / Qdrant</div>
-                <div className="what-tags">FastAPI</div>
-              </div>
-              <div className="what-arrow"></div>
-            </div>
-          </div>
-          <div
-            className="what-content what-noTouch"
-            ref={(el) => setRef(el, 1)}
-          >
-            <div className="what-border1">
-              <svg height="100%">
-                <line
-                  x1="0"
-                  y1="100%"
-                  x2="100%"
-                  y2="100%"
-                  stroke="white"
-                  strokeWidth="2"
-                  strokeDasharray="6,6"
-                />
-              </svg>
-            </div>
-            <div className="what-corner"></div>
-            <div className="what-content-in">
-              <h3>FULL-STACK &amp; DEVOPS</h3>
-              <h4>End-to-End Systems Engineering</h4>
-              <p>
-                From React/React Native frontends to Node.js/Go backends, Kubernetes
-                clusters, and CI/CD pipelines — I own the full stack and deploy it.
-              </p>
-              <h5>Skillset & tools</h5>
-              <div className="what-content-flex">
-                <div className="what-tags">Node.js / Go</div>
-                <div className="what-tags">React / React Native</div>
-                <div className="what-tags">AWS &amp; Kubernetes</div>
-                <div className="what-tags">Docker</div>
-                <div className="what-tags">PostgreSQL / Redis</div>
-                <div className="what-tags">GitHub Actions</div>
-              </div>
-              <div className="what-arrow"></div>
-            </div>
+          <div className="desk-visual" aria-hidden="true">
+            {showDesk && (
+              <Suspense fallback={null}>
+                <DeskScene />
+              </Suspense>
+            )}
           </div>
         </div>
+
+        <div className="focus-stack">
+          {FOCUS_PILLARS.map((pillar) => (
+            <article className="focus-card" key={pillar.title}>
+              <span className="focus-eyebrow">{pillar.eyebrow}</span>
+              <h3 className="focus-title">{pillar.title}</h3>
+              <p className="focus-desc">{pillar.description}</p>
+              <ul className="focus-list">
+                {pillar.highlights.map((point) => (
+                  <li key={point}>{point}</li>
+                ))}
+              </ul>
+            </article>
+          ))}
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
 
 export default WhatIDo;
-
-function handleClick(container: HTMLDivElement) {
-  container.classList.toggle("what-content-active");
-  container.classList.remove("what-sibling");
-  if (container.parentElement) {
-    const siblings = Array.from(container.parentElement.children);
-
-    siblings.forEach((sibling) => {
-      if (sibling !== container) {
-        sibling.classList.remove("what-content-active");
-        sibling.classList.toggle("what-sibling");
-      }
-    });
-  }
-}

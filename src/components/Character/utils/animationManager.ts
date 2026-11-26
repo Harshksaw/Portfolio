@@ -7,8 +7,6 @@ let mixer: THREE.AnimationMixer | null = null;
 let current: AnimName | null = null;
 const actions: Partial<Record<AnimName, THREE.AnimationAction>> = {};
 
-// Mixamo FBX tracks are named "mixamorigHips.quaternion"
-// Avaturn skeleton uses "Hips.quaternion" — strip the prefix
 function remapClip(clip: THREE.AnimationClip): THREE.AnimationClip {
   const tracks = clip.tracks.map((track) => {
     const newName = track.name.replace(/^mixamorig/, "");
@@ -23,11 +21,12 @@ function remapClip(clip: THREE.AnimationClip): THREE.AnimationClip {
 }
 
 export async function loadAnimations(avatar: THREE.Object3D): Promise<void> {
+  disposeAnimations();
   mixer = new THREE.AnimationMixer(avatar);
   const loader = new FBXLoader();
 
   const files: [AnimName, string][] = [
-    ["idle",   "/models/Idle.fbx"],
+    ["idle", "/models/Idle.fbx"],
     ["typing", "/models/Typing.fbx"],
   ];
 
@@ -35,13 +34,15 @@ export async function loadAnimations(avatar: THREE.Object3D): Promise<void> {
     files.map(async ([name, path]) => {
       try {
         const fbx = await loader.loadAsync(path);
-        if (!fbx.animations.length) return;
+        if (!fbx.animations.length || !mixer) return;
         const clip = remapClip(fbx.animations[0]);
-        const action = mixer!.clipAction(clip);
+        const action = mixer.clipAction(clip);
         action.setLoop(THREE.LoopRepeat, Infinity);
         actions[name] = action;
       } catch {
-        console.warn(`⚠️ Animation not found: ${path}`);
+        if (import.meta.env.DEV) {
+          console.warn(`Animation not found: ${path}`);
+        }
       }
     })
   );
@@ -49,12 +50,7 @@ export async function loadAnimations(avatar: THREE.Object3D): Promise<void> {
 
 export function switchAnimation(name: AnimName, fade = 0.5): void {
   const nextAction = actions[name];
-  if (!nextAction) {
-    console.warn(`⚠️ switchAnimation: "${name}" not loaded`);
-    return;
-  }
-  if (current === name) return;
-  console.log(`🎬 ${current ?? "none"} → ${name}`);
+  if (!nextAction || current === name) return;
   const prevAction = current ? actions[current] : undefined;
   if (prevAction) prevAction.fadeOut(fade);
   nextAction.reset().fadeIn(fade).play();
@@ -71,4 +67,12 @@ export function startTyping(): void {
 
 export function updateMixer(delta: number): void {
   mixer?.update(delta);
+}
+
+export function disposeAnimations(): void {
+  mixer?.stopAllAction();
+  mixer = null;
+  current = null;
+  delete actions.idle;
+  delete actions.typing;
 }

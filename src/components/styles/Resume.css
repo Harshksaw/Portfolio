@@ -16,6 +16,11 @@
   box-sizing: border-box;
 }
 
+.resume-page :where(a, button):focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
 .resume-actions {
   max-width: 820px;
   margin: 0 auto 20px;
@@ -215,6 +220,11 @@
 
 /* ── Print / Save-as-PDF ─────────────────────────────────────────────────── */
 @media print {
+  body {
+    background: #fff;
+    color: #111418;
+  }
+
   .resume-page {
     background: #fff;
     padding: 0;

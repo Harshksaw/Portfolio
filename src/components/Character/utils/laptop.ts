@@ -94,7 +94,7 @@ export async function loadLaptop(scene: THREE.Scene): Promise<THREE.Object3D | n
     // ── Dev-only live tuning helpers (devtools console) ───────────────────
     // Gated on DEV so __laptop* globals never ship to production.
     if (import.meta.env.DEV) {
-      const w = window as any;
+      const w = window as unknown as Record<string, unknown>;
       w.__laptop = laptop;
       w.__laptopDump = () => {
         const names: string[] = [];
