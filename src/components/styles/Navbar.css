@@ -75,7 +75,6 @@
   margin: 0;
   padding: 0.5rem;
   list-style: none;
-  scroll-target-group: auto;
 }
 
 /* Narrow popover menu */
@@ -180,7 +179,7 @@
   color: var(--text);
 }
 
-.nav-link:is(:target-current, .target-current) {
+.nav-link.target-current {
   color: var(--accent) !important;
   font-weight: 600;
   border-block-end-color: var(--accent);
@@ -218,7 +217,7 @@
     background: Canvas;
     border-bottom: 1px solid CanvasText;
   }
-  .nav-link:is(:target-current, .target-current) {
+  .nav-link.target-current {
     border-block-end: 2px solid LinkText;
   }
 }

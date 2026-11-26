@@ -51,47 +51,52 @@ const Navbar = () => {
     return () => mq.removeEventListener("change", syncLayout);
   }, [supportsPopover]);
 
-  // Scrollspy: native CSS scroll-target-group when supported, IntersectionObserver fallback otherwise.
+  // Scrollspy: the active link is the last section whose top has scrolled past
+  // a line just below the sticky header. Nothing is active on the hero, and the
+  // last item (Contact, a short footer) wins once the page hits bottom.
+  // (Replaces CSS scroll-target-group, whose own heuristic flipped to the next
+  // section as soon as it entered the viewport.)
   useEffect(() => {
     const menu = menuRef.current;
     if (!menu) return;
 
     const links = Array.from(menu.querySelectorAll<HTMLAnchorElement>("a[href^='#']"));
-
-    if (CSS.supports("scroll-target-group: auto")) {
-      const syncAriaCurrent = () => {
-        const currentLink = menu.querySelector<HTMLAnchorElement>("a:target-current");
-        links.forEach((link) => {
-          link.setAttribute("aria-current", link === currentLink ? "true" : "false");
-        });
-      };
-      syncAriaCurrent();
-      document.addEventListener("scrollend", syncAriaCurrent);
-      return () => document.removeEventListener("scrollend", syncAriaCurrent);
-    }
-
     const sectionEls = NAV_ITEMS.map((item) => document.getElementById(item.id)).filter(
       (el): el is HTMLElement => el !== null
     );
     if (!sectionEls.length) return;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (!entry.isIntersecting) continue;
-          const id = entry.target.getAttribute("id");
-          links.forEach((link) => {
-            const active = link.getAttribute("href") === `#${id}`;
-            link.classList.toggle("target-current", active);
-            link.setAttribute("aria-current", active ? "true" : "false");
-          });
-        }
-      },
-      { rootMargin: "-40% 0px -50% 0px", threshold: 0 }
-    );
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const line = (headerRef.current?.offsetHeight ?? 64) + window.innerHeight * 0.25;
+      let activeId: string | null = null;
+      for (const section of sectionEls) {
+        if (section.getBoundingClientRect().top <= line) activeId = section.id;
+      }
+      const atBottom =
+        window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
+      if (atBottom) activeId = sectionEls[sectionEls.length - 1].id;
 
-    sectionEls.forEach((section) => observer.observe(section));
-    return () => observer.disconnect();
+      links.forEach((link) => {
+        const active = link.getAttribute("href") === `#${activeId}`;
+        link.classList.toggle("target-current", active);
+        if (active) link.setAttribute("aria-current", "true");
+        else link.removeAttribute("aria-current");
+      });
+    };
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
   }, []);
 
   const closeMobileMenu = () => {
