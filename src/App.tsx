@@ -1,8 +1,6 @@
 import { lazy, Suspense } from "react";
-import "./App.css";
-import { LoadingProvider } from "./context/LoadingProvider";
+import MainContainer from "./components/MainContainer";
 
-const MainContainer = lazy(() => import("./components/MainContainer"));
 const Resume = lazy(() => import("./components/Resume"));
 
 const isResumeRoute = () =>
@@ -18,13 +16,7 @@ const App = () => {
     );
   }
 
-  return (
-    <LoadingProvider>
-      <Suspense>
-        <MainContainer />
-      </Suspense>
-    </LoadingProvider>
-  );
+  return <MainContainer />;
 };
 
 export default App;

@@ -1,153 +1,376 @@
-import { useState, useCallback } from "react";
+import { useEffect, useRef, useState } from "react";
+import { ArrowOutwardIcon, CloseIcon, GitHubIcon } from "./Icons";
 import "./styles/Work.css";
-import WorkImage from "./WorkImage";
-import { MdArrowBack, MdArrowForward } from "react-icons/md";
 
-const projects = [
+interface FeaturedProject {
+  id: string;
+  title: string;
+  category: string;
+  impact: string;
+  summary: string;
+  stack: string[];
+  bullets: string[];
+  image?: string;
+  liveUrl?: string;
+  repoUrl?: string;
+}
+
+const FEATURED_PROJECTS: FeaturedProject[] = [
   {
-    title: "Document Intelligence",
-    category: "Multi-tenant RAG Platform",
-    tools: "FastAPI, LangChain, FAISS, Groq, Gemini, AWS ECS",
-    image: "https://res.cloudinary.com/dgheyg3iv/image/upload/v1770617252/Screenshot_2026-02-01_at_10.09.24_PM_jyno2o.png",
-    link: "https://aidoc.harshsaw.ca",
+    id: "doc-intel",
+    title: "Document Intelligence Platform",
+    category: "Multi-Tenant RAG & LLM Orchestration",
+    impact: "Session-isolated Qdrant indexes + automatic Groq-to-Gemini failover",
+    summary:
+      "Production conversational Q&A over PDF, DOCX, and TXT files with SHA-256 ingestion deduplication and streaming retrieval.",
+    stack: ["FastAPI", "LangChain", "Qdrant", "Groq / Gemini", "AWS ECS Fargate"],
+    bullets: [
+      "Architected a multi-tenant RAG platform with session-isolated Qdrant indexes for semantic search and conversational Q&A across PDF, DOCX, and TXT documents.",
+      "Engineered resilient LLM orchestration using LangChain RunnableWithFallbacks, implementing automatic provider failover (Groq to Gemini) with context-aware query rewriting.",
+      "Deployed to AWS ECS Fargate with GitHub Actions CI/CD and multi-worker Uvicorn scaling, using SHA-256 fingerprinting to deduplicate embeddings.",
+    ],
+    image:
+      "https://res.cloudinary.com/dgheyg3iv/image/upload/f_auto,q_auto,w_960,c_limit/v1770617252/Screenshot_2026-02-01_at_10.09.24_PM_jyno2o.png",
+    liveUrl: "https://aidoc.harshsaw.ca/",
+    repoUrl: "https://github.com/Harshksaw/document_portal",
   },
   {
-    title: "MySmartFactory.ai",
-    category: "AI Safety Detection Platform",
-    tools: "YOLO, FastAPI, Next.js, MongoDB, Redis, WhatsApp Alerts",
-    image: "https://res.cloudinary.com/dgheyg3iv/image/upload/v1756762378/Screenshot_2025-09-01_at_2.31.13_PM_degmoj.png",
-    link: "",
+    id: "codeexpo",
+    title: "CodeExpo — Cloud IDE & Sandbox",
+    category: "Containerized Developer Environment",
+    impact: "Live xterm.js WebSocket terminal + isolated Docker session containers",
+    summary:
+      "Full-stack browser IDE replicating a local workflow with real-time execution, live preview pane, and Socket.IO workspace sync.",
+    stack: ["React", "Node.js", "WebSocket", "Docker", "Nginx", "xterm.js"],
+    bullets: [
+      "Engineered a browser-based IDE replicating a local dev environment with an interactive xterm.js terminal over WebSocket, live preview pane, and Socket.IO workspace synchronization.",
+      "Architected containerized sandbox environments using Docker multi-stage builds and an Nginx reverse proxy to manage isolated execution contexts per session.",
+      "Managed editor and workspace state cleanly with Zustand for low-latency file switching and terminal feedback.",
+    ],
+    liveUrl: "https://code.harshsaw.ca",
+    repoUrl: "https://github.com/Harshksaw/Project-IDX-Codesandbox",
   },
   {
-    title: "StudyEkaant",
-    category: "Room Booking Mobile App",
-    tools: "React Native, Docker, Kubernetes, Redis — 200+ concurrent users",
-    image: "https://res.cloudinary.com/dgheyg3iv/image/upload/v1756760193/File5_oppopy.png",
-    link: "https://www.studyekaant.com",
+    id: "krishna-lms",
+    title: "Krishna Academy LMS & Streaming",
+    category: "Mobile EdTech & HLS Video Pipeline",
+    impact: "1,500+ students · Seek time cut 30s → 1.5s · ~70% less bandwidth",
+    summary:
+      "Production React Native learning apps backed by Terraform-provisioned AWS infrastructure and FFmpeg HLS transcoding.",
+    stack: ["React Native", "Node.js", "AWS S3 / CloudFront", "FFmpeg", "Terraform"],
+    bullets: [
+      "Shipped production React Native LMS and admin apps serving thousands of learners with device-bound authentication and anti-piracy controls.",
+      "Built an asynchronous FFmpeg HLS transcoding pipeline delivered via S3 and CloudFront, orchestrated with SQS, Lambda, and SNS.",
+      "Reduced video seek latency from 30s to 1.5s while cutting streaming bandwidth costs by approximately 70%.",
+    ],
+    image:
+      "https://res.cloudinary.com/dgheyg3iv/image/upload/f_auto,q_auto,w_960,c_limit/v1756760199/File12_wa4uol.png",
+    liveUrl: "https://krishnaacademy.in",
   },
   {
-    title: "Krishna Academy LMS",
-    category: "Learning Management System",
-    tools: "React Native, Node.js, AWS, FFmpeg — 1500+ students",
-    image: "https://res.cloudinary.com/dgheyg3iv/image/upload/v1756760199/File12_wa4uol.png",
-    link: "https://krishnaacademy.in",
-  },
-  {
-    title: "Bwisher",
-    category: "E-commerce Platform",
-    tools: "Next.js, Node.js, MongoDB, Stripe — 20K+ API calls/day",
-    image: "https://res.cloudinary.com/dgheyg3iv/image/upload/v1756762378/Screenshot_2025-09-01_at_1.32.14_PM_ssxp1g.png",
-    link: "https://bwisher.com",
+    id: "bwisher",
+    title: "Bwisher Platform & Marketing Engine",
+    category: "E-Commerce & Event-Driven Messaging",
+    impact: "30K+ users · 20K+ API calls/day · Idempotent Stripe/payments",
+    summary:
+      "High-throughput storefront and multi-channel campaign orchestrator running behind feature-flagged Kubernetes rollouts.",
+    stack: ["Next.js", "NestJS", "Apache Kafka", "BullMQ", "Kubernetes"],
+    bullets: [
+      "Architected a multi-channel marketing platform using Apache Kafka and BullMQ to orchestrate personalized SMS, email, and WhatsApp campaigns across 30K+ users.",
+      "Designed idempotent NestJS and FastAPI microservices for payment and credit workflows with retry and exponential backoff to eliminate duplicate transactions.",
+      "Owned Kubernetes deployments, Jenkins CI/CD, Prometheus/Grafana observability, and tenant-by-tenant feature-flag rollouts.",
+    ],
+    image:
+      "https://res.cloudinary.com/dgheyg3iv/image/upload/f_auto,q_auto,w_960,c_limit/v1756762378/Screenshot_2025-09-01_at_1.32.14_PM_ssxp1g.png",
+    liveUrl: "https://bwisher.com",
   },
 ];
 
-const Work = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isAnimating, setIsAnimating] = useState(false);
+const MORE_SYSTEMS = [
+  {
+    title: "MySmartFactory.ai",
+    subtitle: "AI Safety Detection Platform",
+    detail: "YOLO computer-vision monitoring with FastAPI, Next.js, Redis, and automated WhatsApp safety alerts.",
+  },
+  {
+    title: "StudyEkaant",
+    subtitle: "Room Booking Mobile App",
+    detail: "React Native + Docker/Kubernetes + Redis handling 200+ concurrent bookings in real time.",
+    url: "https://www.studyekaant.com",
+  },
+  {
+    title: "S&P 500 Intraday Forecast Engine",
+    subtitle: "Quantitative ML Pipeline",
+    detail: "XGBoost models across 26 intraday horizons on 4× NVIDIA H100 GPUs with 15-min warm-start retraining.",
+  },
+];
 
-  const goToSlide = useCallback(
-    (index: number) => {
-      if (isAnimating) return;
-      setIsAnimating(true);
-      setCurrentIndex(index);
-      setTimeout(() => setIsAnimating(false), 500);
-    },
-    [isAnimating]
-  );
-
-  const goToPrev = useCallback(() => {
-    const newIndex =
-      currentIndex === 0 ? projects.length - 1 : currentIndex - 1;
-    goToSlide(newIndex);
-  }, [currentIndex, goToSlide]);
-
-  const goToNext = useCallback(() => {
-    const newIndex =
-      currentIndex === projects.length - 1 ? 0 : currentIndex + 1;
-    goToSlide(newIndex);
-  }, [currentIndex, goToSlide]);
-
-  return (
-    <div className="work-section" id="work">
-      <div className="work-container section-container">
-        <h2>
-          My <span>Work</span>
-        </h2>
-
-        <div className="carousel-wrapper">
-          {/* Navigation Arrows */}
-          <button
-            className="carousel-arrow carousel-arrow-left"
-            onClick={goToPrev}
-            aria-label="Previous project"
-            data-cursor="disable"
-          >
-            <MdArrowBack />
-          </button>
-          <button
-            className="carousel-arrow carousel-arrow-right"
-            onClick={goToNext}
-            aria-label="Next project"
-            data-cursor="disable"
-          >
-            <MdArrowForward />
-          </button>
-
-          {/* Slides */}
-          <div className="carousel-track-container">
-            <div
-              className="carousel-track"
-              style={{
-                transform: `translateX(-${currentIndex * 100}%)`,
-              }}
-            >
-              {projects.map((project, index) => (
-                <div className="carousel-slide" key={index}>
-                  <div className="carousel-content">
-                    <div className="carousel-info">
-                      <div className="carousel-number">
-                        <h3>0{index + 1}</h3>
-                      </div>
-                      <div className="carousel-details">
-                        <h4>{project.title}</h4>
-                        <p className="carousel-category">
-                          {project.category}
-                        </p>
-                        <div className="carousel-tools">
-                          <span className="tools-label">Tools & Features</span>
-                          <p>{project.tools}</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="carousel-image-wrapper">
-                      <WorkImage
-                        image={project.image}
-                        alt={project.title}
-                        link={project.link}
-                      />
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Dot Indicators */}
-          <div className="carousel-dots">
-            {projects.map((_, index) => (
-              <button
-                key={index}
-                className={`carousel-dot ${index === currentIndex ? "carousel-dot-active" : ""
-                  }`}
-                onClick={() => goToSlide(index)}
-                aria-label={`Go to project ${index + 1}`}
-                data-cursor="disable"
-              />
-            ))}
-          </div>
+const CodeExpoPreview = () => (
+  <div className="codeexpo-preview" aria-hidden="true">
+    <div className="codeexpo-bar">
+      <span className="codeexpo-dots">
+        <span />
+        <span />
+        <span />
+      </span>
+      <span className="codeexpo-host">code.harshsaw.ca · docker-sandbox</span>
+    </div>
+    <div className="codeexpo-body">
+      <div className="codeexpo-tree">
+        <span className="tree-active">server.ts</span>
+        <span>nginx.conf</span>
+        <span>Dockerfile</span>
+      </div>
+      <div className="codeexpo-pane">
+        <code>
+          <span className="tok-k">ws</span>.on(<span className="tok-s">'pty:data'</span>, stream)<br />
+          <span className="tok-k">docker</span>.run(sessionId, {"{ cpus: 1 }"})
+        </code>
+        <div className="codeexpo-term">
+          <span>$ vite --port 5173</span>
+          <span className="term-ok">READY in 142ms · Proxy :443</span>
         </div>
       </div>
     </div>
+  </div>
+);
+
+const Work = () => {
+  const [activeProject, setActiveProject] = useState<FeaturedProject | null>(null);
+  const dialogRef = useRef<HTMLDialogElement>(null);
+
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+
+    if (activeProject && !dialog.open) {
+      dialog.showModal();
+    }
+  }, [activeProject]);
+
+  // Safari fallback for closedby="any" light dismiss.
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (!dialog || "closedBy" in HTMLDialogElement.prototype) return;
+
+    let pressedOutside = false;
+    const isOutside = (e: PointerEvent) => {
+      const r = dialog.getBoundingClientRect();
+      return (
+        e.clientX < r.left ||
+        e.clientX > r.right ||
+        e.clientY < r.top ||
+        e.clientY > r.bottom
+      );
+    };
+
+    const onPointerDown = (e: PointerEvent) => {
+      pressedOutside = isOutside(e);
+    };
+    const onPointerUp = (e: PointerEvent) => {
+      if (pressedOutside && isOutside(e)) {
+        dialog.close();
+      }
+      pressedOutside = false;
+    };
+
+    dialog.addEventListener("pointerdown", onPointerDown);
+    dialog.addEventListener("pointerup", onPointerUp);
+    return () => {
+      dialog.removeEventListener("pointerdown", onPointerDown);
+      dialog.removeEventListener("pointerup", onPointerUp);
+    };
+  }, []);
+
+  const handleDialogClose = () => {
+    const dialog = dialogRef.current;
+    if (dialog) dialog.returnValue = "";
+    setActiveProject(null);
+  };
+
+  return (
+    <section
+      className="section-wrap section-block deferred-section"
+      id="work"
+      tabIndex={-1}
+      aria-labelledby="work-heading"
+    >
+      <div className="section-head">
+        <span className="section-eyebrow">Selected Work</span>
+        <h2 id="work-heading" className="section-title">
+          Production systems &amp; case studies
+        </h2>
+        <p className="section-lead">
+          Each system below shipped to live users — inspect live deployments,
+          source repositories, or open architecture notes directly.
+        </p>
+      </div>
+
+      <div className="work-grid">
+        {FEATURED_PROJECTS.map((project, index) => (
+          <article className="project-card" key={project.id}>
+            <div className="project-media">
+              {project.image ? (
+                <img
+                  src={project.image}
+                  alt={`${project.title} interface preview`}
+                  width={960}
+                  height={540}
+                  loading="lazy"
+                  decoding="async"
+                />
+              ) : (
+                <CodeExpoPreview />
+              )}
+              <span className="project-index" aria-hidden="true">
+                0{index + 1}
+              </span>
+            </div>
+
+            <div className="project-body">
+              <div className="project-meta">{project.category}</div>
+              <h3 className="project-title">{project.title}</h3>
+              <p className="project-impact">{project.impact}</p>
+              <p className="project-summary">{project.summary}</p>
+
+              <ul className="project-tags" aria-label={`${project.title} technologies`}>
+                {project.stack.map((tech) => (
+                  <li key={tech}>{tech}</li>
+                ))}
+              </ul>
+
+              <div className="project-actions">
+                {project.liveUrl && (
+                  <a
+                    href={project.liveUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="project-link project-link-primary"
+                  >
+                    <span>Live</span>
+                    <ArrowOutwardIcon width={15} height={15} />
+                  </a>
+                )}
+                {project.repoUrl && (
+                  <a
+                    href={project.repoUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="project-link"
+                  >
+                    <GitHubIcon width={15} height={15} />
+                    <span>GitHub</span>
+                  </a>
+                )}
+                <button
+                  type="button"
+                  className="project-link project-details-btn"
+                  onClick={() => setActiveProject(project)}
+                >
+                  Architecture
+                </button>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <div className="more-systems" aria-label="Additional shipped systems">
+        {MORE_SYSTEMS.map((item) => (
+          <article className="mini-project" key={item.title}>
+            <div className="mini-project-head">
+              <div>
+                <h3 className="mini-project-title">{item.title}</h3>
+                <p className="mini-project-sub">{item.subtitle}</p>
+              </div>
+              {item.url && (
+                <a
+                  href={item.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mini-project-link"
+                  aria-label={`Visit ${item.title}`}
+                >
+                  <ArrowOutwardIcon width={16} height={16} />
+                </a>
+              )}
+            </div>
+            <p className="mini-project-desc">{item.detail}</p>
+          </article>
+        ))}
+      </div>
+
+      <dialog
+        ref={dialogRef}
+        className="project-dialog"
+        aria-labelledby="project-dialog-title"
+        onClose={handleDialogClose}
+        {...({ closedby: "any" } as Record<string, string>)}
+      >
+        {activeProject && (
+          <div className="dialog-surface">
+            <div className="dialog-header">
+              <div>
+                <span className="dialog-eyebrow">{activeProject.category}</span>
+                <h1 id="project-dialog-title" className="dialog-title">
+                  {activeProject.title}
+                </h1>
+              </div>
+              <form method="dialog">
+                <button
+                  type="submit"
+                  className="dialog-close-btn"
+                  aria-label="Close architecture details"
+                  autoFocus
+                >
+                  <CloseIcon />
+                </button>
+              </form>
+            </div>
+
+            <p className="dialog-impact">{activeProject.impact}</p>
+
+            <ul className="dialog-bullets">
+              {activeProject.bullets.map((bullet, idx) => (
+                <li key={idx}>{bullet}</li>
+              ))}
+            </ul>
+
+            <div className="dialog-footer">
+              <ul className="project-tags">
+                {activeProject.stack.map((tech) => (
+                  <li key={tech}>{tech}</li>
+                ))}
+              </ul>
+              <div className="dialog-links">
+                {activeProject.liveUrl && (
+                  <a
+                    href={activeProject.liveUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="btn btn-primary"
+                  >
+                    <span>Open Live App</span>
+                    <ArrowOutwardIcon width={16} height={16} />
+                  </a>
+                )}
+                {activeProject.repoUrl && (
+                  <a
+                    href={activeProject.repoUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="btn btn-secondary"
+                  >
+                    <GitHubIcon width={16} height={16} />
+                    <span>View Source</span>
+                  </a>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+      </dialog>
+    </section>
   );
 };
 
