@@ -97,7 +97,7 @@ export const resume: ResumeData = {
     {
       role: "Software Engineer",
       company: "Ommuse",
-      location: "Seattle, US (Remote)",
+      location: "Seattle, US",
       companyUrl: "https://ommuse.com/",
       date: "Nov 2025 – Present",
       blurb:
@@ -115,6 +115,8 @@ export const resume: ResumeData = {
       location: "Remote, USA",
       companyUrl: "https://www.darwinxsolutions.com/",
       date: "Apr 2026 – Jul 2026",
+      // Not on the Aug 2026 PDF résumé — site timeline only.
+      websiteOnly: true,
       blurb:
         "Built the resume/JD parsing and candidate–job matching layers for a production AI job portal, replacing monolithic LLM calls with a staged, cost-aware inference pipeline.",
       bullets: [
