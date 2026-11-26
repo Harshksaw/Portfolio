@@ -17,7 +17,7 @@ const CREDENTIALS = [
   {
     label: "Client Delivery",
     title: "Top 2% on Freelancer.com",
-    meta: "5-star rating · 25+ production-grade projects delivered",
+    meta: "5-star rating · 50+ production-grade projects delivered",
   },
   {
     label: "ML Systems Scale",

@@ -84,24 +84,14 @@ export const resume: ResumeData = {
       companyUrl: "https://www.okanagan.bc.ca/",
       date: "Apr 2026 – Present",
       blurb:
-        "Building OC Connect, a college-wide agentic AI assistant on Azure AI Foundry with a custom RAG layer over institutional data and Banner SIS integrations, plus an org-wide workflow and issue-tracking system adopted across departments.",
+        "Building OC Connect, a college-wide agentic AI assistant on Azure AI Foundry with a custom RAG layer over institutional data and Banner SIS integrations. Sole developer of the LMS migration platform 1,500+ staff and instructors relied on daily for the Moodle-to-Brightspace transition, plus an org-wide workflow and issue-tracking system adopted across departments.",
       bullets: [
         "Building OC Connect, a college-wide unified-services platform — an agentic AI assistant on Azure AI Foundry that goes beyond retrieval to take action for staff and students, surfacing recommendations and initiating cross-system requests.",
         "Architected a custom RAG layer over heterogeneous institutional data, with a microservice fabric integrating Banner SIS and multiple platform APIs behind a unified retrieval and action interface.",
         "Shipped an org-wide workflow and issue-tracking system adopted across departments — Jira-style process tracking with real-time collaboration, replacing manual coordination between staff, instructors, and students.",
-      ],
-    },
-    {
-      role: "AI Automation Engineer",
-      company: "Okanagan College",
-      location: "Kelowna, BC",
-      companyUrl: "https://www.okanagan.bc.ca/",
-      date: "Jul 2026 – Present",
-      blurb:
-        "Sole developer of an internal LMS migration platform relied on daily by 1,500+ staff and instructors for Okanagan College's institution-wide Moodle-to-Brightspace transition — featuring guided workflows, real-time notifications, and AI-powered templating.",
-      bullets: [
         "Sole developer of an internal LMS migration platform, built and deployed end-to-end and relied on daily by 1,500+ staff and instructors for the institution-wide Moodle-to-Brightspace transition.",
         "Delivered guided step-by-step migration workflows with progress tracking and complete records, real-time notifications and chat, and AI-powered templating.",
+        "Built an end-to-end workflow management system for the Developer course, coordinating staff and students to track issues and streamline task management.",
       ],
     },
     {
@@ -117,18 +107,6 @@ export const resume: ResumeData = {
         "Built HubSpot CRM sync for a 12K+ user music platform in Go — async batch worker using sync.Map deduplication (30s flush, 100-user chunks) syncing live metrics across 8 API trigger points; platform manages 18K+ tracks and 67 GB of user audio.",
         "Engineered a cross-platform desktop uploader (Electron) with a persistent folder-sync engine (chokidar + SQLite WAL), parallelized S3 multipart uploads, an OAuth 2.0 PKCE auth flow, and a typed IPC bridge exposing 70+ gRPC service methods to the renderer.",
         "Shipped features across a polyglot monorepo (Go gRPC/protobuf, TypeScript/React, Python) unified by Bazel, owning full deployment infrastructure — AWS (S3, SQS, ECR), Docker, Pulumi IaC, Envoy proxy, and GitHub Actions CI/CD.",
-      ],
-    },
-    {
-      role: "Software Engineer",
-      company: "Okanagan College",
-      location: "Kelowna, BC",
-      // TODO(harsh): confirm exact dates for this (former Teaching Assistant) role
-      date: "2026",
-      blurb:
-        "Built an end-to-end workflow management system for the Developer course, coordinating staff and students to track issues and streamline task management.",
-      bullets: [
-        "Built an end-to-end workflow management system for the Developer course, coordinating staff and students to track issues and streamline task management.",
       ],
     },
     {
@@ -296,7 +274,7 @@ export const resume: ResumeData = {
   achievements: [
     "Sole developer of an internal LMS migration platform at Okanagan College, built and deployed end-to-end and relied on daily by 1,500+ staff and instructors for the institution-wide Moodle-to-Brightspace transition — featuring guided step-by-step migration workflows with progress tracking and complete records, real-time notifications and chat, and AI-powered templating.",
     "Built an end-to-end stock prediction pipeline covering 500 S&P 500 constituents over 5 years of 15-minute bar data — XGBoost models trained across 26 intraday horizons on 4x NVIDIA H100 GPUs (DRAC), with automated warm-start retraining every 15 minutes during market hours, served via a FastAPI backend backed by a PostgreSQL data warehouse and a multi-rolling feature pipeline.",
-    "Ranked in the top 2% of verified freelancers on Freelancer.com with a 5-star rating, delivering 25+ production-grade projects.",
+    "Ranked in the top 2% of verified freelancers on Freelancer.com with a 5-star rating, delivering 50+ production-grade projects.",
     "Won an inter-university college hackathon, demonstrating innovative problem-solving and technical proficiency.",
   ],
 };

@@ -54,7 +54,7 @@ const FEATURED_PROJECTS: FeaturedProject[] = [
     id: "krishna-lms",
     title: "Krishna Academy LMS & Streaming",
     category: "Mobile EdTech & HLS Video Pipeline",
-    impact: "1,500+ students · Seek time cut 30s → 1.5s · ~70% less bandwidth",
+    impact: "2K+ learners · Seek time cut 30s → 1.5s · ~70% less bandwidth",
     summary:
       "Production React Native learning apps backed by Terraform-provisioned AWS infrastructure and FFmpeg HLS transcoding.",
     stack: ["React Native", "Node.js", "AWS S3 / CloudFront", "FFmpeg", "Terraform"],
