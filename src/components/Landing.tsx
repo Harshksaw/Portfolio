@@ -40,9 +40,9 @@ const Landing = () => {
           </h1>
 
           <p className="landing-pitch">
-            Shipping production RAG pipelines, Go/Node microservices, and cloud
-            infrastructure — from 1,500+ user institutional platforms to 60%
-            lower LLM inference cost.
+            I build AI products that do real work — agentic assistants, RAG-powered
+            search, and the backend and cloud systems that keep them fast and
+            reliable in production.
           </p>
 
           <div className="hero-actions">
@@ -102,11 +102,11 @@ const Landing = () => {
           <div className="landing-proof" aria-label="Key production metrics">
             <div className="proof-pill">
               <strong>1,500+</strong>
-              <span>Daily Users</span>
+              <span>staff rely on my platform daily</span>
             </div>
             <div className="proof-pill">
-              <strong>-60%</strong>
-              <span>LLM Cost</span>
+              <strong>60%</strong>
+              <span>lower LLM cost with self-hosted models</span>
             </div>
           </div>
         </div>
