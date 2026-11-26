@@ -27,7 +27,7 @@ const CREDENTIALS = [
   {
     label: "Recognition",
     title: "Inter-University Hackathon Winner",
-    meta: "Awarded for rapid end-to-end engineering & problem solving",
+    meta: "Inter-university college hackathon · innovative problem-solving",
   },
 ];
 

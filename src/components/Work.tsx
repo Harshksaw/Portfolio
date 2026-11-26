@@ -45,7 +45,7 @@ const FEATURED_PROJECTS: FeaturedProject[] = [
     bullets: [
       "Engineered a browser-based IDE replicating a local dev environment with an interactive xterm.js terminal over WebSocket, live preview pane, and Socket.IO workspace synchronization.",
       "Architected containerized sandbox environments using Docker multi-stage builds and an Nginx reverse proxy to manage isolated execution contexts per session.",
-      "Managed editor and workspace state cleanly with Zustand for low-latency file switching and terminal feedback.",
+      "Managed editor and workspace state with Zustand.",
     ],
     liveUrl: "https://code.harshsaw.ca",
     repoUrl: "https://github.com/Harshksaw/Project-IDX-Codesandbox",
@@ -95,7 +95,7 @@ const MORE_SYSTEMS = [
   {
     title: "StudyEkaant",
     subtitle: "Room Booking Mobile App",
-    detail: "React Native + Docker/Kubernetes + Redis handling 200+ concurrent bookings in real time.",
+    detail: "React Native + Docker/Kubernetes + Redis, serving 200+ concurrent users.",
     url: "https://www.studyekaant.com",
   },
   {
@@ -128,7 +128,7 @@ const CodeExpoPreview = () => (
         </code>
         <div className="codeexpo-term">
           <span>$ vite --port 5173</span>
-          <span className="term-ok">READY in 142ms · Proxy :443</span>
+          <span className="term-ok">ready · proxy :443</span>
         </div>
       </div>
     </div>
