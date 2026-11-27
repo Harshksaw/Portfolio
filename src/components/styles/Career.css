@@ -1,20 +1,184 @@
+.career-section {
+  position: relative;
+}
+
+.career-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-xl);
+  align-items: start;
+}
+
+@media (min-width: 1025px) {
+  .career-layout {
+    grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+    gap: var(--space-2xl);
+  }
+}
+
+/* Sticky desktop Terminal inspector preview */
+.career-preview-wrap {
+  display: none;
+}
+
+@media (min-width: 1025px) {
+  .career-preview-wrap {
+    display: block;
+    position: sticky;
+    top: calc(var(--header-height) + var(--space-lg));
+  }
+}
+
+.career-preview-panel {
+  border: var(--rule-hair) solid var(--color-rule-2);
+  border-radius: var(--radius-card);
+  background-color: var(--color-paper-2);
+  display: flex;
+  flex-direction: column;
+}
+
+.career-preview-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-xs);
+  padding: var(--space-xs) var(--space-md);
+  border-bottom: var(--rule-hair) solid var(--color-rule-2);
+  background-color: var(--color-paper-3);
+}
+
+.career-preview-cmd {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--color-accent);
+  font-stretch: var(--stretch-body);
+}
+
+.career-preview-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.career-preview-counter {
+  font-size: var(--text-xs);
+  color: var(--color-muted);
+  font-variant-numeric: tabular-nums;
+  margin-inline-end: var(--space-2xs);
+}
+
+.career-step-btn {
+  min-block-size: max(var(--target-size), 28px);
+  padding: var(--space-2xs) var(--space-xs);
+  border: var(--rule-hair) solid var(--color-rule);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  font-size: var(--text-xs);
+  cursor: pointer;
+  transition:
+    border-color var(--dur-micro) steps(1),
+    color var(--dur-micro) steps(1),
+    background-color var(--dur-micro) steps(1);
+}
+
+.career-step-btn:hover:not(:disabled) {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.career-step-btn:disabled {
+  border-color: var(--color-rule);
+  color: var(--color-muted);
+  cursor: not-allowed;
+}
+
+.preview-stage-body {
+  padding: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.preview-role-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-xs);
+}
+
+.preview-role-title {
+  font-size: var(--text-lg);
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--color-ink);
+}
+
+.preview-role-date {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: var(--text-xs);
+  color: var(--color-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.preview-org-line {
+  margin: 0;
+  font-size: var(--text-xs);
+  color: var(--color-muted);
+}
+
+.preview-summary {
+  margin: var(--space-2xs) 0 0;
+  font-size: var(--text-sm);
+  line-height: 1.65;
+  color: var(--color-ink-2);
+}
+
+.preview-bullets-wrap {
+  margin-block-start: var(--space-xs);
+  padding-block-start: var(--space-sm);
+  border-top: var(--rule-hair) solid var(--color-rule);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.preview-section-label {
+  font-size: var(--text-xs);
+  color: var(--color-muted);
+  font-stretch: var(--stretch-body);
+}
+
+/* Scroll-driven timeline list & progress rail */
 .timeline-list {
   position: relative;
   margin: 0;
-  padding: 0 0 0 var(--space-lg);
+  padding: 0 0 0 var(--space-xl);
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: var(--space-md);
+  gap: var(--space-lg);
 }
 
-.timeline-list::before {
-  content: "";
+.timeline-rail-track {
   position: absolute;
-  inset-block: var(--space-sm);
+  inset-block: var(--space-md);
   inset-inline-start: 0.4375rem;
-  inline-size: var(--rule-hair);
+  inline-size: 2px;
   background-color: var(--color-rule);
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.timeline-rail-progress {
+  inline-size: 100%;
+  block-size: 100%;
+  background-color: var(--color-accent);
+  transform-origin: top center;
+  transform: scaleY(1);
 }
 
 .timeline-item {
@@ -24,31 +188,53 @@
 .timeline-marker {
   position: absolute;
   inset-block-start: var(--space-lg);
-  inset-inline-start: calc(-1 * var(--space-lg));
+  inset-inline-start: calc(-1 * var(--space-xl));
   inline-size: 0.875rem;
   block-size: 0.875rem;
   border-radius: var(--radius-card);
   background-color: var(--color-paper);
   border: 2px solid var(--color-rule-2);
+  transition:
+    background-color var(--dur-micro) steps(1),
+    border-color var(--dur-micro) steps(1);
 }
 
+.timeline-item.is-selected .timeline-marker,
 .timeline-item.is-current .timeline-marker {
   background-color: var(--color-accent);
   border-color: var(--color-accent);
 }
 
 .timeline-card {
-  background-color: var(--color-paper-2);
+  background-color: var(--color-paper);
   border: var(--rule-hair) solid var(--color-rule);
   border-radius: var(--radius-card);
   padding: var(--space-lg);
   display: flex;
   flex-direction: column;
   gap: var(--space-xs);
+  transition:
+    background-color var(--dur-short) var(--ease-out),
+    border-color var(--dur-micro) steps(1),
+    opacity var(--dur-short) var(--ease-out),
+    transform var(--dur-short) var(--ease-out);
 }
 
-.timeline-item.is-current .timeline-card {
-  border-color: var(--color-rule-2);
+.timeline-item.is-selected .timeline-card {
+  background-color: var(--color-paper-2);
+  border-color: var(--color-accent);
+}
+
+.timeline-step-index {
+  display: inline-block;
+  font-size: var(--text-xs);
+  color: var(--color-muted);
+  font-variant-numeric: tabular-nums;
+  margin-block-end: var(--space-3xs);
+}
+
+.timeline-item.is-selected .timeline-step-index {
+  color: var(--color-accent);
 }
 
 .timeline-head {
@@ -117,6 +303,48 @@
   color: var(--color-ink-2);
 }
 
+.timeline-card-actions {
+  display: none;
+  margin-block-start: var(--space-2xs);
+}
+
+@media (min-width: 1025px) {
+  .timeline-card-actions {
+    display: flex;
+  }
+
+  /* On desktop, detailed bullets render in the live left sticky preview panel */
+  .timeline-card .timeline-details {
+    display: none;
+  }
+}
+
+.timeline-inspect-btn {
+  min-block-size: max(var(--target-size), 32px);
+  padding: var(--space-2xs) var(--space-sm);
+  border: var(--rule-hair) solid var(--color-rule-2);
+  border-radius: var(--radius-pill);
+  background-color: transparent;
+  color: var(--color-muted);
+  font-size: var(--text-xs);
+  cursor: pointer;
+  transition:
+    background-color var(--dur-micro) steps(1),
+    border-color var(--dur-micro) steps(1),
+    color var(--dur-micro) steps(1);
+}
+
+.timeline-inspect-btn:hover {
+  border-color: var(--color-accent);
+  color: var(--color-ink);
+}
+
+.timeline-inspect-btn.is-active {
+  background-color: var(--color-accent-wash);
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
 .timeline-details {
   margin-block-start: var(--space-2xs);
 }
@@ -148,16 +376,68 @@
   color: var(--color-ink-2);
 }
 
+/* Scroll-driven preview transitions & progressive entry (no hidden rest state) */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes preview-rise {
+    from {
+      opacity: 0.65;
+      transform: translateY(var(--space-xs));
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .preview-stage-body {
+    animation: preview-rise var(--dur-short) var(--ease-out);
+  }
+
+  @supports ((animation-timeline: view()) and (animation-range: entry)) {
+    @keyframes timeline-rail-grow {
+      from {
+        transform: scaleY(0);
+      }
+      to {
+        transform: scaleY(1);
+      }
+    }
+
+    .timeline-list {
+      view-timeline-name: --career-rail;
+      view-timeline-axis: block;
+    }
+
+    .timeline-rail-progress {
+      animation: timeline-rail-grow auto linear both;
+      animation-timeline: --career-rail;
+      animation-range: contain 0% contain 92%;
+    }
+  }
+
+  .timeline-item:not(.is-entered) .timeline-card {
+    opacity: 0.65;
+    transform: translateY(var(--space-sm));
+  }
+
+  .timeline-item.is-entered .timeline-card {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @media (max-width: 520px) {
   .timeline-list {
     padding-inline-start: var(--space-md);
   }
+
   .timeline-marker {
     inset-inline-start: calc(-1 * var(--space-md));
     inline-size: 0.75rem;
     block-size: 0.75rem;
   }
-  .timeline-list::before {
+
+  .timeline-rail-track {
     inset-inline-start: 0.375rem;
   }
 }

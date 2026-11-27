@@ -26,6 +26,27 @@
     radial-gradient(24% 24% at 18% 82%, var(--color-accent-bloom-soft), transparent 72%);
 }
 
+.packet-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  color: var(--color-accent);
+  border: 0 solid var(--color-rule-2);
+}
+
+.packet-bg canvas {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+}
+
+#main-content,
+.site-footer {
+  position: relative;
+  z-index: 1;
+}
+
 .section-wrap {
   width: 100%;
   max-width: var(--container);

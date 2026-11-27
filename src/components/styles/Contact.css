@@ -1,6 +1,6 @@
 .site-footer {
   border-top: var(--rule-hair) solid var(--color-rule);
-  background-color: var(--color-paper);
+  background-color: transparent;
   padding-block: var(--section-gap-s)
     max(var(--space-xl), env(safe-area-inset-bottom, 0px));
 }
