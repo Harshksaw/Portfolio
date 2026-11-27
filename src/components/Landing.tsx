@@ -52,8 +52,7 @@ const Landing = () => {
             </a>
             <a
               href="/Harsh-Saw-Resume.pdf"
-              target="_blank"
-              rel="noreferrer"
+              download="Harsh-Saw-Resume.pdf"
               className="btn btn-secondary"
             >
               <FileTextIcon />

@@ -46,8 +46,7 @@ const Contact = () => {
             />
             <a
               href="/Harsh-Saw-Resume.pdf"
-              target="_blank"
-              rel="noreferrer"
+              download="Harsh-Saw-Resume.pdf"
               className="btn btn-secondary"
             >
               <FileTextIcon width={16} height={16} />
@@ -71,7 +70,7 @@ const Contact = () => {
               <LinkedInIcon width={16} height={16} />
               <span>LinkedIn</span>
             </a>
-            <a href="/Harsh-Saw-Resume.pdf" target="_blank" rel="noreferrer">
+            <a href="/Harsh-Saw-Resume.pdf" download="Harsh-Saw-Resume.pdf">
               <FileTextIcon width={16} height={16} />
               <span>Résumé</span>
             </a>

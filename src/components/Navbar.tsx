@@ -168,8 +168,7 @@ const Navbar = () => {
 
         <a
           href="/Harsh-Saw-Resume.pdf"
-          target="_blank"
-          rel="noreferrer"
+          download="Harsh-Saw-Resume.pdf"
           className="header-resume-btn"
         >
           <FileTextIcon width={16} height={16} />
