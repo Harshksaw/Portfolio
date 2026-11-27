@@ -106,7 +106,12 @@ const CopyEmailButton = ({
         {status === "copied" ? <CheckIcon /> : <CopyIcon />}
         <span>{status === "copied" ? "Copied" : "Copy email"}</span>
       </button>
-      <span className="copy-tip" role="status">
+      {status !== "idle" ? (
+        <span className="copy-tip" aria-hidden="true">
+          {status === "copied" ? "Copied" : "Copy failed"}
+        </span>
+      ) : null}
+      <span className="visually-hidden" role="status">
         {announcement}
       </span>
     </span>

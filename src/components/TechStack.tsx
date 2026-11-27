@@ -10,7 +10,9 @@ const TechStack = () => {
       aria-labelledby="stack-heading"
     >
       <div className="section-head">
-        <span className="section-eyebrow">Technical Stack</span>
+        <p className="section-cmd">
+          <b>$</b> cat stack.toml
+        </p>
         <h2 id="stack-heading" className="section-title">
           Languages, frameworks &amp; infrastructure
         </h2>

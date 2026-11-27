@@ -11,7 +11,9 @@ const Career = () => {
       aria-labelledby="experience-heading"
     >
       <div className="section-head">
-        <span className="section-eyebrow">Experience</span>
+        <p className="section-cmd">
+          <b>$</b> git log --career
+        </p>
         <h2 id="experience-heading" className="section-title">
           Career timeline
         </h2>
@@ -48,14 +50,17 @@ const Career = () => {
                       ) : (
                         <span>{entry.company}</span>
                       )}
-                      <span aria-hidden="true"> · </span>
+                      <span className="timeline-sep" aria-hidden="true">
+                        {" "}
+                        |{" "}
+                      </span>
                       <span>{entry.location}</span>
                     </p>
                   </div>
 
                   <span className="timeline-date">
                     {isCurrent && (
-                      <span className="timeline-current-pill">Current</span>
+                      <span className="timeline-current-pill">Active</span>
                     )}
                     <span>{entry.date}</span>
                   </span>

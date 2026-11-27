@@ -1,0 +1,112 @@
+:root {
+  color-scheme: dark;
+
+  /* Spacing scale (4px grid) */
+  --space-3xs: 2px;
+  --space-2xs: 4px;
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 40px;
+  --space-2xl: 64px;
+  --space-3xl: 96px;
+  --space-4xl: 144px;
+
+  /* Typography scale */
+  --text-xs: 0.8125rem;
+  --text-sm: 0.875rem;
+  --text-md: 1rem;
+  --text-lg: 1.25rem;
+  --text-xl: 1.5625rem;
+  --text-2xl: 1.953rem;
+  --text-3xl: 2.441rem;
+  --text-display-s: clamp(1.85rem, 3vw + 0.5rem, 3.25rem);
+  --text-display: clamp(2.5rem, 4.2vw + 0.75rem, 4.35rem);
+  --text-section: clamp(1.75rem, 2.2vw + 0.75rem, 2.75rem);
+  --text-title: clamp(1.125rem, 0.75vw + 0.875rem, 1.45rem);
+  --text-lead: clamp(1rem, 0.35vw + 0.95rem, 1.2rem);
+
+  /* Motion & layout */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-micro: 120ms;
+  --dur-short: 220ms;
+  --dur-long: 420ms;
+  --container: 1360px;
+  --gutter: 64px;
+  --gap-columns: 32px;
+  --section-gap-s: 96px;
+  --section-gap: 128px;
+  --header-height: 4rem;
+  --target-size: 24px;
+  --z-sticky-nav: 300;
+  --z-modal: 400;
+  --z-toast: 500;
+
+  /* Hallmark Terminal palette (phosphor green on dark green-cast ground) */
+  --color-paper: oklch(12.5% 0.012 150);
+  --color-paper-2: oklch(16% 0.016 150);
+  --color-paper-3: oklch(20.5% 0.022 150);
+  --color-ink: oklch(94% 0.03 140);
+  --color-ink-2: oklch(82% 0.05 142);
+  --color-muted: oklch(68% 0.05 145);
+  --color-rule: oklch(27% 0.028 148);
+  --color-rule-2: oklch(38% 0.045 146);
+  --color-accent: oklch(87% 0.2 142);
+  --color-accent-hi: oklch(92% 0.17 142);
+  --color-accent-ink: oklch(14% 0.02 150);
+  --color-focus: oklch(87% 0.2 142);
+  --color-accent-wash: oklch(23% 0.06 145);
+  --color-accent-bloom: oklch(26% 0.08 145 / 0.26);
+  --color-accent-bloom-soft: oklch(22% 0.05 148 / 0.18);
+  --color-scrim: oklch(8% 0.01 150 / 0.86);
+  --color-shadow: oklch(5% 0.01 150 / 0.55);
+  --color-error: oklch(72% 0.15 27);
+  --color-error-wash: oklch(22% 0.05 27);
+  --color-success: oklch(87% 0.2 142);
+
+  /* Type tokens */
+  --font-display: "Martian Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-body: var(--font-display);
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --radius-card: 0px;
+  --radius-pill: 0px;
+  --rule-hair: 1px;
+  --tracking-display: -0.02em;
+  --display-weight: 500;
+  --stretch-display: 112.5%;
+  --stretch-body: 87.5%;
+
+  /* Printable resume light-paper tokens */
+  --resume-bg: oklch(80% 0.008 150);
+  --resume-sheet-bg: oklch(98.5% 0.004 150);
+  --resume-ink: oklch(17% 0.012 240);
+  --resume-muted: oklch(44% 0.014 240);
+  --resume-accent: oklch(48% 0.12 165);
+  --resume-accent-ink: oklch(99.2% 0.003 240);
+  --resume-rule: oklch(87% 0.008 240);
+  --resume-shadow: oklch(16% 0.012 240 / 0.12);
+}
+
+@media (pointer: coarse) {
+  :root {
+    --target-size: 44px;
+  }
+}
+
+@media (max-width: 60rem) {
+  :root {
+    --gutter: 24px;
+    --section-gap-s: 72px;
+    --section-gap: 88px;
+  }
+}
+
+@media (max-width: 40rem) {
+  :root {
+    --gutter: 16px;
+    --gap-columns: 16px;
+    --section-gap-s: 56px;
+    --section-gap: 72px;
+  }
+}

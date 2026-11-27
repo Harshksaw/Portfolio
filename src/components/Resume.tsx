@@ -27,13 +27,13 @@ const Resume = () => {
           <p className="resume-title">{basics.title}</p>
           <p className="resume-contact">
             <span>{basics.location}</span>
-            <span aria-hidden="true">·</span>
+            <span aria-hidden="true">|</span>
             <a href={`tel:${basics.phone.replace(/\s/g, "")}`}>{basics.phone}</a>
-            <span aria-hidden="true">·</span>
+            <span aria-hidden="true">|</span>
             <a href={`mailto:${basics.email}`}>{basics.email}</a>
             {basics.links.map((link) => (
               <span key={link.url} className="resume-contact-link">
-                <span aria-hidden="true">·</span>
+                <span aria-hidden="true">|</span>
                 <a href={link.url} target="_blank" rel="noreferrer">
                   {link.label}
                 </a>
@@ -56,7 +56,7 @@ const Resume = () => {
             >
               <div className="resume-entry-head">
                 <h3>
-                  {entry.role} —{" "}
+                  {entry.role},{" "}
                   {entry.companyUrl ? (
                     <a href={entry.companyUrl} target="_blank" rel="noreferrer">
                       {entry.company}
@@ -66,7 +66,7 @@ const Resume = () => {
                   )}
                 </h3>
                 <span className="resume-entry-meta">
-                  {entry.location} · {entry.date}
+                  {entry.location} | {entry.date}
                 </span>
               </div>
               <ul>
@@ -92,7 +92,7 @@ const Resume = () => {
         </section>
 
         <section className="resume-section">
-          <h2>Projects</h2>
+          <h2>Selected Engineering Projects</h2>
           {projects.map((project) => (
             <div className="resume-entry" key={project.name}>
               <div className="resume-entry-head">
@@ -103,7 +103,7 @@ const Resume = () => {
                       Live
                     </a>
                   )}
-                  {project.liveUrl && project.repoUrl && " · "}
+                  {project.liveUrl && project.repoUrl && " | "}
                   {project.repoUrl && (
                     <a href={project.repoUrl} target="_blank" rel="noreferrer">
                       GitHub

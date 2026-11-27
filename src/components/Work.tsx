@@ -19,7 +19,7 @@ const FEATURED_PROJECTS: FeaturedProject[] = [
   {
     id: "doc-intel",
     title: "Document Intelligence Platform",
-    category: "Multi-Tenant RAG & LLM Orchestration",
+    category: "Multi-tenant RAG & LLM orchestration",
     impact: "Session-isolated Qdrant indexes + automatic Groq-to-Gemini failover",
     summary:
       "Production conversational Q&A over PDF, DOCX, and TXT files with SHA-256 ingestion deduplication and streaming retrieval.",
@@ -36,8 +36,8 @@ const FEATURED_PROJECTS: FeaturedProject[] = [
   },
   {
     id: "codeexpo",
-    title: "CodeExpo — Cloud IDE & Sandbox",
-    category: "Containerized Developer Environment",
+    title: "CodeExpo: Cloud IDE & Sandbox",
+    category: "Containerized developer environment",
     impact: "Live xterm.js WebSocket terminal + isolated Docker session containers",
     summary:
       "Full-stack browser IDE replicating a local workflow with real-time execution, live preview pane, and Socket.IO workspace sync.",
@@ -53,8 +53,8 @@ const FEATURED_PROJECTS: FeaturedProject[] = [
   {
     id: "krishna-lms",
     title: "Krishna Academy LMS & Streaming",
-    category: "Mobile EdTech & HLS Video Pipeline",
-    impact: "2K+ learners · Seek time cut 30s → 1.5s · ~70% less bandwidth",
+    category: "Mobile EdTech & HLS video pipeline",
+    impact: "2K+ learners | Seek time cut 30s to 1.5s | ~70% less bandwidth",
     summary:
       "Production React Native learning apps backed by Terraform-provisioned AWS infrastructure and FFmpeg HLS transcoding.",
     stack: ["React Native", "Node.js", "AWS S3 / CloudFront", "FFmpeg", "Terraform"],
@@ -70,8 +70,8 @@ const FEATURED_PROJECTS: FeaturedProject[] = [
   {
     id: "bwisher",
     title: "Bwisher Platform & Marketing Engine",
-    category: "E-Commerce & Event-Driven Messaging",
-    impact: "30K+ users · 20K+ API calls/day · Idempotent Stripe/payments",
+    category: "E-commerce & event-driven messaging",
+    impact: "30K+ users | 20K+ API calls/day | Idempotent Stripe/payments",
     summary:
       "High-throughput storefront and multi-channel campaign orchestrator running behind feature-flagged Kubernetes rollouts.",
     stack: ["Next.js", "NestJS", "Apache Kafka", "BullMQ", "Kubernetes"],
@@ -101,36 +101,29 @@ const MORE_SYSTEMS = [
   {
     title: "S&P 500 Intraday Forecast Engine",
     subtitle: "Quantitative ML Pipeline",
-    detail: "XGBoost models across 26 intraday horizons on 4× NVIDIA H100 GPUs with 15-min warm-start retraining.",
+    detail: "XGBoost models across 26 intraday horizons on 4x NVIDIA H100 GPUs with 15-min warm-start retraining.",
   },
 ];
 
 const CodeExpoPreview = () => (
   <div className="codeexpo-preview" aria-hidden="true">
     <div className="codeexpo-bar">
-      <span className="codeexpo-dots">
-        <span />
-        <span />
-        <span />
-      </span>
-      <span className="codeexpo-host">code.harshsaw.ca · docker-sandbox</span>
+      <span className="codeexpo-host">tty: code.harshsaw.ca | docker-sandbox</span>
     </div>
-    <div className="codeexpo-body">
-      <div className="codeexpo-tree">
-        <span className="tree-active">server.ts</span>
-        <span>nginx.conf</span>
-        <span>Dockerfile</span>
-      </div>
-      <div className="codeexpo-pane">
-        <code>
-          <span className="tok-k">ws</span>.on(<span className="tok-s">'pty:data'</span>, stream)<br />
-          <span className="tok-k">docker</span>.run(sessionId, {"{ cpus: 1 }"})
-        </code>
-        <div className="codeexpo-term">
-          <span>$ vite --port 5173</span>
-          <span className="term-ok">ready · proxy :443</span>
-        </div>
-      </div>
+    <pre className="codeexpo-ascii">
+{`+-------------+     ws://pty      +--------------+
+|  xterm.js   | ----------------> | nginx  :443  |
++-------------+                   +--------------+
+                                         |
+                                         v
++-------------+   volume mount    +--------------+
+|  server.ts  | <---------------- | docker exec  |
+| nginx.conf  |   cpus: 1 iso     | session pod  |
++-------------+                   +--------------+`}
+    </pre>
+    <div className="codeexpo-term">
+      <span>$ vite --port 5173</span>
+      <span className="term-ok">[ready] proxy :443</span>
     </div>
   </div>
 );
@@ -196,13 +189,15 @@ const Work = () => {
       aria-labelledby="work-heading"
     >
       <div className="section-head">
-        <span className="section-eyebrow">Selected Work</span>
+        <p className="section-cmd">
+          <b>$</b> ls -la ./deployments
+        </p>
         <h2 id="work-heading" className="section-title">
           Production systems &amp; case studies
         </h2>
         <p className="section-lead">
-          Each system below shipped to live users — inspect live deployments,
-          source repositories, or open architecture notes directly.
+          Each system shipped to live users. Inspect deployments, repositories,
+          or open architecture notes directly.
         </p>
       </div>
 
@@ -216,8 +211,11 @@ const Work = () => {
                   alt={`${project.title} interface preview`}
                   width={960}
                   height={540}
-                  loading="lazy"
+                  loading={index === 0 ? undefined : "lazy"}
                   decoding="async"
+                  {...(index === 0
+                    ? ({ fetchpriority: "high" } as Record<string, string>)
+                    : {})}
                 />
               ) : (
                 <CodeExpoPreview />
@@ -311,7 +309,7 @@ const Work = () => {
           <div className="dialog-surface">
             <div className="dialog-header">
               <div>
-                <span className="dialog-eyebrow">{activeProject.category}</span>
+                <span className="dialog-cmd">{activeProject.category}</span>
                 <h1 id="project-dialog-title" className="dialog-title">
                   {activeProject.title}
                 </h1>

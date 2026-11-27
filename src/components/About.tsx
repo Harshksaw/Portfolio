@@ -5,29 +5,36 @@ import "./styles/About.css";
 
 const AboutScene = lazy(() => import("./Character/AboutScene"));
 
+const PRODUCTION_STATS = [
+  { value: "1,500+", label: "# daily staff on OC platform" },
+  { value: "-60%", label: "# Qwen3-4B LLM inference cost" },
+  { value: "1.5s", label: "# HLS seek from 30s baseline" },
+  { value: "30K+", label: "# Kafka campaign users" },
+];
+
 const CREDENTIALS = [
   {
     label: "Education",
     title:
       resume.education[0]?.degree ?? "Bachelor of Computer Information Systems",
-    meta: `${resume.education[0]?.school ?? "Okanagan College"} · ${
+    meta: `${resume.education[0]?.school ?? "Okanagan College"} | ${
       resume.education[0]?.date ?? "Expected Dec 2026"
     }`,
   },
   {
-    label: "Client Delivery",
+    label: "Client delivery",
     title: "Top 2% on Freelancer.com",
-    meta: "5-star rating · 50+ production-grade projects delivered",
+    meta: "5-star rating | 50+ production-grade projects delivered",
   },
   {
-    label: "ML Systems Scale",
+    label: "ML systems scale",
     title: "S&P 500 Intraday Pipeline",
-    meta: "26 horizons trained on 4× NVIDIA H100 GPUs · 15-min retraining",
+    meta: "26 horizons trained on 4x NVIDIA H100 GPUs | 15-min retraining",
   },
   {
     label: "Recognition",
     title: "Inter-University Hackathon Winner",
-    meta: "Inter-university college hackathon · innovative problem-solving",
+    meta: "Inter-university college hackathon | innovative problem-solving",
   },
 ];
 
@@ -52,9 +59,11 @@ const About = () => {
 
         <div className="about-narrative">
           <div className="section-head">
-            <span className="section-eyebrow">About</span>
+            <p className="section-cmd">
+              <b>$</b> wc -l ./production.log
+            </p>
             <h2 id="about-heading" className="section-title">
-              End-to-end systems that ship to real users.
+              End-to-end systems that ship to real users
             </h2>
           </div>
 
@@ -65,6 +74,15 @@ const About = () => {
             infrastructure, I focus on reliability, latency, and measurable cost
             reduction in production.
           </p>
+
+          <div className="stats-strip" role="list" aria-label="Key production metrics">
+            {PRODUCTION_STATS.map((stat) => (
+              <div className="stat-cell" role="listitem" key={stat.label}>
+                <span className="stat-num">{stat.value}</span>
+                <span className="stat-cap">{stat.label}</span>
+              </div>
+            ))}
+          </div>
 
           <div className="credentials-grid" aria-label="Education and credentials">
             {CREDENTIALS.map((item) => (

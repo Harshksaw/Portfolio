@@ -210,11 +210,11 @@ export const resume: ResumeData = {
       items: ["JavaScript (ES6+)", "TypeScript", "Python", "Go (Golang)", "Bash"],
     },
     {
-      category: "Frontend & Mobile",
+      category: "Frontend & mobile",
       items: ["React", "Next.js", "React Native", "Qwik.js", "Electron"],
     },
     {
-      category: "Backend & Messaging",
+      category: "Backend & messaging",
       items: [
         "NestJS",
         "FastAPI",

@@ -17,7 +17,8 @@ function loadSharedEnv(): Promise<THREE.Texture> {
 }
 
 const setLighting = (scene: THREE.Scene, rimSelector?: string) => {
-  const directionalLight = new THREE.DirectionalLight(0x5eead4, 0);
+  // Neutral phosphor-balanced studio key light (keeps skin natural while matching Terminal ground)
+  const directionalLight = new THREE.DirectionalLight(0xe6f9ea, 0);
   directionalLight.position.set(-1, 2, 2);
   directionalLight.castShadow = true;
   directionalLight.shadow.mapSize.width = 1024;
@@ -26,7 +27,7 @@ const setLighting = (scene: THREE.Scene, rimSelector?: string) => {
   directionalLight.shadow.camera.far = 20;
   scene.add(directionalLight);
 
-  const fillLight = new THREE.PointLight(0x22d3ee, 0, 8, 2);
+  const fillLight = new THREE.PointLight(0x86efac, 0, 8, 2);
   fillLight.position.set(1.5, 1.0, 1.0);
   scene.add(fillLight);
 
@@ -47,17 +48,17 @@ const setLighting = (scene: THREE.Scene, rimSelector?: string) => {
   function turnOnLights() {
     disposed = false;
     gsap.to(scene, {
-      environmentIntensity: 0.64,
-      duration: 1.4,
+      environmentIntensity: 0.62,
+      duration: 1.2,
       ease: "power2.out",
     });
     gsap.to(directionalLight, {
       intensity: 1,
-      duration: 1.4,
+      duration: 1.2,
       ease: "power2.out",
     });
     if (rimSelector) {
-      gsap.to(rimSelector, { opacity: 1, duration: 1.2, ease: "power2.out" });
+      gsap.to(rimSelector, { opacity: 1, duration: 1, ease: "power2.out" });
     }
   }
 

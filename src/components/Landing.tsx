@@ -2,6 +2,7 @@ import { lazy, Suspense } from "react";
 import { resume } from "../data/resume";
 import CopyEmailButton from "./CopyEmailButton";
 import { ArrowRightIcon, FileTextIcon, GitHubIcon, LinkedInIcon } from "./Icons";
+import TerminalSession from "./TerminalSession";
 import { useHero3DReady } from "./utils/useProgressive3D";
 import "./styles/Landing.css";
 
@@ -29,25 +30,24 @@ const Landing = () => {
 
       <div className="section-wrap landing-grid">
         <div className="landing-intro">
-          <div className="hero-status">
-            <span className="status-dot" aria-hidden="true" />
-            <span>{resume.basics.location} · Open to SWE &amp; AI Systems</span>
-          </div>
-
-          <p className="landing-greeting">Hello! I&apos;m</p>
+          <p className="hero-loc">
+            {resume.basics.location} | Open to SWE &amp; AI Systems
+          </p>
+          <p className="section-cmd">
+            <b>$</b> whoami
+          </p>
           <h1 id="hero-heading" className="landing-name" tabIndex={-1}>
-            HARSH <span>SAW</span>
+            {resume.basics.name}
           </h1>
+          <p className="landing-role-line">{resume.basics.title}</p>
 
           <p className="landing-pitch">
-            I build AI products that do real work — agentic assistants, RAG-powered
-            search, and the backend and cloud systems that keep them fast and
-            reliable in production.
+            RAG agents, Go services, and cloud infrastructure built for production.
           </p>
 
           <div className="hero-actions">
             <a href="#work" className="btn btn-primary">
-              <span>Explore Work</span>
+              <span>Explore work</span>
               <ArrowRightIcon />
             </a>
             <a
@@ -56,7 +56,7 @@ const Landing = () => {
               className="btn btn-secondary"
             >
               <FileTextIcon />
-              <span>View Résumé</span>
+              <span>Download résumé</span>
             </a>
           </div>
 
@@ -89,25 +89,8 @@ const Landing = () => {
           </div>
         </div>
 
-        <div className="landing-info">
-          <p className="landing-info-kicker">Full-Stack &amp;</p>
-          <div className="landing-role-rotator">
-            <span className="role-primary">AI Systems Engineer</span>
-            <span className="role-secondary" aria-hidden="true">
-              Cloud &amp; DevOps
-            </span>
-          </div>
-
-          <div className="landing-proof" aria-label="Key production metrics">
-            <div className="proof-pill">
-              <strong>1,500+</strong>
-              <span>staff rely on my platform daily</span>
-            </div>
-            <div className="proof-pill">
-              <strong>60%</strong>
-              <span>lower LLM cost with self-hosted models</span>
-            </div>
-          </div>
+        <div className="landing-terminal-col">
+          <TerminalSession />
         </div>
       </div>
     </section>

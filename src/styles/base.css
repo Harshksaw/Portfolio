@@ -1,0 +1,125 @@
+/* Hallmark · shape: Session · genre: atmospheric · theme: Terminal (by request) · v2.0.0 */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  overflow-x: clip;
+}
+
+html {
+  scrollbar-color: var(--color-muted) var(--color-paper);
+  scroll-padding-top: calc(var(--header-height) + var(--space-lg) + env(safe-area-inset-top, 0px));
+  background: var(--color-paper);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: var(--text-md);
+  font-stretch: var(--stretch-body);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.65;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  caret-color: var(--color-accent);
+  overflow-wrap: break-word;
+}
+
+::selection {
+  background: color-mix(in oklab, var(--color-accent) 24%, transparent);
+  color: var(--color-ink);
+}
+
+:where(a, button, summary, input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+:where(button, [role="button"]) {
+  min-block-size: var(--target-size);
+  min-inline-size: var(--target-size);
+  font: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+:where(a, code) {
+  overflow-wrap: anywhere;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  font-stretch: var(--stretch-display);
+  font-synthesis: none;
+  letter-spacing: var(--tracking-display);
+  line-height: 1.12;
+  overflow-wrap: break-word;
+  min-width: 0;
+  text-wrap: balance;
+}
+
+p,
+li {
+  margin: 0;
+  text-wrap: pretty;
+}
+
+img,
+svg {
+  max-inline-size: 100%;
+  display: block;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.num,
+.figure {
+  font-variant-numeric: tabular-nums;
+}
+
+.visually-hidden:where(:not(:focus-within, :active)) {
+  position: absolute !important;
+  clip-path: inset(50%) !important;
+  overflow: hidden !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: -1px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  white-space: nowrap !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Hallmark · shape: Session · genre: atmospheric · theme: Terminal (by request) · v2.0.0 */
+*,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -21,7 +21,9 @@ const Contact = () => {
       <div className="section-wrap footer-inner">
         <div className="footer-cta-panel">
           <div className="footer-copy">
-            <span className="section-eyebrow">Contact</span>
+            <p className="section-cmd">
+              <b>$</b> ./contact.sh
+            </p>
             <h2 id="contact-heading" className="section-title">
               Let&apos;s build something reliable.
             </h2>
@@ -57,8 +59,8 @@ const Contact = () => {
 
         <div className="footer-bottom">
           <p className="footer-credit">
-            Designed &amp; engineered by <span>{resume.basics.name}</span> ·{" "}
-            {resume.basics.location} · © {new Date().getFullYear()}
+            Designed &amp; engineered by <span>{resume.basics.name}</span>,{" "}
+            {resume.basics.location} | © {new Date().getFullYear()}
           </p>
 
           <div className="footer-socials">
