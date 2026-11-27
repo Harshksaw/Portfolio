@@ -51,7 +51,7 @@ const Landing = () => {
               <ArrowRightIcon />
             </a>
             <a
-              href="/resume"
+              href="/Harsh-Saw-Resume.pdf"
               target="_blank"
               rel="noreferrer"
               className="btn btn-secondary"

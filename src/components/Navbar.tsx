@@ -167,7 +167,7 @@ const Navbar = () => {
         </nav>
 
         <a
-          href="/resume"
+          href="/Harsh-Saw-Resume.pdf"
           target="_blank"
           rel="noreferrer"
           className="header-resume-btn"
