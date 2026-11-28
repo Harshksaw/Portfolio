@@ -63,8 +63,7 @@
 }
 
 .deferred-section {
-  content-visibility: auto;
-  contain-intrinsic-size: auto 42rem;
+  overflow-anchor: none;
 }
 
 .section-head {

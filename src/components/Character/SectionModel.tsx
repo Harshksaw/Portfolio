@@ -66,9 +66,13 @@ const SectionModel = ({
     const aspect = (rect.width || 1) / (rect.height || 1);
     const scene = new THREE.Scene();
 
-    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    const renderer = new THREE.WebGLRenderer({
+      alpha: true,
+      antialias: window.devicePixelRatio < 1.5,
+      powerPreference: "high-performance",
+    });
     renderer.setSize(rect.width || 1, rect.height || 1);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.25));
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1;
     container.appendChild(renderer.domElement);
@@ -108,12 +112,19 @@ const SectionModel = ({
       isCancelled: () => cancelled,
     };
 
+    let animFrameId = 0;
+    let inViewport = true;
+
     let mouse = { x: 0, y: 0 };
     let interpolation = { x: 0.1, y: 0.2 };
-    const onMouseMove = (event: MouseEvent) =>
+    const onMouseMove = (event: MouseEvent) => {
+      if (!inViewport) return;
       handleMouseMove(event, (x, y) => (mouse = { x, y }));
-    const onTouchMove = (event: TouchEvent) =>
+    };
+    const onTouchMove = (event: TouchEvent) => {
+      if (!inViewport) return;
       handleTouchMove(event, (x, y) => (mouse = { x, y }));
+    };
     const onTouchEnd = () =>
       handleTouchEnd((x, y, ix, iy) => {
         mouse = { x, y };
@@ -122,9 +133,6 @@ const SectionModel = ({
     document.addEventListener("mousemove", onMouseMove, { passive: true });
     document.addEventListener("touchmove", onTouchMove, { passive: true });
     document.addEventListener("touchend", onTouchEnd, { passive: true });
-
-    let animFrameId = 0;
-    let inViewport = true;
 
     const tick = () => {
       if (cancelled || !inViewport || document.hidden) {
@@ -215,7 +223,7 @@ const SectionModel = ({
           inViewport = entry.isIntersecting;
           syncLoop();
         },
-        { rootMargin: "220px" }
+        { rootMargin: "40px" }
       );
       observer.observe(section);
     }

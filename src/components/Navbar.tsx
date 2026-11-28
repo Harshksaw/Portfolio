@@ -67,15 +67,24 @@ const Navbar = () => {
     if (!sectionEls.length) return;
 
     let frame = 0;
+    let cachedHeaderH = headerRef.current?.offsetHeight ?? 64;
+    let cachedViewportH = window.innerHeight;
+    let cachedDocH = document.documentElement.scrollHeight;
+
+    const refreshMetrics = () => {
+      cachedHeaderH = headerRef.current?.offsetHeight ?? 64;
+      cachedViewportH = window.innerHeight;
+      cachedDocH = document.documentElement.scrollHeight;
+    };
+
     const update = () => {
       frame = 0;
-      const line = (headerRef.current?.offsetHeight ?? 64) + window.innerHeight * 0.25;
+      const line = cachedHeaderH + cachedViewportH * 0.25;
       let activeId: string | null = null;
       for (const section of sectionEls) {
         if (section.getBoundingClientRect().top <= line) activeId = section.id;
       }
-      const atBottom =
-        window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
+      const atBottom = cachedViewportH + window.scrollY >= cachedDocH - 2;
       if (atBottom) activeId = sectionEls[sectionEls.length - 1].id;
 
       links.forEach((link) => {
@@ -88,14 +97,22 @@ const Navbar = () => {
     const onScroll = () => {
       if (!frame) frame = requestAnimationFrame(update);
     };
+    const onResize = () => {
+      refreshMetrics();
+      onScroll();
+    };
 
+    refreshMetrics();
     update();
+    const ro = new ResizeObserver(refreshMetrics);
+    ro.observe(document.body);
     window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
+    window.addEventListener("resize", onResize, { passive: true });
     return () => {
       cancelAnimationFrame(frame);
+      ro.disconnect();
       window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
+      window.removeEventListener("resize", onResize);
     };
   }, []);
 

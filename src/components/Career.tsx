@@ -6,126 +6,73 @@ import "./styles/Career.css";
 const Career = () => {
   const entries = resume.experience;
   const [activeIndex, setActiveIndex] = useState(0);
-  const [enteredMap, setEnteredMap] = useState<Record<number, boolean>>({ 0: true });
-  const [expandedMap, setExpandedMap] = useState<Record<number, boolean>>({ 0: true });
-  const [railFallbackProgress, setRailFallbackProgress] = useState(0);
-  const [supportsViewTimeline] = useState(() => {
-    if (typeof window === "undefined" || typeof CSS === "undefined") return true;
-    return CSS.supports("(animation-timeline: view()) and (animation-range: entry)");
-  });
+  const [allExpanded, setAllExpanded] = useState(false);
 
-  const listRef = useRef<HTMLOListElement>(null);
   const itemRefs = useRef<(HTMLLIElement | null)[]>([]);
+  const detailRefs = useRef<(HTMLDetailsElement | null)[]>([]);
 
   const activeEntry = entries[activeIndex] ?? entries[0];
   const isActiveCurrent = activeEntry?.date.toLowerCase().includes("present") ?? false;
-  const allExpanded = entries.every((_, idx) => Boolean(expandedMap[idx]));
+
+  useEffect(() => {
+    if (detailRefs.current[0]) {
+      detailRefs.current[0].open = true;
+    }
+  }, []);
 
   const toggleExpandAll = () => {
     const nextValue = !allExpanded;
-    const nextMap: Record<number, boolean> = {};
-    entries.forEach((_, idx) => {
-      nextMap[idx] = nextValue;
+    detailRefs.current.forEach((el) => {
+      if (el) el.open = nextValue;
     });
-    setExpandedMap(nextMap);
+    setAllExpanded(nextValue);
   };
 
-  // Sync active role preview + progressive card reveal as the user scrolls through #experience
+  // Sync active role preview on desktop as items cross the reading band
   useEffect(() => {
     const items = itemRefs.current.filter((el): el is HTMLLIElement => el !== null);
     if (items.length === 0) return;
 
-    const focusObserver = new IntersectionObserver(
-      (observed) => {
-        let bestIdx = -1;
-        let bestRatio = 0;
+    const mqDesktop = window.matchMedia("(min-width: 1025px)");
+    let observer: IntersectionObserver | null = null;
 
-        for (const record of observed) {
-          const idx = Number(record.target.getAttribute("data-index"));
-          if (Number.isNaN(idx)) continue;
+    const syncObserver = () => {
+      observer?.disconnect();
+      observer = null;
+      if (!mqDesktop.matches) return;
 
-          if (record.isIntersecting) {
-            setEnteredMap((prev) => (prev[idx] ? prev : { ...prev, [idx]: true }));
-            if (record.intersectionRatio >= bestRatio) {
-              bestRatio = record.intersectionRatio;
-              bestIdx = idx;
-            }
-          }
-        }
-
-        if (bestIdx !== -1) {
-          setActiveIndex(bestIdx);
-        }
-      },
-      {
-        rootMargin: "-28% 0px -44% 0px",
-        threshold: [0.1, 0.35, 0.65],
-      }
-    );
-
-    const revealObserver = new IntersectionObserver(
-      (observed) => {
-        for (const record of observed) {
-          if (record.isIntersecting) {
+      observer = new IntersectionObserver(
+        (observed) => {
+          for (const record of observed) {
+            if (!record.isIntersecting) continue;
             const idx = Number(record.target.getAttribute("data-index"));
             if (!Number.isNaN(idx)) {
-              setEnteredMap((prev) => (prev[idx] ? prev : { ...prev, [idx]: true }));
+              setActiveIndex((prev) => (prev === idx ? prev : idx));
+              break;
             }
           }
+        },
+        {
+          rootMargin: "-32% 0px -48% 0px",
+          threshold: 0,
         }
-      },
-      { rootMargin: "0px 0px -12% 0px", threshold: 0.05 }
-    );
+      );
 
-    items.forEach((el) => {
-      focusObserver.observe(el);
-      revealObserver.observe(el);
-    });
+      items.forEach((el) => observer?.observe(el));
+    };
+
+    syncObserver();
+    mqDesktop.addEventListener("change", syncObserver);
 
     return () => {
-      focusObserver.disconnect();
-      revealObserver.disconnect();
+      mqDesktop.removeEventListener("change", syncObserver);
+      observer?.disconnect();
     };
   }, [entries.length]);
-
-  // Progressive fallback for browsers without CSS ViewTimeline + animation-range support
-  useEffect(() => {
-    if (supportsViewTimeline) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setRailFallbackProgress(1);
-      return;
-    }
-
-    let raf = 0;
-    const updateProgress = () => {
-      raf = 0;
-      const list = listRef.current;
-      if (!list) return;
-      const rect = list.getBoundingClientRect();
-      const totalTravel = Math.max(1, rect.height - window.innerHeight * 0.4);
-      const passed = window.innerHeight * 0.55 - rect.top;
-      const ratio = Math.min(1, Math.max(0, passed / totalTravel));
-      setRailFallbackProgress(ratio);
-    };
-
-    const onScroll = () => {
-      if (!raf) raf = requestAnimationFrame(updateProgress);
-    };
-
-    updateProgress();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll, { passive: true });
-    return () => {
-      if (raf) cancelAnimationFrame(raf);
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-    };
-  }, [supportsViewTimeline]);
 
   const jumpToRole = (idx: number) => {
     const bounded = Math.max(0, Math.min(entries.length - 1, idx));
     setActiveIndex(bounded);
-    setEnteredMap((prev) => ({ ...prev, [bounded]: true }));
     itemRefs.current[bounded]?.scrollIntoView({
       behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
         ? "auto"
@@ -196,10 +143,7 @@ const Career = () => {
                 </div>
               </div>
 
-              <div
-                key={`${activeEntry.company}-${activeEntry.role}-${activeIndex}`}
-                className="preview-stage-body"
-              >
+              <div className="preview-stage-body">
                 <div className="preview-role-top">
                   <h3 className="preview-role-title">{activeEntry.role}</h3>
                   <span className="preview-role-date">
@@ -250,24 +194,10 @@ const Career = () => {
           </aside>
         )}
 
-        <ol ref={listRef} className="timeline-list">
-          <div className="timeline-rail-track" aria-hidden="true">
-            <div
-              className="timeline-rail-progress"
-              style={
-                supportsViewTimeline
-                  ? undefined
-                  : ({
-                      transform: `scaleY(${railFallbackProgress})`,
-                    } as React.CSSProperties)
-              }
-            />
-          </div>
-
+        <ol className="timeline-list">
           {entries.map((entry, index) => {
             const isCurrent = entry.date.toLowerCase().includes("present");
             const isSelected = index === activeIndex;
-            const isEntered = Boolean(enteredMap[index]);
 
             return (
               <li
@@ -277,7 +207,7 @@ const Career = () => {
                 data-index={index}
                 className={`timeline-item ${isCurrent ? "is-current" : ""} ${
                   isSelected ? "is-selected" : ""
-                } ${isEntered ? "is-entered" : ""}`.trim()}
+                }`.trim()}
                 key={`${entry.company}-${entry.role}-${entry.date}`}
               >
                 <div className="timeline-marker" aria-hidden="true" />
@@ -332,14 +262,10 @@ const Career = () => {
 
                   {entry.bullets.length > 0 && (
                     <details
-                      className="timeline-details"
-                      open={Boolean(expandedMap[index])}
-                      onToggle={(e) => {
-                        const isOpen = e.currentTarget.open;
-                        setExpandedMap((prev) =>
-                          prev[index] === isOpen ? prev : { ...prev, [index]: isOpen }
-                        );
+                      ref={(el) => {
+                        detailRefs.current[index] = el;
                       }}
+                      className="timeline-details"
                     >
                       <summary>Key engineering highlights</summary>
                       <ul className="timeline-bullets">

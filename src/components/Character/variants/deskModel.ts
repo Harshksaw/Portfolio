@@ -60,6 +60,7 @@ export async function loadDeskModel(
     }
 
     const lookTarget = new THREE.Vector3(...(deskCamera.lookAt ?? [0, 0.9, 0]));
+    camera.lookAt(lookTarget);
 
     const w = window as unknown as Record<string, unknown>;
     if (import.meta.env.DEV) {
@@ -75,7 +76,6 @@ export async function loadDeskModel(
       onFrame: (delta: number) => {
         updateMixer(delta);
         if (neckBone) neckBone.rotation.set(neckTurn.x, neckTurn.y, neckTurn.z);
-        camera.lookAt(lookTarget);
       },
       onReady: (h: SectionHandles) => {
         h.lights.turnOnLights();
@@ -106,6 +106,7 @@ export async function loadDeskModel(
           {
             z: DESK_Z - 0.6,
             ease: "none",
+            onUpdate: () => h.camera.lookAt(lookTarget),
             scrollTrigger: {
               trigger: h.section,
               start: "top bottom",

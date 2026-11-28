@@ -165,7 +165,7 @@
   font-stretch: var(--stretch-body);
 }
 
-/* Scroll-driven timeline list & progress rail */
+/* Timeline list */
 .timeline-list {
   position: relative;
   margin: 0;
@@ -176,22 +176,13 @@
   gap: var(--space-lg);
 }
 
-.timeline-rail-track {
+.timeline-list::before {
+  content: "";
   position: absolute;
   inset-block: var(--space-md);
   inset-inline-start: 0.4375rem;
-  inline-size: 2px;
-  background-color: var(--color-rule);
-  overflow: hidden;
-  pointer-events: none;
-}
-
-.timeline-rail-progress {
-  inline-size: 100%;
-  block-size: 100%;
-  background-color: var(--color-accent);
-  transform-origin: top center;
-  transform: scaleY(1);
+  inline-size: var(--rule-hair);
+  background-color: var(--color-rule-2);
 }
 
 .timeline-item {
@@ -227,27 +218,13 @@
   flex-direction: column;
   gap: var(--space-xs);
   transition:
-    background-color var(--dur-short) var(--ease-out),
     border-color var(--dur-micro) steps(1),
-    opacity var(--dur-short) var(--ease-out),
-    transform var(--dur-short) var(--ease-out);
+    background-color var(--dur-micro) steps(1);
 }
 
 .timeline-item.is-selected .timeline-card {
   background-color: var(--color-paper-2);
   border-color: var(--color-accent);
-}
-
-.timeline-step-index {
-  display: inline-block;
-  font-size: var(--text-xs);
-  color: var(--color-muted);
-  font-variant-numeric: tabular-nums;
-  margin-block-end: var(--space-3xs);
-}
-
-.timeline-item.is-selected .timeline-step-index {
-  color: var(--color-accent);
 }
 
 .timeline-head {
@@ -389,56 +366,6 @@
   color: var(--color-ink-2);
 }
 
-/* Scroll-driven preview transitions & progressive entry (no hidden rest state) */
-@media (prefers-reduced-motion: no-preference) {
-  @keyframes preview-rise {
-    from {
-      opacity: 0.65;
-      transform: translateY(var(--space-xs));
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  .preview-stage-body {
-    animation: preview-rise var(--dur-short) var(--ease-out);
-  }
-
-  @supports ((animation-timeline: view()) and (animation-range: entry)) {
-    @keyframes timeline-rail-grow {
-      from {
-        transform: scaleY(0);
-      }
-      to {
-        transform: scaleY(1);
-      }
-    }
-
-    .timeline-list {
-      view-timeline-name: --career-rail;
-      view-timeline-axis: block;
-    }
-
-    .timeline-rail-progress {
-      animation: timeline-rail-grow auto linear both;
-      animation-timeline: --career-rail;
-      animation-range: contain 0% contain 92%;
-    }
-  }
-
-  .timeline-item:not(.is-entered) .timeline-card {
-    opacity: 0.65;
-    transform: translateY(var(--space-sm));
-  }
-
-  .timeline-item.is-entered .timeline-card {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 @media (max-width: 520px) {
   .timeline-list {
     padding-inline-start: var(--space-md);
@@ -450,7 +377,7 @@
     block-size: 0.75rem;
   }
 
-  .timeline-rail-track {
+  .timeline-list::before {
     inset-inline-start: 0.375rem;
   }
 }

@@ -140,19 +140,23 @@ export default function TerminalSession({ className = "" }: { className?: string
       return;
     }
 
-    const timer = window.setInterval(() => {
-      setTypedChars((prev) => {
-        const next = prev + 3;
-        if (next >= totalChars) {
+    let timer = 0;
+    let typed = 0;
+    const startDelay = window.setTimeout(() => {
+      timer = window.setInterval(() => {
+        typed = Math.min(totalChars, typed + 5);
+        setTypedChars(typed);
+        if (typed >= totalChars) {
           window.clearInterval(timer);
           setTypingDone(true);
-          return totalChars;
         }
-        return next;
-      });
-    }, 18);
+      }, 28);
+    }, 160);
 
-    return () => window.clearInterval(timer);
+    return () => {
+      window.clearTimeout(startDelay);
+      window.clearInterval(timer);
+    };
   }, [activeTab, totalChars, typingDone]);
 
   useEffect(() => {

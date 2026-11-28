@@ -20,11 +20,6 @@ const setLighting = (scene: THREE.Scene, rimSelector?: string) => {
   // Neutral phosphor-balanced studio key light (keeps skin natural while matching Terminal ground)
   const directionalLight = new THREE.DirectionalLight(0xe6f9ea, 0);
   directionalLight.position.set(-1, 2, 2);
-  directionalLight.castShadow = true;
-  directionalLight.shadow.mapSize.width = 1024;
-  directionalLight.shadow.mapSize.height = 1024;
-  directionalLight.shadow.camera.near = 0.1;
-  directionalLight.shadow.camera.far = 20;
   scene.add(directionalLight);
 
   const fillLight = new THREE.PointLight(0x86efac, 0, 8, 2);
