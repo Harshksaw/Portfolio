@@ -390,6 +390,20 @@ export default function TerminalSession({ className = "" }: { className?: string
         ) : null}
       </div>
 
+      <div className="term-chips" role="group" aria-label="Quick terminal commands">
+        {["work", "experience", "stack", "diff", "resume", "clear"].map((cmd) => (
+          <button
+            key={cmd}
+            type="button"
+            className="term-chip"
+            onClick={() => runCommand(cmd)}
+          >
+            ${" "}
+            {cmd}
+          </button>
+        ))}
+      </div>
+
       <form className="term-input-row" onSubmit={handleSubmit}>
         <label htmlFor="term-cmd-input" className="visually-hidden">
           Enter terminal command

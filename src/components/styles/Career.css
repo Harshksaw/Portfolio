@@ -2,6 +2,19 @@
   position: relative;
 }
 
+.career-mobile-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+  margin-block-start: var(--space-xs);
+}
+
+@media (min-width: 1025px) {
+  .career-mobile-controls {
+    display: none;
+  }
+}
+
 .career-layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr);

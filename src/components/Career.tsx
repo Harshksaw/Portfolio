@@ -7,6 +7,7 @@ const Career = () => {
   const entries = resume.experience;
   const [activeIndex, setActiveIndex] = useState(0);
   const [enteredMap, setEnteredMap] = useState<Record<number, boolean>>({ 0: true });
+  const [expandedMap, setExpandedMap] = useState<Record<number, boolean>>({ 0: true });
   const [railFallbackProgress, setRailFallbackProgress] = useState(0);
   const [supportsViewTimeline] = useState(() => {
     if (typeof window === "undefined" || typeof CSS === "undefined") return true;
@@ -18,6 +19,16 @@ const Career = () => {
 
   const activeEntry = entries[activeIndex] ?? entries[0];
   const isActiveCurrent = activeEntry?.date.toLowerCase().includes("present") ?? false;
+  const allExpanded = entries.every((_, idx) => Boolean(expandedMap[idx]));
+
+  const toggleExpandAll = () => {
+    const nextValue = !allExpanded;
+    const nextMap: Record<number, boolean> = {};
+    entries.forEach((_, idx) => {
+      nextMap[idx] = nextValue;
+    });
+    setExpandedMap(nextMap);
+  };
 
   // Sync active role preview + progressive card reveal as the user scrolls through #experience
   useEffect(() => {
@@ -141,6 +152,15 @@ const Career = () => {
           Scroll through the timeline to inspect each role&apos;s architecture,
           production impact, and systems ownership in the live terminal preview.
         </p>
+        <div className="career-mobile-controls">
+          <button
+            type="button"
+            className="career-step-btn"
+            onClick={toggleExpandAll}
+          >
+            {allExpanded ? "Collapse all highlights" : "Expand all highlights"}
+          </button>
+        </div>
       </div>
 
       <div className="career-layout">
@@ -311,7 +331,16 @@ const Career = () => {
                   </div>
 
                   {entry.bullets.length > 0 && (
-                    <details className="timeline-details">
+                    <details
+                      className="timeline-details"
+                      open={Boolean(expandedMap[index])}
+                      onToggle={(e) => {
+                        const isOpen = e.currentTarget.open;
+                        setExpandedMap((prev) =>
+                          prev[index] === isOpen ? prev : { ...prev, [index]: isOpen }
+                        );
+                      }}
+                    >
                       <summary>Key engineering highlights</summary>
                       <ul className="timeline-bullets">
                         {entry.bullets.map((bullet, idx) => (

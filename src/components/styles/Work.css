@@ -1,6 +1,6 @@
 .work-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 26rem), 1fr));
   gap: var(--space-lg);
 }
 
@@ -48,6 +48,7 @@
 
 /* Terminal ASCII sandbox topology preview for CodeExpo */
 .codeexpo-preview {
+  container: workcard / inline-size;
   inline-size: 100%;
   block-size: 100%;
   display: flex;
@@ -74,10 +75,12 @@
 
 .codeexpo-ascii {
   margin: 0;
-  font-size: var(--text-xs);
+  font-size: clamp(0.55rem, 2.2cqi, 0.78rem);
   line-height: 1.45;
   color: var(--color-ink-2);
-  overflow: hidden;
+  max-inline-size: 100%;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
   white-space: pre;
 }
 
@@ -135,6 +138,7 @@
 .project-tags {
   display: flex;
   flex-wrap: wrap;
+  flex-wrap: balance;
   gap: var(--space-xs);
   list-style: none;
   padding: 0;
@@ -203,7 +207,7 @@
 .more-systems {
   margin-block-start: var(--space-lg);
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
   gap: var(--space-md);
 }
 
@@ -266,8 +270,10 @@
 dialog.project-dialog {
   margin: auto;
   padding: 0;
-  inline-size: min(42rem, calc(100vw - 2rem));
+  inline-size: min(42rem, calc(100dvw - 2rem));
   max-block-size: calc(100dvh - 2rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
   border: var(--rule-hair) solid var(--color-accent);
   border-radius: var(--radius-card);
   background-color: var(--color-paper-2);

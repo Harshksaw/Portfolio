@@ -110,7 +110,12 @@ const CodeExpoPreview = () => (
     <div className="codeexpo-bar">
       <span className="codeexpo-host">tty: code.harshsaw.ca | docker-sandbox</span>
     </div>
-    <pre className="codeexpo-ascii">
+    <pre
+      className="codeexpo-ascii"
+      tabIndex={0}
+      role="region"
+      aria-label="CodeExpo containerized architecture diagram"
+    >
 {`+-------------+     ws://pty      +--------------+
 |  xterm.js   | ----------------> | nginx  :443  |
 +-------------+                   +--------------+

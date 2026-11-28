@@ -1,4 +1,3 @@
-import { useState } from "react";
 import About from "./About";
 import Career from "./Career";
 import Contact from "./Contact";
@@ -10,15 +9,10 @@ import WhatIDo from "./WhatIDo";
 import Work from "./Work";
 
 const MainContainer = () => {
-  const [packetsPaused, setPacketsPaused] = useState(false);
-
   return (
     <div className="page-shell">
-      <PacketBackground paused={packetsPaused} />
-      <Navbar
-        packetsPaused={packetsPaused}
-        onTogglePackets={() => setPacketsPaused((prev) => !prev)}
-      />
+      <PacketBackground />
+      <Navbar />
       <main id="main-content">
         <Landing />
         <About />

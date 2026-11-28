@@ -10,12 +10,7 @@ const NAV_ITEMS = [
   { id: "contact", label: "Contact" },
 ];
 
-interface NavbarProps {
-  packetsPaused?: boolean;
-  onTogglePackets?: () => void;
-}
-
-const Navbar = ({ packetsPaused = false, onTogglePackets }: NavbarProps) => {
+const Navbar = () => {
   const headerRef = useRef<HTMLElement>(null);
   const menuRef = useRef<HTMLUListElement>(null);
   const [isWide, setIsWide] = useState(() =>
@@ -171,30 +166,14 @@ const Navbar = ({ packetsPaused = false, onTogglePackets }: NavbarProps) => {
           </ul>
         </nav>
 
-        <div className="header-actions">
-          {onTogglePackets && (
-            <button
-              type="button"
-              className="header-fx-btn"
-              onClick={onTogglePackets}
-              aria-label={
-                packetsPaused
-                  ? "Play animated background topology"
-                  : "Pause animated background topology"
-              }
-            >
-              {packetsPaused ? "Play fx" : "Pause fx"}
-            </button>
-          )}
-          <a
-            href="/Harsh-Saw-Resume.pdf"
-            download="Harsh-Saw-Resume.pdf"
-            className="header-resume-btn"
-          >
-            <FileTextIcon width={16} height={16} />
-            <span>Résumé</span>
-          </a>
-        </div>
+        <a
+          href="/Harsh-Saw-Resume.pdf"
+          download="Harsh-Saw-Resume.pdf"
+          className="header-resume-btn"
+        >
+          <FileTextIcon width={16} height={16} />
+          <span>Résumé</span>
+        </a>
       </div>
     </header>
   );

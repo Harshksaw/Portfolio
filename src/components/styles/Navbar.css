@@ -10,9 +10,10 @@
 .header-inner {
   min-block-size: var(--header-height);
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: var(--space-sm);
+  gap: var(--space-xs) var(--space-sm);
 }
 
 .brand-mark {
@@ -86,7 +87,7 @@
   inset: auto;
   inset-block-start: calc(var(--header-height) + var(--space-xs));
   inset-block-start: anchor(--menu-button bottom);
-  inset-inline-end: var(--space-md);
+  inset-inline-end: max(var(--space-md), env(safe-area-inset-right, 0px));
   inline-size: min(78dvw, 18rem);
   max-inline-size: calc(100dvw - 2rem);
   margin-block-start: var(--space-xs);
@@ -189,14 +190,6 @@
   border-block-end-color: var(--color-accent);
 }
 
-.header-actions {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-xs);
-  flex-shrink: 0;
-}
-
-.header-fx-btn,
 .header-resume-btn {
   display: inline-flex;
   align-items: center;
@@ -209,7 +202,6 @@
   color: var(--color-ink);
   font-size: var(--text-xs);
   font-weight: 500;
-  cursor: pointer;
   flex-shrink: 0;
   transition:
     background-color var(--dur-micro) steps(1),
@@ -217,25 +209,10 @@
     color var(--dur-micro) steps(1);
 }
 
-.header-fx-btn {
-  color: var(--color-muted);
-}
-
-.header-fx-btn:hover {
-  border-color: var(--color-accent);
-  color: var(--color-accent);
-}
-
 .header-resume-btn:hover {
   background-color: var(--color-accent);
   border-color: var(--color-accent);
   color: var(--color-accent-ink);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .header-fx-btn {
-    display: none;
-  }
 }
 
 @media (max-width: 420px) {
